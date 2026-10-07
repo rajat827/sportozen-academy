@@ -1,0 +1,2 @@
+import type { SportConfiguration } from '@/domain/entities';
+export const football: SportConfiguration = { id: 'football', name: 'Football', positions: ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'], skills: ['Receiving', 'Passing', 'Dribbling', 'Finishing', 'Defending'], stages: ['Introduced', 'Developing', 'Consistent', 'Applied Under Pressure', 'Coach Verified'], reportCategories: ['Technical practice', 'Game understanding', 'Teamwork'], sessionTerm: 'Training session' };
