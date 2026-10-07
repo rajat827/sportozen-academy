@@ -114,12 +114,13 @@ export function DevelopmentPlan({ playerId = "p1" }: { playerId?: string }) {
               onSubmit={(e) => {
                 e.preventDefault();
                 if (!newGoal.trim()) return;
+                const goalId = crypto.randomUUID();
                 update((s) => ({
                   ...s,
                   goals: [
                     ...s.goals,
                     {
-                      id: crypto.randomUUID(),
+                      id: goalId,
                       academyId: player.academyId,
                       sportId: player.sportId,
                       playerId,
@@ -129,6 +130,16 @@ export function DevelopmentPlan({ playerId = "p1" }: { playerId?: string }) {
                       reviewDate: "2026-10-14",
                     },
                   ],
+                  plans: s.plans.map((p) =>
+                    p.playerId === playerId
+                      ? { ...p, goalIds: [...p.goalIds, goalId] }
+                      : p,
+                  ),
+                  players: s.players.map((p) =>
+                    p.id === playerId && p.goal === "Not Recorded"
+                      ? { ...p, goal: newGoal.trim() }
+                      : p,
+                  ),
                 }));
                 setNewGoal("");
               }}

@@ -47,21 +47,25 @@ export function PlayerDirectory({ coach = false }: { coach?: boolean }) {
       branch: "Indiranagar",
     },
   });
-  const filtered = data.players.filter(
-    (p) =>
-      p.name.toLowerCase().includes(search.toLowerCase()) &&
-      (!filters.branch || p.branch === filters.branch) &&
-      (!filters.squad || p.squad === filters.squad) &&
-      (!filters.age ||
-        (filters.age === "Under 13" ? p.age < 13 : p.age >= 13)) &&
-      (!filters.position || p.position === filters.position) &&
-      (!filters.status || p.status === filters.status) &&
-      (!filters.fee || p.feeStatus === filters.fee) &&
-      (!filters.attendance ||
-        (p.attendance !== null &&
-          (filters.attendance === "90% and above"
-            ? p.attendance >= 90
-            : p.attendance < 90))),
+  const filtered = useMemo(
+    () =>
+      data.players.filter(
+        (p) =>
+          p.name.toLowerCase().includes(search.toLowerCase()) &&
+          (!filters.branch || p.branch === filters.branch) &&
+          (!filters.squad || p.squad === filters.squad) &&
+          (!filters.age ||
+            (filters.age === "Under 13" ? p.age < 13 : p.age >= 13)) &&
+          (!filters.position || p.position === filters.position) &&
+          (!filters.status || p.status === filters.status) &&
+          (!filters.fee || p.feeStatus === filters.fee) &&
+          (!filters.attendance ||
+            (p.attendance !== null &&
+              (filters.attendance === "90% and above"
+                ? p.attendance >= 90
+                : p.attendance < 90))),
+      ),
+    [data.players, search, filters],
   );
   const columns = useMemo<ColumnDef<Player>[]>(
     () => [
@@ -157,6 +161,51 @@ export function PlayerDirectory({ coach = false }: { coach?: boolean }) {
           goal: "Not Recorded",
         },
       ],
+      plans: [
+        ...s.plans,
+        {
+          id: `${id}-plan`,
+          academyId: s.academy.id,
+          sportId: football.id,
+          playerId: id,
+          goalIds: [],
+          coachId: "c1",
+          weeklyPlan: "",
+        },
+      ],
+      paths: [
+        ...s.paths,
+        {
+          id: `${id}-path`,
+          academyId: s.academy.id,
+          sportId: football.id,
+          playerId: id,
+          stages: s.paths[0].stages.map((stage) => ({
+            title: stage.title,
+            status: "Not Started" as const,
+          })),
+        },
+      ],
+      accounts: [
+        ...s.accounts,
+        {
+          id: `${id}-account`,
+          academyId: s.academy.id,
+          playerId: id,
+          plan: "Monthly · ₹4,500",
+        },
+      ],
+      charges: [
+        ...s.charges,
+        {
+          id: `${id}-charge`,
+          academyId: s.academy.id,
+          playerId: id,
+          amount: 4500,
+          dueDate: "2026-10-10",
+          label: "October youth programme",
+        },
+      ],
     }));
     setOpen(false);
     form.reset();
@@ -178,10 +227,10 @@ export function PlayerDirectory({ coach = false }: { coach?: boolean }) {
           <strong>{data.players.length}</strong> active players
         </span>
         <span>
-          <strong>4</strong> squads
+          <strong>{data.squads.length}</strong> squads
         </span>
         <span>
-          <strong>2</strong> branches
+          <strong>{data.branches.length}</strong> branches
         </span>
         <span>
           <strong>

@@ -25,7 +25,18 @@ import {
 import { useAcademy } from "@/hooks/use-academy";
 const GrowthChart = dynamic(
   () => import("@/components/data-display/growth-chart"),
-  { ssr: false },
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="chart"
+        style={{ height: 230 }}
+        aria-label="Loading player growth chart"
+      >
+        Loading player growth chart…
+      </div>
+    ),
+  },
 );
 const rupees = (n: number) =>
   new Intl.NumberFormat("en-IN", {
