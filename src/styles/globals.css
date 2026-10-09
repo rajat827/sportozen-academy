@@ -2873,3 +2873,49 @@ td > small {
     scroll-behavior: auto !important;
   }
 }
+.demo-viewer video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #092f28;
+  border-radius: 10px;
+}
+.evidence-thumbnail {
+  display: block;
+  position: relative;
+}
+.evidence-poster {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
+}
+.evidence-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  background: #ffffffeb;
+  color: #00845f;
+  border-radius: 50%;
+  box-shadow: 0 3px 14px #0003;
+}
+.observation-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 25px;
+  min-height: 170px;
+  background: #edf7f1;
+  color: #2c6551;
+}
+.observation-preview .badge {
+  align-self: start;
+}
+.observation-preview span {
+  font-size: 11px;
+}

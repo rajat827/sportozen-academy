@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { Play, Pause, Bookmark, Check, X, AlertTriangle } from "lucide-react";
+import { Check, X, AlertTriangle, Play } from "lucide-react";
 import { useAcademy } from "@/hooks/use-academy";
 import type { ReviewState } from "@/domain/entities";
 import {
@@ -11,22 +11,17 @@ import {
   PageTitle,
   EvidenceBadge,
   SectionTitle,
+  Empty,
 } from "@/components/ui/primitives";
-import { DrillVisual } from "@/features/drills/drills";
+import { demoMediaFor } from "./demo-media";
+import { EvidenceVideo } from "./video-player";
 export function Evidence({ evidenceId }: { evidenceId?: string }) {
   const { data, update } = useAcademy();
   const item = data.evidence.find((e) => e.id === evidenceId);
   const [filter, setFilter] = useState("");
   const [player, setPlayer] = useState("");
-  const [playing, setPlaying] = useState(false);
-  const [time, setTime] = useState(0);
   const [note, setNote] = useState(item?.note ?? "");
   const [goalId, setGoalId] = useState(item?.goalId ?? "");
-  useEffect(() => {
-    if (!playing) return;
-    const id = setInterval(() => setTime((t) => (t >= 60 ? 0 : t + 1)), 1000);
-    return () => clearInterval(id);
-  }, [playing]);
   function review(status: ReviewState) {
     update((s) => ({
       ...s,
@@ -35,13 +30,20 @@ export function Evidence({ evidenceId }: { evidenceId?: string }) {
       ),
     }));
   }
-  if (evidenceId && !item) return <p>Evidence not found.</p>;
-  if (item)
+  if (evidenceId && !item)
+    return (
+      <Empty>
+        Evidence not found.{" "}
+        <Link href="/coach/evidence">Return to library</Link>
+      </Empty>
+    );
+  if (item) {
+    const media = demoMediaFor(item.id);
     return (
       <>
         <PageTitle
           title={item.title}
-          description="Demo evidence viewer · illustrative timeline; no video or automated analysis connected."
+          description="Review the source, link the goal, and record what was observed."
         >
           <Link className="button secondary" href="/coach/evidence">
             Evidence library
@@ -49,64 +51,37 @@ export function Evidence({ evidenceId }: { evidenceId?: string }) {
         </PageTitle>
         <div className="two-columns">
           <div>
-            <div className="demo-viewer">
-              <DrillVisual />
-              <span className="demo-overlay">
-                FICTIONAL DEMO MEDIA · timeline simulation
-              </span>
-            </div>
-            <Card>
-              <div className="video-controls">
-                <Button
-                  variant="secondary"
-                  onClick={() => setPlaying(!playing)}
-                >
-                  {playing ? <Pause size={16} /> : <Play size={16} />}
-                  {playing ? "Pause" : "Play demo"}
-                </Button>
-                <label className="timeline">
-                  <span className="sr-only">Demo timeline</span>
-                  <input
-                    type="range"
-                    min="0"
-                    max="60"
-                    value={time}
-                    onChange={(e) => setTime(Number(e.target.value))}
-                  />
-                </label>
-                <span>0:{String(time).padStart(2, "0")} / 1:00</span>
-                <Button
-                  variant="secondary"
-                  onClick={() =>
-                    update((s) => ({
-                      ...s,
-                      evidence: s.evidence.map((e) =>
-                        e.id === item.id
-                          ? {
-                              ...e,
-                              bookmarks: [...new Set([...e.bookmarks, time])],
-                            }
-                          : e,
-                      ),
-                    }))
-                  }
-                >
-                  <Bookmark size={16} />
-                  Bookmark
-                </Button>
-              </div>
-              <div className="inline">
-                {item.bookmarks.map((b) => (
-                  <button
-                    key={b}
-                    className="badge blue"
-                    onClick={() => setTime(b)}
-                  >
-                    0:{String(b).padStart(2, "0")}
-                  </button>
-                ))}
-              </div>
-            </Card>
+            {media ? (
+              <EvidenceVideo
+                src={media.src}
+                poster={media.poster}
+                bookmarks={item.bookmarks}
+                onBookmark={(seconds) =>
+                  update((s) => ({
+                    ...s,
+                    evidence: s.evidence.map((e) =>
+                      e.id === item.id
+                        ? {
+                            ...e,
+                            bookmarks: [...new Set([...e.bookmarks, seconds])],
+                          }
+                        : e,
+                    ),
+                  }))
+                }
+              />
+            ) : (
+              <Card>
+                <SectionTitle title="Coach observation" />
+                <EvidenceBadge type={item.type} />
+                <p className="coach-note">{item.note}</p>
+                <Badge>No video attached</Badge>
+                <p className="muted">
+                  This record contains a coach note. Video capture and uploads
+                  are Not Connected.
+                </p>
+              </Card>
+            )}
             <Card>
               <SectionTitle title="Source & context" />
               <EvidenceBadge type={item.type} />
@@ -118,7 +93,13 @@ export function Evidence({ evidenceId }: { evidenceId?: string }) {
                 {data.sessions.find((s) => s.id === item.sessionId)?.title}
               </p>
               <Badge
-                tone={item.status === "Coach Reviewed" ? "green" : "amber"}
+                tone={
+                  item.status === "Coach Reviewed"
+                    ? "green"
+                    : item.status === "Rejected"
+                      ? "red"
+                      : "amber"
+                }
               >
                 {item.status}
               </Badge>
@@ -177,13 +158,22 @@ export function Evidence({ evidenceId }: { evidenceId?: string }) {
         </div>
       </>
     );
+  }
+  const filtered = data.evidence.filter(
+    (e) =>
+      (!filter || e.status === filter) && (!player || e.playerId === player),
+  );
   return (
     <>
       <PageTitle
         eyebrow="OBSERVE → REVIEW → ADAPT"
         title="Video & evidence"
-        description="Keep the record, the observation, and the review together."
+        description="Playable fictional demo clips and coach observations, with clear review states."
       />
+      <div className="notice blue">
+        Demo clips are illustrative animations. Real player video capture and
+        uploads are Not Connected.
+      </div>
       <div className="filters">
         <select
           aria-label="Evidence review filter"
@@ -196,6 +186,7 @@ export function Evidence({ evidenceId }: { evidenceId?: string }) {
             "Coach Reviewed",
             "Unclear Footage",
             "Rejected",
+            "Superseded",
           ].map((s) => (
             <option key={s}>{s}</option>
           ))}
@@ -212,32 +203,91 @@ export function Evidence({ evidenceId }: { evidenceId?: string }) {
             </option>
           ))}
         </select>
-        <Badge>Demo media · Not Connected</Badge>
+        <Badge>{filtered.length} records</Badge>
+        {(filter || player) && (
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setFilter("");
+              setPlayer("");
+            }}
+          >
+            Clear filters
+          </Button>
+        )}
       </div>
-      <div className="drills-grid">
-        {data.evidence
-          .filter(
-            (e) =>
-              (!filter || e.status === filter) &&
-              (!player || e.playerId === player),
-          )
-          .map((e, i) => (
-            <Card className="drill-card" key={e.id}>
-              <DrillVisual index={i} />
-              <div className="drill-card-body">
-                <EvidenceBadge type={e.type} />
-                <h3>{e.title}</h3>
-                <p>{e.note}</p>
-                <Badge tone={e.status === "Coach Reviewed" ? "green" : "amber"}>
-                  {e.status}
-                </Badge>
-                <Link className="text-link" href={`/coach/evidence/${e.id}`}>
-                  Review evidence →
-                </Link>
-              </div>
-            </Card>
-          ))}
-      </div>
+      {filtered.length ? (
+        <div className="drills-grid">
+          {filtered.map((e) => {
+            const media = demoMediaFor(e.id);
+            return (
+              <Card className="drill-card" key={e.id}>
+                {media ? (
+                  <Link
+                    className="evidence-thumbnail"
+                    href={`/coach/evidence/${e.id}`}
+                    aria-label={`Play demo clip: ${e.title}`}
+                  >
+                    <div
+                      className="evidence-poster"
+                      role="img"
+                      aria-label="Fictional receiving practice animation"
+                      style={{ backgroundImage: `url(${media.poster})` }}
+                    />
+                    <span className="evidence-play">
+                      <Play size={22} />
+                    </span>
+                    <span className="media-label">DEMO ANIMATION · 0:32</span>
+                  </Link>
+                ) : (
+                  <div className="observation-preview">
+                    <EvidenceBadge type={e.type} />
+                    <strong>Coach observation</strong>
+                    <span>No video attached</span>
+                  </div>
+                )}
+                <div className="drill-card-body">
+                  <EvidenceBadge type={e.type} />
+                  <h3>{e.title}</h3>
+                  <p>{e.note}</p>
+                  <Badge
+                    tone={
+                      e.status === "Coach Reviewed"
+                        ? "green"
+                        : e.status === "Rejected"
+                          ? "red"
+                          : "amber"
+                    }
+                  >
+                    {e.status}
+                  </Badge>
+                  <Link className="text-link" href={`/coach/evidence/${e.id}`}>
+                    {media
+                      ? "Play & review evidence →"
+                      : "Review observation →"}
+                  </Link>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      ) : (
+        <Card>
+          <Empty>
+            No evidence matches these filters.
+            <br />
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setFilter("");
+                setPlayer("");
+              }}
+            >
+              Clear filters
+            </Button>
+          </Empty>
+        </Card>
+      )}
     </>
   );
 }

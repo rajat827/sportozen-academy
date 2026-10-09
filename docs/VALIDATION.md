@@ -38,3 +38,11 @@ Browser tests use installed Chrome locally. CI uses Playwright Chromium. Both ar
 ## Limits of verification
 
 No external API, authentication, payment, media or messaging integration exists. Parent projection tests demonstrate UI filtering, not secure authorisation. Formal assistive-technology testing and production access-control review remain. The historical attendance percentage is seeded demo data; current attendance records are verified independently. See `ROADMAP.md` for exact remaining scope.
+
+## Playback repair — 10 October 2026
+
+The previous evidence player advanced a timer over a static image. Seeded evidence now plays a committed 32-second fictional MP4 animation with captions, native controls, actual playhead seeking and persisted bookmarks. New coach observations without media show “No video attached”. All seeded clips use the same illustrative animation; it is not recorded player footage.
+
+Validation: lint, strict typecheck, production build and all 9 unit tests passed. The 6 existing browser scenarios passed; the added playback scenario passed after correcting its coach-note test selector. It verifies real video playhead movement, pause, keyboard seeking, bookmark and note persistence after reload, resumed playback, and mobile overflow. Desktop and mobile evidence screenshots are in `docs/screenshots/evidence-video-*.png`.
+
+The app serves the committed clip without external services. Regenerating demo assets with `node scripts/create-demo-media.mjs` requires installed Chrome and FFmpeg.

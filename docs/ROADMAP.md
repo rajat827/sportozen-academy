@@ -12,7 +12,7 @@
 - Personalisation editor, training timer, agenda, attempts/success counter, private observation capture, timestamps and session completion.
 - Attendance bulk-present, per-player states/reasons, check-in record and persistent save.
 - 12-drill library with search/skill filter, details, adaptations and add-to-session.
-- Evidence filters, simulated timeline/bookmarks, linked goals, notes and review states.
+- Evidence filters, playable fictional demo MP4, media-driven timeline/bookmarks, linked goals, notes and review states.
 - Report draft/approve/revision, evidence review prerequisite, local demo PDF and share preview.
 - Demo fee ledger, history and validated payment-reference recording.
 - Communication templates, editable drafts and approved Not Sent previews.
@@ -27,7 +27,7 @@
 - Profile and dashboard attendance percent is a fictional seeded historical summary. Current-session ledger and analytics use live demo records; a full history/rate aggregation is future work.
 - Player paths are seeded displays; formal coach verification history and automatic transitions remain. Weekly plan and goals are editable, but a review audit log is not built.
 - Session Desk timer/counters are temporary working controls. Saved observations/evidence persist. Voice capture is disabled. Bookmarking is an observation timestamp; no real video is captured.
-- Evidence media is a practice diagram and simulated timeline. Upload/tag management, real playback, annotations and video storage remain.
+- Seeded evidence has a playable fictional practice animation, native video controls, seeking and persistent bookmarks. Coach-note records without media are labelled No video attached. Real player footage, upload/tag management, annotations and video storage remain.
 - Reports use seeded structured sections and editable remarks. PDF is a simple locally generated text report, not a designed production document. Sharing is preview only.
 - Messages have all seven template labels with starter text, not production editorial templates. Scheduling is metadata only. No scheduling or delivery occurs.
 - Analytics excludes unavailable retention and formal plan-review history. No talent scoring.
