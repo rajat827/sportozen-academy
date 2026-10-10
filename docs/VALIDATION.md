@@ -6,12 +6,12 @@ Story: an owner selects a player; a coach edits goals, creates and personalises 
 
 ## Commands and results
 
-| Command | Result |
-| --- | --- |
-| `pnpm lint` | Passed, zero errors and warnings |
-| `pnpm typecheck` | Passed, strict TypeScript |
-| `pnpm test` | Passed, 7 tests in 2 files |
-| `pnpm build` | Passed, Next.js 16.4.0 production build |
+| Command                                           | Result                                     |
+| ------------------------------------------------- | ------------------------------------------ |
+| `pnpm lint`                                       | Passed, zero errors and warnings           |
+| `pnpm typecheck`                                  | Passed, strict TypeScript                  |
+| `pnpm test`                                       | Passed, 7 tests in 2 files                 |
+| `pnpm build`                                      | Passed, Next.js 16.4.0 production build    |
 | `$env:PLAYWRIGHT_CHANNEL='chrome'; pnpm test:e2e` | Passed, 6 browser scenarios in 1.4 minutes |
 
 Browser tests use installed Chrome locally. CI uses Playwright Chromium. Both are headless. The CI workflow installs dependencies, runs all quality gates and uploads screenshots/traces.
@@ -46,3 +46,9 @@ The previous evidence player advanced a timer over a static image. Seeded eviden
 Validation: lint, strict typecheck, production build and all 9 unit tests passed. The 6 existing browser scenarios passed; the added playback scenario passed after correcting its coach-note test selector. It verifies real video playhead movement, pause, keyboard seeking, bookmark and note persistence after reload, resumed playback, and mobile overflow. Desktop and mobile evidence screenshots are in `docs/screenshots/evidence-video-*.png`.
 
 The app serves the committed clip without external services. Regenerating demo assets with `node scripts/create-demo-media.mjs` requires installed Chrome and FFmpeg.
+
+## Communication preparation and approval — 10 October 2026
+
+Implemented seven templates, related player/squad/session selection, source snapshots and explicit verification, editable previews, drafts, internal approval/rejection, activity history, and approved manual clipboard copying. Approval records APPROVED, then leaves the draft NOT_SENT. Editing clears approval. No provider calls exist. Settings lists four disconnected future integration placeholders with disabled actions. New drafts remain internal after approval and copying; parent messages accept fictional fixture records only. Legacy communication statuses/channels migrate without invented approval or delivery history.
+
+Lint, strict typecheck, production build and all 12 unit tests passed. The 7 existing browser scenarios passed against this build; the new communication scenario passed after correcting its template-dropdown selector. It verifies rejection/resubmission/approval, clipboard contents, history after refresh, revision clearing approval, parent non-disclosure, seven templates, disconnected settings and mobile overflow. Desktop/mobile screenshots were visually inspected. See `COMMUNICATION.md` for current boundaries and future provider prerequisites.

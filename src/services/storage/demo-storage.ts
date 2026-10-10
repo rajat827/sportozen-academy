@@ -1,5 +1,6 @@
 import type { DemoState } from "@/domain/entities";
 import { seed } from "@/data/demo/seed";
+import { migrateMessageDraft } from "@/services/communication/migrate";
 const KEY = "sportozen-demo-v1";
 export interface StorageAdapter {
   load(): DemoState;
@@ -17,7 +18,10 @@ export const browserStorage: StorageAdapter = {
           Array.isArray(parsed.state?.players) &&
           parsed.state.academy?.id === "stallions"
         )
-          return parsed.state;
+          return {
+            ...parsed.state,
+            messages: parsed.state.messages.map(migrateMessageDraft),
+          };
       }
     } catch {
       /* Corrupt/unavailable storage falls back to demo seed. */

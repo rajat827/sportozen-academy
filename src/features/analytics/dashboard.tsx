@@ -89,7 +89,7 @@ export function Dashboard({ coach = false }: { coach?: boolean }) {
         {
           title: "Parent drafts",
           value: String(
-            data.messages.filter((m) => m.status === "Draft").length,
+            data.messages.filter((m) => m.status === "DRAFT").length,
           ),
           detail: "Coach approval required",
           Icon: MessageSquare,
@@ -271,7 +271,7 @@ export function Dashboard({ coach = false }: { coach?: boolean }) {
             </span>
             <div>
               <strong>
-                {data.messages.filter((m) => m.status === "Draft").length}{" "}
+                {data.messages.filter((m) => m.status === "DRAFT").length}{" "}
                 parent update to approve
               </strong>
               <p>Draft only · nothing has been sent</p>

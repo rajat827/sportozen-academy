@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useAcademy } from "@/hooks/use-academy";
+import { useMessageDrafts } from "@/hooks/use-message-drafts";
 import {
   Badge,
   Button,
@@ -9,199 +9,288 @@ import {
   SectionTitle,
 } from "@/components/ui/primitives";
 import type { MessageDraft } from "@/domain/entities";
-const templates = [
-  "Session update",
-  "Attendance check",
-  "Schedule change",
-  "Fee reminder",
-  "Weekly progress",
-  "Report available",
-  "Event announcement",
-];
+import {
+  messageTemplates,
+  prepareMessage,
+  type RelatedType,
+} from "@/services/communication/message-drafts";
+
 export function Communication() {
-  const { data, update } = useAcademy();
+  const { data, ready, create, act, notify } = useMessageDrafts();
   const [selected, setSelected] = useState("m1");
-  const draft = data.messages.find((m) => m.id === selected);
-  const [body, setBody] = useState(draft?.body ?? "");
-  const [template, setTemplate] = useState(draft?.template ?? templates[0]);
-  const [channel, setChannel] = useState(draft?.channel ?? "Email preview");
-  const [scheduled, setScheduled] = useState(draft?.scheduledAt ?? "");
-  const [playerId, setPlayerId] = useState(draft?.playerId ?? "p1");
-  const player = data.players.find((p) => p.id === playerId);
-  const recipient =
-    data.guardians.find((g) => g.id === player?.guardianId)?.name ??
-    "Guardian Not Recorded";
-  function save(status: MessageDraft["status"]) {
-    update((s) => ({
-      ...s,
-      messages: s.messages.map((m) =>
-        m.id === selected
-          ? {
-              ...m,
-              playerId,
-              recipient,
-              body,
-              template,
-              channel,
-              scheduledAt: scheduled,
-              status,
-            }
-          : m,
-      ),
-    }));
+  const [edited, setEdited] = useState<MessageDraft | null>(null);
+  const [preview, setPreview] = useState(false);
+  const current = data.messages.find((m) => m.id === selected);
+  const draft = edited ?? current;
+  if (!ready) return <p>Loading communication drafts…</p>;
+  function change(patch: Partial<MessageDraft>) {
+    if (!draft) return;
+    setEdited({ ...draft, ...patch, sourceVerified: false });
+    setPreview(false);
   }
+  function action(name: Parameters<typeof act>[1]) {
+    if (!draft) return;
+    const next = act(draft, name);
+    if (next) setEdited(null);
+  }
+  const type = draft?.relatedType ?? "player";
+  const options =
+    type === "player"
+      ? data.players
+      : type === "squad"
+        ? data.squads
+        : data.sessions.map((s) => ({ ...s, name: s.title }));
+  const dirty = edited !== null;
+  const approved = current?.status === "NOT_SENT" && !!current.approvedAt;
   return (
     <>
       <PageTitle
         title="Communication centre"
-        description="Clear updates, reviewed by a coach. All messages remain Not Sent."
+        description="Prepare → verify sources → review → approve → NOT_SENT → manual copy."
       >
         <Button
           variant="secondary"
           onClick={() => {
-            const id = crypto.randomUUID();
-            update((s) => ({
-              ...s,
-              messages: [
-                ...s.messages,
-                {
-                  id,
-                  academyId: s.academy.id,
-                  playerId: "p1",
-                  recipient: "Neha Sharma",
-                  body: "",
-                  template: "Session update",
-                  channel: "Email preview",
-                  scheduledAt: "",
-                  status: "Draft",
-                },
-              ],
-            }));
-            setSelected(id);
-            setBody("");
-            setTemplate("Session update");
-            setPlayerId("p1");
-            setScheduled("");
+            const d = create();
+            setSelected(d.id);
+            setEdited(null);
+            setPreview(false);
           }}
         >
           New draft
         </Button>
       </PageTitle>
+      <p>
+        No communication provider is connected. New drafts remain internal after
+        approval. Manual copying does not record delivery or publish to
+        parent/player views.
+      </p>
       <div className="communication-grid">
         <Card>
-          <SectionTitle title="Drafts & previews" />
+          <SectionTitle title="Message history" />
           {data.messages.map((m) => (
             <button
               className={`draft-row ${selected === m.id ? "active" : ""}`}
               key={m.id}
               onClick={() => {
                 setSelected(m.id);
-                setBody(m.body);
-                setTemplate(m.template);
-                setChannel(m.channel);
-                setScheduled(m.scheduledAt);
-                setPlayerId(m.playerId);
+                setEdited(null);
+                setPreview(false);
               }}
             >
               <strong>{m.template}</strong>
-              <p>{m.recipient}</p>
-              <Badge tone={m.status === "Approved" ? "green" : "amber"}>
-                {m.status}
-              </Badge>
+              <p>{m.recipient || "Audience not prepared"}</p>
+              <Badge>{m.status}</Badge>
+              {m.approvedAt && <p>Approved internally · NOT_SENT</p>}
             </button>
           ))}
         </Card>
-        <Card>
-          <SectionTitle title="Compose an update" />
-          <div className="form-stack">
-            <label>
-              Template
-              <select
-                value={template}
-                onChange={(e) => {
-                  setTemplate(e.target.value);
-                  setBody(
-                    `${player?.name ?? "The player"} · ${e.target.value}. Add a coach-reviewed update from source records.`,
-                  );
-                }}
+        {draft && (
+          <Card>
+            <SectionTitle title="Prepare a draft" />
+            <div className="form-stack">
+              <label>
+                Template
+                <select
+                  value={draft.template}
+                  onChange={(e) =>
+                    change({ template: e.target.value, sources: [] })
+                  }
+                >
+                  {messageTemplates.map((t) => (
+                    <option key={t}>{t}</option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Related record type
+                <select
+                  value={type}
+                  onChange={(e) => {
+                    const t = e.target.value as RelatedType;
+                    const id =
+                      t === "player"
+                        ? data.players[0].id
+                        : t === "squad"
+                          ? data.squads[0].id
+                          : data.sessions[0].id;
+                    change({
+                      relatedType: t,
+                      relatedId: id,
+                      playerId: t === "player" ? id : "",
+                      sources: [],
+                    });
+                  }}
+                >
+                  <option value="player">Player</option>
+                  <option value="squad">Squad</option>
+                  <option value="session">Session</option>
+                </select>
+              </label>
+              <label>
+                Related record
+                <select
+                  value={draft.relatedId ?? draft.playerId}
+                  onChange={(e) =>
+                    change({
+                      relatedId: e.target.value,
+                      playerId: type === "player" ? e.target.value : "",
+                      sources: [],
+                    })
+                  }
+                >
+                  {options.map((o) => (
+                    <option value={o.id} key={o.id}>
+                      {o.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <Button
+                variant="secondary"
+                onClick={() =>
+                  change(
+                    prepareMessage(
+                      data,
+                      draft.template,
+                      type,
+                      draft.relatedId ?? draft.playerId,
+                    ),
+                  )
+                }
               >
-                {templates.map((t) => (
-                  <option key={t}>{t}</option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Related player
-              <select
-                value={playerId}
-                onChange={(e) => setPlayerId(e.target.value)}
-              >
-                {data.players.map((p) => (
-                  <option value={p.id} key={p.id}>
-                    {p.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <p>
-              Recipient: <strong>{recipient}</strong>
-            </p>
-            <label>
-              Channel
-              <select
-                value={channel}
-                onChange={(e) => setChannel(e.target.value)}
-              >
-                <option>Email preview</option>
-                <option>WhatsApp preview</option>
-                <option>In-app preview</option>
-              </select>
-            </label>
-            <label>
-              Planned date/time · draft only
-              <input
-                type="datetime-local"
-                value={scheduled}
-                onChange={(e) => setScheduled(e.target.value)}
-              />
-            </label>
-            <label>
-              Editable preview
-              <textarea
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-              />
-            </label>
-            <div className="actions">
-              <Button variant="secondary" onClick={() => save("Draft")}>
-                Save Draft
+                Prepare from Source Records
               </Button>
-              <Button disabled={!body.trim()} onClick={() => save("Approved")}>
-                Approve preview
-              </Button>
+              <p>
+                Audience:{" "}
+                {draft.recipient ||
+                  "Prepare from source records to select an audience."}
+              </p>
+              <label>
+                Editable message
+                <textarea
+                  value={draft.body}
+                  onChange={(e) => change({ body: e.target.value })}
+                />
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={!!draft.sourceVerified}
+                  disabled={!draft.sources?.length}
+                  onChange={(e) =>
+                    setEdited({ ...draft, sourceVerified: e.target.checked })
+                  }
+                />{" "}
+                I verified the source records and any edited details
+              </label>
+              <div className="actions">
+                <Button variant="secondary" onClick={() => action("save")}>
+                  Save Draft
+                </Button>
+                <Button variant="secondary" onClick={() => setPreview(true)}>
+                  Preview
+                </Button>
+                <Button
+                  disabled={
+                    !draft.body.trim() ||
+                    !draft.sourceVerified ||
+                    (!dirty && current?.status === "PENDING_APPROVAL")
+                  }
+                  onClick={() => action("submit")}
+                >
+                  Send for Approval
+                </Button>
+              </div>
+              <h3>Internal review</h3>
+              <p>
+                <Badge>{current?.status}</Badge> · <Badge>NOT_SENT</Badge>
+                {dirty && " · Unsaved changes; save or submit before review"}
+              </p>
+              <div className="actions">
+                <Button
+                  disabled={dirty || current?.status !== "PENDING_APPROVAL"}
+                  onClick={() => action("approve")}
+                >
+                  Approve Draft
+                </Button>
+                <Button
+                  variant="secondary"
+                  disabled={dirty || current?.status !== "PENDING_APPROVAL"}
+                  onClick={() => action("reject")}
+                >
+                  Reject Draft
+                </Button>
+                <Button
+                  variant="secondary"
+                  disabled={dirty || !approved}
+                  onClick={async () => {
+                    if (!current) return;
+                    try {
+                      await navigator.clipboard.writeText(current.body);
+                      action("copy");
+                      notify("Approved message copied manually. NOT_SENT.");
+                    } catch {
+                      notify(
+                        "Clipboard unavailable. Select and copy the approved message in Preview manually.",
+                      );
+                    }
+                  }}
+                >
+                  Copy Message
+                </Button>
+              </div>
             </div>
-          </div>
-        </Card>
-        <Card>
-          <SectionTitle title="Parent preview" />
-          <Badge tone="amber">{draft?.status ?? "Draft"} · Not Sent</Badge>
-          <div className="message-preview">
-            <strong>Hi {recipient.split(" ")[0]},</strong>
-            <p>{body || "Your draft preview will appear here."}</p>
-            <p>
-              — Coach Rahul
-              <br />
-              {data.academy.name}
+          </Card>
+        )}
+        {draft && (
+          <Card>
+            <SectionTitle title="Source records & preview" />
+            <p className="muted">
+              Saved source snapshots used to prepare this draft. Confirm they
+              are current before requesting approval.
             </p>
-          </div>
-          <h3>Source records</h3>
-          <p className="muted">Player goal: {player?.goal ?? "Not Recorded"}</p>
-          <p className="muted">
-            Only include reviewed observations. Delivery integrations are Not
-            Connected.
-          </p>
-          <Button disabled>Send · Not Connected</Button>
-        </Card>
+            {draft.sources?.length ? (
+              draft.sources.map((s, i) => (
+                <div className="list-row" key={`${s.id}-${i}`}>
+                  <div>
+                    <strong>
+                      {s.label} · {s.id}
+                    </strong>
+                    <p>{s.text}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No source snapshot. Use Prepare from Source Records.</p>
+            )}
+            {preview && (
+              <section aria-label="Message preview">
+                <h3>Message preview · internal only</h3>
+                <div
+                  className="message-preview"
+                  style={{ whiteSpace: "pre-wrap" }}
+                >
+                  {draft.body || "No message entered."}
+                </div>
+                <Badge>NOT_SENT</Badge>
+              </section>
+            )}
+            <h3>Draft activity</h3>
+            {current?.history?.length ? (
+              <ol>
+                {current.history.map((h, i) => (
+                  <li key={i}>
+                    <strong>{h.status}</strong> · {h.action}
+                    <p className="muted">{new Date(h.at).toLocaleString()}</p>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p>No activity recorded yet.</p>
+            )}
+          </Card>
+        )}
       </div>
     </>
   );

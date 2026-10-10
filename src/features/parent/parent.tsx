@@ -222,21 +222,25 @@ export function ParentScreen({ screen }: { screen: string }) {
         </Card>
       ) : screen === "messages" ? (
         <>
-          <Badge tone="amber">Approved previews · Not Sent</Badge>
+          <Badge tone="amber">Fictional demo records only · NOT_SENT</Badge>
+          <p>
+            These records illustrate the experience. No provider delivery has
+            occurred. New coach drafts remain internal.
+          </p>
           {records.messages.length ? (
             records.messages.map((m) => (
               <Card key={m.id}>
                 <h3>{m.template}</h3>
                 <p>{m.body}</p>
-                <Badge tone="green">Approved preview</Badge>
+                <Badge>Fictional demo record · NOT_SENT</Badge>
               </Card>
             ))
           ) : (
             <Card>
-              <h3>No approved updates yet</h3>
+              <h3>No fictional demo messages</h3>
               <p>
-                Coach drafts appear here after approval. No messages are sent by
-                this demo.
+                Coach drafts remain internal even after approval. No messages
+                are delivered in this demo.
               </p>
             </Card>
           )}

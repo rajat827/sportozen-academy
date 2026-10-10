@@ -285,7 +285,7 @@ export function PlayerProfile({
                     <h3>{m.template}</h3>
                     <p>{m.body}</p>
                   </div>
-                  <Badge>{m.status} · Not Sent</Badge>
+                  <Badge>{m.status} · NOT_SENT</Badge>
                 </div>
               ))}
             <Link className="text-link" href="/owner/communication">

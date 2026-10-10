@@ -190,7 +190,15 @@ export interface MessageDraft extends RecordBase {
   recipient: string;
   channel: string;
   body: string;
-  status: "Draft" | "Approved" | "Not Sent";
+  status: "DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED" | "NOT_SENT";
+  deliveryStatus?: "NOT_SENT";
+  relatedType?: "player" | "squad" | "session";
+  relatedId?: string;
+  sources?: { id: string; label: string; text: string }[];
+  history?: { at: string; status: MessageDraft["status"]; action: string }[];
+  parentDemo?: boolean;
+  sourceVerified?: boolean;
+  approvedAt?: string;
   scheduledAt: string;
 }
 export interface Task extends RecordBase {

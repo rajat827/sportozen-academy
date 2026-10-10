@@ -18,6 +18,27 @@ export function Settings() {
         description="A transparent demo workspace with a clean path to real integrations."
       />
       <Card>
+        <h2>Integrations</h2>
+        {["WhatsApp Business", "Email", "SMS", "Push notifications"].map(
+          (name) => (
+            <div key={name}>
+              <div className="list-row">
+                <strong>{name}</strong>
+                <Badge tone="amber">NOT CONNECTED</Badge>
+              </div>
+              <p>
+                {name === "WhatsApp Business"
+                  ? "WhatsApp Business messaging is not currently connected. Approved messages remain saved as drafts and must be copied or shared manually."
+                  : `${name} delivery is not currently connected. Approved drafts remain internal and NOT_SENT.`}
+              </p>
+              <Button variant="secondary" disabled>
+                FUTURE INTEGRATION
+              </Button>
+            </div>
+          ),
+        )}
+      </Card>
+      <Card>
         <h2>Workspace status</h2>
         {[
           "Authentication",

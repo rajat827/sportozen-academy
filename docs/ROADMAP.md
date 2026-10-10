@@ -15,9 +15,9 @@
 - Evidence filters, playable fictional demo MP4, media-driven timeline/bookmarks, linked goals, notes and review states.
 - Report draft/approve/revision, evidence review prerequisite, local demo PDF and share preview.
 - Demo fee ledger, history and validated payment-reference recording.
-- Communication templates, editable drafts and approved Not Sent previews.
+- Communication templates, source snapshots/verification, internal drafts, approval/rejection, NOT_SENT history and manual copy.
 - Record-derived analytics and explicit missing-data states.
-- Parent home, schedule, progress/path, approved reports, fees, approved previews and More.
+- Parent home, schedule, progress/path, approved reports, fees, fictional message fixtures only and More.
 
 ## Partial modules / limitations
 
@@ -29,7 +29,7 @@
 - Session Desk timer/counters are temporary working controls. Saved observations/evidence persist. Voice capture is disabled. Bookmarking is an observation timestamp; no real video is captured.
 - Seeded evidence has a playable fictional practice animation, native video controls, seeking and persistent bookmarks. Coach-note records without media are labelled No video attached. Real player footage, upload/tag management, annotations and video storage remain.
 - Reports use seeded structured sections and editable remarks. PDF is a simple locally generated text report, not a designed production document. Sharing is preview only.
-- Messages have all seven template labels with starter text, not production editorial templates. Scheduling is metadata only. No scheduling or delivery occurs.
+- Messages have all seven template labels with starter text, not production editorial templates. No scheduling or delivery occurs; new coach drafts remain internal after approval. Provider contracts and disconnected settings are documented in `COMMUNICATION.md`.
 - Analytics excludes unavailable retention and formal plan-review history. No talent scoring.
 - Settings provides integration states and demo reset. Production user management and configurable permissions remain.
 

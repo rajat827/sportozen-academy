@@ -32,7 +32,7 @@ export function parentRecords(state: DemoState, guardianId: string) {
     charges: state.charges.filter((c) => ids.has(c.playerId)),
     payments: state.payments.filter((p) => ids.has(p.playerId)),
     messages: state.messages.filter(
-      (m) => ids.has(m.playerId) && m.status === "Approved",
+      (m) => ids.has(m.playerId) && m.parentDemo === true,
     ),
   };
 }

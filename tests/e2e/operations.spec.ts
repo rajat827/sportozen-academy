@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-test("New player has an editable plan, fee records and reviewed message previews", async ({
+test("New player has an editable plan, fee references and internal message approval", async ({
   page,
 }) => {
   await page.goto("/owner/players");
@@ -40,10 +40,20 @@ test("New player has an editable plan, fee records and reviewed message previews
   ).toBeVisible();
   await page.goto("/owner/communication");
   await page
-    .getByLabel("Editable preview")
+    .getByRole("textbox", { name: "Editable message", exact: true })
     .fill("Coach reviewed: Aarav practised scanning before receiving.");
   await page
-    .getByRole("button", { name: "Approve preview", exact: true })
+    .getByRole("button", { name: "Prepare from Source Records" })
+    .click();
+  await page
+    .getByRole("textbox", { name: "Editable message", exact: true })
+    .fill("Coach reviewed: Aarav practised scanning before receiving.");
+  await page.getByRole("checkbox").check();
+  await page
+    .getByRole("button", { name: "Send for Approval", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Approve Draft", exact: true })
     .click();
   await page.goto("/parent/messages");
   await expect(
@@ -51,7 +61,7 @@ test("New player has an editable plan, fee records and reviewed message previews
       "Coach reviewed: Aarav practised scanning before receiving.",
       { exact: true },
     ),
-  ).toBeVisible();
+  ).not.toBeVisible();
   await page.goto("/coach/reports/r1");
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "Download Demo PDF" }).click();

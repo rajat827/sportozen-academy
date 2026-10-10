@@ -1,11 +1,11 @@
-# Build Sportozen Academy Concept B responsive product foundation
+# Sportozen Academy Concept B product foundation
 
-Build the first frontend for Sportozen Academy, starting from an empty repository. Owners can manage a fictional academy and roster; coaches can move from player goals through personalised sessions, attendance, observations, evidence review and report approval; parents can view only their linked player's public, reviewed progress.
+Build the academy frontend from an empty repository. Owners manage a fictional academy and roster; coaches move from player goals through personalised sessions, attendance, observations, evidence review and report approval; parents see guardian-linked public progress.
 
-The Concept B interface uses navy navigation, green actions, evidence provenance badges, responsive tables/cards and a mobile parent experience. A typed domain and versioned browser-storage repository persist demo edits and provide a future API boundary. Football vocabulary lives in sport configuration. Payment entries are records only, communication stays Not Sent, and media is clearly labelled demo simulation.
+The navy/green responsive interface uses a typed domain and versioned browser-storage repository. Seeded evidence now plays a local fictional MP4 with pause, seeking and persisted bookmarks. Real uploads remain unconnected.
 
-Validation: `pnpm lint`, `pnpm typecheck`, `pnpm test` (7 passed), `pnpm build`, and Playwright (6 scenarios passed). Browser checks cover all 36 supported route examples, the nine requested smoke flows, parent filtering, persistent edits, local PDF download, and overflow at all six requested widths. Eight screenshots are saved in `docs/screenshots/`; detailed evidence is in `docs/VALIDATION.md`.
+Communication supports seven templates, related player/squad/session source snapshots, explicit source verification, editable preview, drafts, internal approval/rejection, history and manual copying. Approval leaves the draft NOT_SENT. Editing clears approval. New messages remain internal and never publish to parent views. Settings exposes four disabled future integration placeholders; a provider interface exists without an implementation or delivery calls.
 
-The repository began empty. `main` contains only an empty comparison baseline; all implementation commits are on `codex/concept-b-foundation`. No application changes have been merged into `main`.
+Validation: lint, strict typecheck, 12 unit tests, production build, and 8 browser scenarios passed (7 existing scenarios plus the corrected communication scenario). Browser coverage includes 36 supported routes, persistent edits, privacy, local PDF download, real video playback, approval/copy flow and responsive overflow checks. Screenshots and exact verification results are in docs/VALIDATION.md.
 
-Remaining scope: authentication and server authorisation, real media and uploads, payments, delivery, fuller academy/player editing, historical aggregation and formal review audit logs. Some setup sections are read-only, the video timeline is simulated, and PDF output is a simple local demo report. Exact partial modules and production requirements are detailed in `docs/ROADMAP.md`.
+Remaining scope: authentication, server authorisation, real media/uploads, payments and messaging providers, verified guardian contacts and consent/preferences, fuller entity editing, production audit logs and accessibility review. See docs/ROADMAP.md and docs/COMMUNICATION.md. No application changes have been merged into main.
