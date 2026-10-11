@@ -1,5 +1,7 @@
 import type { DemoState } from "@/domain/entities";
 import { football } from "@/config/sports/football";
+import { upgradeDevelopmentState } from "@/services/development/migration";
+import { personalisedFixtures } from "./personalised";
 const base = { academyId: "stallions", sportId: football.id };
 const names = [
   "Aarav Sharma",
@@ -106,7 +108,16 @@ const sessions = [0, 1, 2, 3].map((i) => ({
   evidencePlan: "Observe scanning before receiving; bookmark relevant moments.",
   coachingPoints: "Body shape, scanning and supporting angles.",
 }));
-export const seed: DemoState = {
+const baseSeed: DemoState = {
+  parentUpdates: [],
+  personalisations: [],
+  conversations: [],
+  conversationMessages: [],
+  internalNotes: [],
+  dietaryRestrictions: [],
+  preferences: [],
+  consents: [],
+  nutritionGuidance: [],
   academy: {
     id: "stallions",
     academyId: "stallions",
@@ -323,3 +334,4 @@ export const seed: DemoState = {
     },
   ],
 };
+export const seed = personalisedFixtures(upgradeDevelopmentState(baseSeed));

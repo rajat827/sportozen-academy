@@ -11,6 +11,7 @@ import {
   EvidenceBadge,
 } from "@/components/ui/primitives";
 import { PlayerPath } from "@/features/development/plan";
+import { getPlan } from "@/services/development/plans";
 export function PlayerProfile({
   playerId,
   coach = false,
@@ -25,6 +26,7 @@ export function PlayerProfile({
   const guardian = data.guardians.find((g) => g.id === player.guardianId);
   const evidence = data.evidence.filter((e) => e.playerId === playerId);
   const goals = data.goals.filter((g) => g.playerId === playerId);
+  const plan = getPlan(data, playerId);
   return (
     <>
       <Link
@@ -52,6 +54,45 @@ export function PlayerProfile({
           Development plan <ArrowRight size={16} />
         </Link>
       </div>
+      {coach && (
+        <Link
+          className="button primary"
+          href={`/coach/players/${playerId}/update`}
+        >
+          Create Parent Development Update
+        </Link>
+      )}
+      <Card>
+        <h2>Current individual plan</h2>
+        <p>{plan.focusAreas.join(", ") || "Focus not recorded"}</p>
+        <Badge>{plan.status}</Badge>
+        <p>Next review: {plan.reviewDate}</p>
+        <p>{plan.reason}</p>
+        <h3>Assigned drills</h3>
+        {plan.assignments.map((a) => (
+          <p key={a.drillId}>
+            {data.drills.find((d) => d.id === a.drillId)?.name} · {a.reason}
+          </p>
+        ))}
+        <p>
+          {evidence.filter((e) => e.status === "Awaiting Review").length}{" "}
+          evidence records awaiting review
+        </p>
+        <h3>Recent reviewed observations</h3>
+        {evidence
+          .filter((e) => e.status === "Coach Reviewed")
+          .map((e) => (
+            <p key={e.id}>{e.note}</p>
+          ))}
+        <h3>Latest approved parent update</h3>
+        <p>
+          {[...data.parentUpdates]
+            .reverse()
+            .find(
+              (u) => u.playerId === playerId && u.approvalStatus === "APPROVED",
+            )?.messageBody || "No approved update yet"}
+        </p>
+      </Card>
       <div className="tabs" role="tablist" aria-label="Player profile sections">
         {[
           "Overview",

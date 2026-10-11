@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { useAcademy } from "@/hooks/use-academy";
 import { parentRecords } from "@/data/repositories/demo-repository";
+import { ParentPlan } from "@/features/parent-development/parent-plan";
+import { ParentPreferences } from "@/features/parent-development/preferences";
 import {
   Avatar,
   Badge,
@@ -57,15 +59,7 @@ export function ParentScreen({ screen }: { screen: string }) {
       </div>
       {screen === "home" ? (
         <>
-          <div className="parent-goal">
-            <Compass size={26} />
-            <span>THIS WEEK’S FOCUS</span>
-            <h2>{player.goal}</h2>
-            <p>Look before the ball arrives. Receive with purpose.</p>
-            <Link href="/parent/progress">
-              See Aarav’s progress <ArrowRight size={16} />
-            </Link>
-          </div>
+          <ParentPlan compact />
           <Card>
             <SectionTitle
               title="Next training"
@@ -111,59 +105,26 @@ export function ParentScreen({ screen }: { screen: string }) {
             <Card>
               <Compass size={22} />
               <h2>Developing</h2>
-              <p>Receiving on the move</p>
+              <p>See approved plan</p>
             </Card>
           </div>
         </>
       ) : screen === "progress" ? (
         <>
+          <ParentPlan />
           <Card>
-            <SectionTitle title="What Aarav is working on" />
-            {records.goals.map((g) => (
-              <div className="goal-card" key={g.id}>
-                <h3>{g.title}</h3>
-                <Badge tone="green">{g.status}</Badge>
-                <p>{g.criteria}</p>
-              </div>
-            ))}
-          </Card>
-          <Card>
-            <SectionTitle
-              title="Player Path"
-              subtitle="Receiving · progress through practice"
-            />
-            <div className="pathway">
-              {records.paths[0]?.stages.map((s, i) => (
-                <div
-                  className={`path-stage stage-${s.status.replaceAll(" ", "-")}`}
-                  key={s.title}
-                >
-                  <span className="stage-number">
-                    {s.status === "Completed" ? "✓" : i + 1}
-                  </span>
-                  <div>
-                    <strong>{s.title}</strong>
-                    <p>{s.status}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Card>
-          <Card>
-            <SectionTitle title="What the evidence shows" />
+            <SectionTitle title="Approved evidence" />
             {records.evidence.map((e) => (
               <div className="goal-card" key={e.id}>
                 <EvidenceBadge type={e.type} />
                 <h3>{e.title}</h3>
                 <p>{e.note}</p>
-                <Badge tone="green">Coach Reviewed</Badge>
+                <Badge>Coach Reviewed</Badge>
               </div>
             ))}
-            <h3>What comes next?</h3>
-            <p>
-              Apply scanning in a smaller space with light pressure. Coach Rahul
-              will review progress on 14 October.
-            </p>
+            {!records.evidence.length && (
+              <p>NEEDS_MORE_EVIDENCE: no approved evidence available.</p>
+            )}
           </Card>
         </>
       ) : screen === "schedule" ? (
@@ -247,6 +208,7 @@ export function ParentScreen({ screen }: { screen: string }) {
         </>
       ) : (
         <>
+          <ParentPreferences />
           <Card>
             <SectionTitle title="More" />
             {[

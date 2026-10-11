@@ -15,10 +15,17 @@ import { Evidence } from "@/features/evidence/evidence";
 import { Reports } from "@/features/reports/reports";
 import { AcademySetup, Staff, Squads } from "@/features/academy/setup";
 import { Fees } from "@/features/fees/fees";
-import { Communication } from "@/features/communication/communication";
+
 import { Analytics } from "@/features/analytics/analytics";
 import { ParentScreen } from "@/features/parent/parent";
 import { Settings } from "@/features/academy/settings";
+import { Suspense } from "react";
+import { UpdateWizard } from "@/features/parent-development/update-wizard";
+import { DevelopmentCentre } from "@/features/parent-development/centre";
+import {
+  ConversationThread,
+  ParentInbox,
+} from "@/features/parent-development/conversations";
 export function RouteScreen({
   role,
   segments,
@@ -27,6 +34,26 @@ export function RouteScreen({
   segments: string[];
 }) {
   const [screen, id, action] = segments;
+  if (
+    role === "coach" &&
+    screen === "players" &&
+    id &&
+    action === "update" &&
+    segments.length === 3
+  )
+    return (
+      <Suspense fallback={<p>Loading update…</p>}>
+        <UpdateWizard playerId={id} />
+      </Suspense>
+    );
+  if (
+    (role === "coach" || role === "parent") &&
+    screen === "messages" &&
+    id &&
+    !action
+  )
+    return <ConversationThread key={id} conversationId={id} />;
+  if (role === "parent" && screen === "messages" && !id) return <ParentInbox />;
   if (role === "parent") {
     if (
       segments.length !== 1 ||
@@ -82,7 +109,7 @@ export function RouteScreen({
       (screen === "messages" && role === "coach")) &&
     !id
   )
-    return <Communication />;
+    return <DevelopmentCentre />;
   if (screen === "analytics" && !id && role === "owner") return <Analytics />;
   if (screen === "staff" && role === "owner" && !id) return <Staff />;
   if (screen === "squads" && role === "coach" && !id) return <Squads />;

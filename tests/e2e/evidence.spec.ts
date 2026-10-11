@@ -6,7 +6,7 @@ test("Demo video really plays, pauses, seeks and persists bookmarks and review n
   await page.getByLabel("Evidence player filter").selectOption("p1");
   await page
     .getByRole("link", {
-      name: "Play demo clip: Aarav · receiving practice",
+      name: "Play demo clip: Aarav · close-control practice",
       exact: true,
     })
     .click();
@@ -63,3 +63,4 @@ test("Demo video really plays, pauses, seeks and persists bookmarks and review n
     ),
   ).toBe(false);
 });
+

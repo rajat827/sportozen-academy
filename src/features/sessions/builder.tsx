@@ -1,4 +1,5 @@
 "use client";
+import { IndividualSessionObjectives } from "@/features/parent-development/session-objectives";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
@@ -390,6 +391,7 @@ export function SessionPersonaliser({ sessionId }: { sessionId: string }) {
           onChange={(id, value) => setFocuses({ ...focuses, [id]: value })}
         />
       </Card>
+      <IndividualSessionObjectives sessionId={sessionId} />
     </>
   );
 }

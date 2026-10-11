@@ -1,3 +1,17 @@
+import type {
+  PlayerDevelopmentPlan,
+  ParentDevelopmentUpdate,
+  SessionPersonalisation,
+  NutritionGuidance,
+  Conversation,
+  ConversationMessage,
+  InternalNote,
+  NotificationPreference,
+  GuardianConsent,
+  DietaryRestriction,
+  SkillArea,
+  DevelopmentPlanTemplate,
+} from "../parent-development";
 export type Role = "owner" | "coach" | "parent";
 export interface RecordBase {
   id: string;
@@ -37,6 +51,8 @@ export interface Sport {
   name: string;
 }
 export interface SportConfiguration extends Sport {
+  focusAreas?: SkillArea[];
+  planTemplates?: DevelopmentPlanTemplate[];
   positions: string[];
   skills: string[];
   stages: string[];
@@ -219,7 +235,16 @@ export interface DemoState {
   squads: Squad[];
   players: Player[];
   goals: DevelopmentGoal[];
-  plans: DevelopmentPlan[];
+  plans: (DevelopmentPlan & Partial<PlayerDevelopmentPlan>)[];
+  parentUpdates: ParentDevelopmentUpdate[];
+  personalisations: SessionPersonalisation[];
+  nutritionGuidance: NutritionGuidance[];
+  conversations: Conversation[];
+  conversationMessages: ConversationMessage[];
+  internalNotes: InternalNote[];
+  preferences: NotificationPreference[];
+  consents: GuardianConsent[];
+  dietaryRestrictions: DietaryRestriction[];
   paths: PlayerPath[];
   drills: Drill[];
   sessions: Session[];

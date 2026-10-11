@@ -45,7 +45,7 @@ export function Communication() {
   return (
     <>
       <PageTitle
-        title="Communication centre"
+        title="Manual draft preparation"
         description="Prepare → verify sources → review → approve → NOT_SENT → manual copy."
       >
         <Button

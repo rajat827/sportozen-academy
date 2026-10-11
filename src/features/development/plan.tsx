@@ -5,6 +5,7 @@ import { Check, Flag, ArrowRight, CalendarDays } from "lucide-react";
 import { useAcademy } from "@/hooks/use-academy";
 import type { GoalStatus } from "@/domain/entities";
 import { football } from "@/config/sports/football";
+import { PlanEditor } from "@/features/parent-development/plan-editor";
 import {
   Card,
   Badge,
@@ -20,7 +21,7 @@ export function PlayerPath({ playerId }: { playerId: string }) {
     <Card>
       <SectionTitle
         title="Player Path"
-        subtitle="Receiving · a step at a time"
+        subtitle="Development · a step at a time"
       />
       <div className="pathway">
         {path?.stages.map((s, i) => (
@@ -67,6 +68,9 @@ export function DevelopmentPlan({ playerId = "p1" }: { playerId?: string }) {
         </Link>
       </PageTitle>
       <div className="two-columns">
+        <div className="full">
+          <PlanEditor playerId={playerId} />
+        </div>
         <div>
           <Card>
             <SectionTitle
@@ -221,10 +225,11 @@ export function DevelopmentPlan({ playerId = "p1" }: { playerId?: string }) {
             <Badge tone="purple">AI Suggestion</Badge>
             <h3>Try receiving on the move</h3>
             <p>Demo suggestion based on the current practice goal.</p>
-            <strong>AI suggestion — coach approval required</strong>
+            <strong>AI suggestion — coach review required</strong>
           </div>
         </div>
       </div>
     </>
   );
 }
+

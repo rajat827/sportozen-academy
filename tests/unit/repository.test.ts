@@ -47,7 +47,7 @@ describe("Demo repository boundaries", () => {
   });
   it("has coherent tenant and sport references across fictional records", () => {
     expect(seed.players).toHaveLength(24);
-    expect(seed.drills).toHaveLength(12);
+    expect(seed.drills).toHaveLength(16);
     for (const record of [
       ...seed.players,
       ...seed.sessions,
@@ -97,3 +97,4 @@ describe("Demo repository boundaries", () => {
     expect(browserStorage.load().academy.city).toBe(seed.academy.city);
   });
 });
+

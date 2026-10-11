@@ -35,11 +35,11 @@ test("Coach changes goal, builds draft, personalises, marks attendance and revie
 }) => {
   await page.goto("/coach/development/p1");
   await page
-    .getByLabel("Goal status: Scan before receiving", { exact: true })
+    .getByLabel("Goal status: Close-control dribbling and finishing", { exact: true })
     .selectOption("Consistent");
   await page.reload();
   await expect(
-    page.getByLabel("Goal status: Scan before receiving", { exact: true }),
+    page.getByLabel("Goal status: Close-control dribbling and finishing", { exact: true }),
   ).toHaveValue("Consistent");
   await page.goto("/coach/sessions/new");
   await page
@@ -158,3 +158,4 @@ test("Required screenshots and responsive overflow checks", async ({
     }
   }
 });
+

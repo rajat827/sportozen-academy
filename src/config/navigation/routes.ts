@@ -1,4 +1,6 @@
 const routePatterns = [
+  /^\/coach\/players\/[^/]+\/update\/?$/,
+  /^\/(coach|parent)\/messages\/[^/]+\/?$/,
   /^\/owner\/(dashboard|sessions|attendance|fees|communication|analytics|staff|settings)\/?$/,
   /^\/owner\/academy(?:\/(branches|programs))?\/?$/,
   /^\/(owner|coach)\/players(?:\/[^/]+)?\/?$/,
