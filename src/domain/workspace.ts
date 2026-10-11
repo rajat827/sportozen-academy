@@ -13,6 +13,7 @@ export interface AcademyConfiguration extends RecordBase {
   brandAccent: string;
   logoData?: string;
   sportIds: string[];
+  legacyRecordsRestricted?: boolean;
   ageGroups: string[];
   reviewFrequency: string;
   modules: string[];

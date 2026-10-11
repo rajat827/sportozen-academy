@@ -33,13 +33,14 @@ export function requireRole(ctx: WorkspaceAccess, roles: AcademyRole[]) {
 }
 export function requireSport(ctx: WorkspaceAccess, sportId: string) {
   if (
+    sportId !== "football" ||
     !ctx.academy.sportIds.includes(sportId) ||
     (ctx.membership.sportIds.length &&
       !ctx.membership.sportIds.includes(sportId))
   )
     throw new WorkspaceError(
       403,
-      "Sport is outside the enabled academy assignment.",
+      "Only football is available in this release and academy assignment.",
     );
 }
 const parentKinds = new Set<WorkspaceKind>([
@@ -52,6 +53,30 @@ const parentKinds = new Set<WorkspaceKind>([
   "dietary",
   "fee",
 ]);
+// Historical sports remain in storage; customer APIs never expose or mutate them.
+function activeFootballRecords<K extends WorkspaceKind>(
+  ctx: WorkspaceAccess,
+  records: WorkspaceRecords[K][],
+): WorkspaceRecords[K][] {
+  return records
+    .filter((record) => {
+      if ("sportId" in record && record.sportId !== "football") return false;
+      if ("sportIds" in record && !record.sportIds.includes("football"))
+        return false;
+      if ("playerId" in record) {
+        const player = repository.find(
+          ctx.academy.id,
+          "player",
+          record.playerId,
+        );
+        if (!player?.sportIds.includes("football")) return false;
+      }
+      return true;
+    })
+    .map((record) =>
+      "sportIds" in record ? { ...record, sportIds: ["football"] } : record,
+    );
+}
 export function moduleEnabled(ctx: WorkspaceAccess, kind: WorkspaceKind) {
   const required =
     kind === "fee"
@@ -87,8 +112,7 @@ export function visibleRecords<K extends WorkspaceKind>(
   const { academy, membership, user } = ctx,
     restricted = membership.role === "PARENT" || membership.role === "SUPPORT";
   if (!restricted) {
-    return repository
-      .list(academy.id, kind)
+    return activeFootballRecords(ctx, repository.list(academy.id, kind))
       .filter(
         (r) =>
           !("sportId" in r) ||
@@ -154,7 +178,7 @@ export function visibleRecords<K extends WorkspaceKind>(
     );
   if (membership.role === "SUPPORT")
     audit(academy.id, user.id, "Authorised support read", kind);
-  return values as WorkspaceRecords[K][];
+  return activeFootballRecords(ctx, values as WorkspaceRecords[K][]);
 }
 export function visibleRecord<K extends WorkspaceKind>(
   ctx: WorkspaceAccess,

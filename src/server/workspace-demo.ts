@@ -1,5 +1,9 @@
 import "server-only";
-import { requireRole, type WorkspaceAccess } from "./workspace-access";
+import {
+  requireRole,
+  requireSport,
+  type WorkspaceAccess,
+} from "./workspace-access";
 import { workspaceRepository } from "./workspace-repository";
 import { saveRecord } from "./workspace-service";
 import { operationalSports } from "@/config/sports/workspace-sports";
@@ -8,6 +12,7 @@ import type { WorkspacePlayer, WorkspaceDrill } from "@/domain/workspace";
 // Explicit opt-in fixtures, never a default new customer workspace.
 export function loadFictionalExample(ctx: WorkspaceAccess) {
   requireRole(ctx, ["OWNER"]);
+  requireSport(ctx, "football");
   if (!ctx.academy.demo)
     throw new WorkspaceError(
       400,
@@ -20,11 +25,11 @@ export function loadFictionalExample(ctx: WorkspaceAccess) {
     );
   const player = saveRecord(ctx, "player", {
     name: "Fictional Sample Player",
-    sportIds: ctx.academy.sportIds,
+    sportIds: ["football"],
     squad: "Fictional development group",
     coachId: ctx.user.id,
   }) as WorkspacePlayer;
-  for (const sportId of ctx.academy.sportIds) {
+  for (const sportId of ["football"]) {
     const template = operationalSports[sportId].templates[0],
       drill = saveRecord(ctx, "drill", {
         sportId,

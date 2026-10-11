@@ -19,7 +19,7 @@ export function AcademyStructure({
     [playerId, setPlayerId] = useState("");
   return (
     <Card>
-      <h2>Branches and programmes</h2>
+      <h2>Branches and football programmes</h2>
       <form
         className="form-stack"
         onSubmit={async (e) => {
@@ -75,7 +75,7 @@ export function AcademyStructure({
             ))}
           </select>
         </label>
-        <Button disabled={w.busy}>Add sport programme</Button>
+        <Button disabled={w.busy}>Add football programme</Button>
       </form>
       {d.records.program.map((p) => (
         <p key={p.id}>

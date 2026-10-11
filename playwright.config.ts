@@ -1,7 +1,20 @@
 import { defineConfig } from "@playwright/test";
 import { randomUUID } from "node:crypto";
+import { resolve, relative, isAbsolute } from "node:path";
 // The spawned server and test operator commands share an isolated fictional database.
 process.env.SPORTOZEN_DATABASE_PATH ??= `.local/e2e-${randomUUID()}.sqlite`;
+const testDatabase = resolve(process.env.SPORTOZEN_DATABASE_PATH);
+const relativeDatabase = relative(resolve(".local"), testDatabase);
+if (
+  isAbsolute(relativeDatabase) ||
+  relativeDatabase.startsWith("..") ||
+  !/^e2e-[a-zA-Z0-9-]+\.sqlite$/.test(relativeDatabase)
+)
+  throw new Error(
+    "Browser tests require a dedicated .local/e2e-*.sqlite database.",
+  );
+const origin = "http://127.0.0.1:3001";
+process.env.BETTER_AUTH_URL = origin;
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: false,
@@ -9,16 +22,22 @@ export default defineConfig({
   timeout: 90000,
   expect: { timeout: 15000 },
   use: {
-    baseURL: "http://127.0.0.1:3000",
+    baseURL: origin,
     browserName: "chromium",
     channel: process.env.PLAYWRIGHT_CHANNEL,
     trace: "retain-on-failure",
   },
   webServer: {
-    command: "pnpm start",
-    url: "http://127.0.0.1:3000",
+    command: "pnpm start --port 3001",
+    url: origin,
     reuseExistingServer: false,
-    env: { SPORTOZEN_DATABASE_PATH: process.env.SPORTOZEN_DATABASE_PATH },
+    env: {
+      SPORTOZEN_DATABASE_PATH: testDatabase,
+      BETTER_AUTH_URL: origin,
+      ...(process.env.SPORTOZEN_QA_BUILD === "1"
+        ? { SPORTOZEN_QA_BUILD: "1" }
+        : {}),
+    },
     timeout: 120000,
   },
 });

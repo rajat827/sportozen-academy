@@ -1,5 +1,6 @@
 node_modules/
 .next/
+.next-football-qa/
 playwright-report/
 test-results/
 *.tsbuildinfo

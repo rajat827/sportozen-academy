@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/primitives";
 import type { AcademyConfiguration } from "@/domain/workspace";
-import { operationalSports } from "@/config/sports/workspace-sports";
 export function AcademyForm({
   initial,
   onSave,
@@ -38,7 +37,7 @@ export function AcademyForm({
       className="form-stack"
       onSubmit={async (e) => {
         e.preventDefault();
-        await onSave(form);
+        await onSave({ ...form, sportIds: ["football"] });
       }}
     >
       <div className="form-grid">
@@ -119,26 +118,7 @@ export function AcademyForm({
           }
         />
       </label>
-      <fieldset>
-        <legend>Enabled sports</legend>
-        {Object.values(operationalSports).map((s) => (
-          <label className="check-row" key={s.id}>
-            <input
-              type="checkbox"
-              checked={form.sportIds.includes(s.id)}
-              onChange={(e) =>
-                field(
-                  "sportIds",
-                  e.target.checked
-                    ? [...form.sportIds, s.id]
-                    : form.sportIds.filter((id) => id !== s.id),
-                )
-              }
-            />
-            {s.name}
-          </label>
-        ))}
-      </fieldset>
+      <p>Football academy · Football is configured automatically.</p>
       <fieldset>
         <legend>Academy modules</legend>
         {["development", "reports", "communication", "fees"].map((module) => (

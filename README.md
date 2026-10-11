@@ -2,7 +2,7 @@
 
 One team. A different development path for every player.
 
-A reusable Concept B academy platform with authenticated, independent workspaces and configurable football, cricket and badminton development plans. The separate fictional demonstration includes Stallions FC Academy owner, coach and parent experiences.
+A football-only Concept B product for multiple independent football academies. Authenticated workspaces support personalised player development, approved reports and private parent communication. No rankings. The separate fictional demonstration includes Stallions FC Academy owner, coach and parent experiences.
 
 ## Run locally
 
@@ -32,7 +32,11 @@ pnpm exec playwright install chromium
 pnpm test:e2e
 ```
 
-Playwright starts the production server automatically. It covers filters, player selection, persistent goals, session drafts and reorder controls, objectives, attendance, evidence/report approval, role switching, parent privacy, navigation and overflow checks at all six requested widths. Required screenshots are saved to `docs/screenshots/`.
+Playwright starts a separate production server on port 3001 with a guarded `.local/e2e-*.sqlite` database. It tests authenticated football academies in India, the UK and Australia separately from fictional demo workflows. Customer session personalisation, attendance and media remain pilot blockers; passing demo tests does not satisfy those customer steps. See `docs/QA_REPORT.md`. Screenshots are saved to `docs/screenshots/football-only/`.
+
+To verify without replacing the assets of an already running local app, set `SPORTOZEN_QA_BUILD=1` for both `pnpm build` and `pnpm test:e2e`. This uses `.next-football-qa`. No customer database reset or running-app restart is needed.
+
+Football is assigned automatically on the server. Unsupported sport activation and creation are rejected. Historical non-football records remain unchanged in restricted storage, excluded from customer UI, APIs and PDF downloads. See `docs/FOOTBALL_ONLY_RELEASE.md` and `docs/ONBOARDING.md`.
 
 ## Routes
 

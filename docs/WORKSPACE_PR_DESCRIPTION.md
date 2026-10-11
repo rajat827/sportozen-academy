@@ -1,3 +1,5 @@
+Historical description for PR #3 (multi-sport foundation), superseded by the football-only release. This is retained as review history, not active product scope. Current scope is documented in FOOTBALL_ONLY_RELEASE.md.
+
 The browser demonstration previously loaded one fictional academy and fixed player/guardian identities. This change adds one reusable authenticated customer workspace: academy onboarding, server-checked memberships, enabled sport selection, individual player plans, verified report approval and linked-parent access. A football-plus-badminton player receives independent plans and approved report snapshots; academy A cannot fetch, change or export academy B’s records.
 
 Better Auth sessions and SQLite persistence sit behind academy-scoped application services and a repository interface. Explicit guardian invitations establish account/child relationships; no name-based merging or implicit child access occurs. Current membership is checked on every request and export. Platform administrators manage customer metadata and entitlements; an academy-owner grant provides an audited, expiring review of a specific child’s approved records only.

@@ -1,12 +1,14 @@
 # Architecture
 
-Customer flow: workspace UI → feature hook → authenticated server application service → academy-scoped repository interface → SQLite persistence. Better Auth verifies the session; application services independently verify current membership, sport scope, assigned players and guardian links. API responses and PDF exports are private/no-store. Platform administration and authorised support review are separate roles. See MULTI_ACADEMY_FOUNDATION.md and SECURITY_AND_DEPLOYMENT.md.
+Football-only release. Multiple independent academies. Personalised player development. No rankings.
+
+Customer flow: workspace UI → feature hook → authenticated server application service → academy-scoped repository interface → SQLite persistence. Better Auth verifies the session; application services independently verify current membership, football assignment, assigned players and guardian links. API responses and PDF exports are private/no-store. Internal sportId fields remain to avoid destructive migrations; schemas default to football and reject other sports. Read projections omit historical non-football records, including direct record/PDF links and parent snapshots. Stored historical records/configuration remain intact. Platform administration and authorised support review remain separate roles. See FOOTBALL_ONLY_RELEASE.md and SECURITY_AND_DEPLOYMENT.md.
 
 ## Isolated legacy demonstration architecture
 
 Next App Router uses owner, coach and parent route groups with role-specific catch-all pages. A lightweight Next.js proxy validates route shapes before streaming so unsupported paths return HTTP 404; it does not perform authentication. The server route dispatcher composes focused feature screens. Business features stay outside route files. The app shell supplies navigation, role switching, shared provider and responsive chrome.
 
-`src/domain/entities` defines tenant records, sporting records, people, plans, sessions, attendance, evidence, reports, financial records and drafts. Academy-owned records carry academyId; sporting records also carry sportId. Shared entities avoid football-only field names. Football positions, skills, stages and report categories live in `src/config/sports/football.ts`. Other sports need their own configuration and fixtures before they become available.
+`src/domain/entities` defines tenant records, sporting records, people, plans, sessions, attendance, evidence, reports, financial records and drafts. Academy-owned records carry academyId; sporting records also carry sportId. Football vocabulary lives in configuration. Other sports are outside the release scope; retained generic fields do not enable them.
 
 State flow: feature component → `useAcademy` → `AcademyRepository` → versioned `StorageAdapter`. Only the adapter accesses localStorage. The provider loads client records after hydration and commits mutations through the repository before changing UI state. Storage failures report a visible status; corrupted storage restores seeded demo records. A backend adapter can replace the demo implementation, but must add authenticated tenant scope, permission checks, server validation, concurrency control and audit history.
 

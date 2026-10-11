@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { operationalSports } from "@/config/sports/workspace-sports";
 const text = z.string().trim().min(1).max(5000),
   id = z.string().min(1).max(100),
   date = z.iso.date(),
@@ -24,9 +23,7 @@ export const academySchema = z.object({
       "Use a small PNG logo.",
     )
     .optional(),
-  sportIds: z
-    .array(z.enum(Object.keys(operationalSports) as [string, ...string[]]))
-    .min(1),
+  sportIds: z.tuple([z.literal("football")]).default(["football"]),
   ageGroups: z.array(short).default([]),
   reviewFrequency: short.default("Coach review after comparable sessions"),
   modules: z
@@ -36,13 +33,13 @@ export const academySchema = z.object({
 });
 export const playerSchema = z.object({
   name: short.min(2),
-  sportIds: z.array(id).min(1),
+  sportIds: z.tuple([z.literal("football")]).default(["football"]),
   squad: short,
   coachId: id,
 });
 export const planSchema = z.object({
   playerId: id,
-  sportId: id,
+  sportId: z.literal("football").default("football"),
   coachId: id,
   focus: short.min(1),
   reason: text,
@@ -64,7 +61,7 @@ export const planSchema = z.object({
 });
 export const reportSchema = z.object({
   playerId: id,
-  sportId: id,
+  sportId: z.literal("football").default("football"),
   planId: id,
   period: short.min(1),
   observation: text,
@@ -79,7 +76,7 @@ export const reportSchema = z.object({
   closingNote: z.string().max(10000),
 });
 export const drillSchema = z.object({
-  sportId: id,
+  sportId: z.literal("football").default("football"),
   name: short.min(1),
   focusArea: short.min(1),
   purpose: text,
@@ -88,7 +85,7 @@ export const drillSchema = z.object({
 });
 export const updateSchema = z.object({
   playerId: id,
-  sportId: id,
+  sportId: z.literal("football").default("football"),
   planId: id,
   messageBody: text,
   sourceReportId: id.optional(),

@@ -29,13 +29,11 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
     return () => controller.abort();
   }, []);
   const w = useWorkspace(academyId),
-    [sport, setSport] = useState(""),
     [selected, setSelected] = useState(""),
     [tab, setTab] = useState("Development"),
     [name, setName] = useState(""),
     [squad, setSquad] = useState(""),
     [coach, setCoach] = useState(""),
-    [participation, setParticipation] = useState<string[]>([]),
     [email, setEmail] = useState(""),
     [role, setRole] = useState("PARENT"),
     [verified, setVerified] = useState(false),
@@ -62,7 +60,7 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
       </main>
     );
   const d = w.data,
-    activeSport = sport || d.academy.sportIds[0],
+    activeSport = "football",
     parent = d.membership.role === "PARENT",
     support = d.membership.role === "SUPPORT",
     admin = ["OWNER", "ADMIN"].includes(d.membership.role),
@@ -112,22 +110,11 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
             </select>
           </label>
         )}
-        <label>
-          Active sport
-          <select
-            value={activeSport}
-            onChange={(e) => {
-              setSport(e.target.value);
-              setSelected("");
-            }}
-          >
-            {d.academy.sportIds.map((id) => (
-              <option key={id} value={id}>
-                {operationalSports[id].name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <Badge>
+          {d.academy.sportIds.includes("football")
+            ? "Football academy"
+            : "Football configuration required"}
+        </Badge>
       </header>
       <nav className="workspace-tabs" aria-label="Workspace sections">
         {["Development", "Reports", "Messages", "Settings"].map((t) => (
@@ -145,6 +132,20 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
           {w.error}
         </p>
       )}
+      {!d.academy.sportIds.includes("football") && (
+        <p className="notice amber">
+          Historical non-football records are preserved and restricted. An owner
+          or admin can save the academy configuration to enable football. This
+          does not convert historical records.
+        </p>
+      )}
+      {d.academy.legacyRecordsRestricted &&
+        d.academy.sportIds.includes("football") && (
+          <p className="muted">
+            Historical non-football records are preserved in restricted storage.
+            This workspace shows football records only.
+          </p>
+        )}
       <p className="muted">
         {configuration.name} · {d.academy.timezone} · AI analysis unavailable ·
         External messaging NOT_SENT
@@ -164,7 +165,7 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
               ))}
             </select>
           </label>
-          {!players.length && <p>No authorised players in this sport yet.</p>}
+          {!players.length && <p>No authorised football players yet.</p>}
         </Card>
       )}
       {player &&
@@ -226,20 +227,18 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
           )}
           {!parent && !support && (
             <Card>
-              <h2>Add player participation</h2>
+              <h2>Add football player</h2>
               <form
                 className="form-stack"
                 onSubmit={async (e) => {
                   e.preventDefault();
-                  await w.save("player", {
+                  const saved = await w.save("player", {
                     name,
                     squad,
                     coachId: coach || d.membership.userId,
-                    sportIds: participation.length
-                      ? participation
-                      : [activeSport],
+                    sportIds: ["football"],
                   });
-                  setName("");
+                  if (saved) setName("");
                 }}
               >
                 <label>
@@ -277,25 +276,6 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
                       ))}
                   </select>
                 </label>
-                <fieldset>
-                  <legend>Sport participation</legend>
-                  {d.academy.sportIds.map((id) => (
-                    <label key={id} className="check-row">
-                      <input
-                        type="checkbox"
-                        checked={participation.includes(id)}
-                        onChange={(e) =>
-                          setParticipation(
-                            e.target.checked
-                              ? [...participation, id]
-                              : participation.filter((s) => s !== id),
-                          )
-                        }
-                      />
-                      {operationalSports[id].name}
-                    </label>
-                  ))}
-                </fieldset>
                 <Button disabled={w.busy}>Add player</Button>
               </form>
               {d.records.dietary.map((n) => (
