@@ -18,4 +18,6 @@ Secure account ownership/recovery and staff MFA, verified guardian identity/cons
 
 See QA_REPORT.md for exact verification and QA_BUG_LOG.md for the scoped defect/blocker inventory.
 
+All five configured quality gates pass (22 unit tests, 16 browser scenarios). The unchanged long demo PDF has an additional open P2 repeated header/footer visual issue. Automated green checks do not remove the essential authenticated training gaps above.
+
 **NOT READY — BLOCKERS LISTED**

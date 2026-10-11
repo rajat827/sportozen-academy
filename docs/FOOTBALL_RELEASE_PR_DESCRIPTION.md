@@ -1,0 +1,9 @@
+Sportozen's release is now football-only for multiple independent academies. Onboarding assigns football automatically, sport selectors/other-sport curriculum are removed, and customer APIs reject unsupported sport creation/activation. Historical non-football records and enrolments remain in storage without deletion or conversion; customer reads, direct record links and PDF exports exclude them. Coach guardian metadata now requires a football-authorised player assignment.
+
+Concept B layouts, personalised plans, premium approved report snapshots, guardian privacy, regional settings and private parent replies are retained. Failed player saves keep the draft for retry. External delivery remains NOT_SENT; no provider or clinical nutrition capability was added.
+
+Validation: lint, strict typecheck, 22 unit tests, production QA build and all 16 browser scenarios pass. Three fictional football academies cover India/INR, UK/GBP and Australia/AUD; tests use guarded SQLite storage and separate ports, verify refresh/controlled restart, reject unsupported sports/stale links and preserve historical bodies. Screenshots cover onboarding, coach plans and parent reports at all six widths. The authenticated one-page PDF passes fact/privacy/bounds and visual review. CI no longer uploads raw auth traces. Existing customer app and data were preserved.
+
+Pilot remains NOT READY: authenticated session personalisation, attendance and structured evidence/media are missing; fictional demo workflows do not satisfy those steps. An existing P2 long demo PDF continuation-page header/footer rendering issue remains open. Concurrency/idempotency, complete localisation and production identity/guardian/consent/backend operations need further work. Details: docs/QA_REPORT.md, docs/QA_BUG_LOG.md and docs/PILOT_READINESS.md.
+
+Base: codex/multi-academy-multi-sport-foundation (6d202bf). Tested implementation: 629f0e7. No merge or deployment is included.
