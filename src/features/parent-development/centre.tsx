@@ -12,7 +12,6 @@ import {
 import {
   reviewParentUpdate,
   saveParentUpdate,
-  updateSources,
 } from "@/services/communication/parent-updates";
 import { orchestratePublication } from "@/services/communication/in-app-provider";
 import { updateTypes } from "@/services/development/plans";
@@ -42,7 +41,7 @@ const tabs = [
   "Conversations",
 ];
 export function DevelopmentCentre() {
-  const { data, actor, ready, mutate } = useDevelopmentWorkspace();
+  const { data, actor, ready } = useDevelopmentWorkspace();
   const [tab, setTab] = useState(tabs[0]),
     [squad, setSquad] = useState(""),
     [coach, setCoach] = useState(""),

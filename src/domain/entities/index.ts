@@ -177,6 +177,14 @@ export interface ReportCardSection {
   answer: string;
 }
 export interface ReportCard extends SportRecord {
+  approvedSnapshot?: import("../report").ReportViewModel;
+  recordedDetails?: {
+    reviewedReason?: string;
+    reviewDate?: string;
+    activities?: { name: string; purpose: string; activity?: string }[];
+    nextDrill?: string;
+    observationCriteria?: string;
+  };
   playerId: string;
   period: string;
   coachId: string;

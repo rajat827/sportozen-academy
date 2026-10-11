@@ -32,7 +32,9 @@ test("Communication stays internal through verification, rejection, approval and
   await expect(
     page.getByRole("button", { name: "Send for Approval", exact: true }),
   ).toBeDisabled();
-  await page.getByRole("checkbox").check();
+  await page
+    .getByRole("checkbox", { name: "I verified the source records" })
+    .check();
   await page.getByRole("button", { name: "Preview", exact: true }).click();
   await expect(
     page.getByRole("region", { name: "Message preview" }),

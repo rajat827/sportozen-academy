@@ -57,7 +57,7 @@ for (const width of [320, 390, 768]) {
         `${route} overflow at ${width}px`,
       ).toBe(false);
       const small = await page
-        .locator("main .button, .menu-toggle, .bottom-nav a")
+        .locator("main .button, .mobile-menu, .bottom-nav a")
         .evaluateAll((elements) =>
           elements
             .filter((e) => {
@@ -91,7 +91,9 @@ test("Phone communication controls and drawer work by touch", async ({
   await page
     .getByRole("textbox", { name: "Editable message" })
     .fill("Mobile review draft");
-  await page.getByRole("checkbox").check();
+  await page
+    .getByRole("checkbox", { name: "I verified the source records" })
+    .check();
   await page
     .getByRole("button", { name: "Send for Approval", exact: true })
     .click();

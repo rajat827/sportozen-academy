@@ -35,11 +35,15 @@ test("Coach changes goal, builds draft, personalises, marks attendance and revie
 }) => {
   await page.goto("/coach/development/p1");
   await page
-    .getByLabel("Goal status: Close-control dribbling and finishing", { exact: true })
+    .getByLabel("Goal status: Close-control dribbling and finishing", {
+      exact: true,
+    })
     .selectOption("Consistent");
   await page.reload();
   await expect(
-    page.getByLabel("Goal status: Close-control dribbling and finishing", { exact: true }),
+    page.getByLabel("Goal status: Close-control dribbling and finishing", {
+      exact: true,
+    }),
   ).toHaveValue("Consistent");
   await page.goto("/coach/sessions/new");
   await page
@@ -85,7 +89,9 @@ test("Coach changes goal, builds draft, personalises, marks attendance and revie
   await expect(page.getByText("Coach Reviewed", { exact: true })).toBeVisible();
   await page.goto("/coach/reports/r2");
   await page.getByRole("button", { name: "Approve", exact: true }).click();
-  await expect(page.getByText("Approved", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Report status: Approved", { exact: true }),
+  ).toBeVisible();
 });
 test("Demo role switch, parent privacy and mobile navigation", async ({
   page,
@@ -158,4 +164,3 @@ test("Required screenshots and responsive overflow checks", async ({
     }
   }
 });
-

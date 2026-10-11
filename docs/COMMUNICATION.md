@@ -13,3 +13,7 @@ Settings → Integrations lists disconnected future messaging capabilities. It c
 Future boundary: Communication UI → Message Draft Service → Approval Workflow → Messaging Provider Interface → future WhatsApp / Email / SMS / Push adapter.
 
 Future provider delivery must require an approved, unchanged draft; verified guardian contact; recorded consent and communication preferences; provider-approved templates where required; provider API execution; and real delivery status plus an audit log. These capabilities are not implemented. Credentials and webhook configuration are outside this release. Provider-generated delivery states must not be introduced until a real adapter exists. Manual copying does not bypass or claim these checks.
+
+## Report download boundary
+
+Approving a report makes it available in the linked private parent report view. Generating or downloading its PDF does not send a message, publish a communication update or change external delivery. The report displays approval and External delivery: Not sent separately. Messaging provider behaviour is unchanged by the report redesign.

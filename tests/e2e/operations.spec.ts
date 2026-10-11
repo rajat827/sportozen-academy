@@ -48,7 +48,9 @@ test("New player has an editable plan, fee references and internal message appro
   await page
     .getByRole("textbox", { name: "Editable message", exact: true })
     .fill("Coach reviewed: Aarav practised scanning before receiving.");
-  await page.getByRole("checkbox").check();
+  await page
+    .getByRole("checkbox", { name: "I verified the source records" })
+    .check();
   await page
     .getByRole("button", { name: "Send for Approval", exact: true })
     .click();
@@ -64,8 +66,10 @@ test("New player has an editable plan, fee references and internal message appro
   ).not.toBeVisible();
   await page.goto("/coach/reports/r1");
   const download = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Download Demo PDF" }).click();
-  expect((await download).suggestedFilename()).toBe("r1-demo-report.pdf");
+  await page.getByRole("button", { name: "Download PDF" }).click();
+  expect((await download).suggestedFilename()).toBe(
+    "Aarav-Sharma-Development-Report-2026-10.pdf",
+  );
 });
 test("Supported route inventory renders without browser errors", async ({
   page,

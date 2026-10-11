@@ -93,7 +93,7 @@ export function ParentInbox() {
           </Button>
         </div>
         <p>
-          Only this linked child's guardian and assigned staff can view this
+          Only this linked child’s guardian and assigned staff can view this
           conversation in the demo UI.
         </p>
       </Card>

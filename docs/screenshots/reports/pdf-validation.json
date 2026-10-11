@@ -1,0 +1,26 @@
+[
+  {
+    "file": "Aarav-Sharma-Development-Report-2026-10.pdf",
+    "pages": 1,
+    "characters": 955,
+    "checks": "passed"
+  },
+  {
+    "file": "repeat-report.pdf",
+    "pages": 1,
+    "characters": 955,
+    "checks": "passed"
+  },
+  {
+    "file": "long-report.pdf",
+    "pages": 3,
+    "characters": 6409,
+    "checks": "passed"
+  },
+  {
+    "file": "missing-records-report.pdf",
+    "pages": 1,
+    "characters": 618,
+    "checks": "passed"
+  }
+]

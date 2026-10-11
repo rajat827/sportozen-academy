@@ -10,6 +10,9 @@ import {
 } from "lucide-react";
 import { useAcademy } from "@/hooks/use-academy";
 import { parentRecords } from "@/data/repositories/demo-repository";
+import { ReportPreview } from "@/features/reports/report-preview";
+import { ReportDownload } from "@/features/reports/report-download";
+import { parentReportModels } from "@/services/reports/report-view-model";
 import { ParentPlan } from "@/features/parent-development/parent-plan";
 import { ParentPreferences } from "@/features/parent-development/preferences";
 import {
@@ -143,18 +146,13 @@ export function ParentScreen({ screen }: { screen: string }) {
           </Card>
         ))
       ) : screen === "reports" ? (
-        records.reports.map((r) => (
-          <Card key={r.id}>
-            <SectionTitle title={r.period} />
-            <Badge tone="green">Coach Approved</Badge>
-            {r.sections.map((s) => (
-              <div className="report-section" key={s.question}>
-                <h3>{s.question}</h3>
-                <p>{s.answer}</p>
-              </div>
-            ))}
-            <p className="muted">Coach Rahul · {r.remarks}</p>
-          </Card>
+        parentReportModels(data, "g1").map((model) => (
+          <div key={model.reportId}>
+            <div className="parent-report-actions">
+              <ReportDownload model={model} />
+            </div>
+            <ReportPreview model={model} />
+          </div>
         ))
       ) : screen === "fees" ? (
         <Card>
