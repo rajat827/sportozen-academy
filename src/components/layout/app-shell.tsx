@@ -46,6 +46,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             Sportozen<span className="brand-sub">ACADEMY</span>
           </span>
         </Link>
+        <button
+          className="mobile-drawer-close button secondary"
+          aria-label="Close navigation"
+          onClick={() => setOpen(false)}
+        >
+          Close navigation
+        </button>
         <div className="academy-switch">
           <span className="crest">SFC</span>
           <div>
@@ -99,7 +106,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <button
           className="drawer-backdrop"
           onClick={() => setOpen(false)}
-          aria-label="Close navigation"
+          aria-label="Dismiss navigation backdrop"
         />
       )}
       <div className="workspace">

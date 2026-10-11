@@ -1,4 +1,5 @@
 import { reportLabels } from "@/domain/report";
+import Image from "next/image";
 import type { ReportViewModel } from "@/services/reports/report-view-model";
 export function ReportPreview({ model: m }: { model: ReportViewModel }) {
   const labels = { ...reportLabels, ...m.labels };
@@ -6,9 +7,20 @@ export function ReportPreview({ model: m }: { model: ReportViewModel }) {
     <article
       className="development-report"
       aria-label="Player development report"
+      style={{ borderTopColor: m.brandAccent }}
     >
       <header className="development-report-header">
         <div>
+          {m.logoData && (
+            <Image
+              src={m.logoData}
+              alt={`${m.academy} logo`}
+              width={120}
+              height={48}
+              unoptimized
+              style={{ objectFit: "contain", objectPosition: "left" }}
+            />
+          )}
           <div className="report-academy">{m.academy}</div>
           <span className="report-attribution">Powered by Sportozen</span>
         </div>

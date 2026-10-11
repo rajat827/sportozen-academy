@@ -1,5 +1,9 @@
 # Communication preparation and approval
 
+Authenticated workspaces separate approval, private in-app publication and external delivery. Approved-source development updates and optional academy-approved nutrition can reach linked, opted-in parents in-app; private replies work and internal notes stay hidden. External delivery remains NOT_SENT. Approval history snapshots the source and message version. See MULTI_ACADEMY_FOUNDATION.md.
+
+## Legacy fictional communication preparation
+
 Current flow: Communication UI → `useMessageDrafts` → Message Draft Service → Approval Workflow → repository/storage → NOT_SENT.
 
 The seven supported templates prepare snapshots of player, squad, session, attendance, charge/payment, reviewed evidence or approved report records as appropriate. The user verifies those snapshots and edited details before requesting internal approval. Reviewers approve or reject pending drafts. Approval records APPROVED in the activity history and leaves the draft at NOT_SENT with approval metadata. No delivery occurs. Saving a revision clears approval. Copy Message copies only the saved approved content and logs manual copying without claiming delivery.
@@ -17,3 +21,7 @@ Future provider delivery must require an approved, unchanged draft; verified gua
 ## Report download boundary
 
 Approving a report makes it available in the linked private parent report view. Generating or downloading its PDF does not send a message, publish a communication update or change external delivery. The report displays approval and External delivery: Not sent separately. Messaging provider behaviour is unchanged by the report redesign.
+
+## Authenticated multi-academy foundation
+
+The authenticated customer entry is /workspace, with server-checked academy memberships, sport-specific plans, approved report snapshots and private parent messaging. Legacy role routes remain fictional demonstrations. See [MULTI_ACADEMY_FOUNDATION.md](MULTI_ACADEMY_FOUNDATION.md), [SECURITY_AND_DEPLOYMENT.md](SECURITY_AND_DEPLOYMENT.md) and [WORKSPACE_MIGRATION.md](WORKSPACE_MIGRATION.md) for the boundary, migration audit and remaining commercial requirements. External delivery remains NOT_SENT; no real messaging, billing or AI provider is connected.

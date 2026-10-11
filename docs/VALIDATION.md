@@ -60,3 +60,13 @@ Lint, strict typecheck, 17 unit tests and the production build pass. Browser cov
 Final export verification: sample and repeat download each one A4 page; long recorded-observation fixture three A4 pages; missing-record fixture one page. Searchable text, complete final observation/note, local fonts, correctly rendered translated glyphs, all page numbers and geometric safe bounds passed PDF validation. Every rendered page was visually inspected. The first complete browser run passed all 15 scenarios; subsequent Windows sleep interruptions were diagnosed and the final rerun is recorded in the PR.
 
 Final rerun: all 15 browser scenarios passed in 1.7 minutes. Lint, typecheck, 17 unit tests and build passed; PDF fact, safe-bound and pagination checks passed for all four export fixtures.
+
+## Authenticated multi-academy foundation
+
+The authenticated customer entry is /workspace, with server-checked academy memberships, sport-specific plans, approved report snapshots and private parent messaging. Legacy role routes remain fictional demonstrations. See [MULTI_ACADEMY_FOUNDATION.md](MULTI_ACADEMY_FOUNDATION.md), [SECURITY_AND_DEPLOYMENT.md](SECURITY_AND_DEPLOYMENT.md) and [WORKSPACE_MIGRATION.md](WORKSPACE_MIGRATION.md) for the boundary, migration audit and remaining commercial requirements. External delivery remains NOT_SENT; no real messaging, billing or AI provider is connected.
+
+
+
+Verified 11 October 2026: lint passes with zero warnings, strict typecheck passes, all 17 unit tests pass, and the production build passes. The complete browser suite passed all 16 scenarios in 4.9 minutes. After restricting coach-visible guardian metadata, the affected authenticated-workspace scenario passed again in 1.4 minutes. That rerun additionally verifies explicit parent links across two academies, separate sport-plan snapshots and exclusion of unrelated guardians from a coach response. Browser tests use an isolated fictional SQLite database. No real external messaging is exercised.
+
+The authenticated parent PDF is one searchable A4 page with the correct academy/player/sport facts, safe text bounds and no private notes or unrelated children. Existing four report export fixtures also pass their fact/privacy/pagination checks. Representative screenshots cover six widths from 1440 to 320, an individual badminton plan, an approved report, parent inbox/thread/preferences, customer metadata and disconnected WhatsApp settings. See screenshots/multi-academy.

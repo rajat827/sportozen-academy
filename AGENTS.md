@@ -6,7 +6,9 @@ Academy-owned entities include academyId; sporting entities include sportId. Spo
 
 Concept B: deep navy navigation, green actions, white workspace, restrained cards, table-first operations and mobile parent navigation. Keep semantic labels, keyboard controls, visible focus and usable touch targets.
 
-All records are fictional demo data. Messages never send; payment records never collect money. AI suggestions require coach approval. Missing evidence is never zero. Parents only receive their linked player's reviewed, public records. Role switching is demonstration navigation, not authentication. No predictive or medical claims.
+Legacy /owner, /coach and /parent routes are explicitly fictional browser demonstrations. Authenticated /workspace routes use server sessions, academy memberships and server persistence. Never use demo role selection or a client academy ID as authorisation. Every direct read, write and PDF export must check current membership and player scope. Platform administration grants customer metadata access only; child access requires an academy-authorised, expiring and audited support grant.
+
+External messages never send; payment records never collect money. Approved updates can publish to a private linked-parent in-app inbox. Keep approval, publication and external delivery separate; external delivery remains NOT_SENT. AI suggestions require coach approval and unavailable analysis must be labelled unavailable. Missing evidence is never zero. No rankings, comparisons between children, predictive or medical claims. Nutrition is optional approved general guidance. New customers start empty; fixtures require an explicit fictional-demo choice.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
