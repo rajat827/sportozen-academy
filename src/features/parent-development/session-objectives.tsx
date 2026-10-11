@@ -48,7 +48,7 @@ export function IndividualSessionObjectives({
     <Card>
       <h2>Linked individual objectives</h2>
       <p>
-        One shared session, with each player's goal, drill and evidence method.
+        One shared session, with each player’s goal, drill and evidence method.
       </p>
       {objectives.map((o) => {
         const p = data.players.find((p) => p.id === o.playerId)!;

@@ -11,3 +11,7 @@ State flow: feature component → `useAcademy` → `AcademyRepository` → versi
 Data is coherent through stable player/session/goal IDs. Mutations use immutable replacement. Session drafts create unmarked attendance records. Coach observations generate reviewable evidence. Approval is manual. Communication history uses actual timestamps; seeded dates remain fixed for repeatable fixtures.
 
 Charts are dynamically loaded. Table filtering is local and TanStack handles column/row rendering. React Hook Form/Zod validate academy/player forms; other local forms use explicit validation. Radix manages modal focus and Escape behaviour. The design uses custom reusable primitives rather than a dashboard template.
+
+## Shared report rendering
+
+The report application service derives a domain ReportViewModel from recorded report sections or an approval snapshot. Staff and guardian-projected report previews and the lazy-loaded React-PDF renderer receive the same model. RecordedDetails allow future explicitly recorded optional sections. Saving a draft clears approval; approving creates a cloned snapshot. Export has no persistence or messaging side effects. Font assets are local and no private PDF service is called. See REPORTS.md.

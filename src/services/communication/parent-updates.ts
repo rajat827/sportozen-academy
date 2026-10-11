@@ -2,7 +2,6 @@ import type { DemoState } from "@/domain/entities";
 import type {
   ParentDevelopmentUpdate,
   ParentUpdateSource,
-  UpdateType,
 } from "@/domain/parent-development";
 import { getPlan, publicPlan } from "@/services/development/plans";
 import { orchestratePublication } from "./in-app-provider";
@@ -214,7 +213,17 @@ export function validateParentUpdate(
   state: DemoState,
   u: ParentDevelopmentUpdate,
 ) {
-  if (state.players.some(p => p.id !== u.playerId && u.messageBody.includes(p.name)) || state.guardians.some(g => g.id !== u.guardianId && u.messageBody.includes(g.name))) throw new Error("Only the selected child and guardian may appear in this update");
+  if (
+    state.players.some(
+      (p) => p.id !== u.playerId && u.messageBody.includes(p.name),
+    ) ||
+    state.guardians.some(
+      (g) => g.id !== u.guardianId && u.messageBody.includes(g.name),
+    )
+  )
+    throw new Error(
+      "Only the selected child and guardian may appear in this update",
+    );
   const player = state.players.find(
     (p) =>
       p.id === u.playerId &&
