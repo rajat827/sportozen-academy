@@ -1,0 +1,8 @@
+{
+  "file": "approved-parent-report.pdf",
+  "pages": 1,
+  "checks": "passed",
+  "facts": "approved academy/player/sport snapshot",
+  "privacy": "no unrelated players or private notes",
+  "geometry": "safe A4 bounds"
+}

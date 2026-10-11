@@ -2,18 +2,20 @@
 
 One team. A different development path for every player.
 
-A Concept B responsive frontend for the fictional Stallions FC Academy, with owner, coach and parent experiences. Includes 24 fictional players, 2 branches, 3 coaches, 4 squads, 12 drills and connected development records.
+A reusable Concept B academy platform with authenticated, independent workspaces and configurable football, cricket and badminton development plans. The separate fictional demonstration includes Stallions FC Academy owner, coach and parent experiences.
 
 ## Run locally
 
-Node.js 22+ and pnpm 11 are recommended.
+Node.js 24 and pnpm 11 are recommended; the authenticated foundation uses native Node SQLite.
 
 ```sh
 pnpm install
 pnpm dev
 ```
 
-Open http://127.0.0.1:3000. Use the header's Demo role switch: Owner (Anil), Coach (Rahul), Parent (Neha, linked to Aarav). No passwords or real authentication.
+Open http://127.0.0.1:3000 and choose authenticated workspace onboarding. Register a local test account at `/sign-in`; `/workspace` lists authorised academies and creates empty customer workspaces. Records and sessions persist in ignored `.local/workspaces.sqlite`. Use fictional records while validating this local foundation. Production deployment requirements are documented in `docs/SECURITY_AND_DEPLOYMENT.md`.
+
+The explicitly fictional demonstration remains at `/owner/dashboard`, `/coach/dashboard` and `/parent/home`. Its header role switch selects Owner (Anil), Coach (Rahul), Parent (Neha, linked to Aarav). That demonstration switch is not authentication.
 
 ## Stack
 
@@ -34,6 +36,10 @@ Playwright starts the production server automatically. It covers filters, player
 
 ## Routes
 
+Authenticated: `/sign-in`, `/workspace`, `/workspace/[academyId]` and role-restricted `/platform`. Customer APIs and PDF exports check current membership server-side.
+
+The routes below are the separate fictional demonstration:
+
 Owner: `/owner/dashboard`, `/owner/academy`, `/owner/academy/branches`, `/owner/academy/programs`, `/owner/players`, `/owner/players/[playerId]`, `/owner/sessions`, `/owner/attendance`, `/owner/fees`, `/owner/communication`, `/owner/analytics`, `/owner/staff`, `/owner/settings`.
 
 Coach: `/coach/dashboard`, `/coach/players`, `/coach/players/[playerId]`, `/coach/development/[playerId]`, `/coach/sessions`, `/coach/squads`, `/coach/sessions/new`, `/coach/sessions/[sessionId]/personalise`, `/coach/sessions/[sessionId]/desk`, `/coach/drills`, `/coach/drills/[drillId]`, `/coach/evidence`, `/coach/evidence/[evidenceId]`, `/coach/reports`, `/coach/reports/[reportId]`, `/coach/messages`.
@@ -53,3 +59,7 @@ See `docs/ROADMAP.md` for remaining scope and `docs/VALIDATION.md` for verificat
 ## Parent-friendly report redesign — 11 October 2026
 
 Reports now use the same approved view model for the responsive parent/staff preview and locally generated A4 PDF. The sparse Aarav sample preserves the recorded focus, three-of-six introductory coach observation, e1 reference, next step and closing note. Missing drills and dates are not manufactured. See docs/REPORTS.md and docs/screenshots/reports for before/after evidence and export fixtures.
+
+## Authenticated multi-academy foundation
+
+The authenticated customer entry is /workspace, with server-checked academy memberships, sport-specific plans, approved report snapshots and private parent messaging. Legacy role routes remain fictional demonstrations. See [MULTI_ACADEMY_FOUNDATION.md](docs/MULTI_ACADEMY_FOUNDATION.md), [SECURITY_AND_DEPLOYMENT.md](docs/SECURITY_AND_DEPLOYMENT.md) and [WORKSPACE_MIGRATION.md](docs/WORKSPACE_MIGRATION.md) for the boundary, migration audit and remaining commercial requirements. External delivery remains NOT_SENT; no real messaging, billing or AI provider is connected.

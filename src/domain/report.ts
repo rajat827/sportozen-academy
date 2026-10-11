@@ -1,6 +1,8 @@
 import type { ReportCard } from "./entities";
 
 export interface ReportViewModel {
+  brandAccent?: string;
+  logoData?: string;
   labels?: Partial<ReportLabels>;
   reportId: string;
   playerId: string;

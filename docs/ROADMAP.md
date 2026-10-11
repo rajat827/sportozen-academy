@@ -1,5 +1,7 @@
 # Implementation scope and roadmap
 
+The authenticated multi-academy foundation implements the customer minimum: onboarding, memberships, sport selection, individual plans, verified report approval and correct parent access. Remaining commercial work includes secure scheduling/media/attendance migration, localisation behaviour beyond stored configuration, managed persistence, identity verification, consent procedures, operations, billing and real provider adapters. This is separate from the fictional frontend inventory below.
+
 ## Implemented frontend workflows
 
 - App shell, role switch, collapsible sidebar, mobile drawer and bottom navigation.
@@ -38,3 +40,7 @@
 Authenticated backend with academy isolation, guardian/player permissions, validated APIs, database transactions and audit logs; storage/media access controls; payment provider and verified ledger; reviewed messaging delivery; timezone-aware scheduling; privacy/consent and retention controls; observability, deployment CI and formal accessibility review.
 
 AI recommendations are static demo examples. A future model integration must have documented provenance, evidence quality evaluation, coach approval, error handling and validation across ages/sports before release. No computer vision, predictive, talent or medical capability is claimed.
+
+## Authenticated multi-academy foundation
+
+The authenticated customer entry is /workspace, with server-checked academy memberships, sport-specific plans, approved report snapshots and private parent messaging. Legacy role routes remain fictional demonstrations. See [MULTI_ACADEMY_FOUNDATION.md](MULTI_ACADEMY_FOUNDATION.md), [SECURITY_AND_DEPLOYMENT.md](SECURITY_AND_DEPLOYMENT.md) and [WORKSPACE_MIGRATION.md](WORKSPACE_MIGRATION.md) for the boundary, migration audit and remaining commercial requirements. External delivery remains NOT_SENT; no real messaging, billing or AI provider is connected.

@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { AcademyProvider } from "@/hooks/use-academy";
-import { AppShell } from "@/components/layout/app-shell";
 import "@/styles/globals.css";
 export const metadata: Metadata = {
   title: "Sportozen Academy",
@@ -12,9 +10,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AcademyProvider>
-          <AppShell>{children}</AppShell>
-        </AcademyProvider>
+        {children}
       </body>
     </html>
   );

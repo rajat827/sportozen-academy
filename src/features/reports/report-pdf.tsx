@@ -7,138 +7,155 @@ import {
   StyleSheet,
   pdf,
   Font,
+  Image as PdfImage,
 } from "@react-pdf/renderer";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import type { ReportViewModel } from "@/services/reports/report-view-model";
-Font.register({
-  family: "Noto Sans",
-  fonts: [
-    { src: "/fonts/NotoSans-Regular.ttf" },
-    { src: "/fonts/NotoSans-Bold.ttf", fontWeight: 700 },
-  ],
-});
+const fontFamilies = new Map<string, string>();
+function registerFonts(base: string) {
+  let family = fontFamilies.get(base);
+  if (!family) {
+    family = base === "/fonts" ? "Noto Sans" : "Server Noto Sans";
+    Font.register({
+      family,
+      fonts: [
+        { src: base + "/NotoSans-Regular.ttf" },
+        { src: base + "/NotoSans-Bold.ttf", fontWeight: 700 },
+      ],
+    });
+    fontFamilies.set(base, family);
+  }
+  return family;
+}
 Font.registerHyphenationCallback((word) => [word]);
 const navy = "#102f45",
-  green = "#008463",
   muted = "#586975";
-const s = StyleSheet.create({
-  page: {
-    paddingTop: 100,
-    paddingBottom: 78,
-    paddingHorizontal: 43,
-    fontFamily: "Noto Sans",
-    fontSize: 11,
-    lineHeight: 1.45,
-    color: navy,
-  },
-  header: {
-    position: "absolute",
-    top: 42,
-    left: 43,
-    right: 43,
-    borderBottomWidth: 1,
-    borderColor: "#dce5e9",
-    paddingBottom: 13,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  academy: { fontFamily: "Noto Sans", fontWeight: 700, fontSize: 15 },
-  attribution: { fontSize: 9, color: muted, marginTop: 3 },
-  period: { fontSize: 11, textAlign: "right" },
-  kicker: { fontSize: 9, letterSpacing: 1.3, color: green, marginBottom: 6 },
-  name: {
-    fontSize: 27,
-    fontFamily: "Noto Sans",
-    fontWeight: 700,
-    lineHeight: 1.2,
-    marginBottom: 7,
-  },
-  meta: { fontSize: 11, color: muted, marginBottom: 7 },
-  statuses: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 15,
-    fontSize: 10,
-    color: muted,
-    marginBottom: 14,
-  },
-  focus: {
-    backgroundColor: "#f1f6f7",
-    borderLeftWidth: 3,
-    borderColor: green,
-    padding: 12,
-    marginBottom: 14,
-  },
-  title: {
-    fontFamily: "Noto Sans",
-    fontWeight: 700,
-    fontSize: 11,
-    marginBottom: 7,
-  },
-  focusText: {
-    fontSize: 18,
-    fontFamily: "Noto Sans",
-    fontWeight: 700,
-    lineHeight: 1.35,
-  },
-  section: { marginBottom: 14 },
-  evidence: { backgroundColor: "#f6f8f9", padding: 15, marginTop: 8 },
-  count: {
-    fontSize: 29,
-    lineHeight: 1.2,
-    fontFamily: "Noto Sans",
-    fontWeight: 700,
-    color: green,
-  },
-  small: { fontSize: 9, lineHeight: 1.4, color: muted, marginTop: 5 },
-  label: {
-    fontFamily: "Noto Sans",
-    fontWeight: 700,
-    fontSize: 12,
-    marginTop: 7,
-    marginBottom: 7,
-  },
-  next: {
-    borderTopWidth: 2,
-    borderColor: green,
-    padding: 12,
-    backgroundColor: "#ecf7f2",
-    marginBottom: 14,
-  },
-  nextText: {
-    fontSize: 16,
-    fontFamily: "Noto Sans",
-    fontWeight: 700,
-    lineHeight: 1.35,
-    marginBottom: 10,
-  },
-  closing: {
-    borderLeftWidth: 2,
-    borderColor: "#cad8df",
-    paddingLeft: 14,
-    marginBottom: 10,
-  },
-  footer: {
-    position: "absolute",
-    bottom: 42,
-    left: 43,
-    right: 43,
-    borderTopWidth: 1,
-    borderColor: "#dce5e9",
-    paddingTop: 9,
-    fontSize: 8,
-    lineHeight: 1.4,
-    height: 34,
-    color: muted,
-  },
-  footerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 4,
-  },
-  drill: { borderBottomWidth: 1, borderColor: "#dce5e9", paddingVertical: 8 },
-});
-export function ReportPdf({ model: m }: { model: ReportViewModel }) {
+const styles = (family: string, green = "#008463") =>
+  StyleSheet.create({
+    page: {
+      paddingTop: 100,
+      paddingBottom: 78,
+      paddingHorizontal: 43,
+      fontFamily: family,
+      fontSize: 11,
+      lineHeight: 1.45,
+      color: navy,
+    },
+    header: {
+      position: "absolute",
+      top: 42,
+      left: 43,
+      right: 43,
+      borderBottomWidth: 1,
+      borderColor: "#dce5e9",
+      paddingBottom: 13,
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    academy: { fontFamily: family, fontWeight: 700, fontSize: 15 },
+    attribution: { fontSize: 9, color: muted, marginTop: 3 },
+    period: { fontSize: 11, textAlign: "right" },
+    kicker: { fontSize: 9, letterSpacing: 1.3, color: green, marginBottom: 6 },
+    name: {
+      fontSize: 27,
+      fontFamily: family,
+      fontWeight: 700,
+      lineHeight: 1.2,
+      marginBottom: 7,
+    },
+    meta: { fontSize: 11, color: muted, marginBottom: 7 },
+    statuses: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 15,
+      fontSize: 10,
+      color: muted,
+      marginBottom: 14,
+    },
+    focus: {
+      backgroundColor: "#f1f6f7",
+      borderLeftWidth: 3,
+      borderColor: green,
+      padding: 12,
+      marginBottom: 14,
+    },
+    title: {
+      fontFamily: family,
+      fontWeight: 700,
+      fontSize: 11,
+      marginBottom: 7,
+    },
+    focusText: {
+      fontSize: 18,
+      fontFamily: family,
+      fontWeight: 700,
+      lineHeight: 1.35,
+    },
+    section: { marginBottom: 14 },
+    evidence: { backgroundColor: "#f6f8f9", padding: 15, marginTop: 8 },
+    count: {
+      fontSize: 29,
+      lineHeight: 1.2,
+      fontFamily: family,
+      fontWeight: 700,
+      color: green,
+    },
+    small: { fontSize: 9, lineHeight: 1.4, color: muted, marginTop: 5 },
+    label: {
+      fontFamily: family,
+      fontWeight: 700,
+      fontSize: 12,
+      marginTop: 7,
+      marginBottom: 7,
+    },
+    next: {
+      borderTopWidth: 2,
+      borderColor: green,
+      padding: 12,
+      backgroundColor: "#ecf7f2",
+      marginBottom: 14,
+    },
+    nextText: {
+      fontSize: 16,
+      fontFamily: family,
+      fontWeight: 700,
+      lineHeight: 1.35,
+      marginBottom: 10,
+    },
+    closing: {
+      borderLeftWidth: 2,
+      borderColor: "#cad8df",
+      paddingLeft: 14,
+      marginBottom: 10,
+    },
+    footer: {
+      position: "absolute",
+      bottom: 42,
+      left: 43,
+      right: 43,
+      borderTopWidth: 1,
+      borderColor: "#dce5e9",
+      paddingTop: 9,
+      fontSize: 8,
+      lineHeight: 1.4,
+      height: 34,
+      color: muted,
+    },
+    footerRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginBottom: 4,
+    },
+    drill: { borderBottomWidth: 1, borderColor: "#dce5e9", paddingVertical: 8 },
+  });
+export function ReportPdf({
+  model: m,
+  fontBase = "/fonts",
+}: {
+  model: ReportViewModel;
+  fontBase?: string;
+}) {
+  const s = styles(registerFonts(fontBase), m.brandAccent);
   const labels = { ...reportLabels, ...m.labels };
   return (
     <Document
@@ -149,6 +166,17 @@ export function ReportPdf({ model: m }: { model: ReportViewModel }) {
       <Page size="A4" style={s.page} wrap>
         <View style={s.header} fixed>
           <View>
+            {m.logoData && (
+              <PdfImage
+                src={m.logoData}
+                style={{
+                  width: 80,
+                  height: 22,
+                  objectFit: "contain",
+                  marginBottom: 3,
+                }}
+              />
+            )}
             <Text style={s.academy}>{m.academy}</Text>
             <Text style={s.attribution}>Powered by Sportozen</Text>
           </View>
@@ -251,8 +279,13 @@ export function ReportPdf({ model: m }: { model: ReportViewModel }) {
     </Document>
   );
 }
-export async function generateReportPdf(model: ReportViewModel) {
-  const rendered = await pdf(<ReportPdf model={model} />).toBlob();
+export async function generateReportPdf(
+  model: ReportViewModel,
+  fontBase = "/fonts",
+) {
+  const rendered = await pdf(
+    <ReportPdf model={model} fontBase={fontBase} />,
+  ).toBlob();
   // Stamp only pagination after flowing layout is complete. All report content
   // remains rendered by React-PDF's wrapping engine.
   const document = await PDFDocument.load(await rendered.arrayBuffer());

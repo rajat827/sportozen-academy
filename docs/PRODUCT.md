@@ -1,5 +1,9 @@
 # Product
 
+The customer direction is one configurable academy platform: independent authenticated workspaces, football/cricket/badminton configuration, individual plans, approved reports and linked-parent access. The working foundation and current limits are described in MULTI_ACADEMY_FOUNDATION.md. Rankings and comparisons between children are excluded.
+
+## Legacy fictional demonstration
+
 Sportozen is an academy-first, youth-development operating system. The first configured sport is football. The core loop is PLAN → PERSONALISE → TRAIN → OBSERVE → REVIEW → ADAPT → REPORT → IMPROVE.
 
 Owners configure the academy and monitor players, training, fees, attendance and review queues. Coaches create sessions, assign individual objectives, observe practice, review evidence and approve progress reports. Parents see a linked player's schedule, current priorities, path and reviewed updates.
@@ -13,3 +17,7 @@ All records are fictional. No real messages, money, media capture, AI analysis, 
 ## Report content and export
 
 Player development reports explain practice, reviewed evidence and next steps without rankings or inferred improvement. Approved report records remain the source of truth. Optional live-plan data is not silently added to an approved report. Missing review dates are explicitly unconfirmed. See REPORTS.md.
+
+## Authenticated multi-academy foundation
+
+The authenticated customer entry is /workspace, with server-checked academy memberships, sport-specific plans, approved report snapshots and private parent messaging. Legacy role routes remain fictional demonstrations. See [MULTI_ACADEMY_FOUNDATION.md](MULTI_ACADEMY_FOUNDATION.md), [SECURITY_AND_DEPLOYMENT.md](SECURITY_AND_DEPLOYMENT.md) and [WORKSPACE_MIGRATION.md](WORKSPACE_MIGRATION.md) for the boundary, migration audit and remaining commercial requirements. External delivery remains NOT_SENT; no real messaging, billing or AI provider is connected.
