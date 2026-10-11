@@ -22,7 +22,17 @@ export const operationalSports: Record<string, OperationalSport> = {
   football: {
     id: "football",
     name: "Football",
-    skills: football.skills,
+    skills: [
+      ...football.skills,
+      "First touch and receiving",
+      "Weak-foot passing",
+      "Ball protection",
+      "Scanning",
+      "Positioning",
+      "Off-the-ball movement",
+      "Recovery movement",
+      "Goalkeeping",
+    ],
     roles: football.positions,
     drillCategories: ["Ball control", "Passing", "Finishing"],
     stages: football.stages,
@@ -47,73 +57,6 @@ export const operationalSports: Record<string, OperationalSport> = {
         focusArea: "Dribbling",
         purpose: "Intended to support close control during direction changes",
         cue: "Comfortable touches; coach records comparable attempts",
-      },
-    ],
-  },
-  cricket: {
-    id: "cricket",
-    name: "Cricket",
-    skills: ["Batting", "Bowling", "Fielding", "Wicketkeeping"],
-    roles: ["Batter", "Bowler", "Wicketkeeper", "All-rounder"],
-    drillCategories: [
-      "Batting technique",
-      "Bowling rhythm",
-      "Fielding movement",
-    ],
-    stages: ["Introduced", "Developing", "Consistent"],
-    sessionTerm: "Practice session",
-    assessments: [
-      {
-        id: "contact-attempts",
-        label: "Recorded contact attempts",
-        unit: "balls",
-      },
-    ],
-    reportSections: [
-      "Practice",
-      "Coach-reviewed observation",
-      "Next development step",
-    ],
-    aiAvailable: false,
-    templates: [
-      {
-        id: "cricket-batting-contact",
-        name: "Controlled batting contact",
-        focusArea: "Batting",
-        purpose:
-          "Intended to support a comfortable setup and controlled contact",
-        cue: "Coach observes setup and contact in comparable practice",
-      },
-    ],
-  },
-  badminton: {
-    id: "badminton",
-    name: "Badminton",
-    skills: ["Serving", "Court movement", "Net play", "Racket control"],
-    roles: ["Singles", "Doubles"],
-    drillCategories: ["Serving", "Footwork", "Net play"],
-    stages: ["Introduced", "Developing", "Consistent"],
-    sessionTerm: "Court session",
-    assessments: [
-      {
-        id: "serve-attempts",
-        label: "Recorded serve attempts",
-        unit: "shuttles",
-      },
-    ],
-    reportSections: [
-      "Practice",
-      "Coach-reviewed observation",
-      "Next development step",
-    ],
-    aiAvailable: false,
-    templates: [
-      {
-        id: "badminton-serve",
-        name: "Comfortable serve practice",
-        focusArea: "Serving",
-        purpose: "Intended to support repeatable serve setup",
-        cue: "Coach observes a comfortable setup and shuttle contact",
       },
     ],
   },

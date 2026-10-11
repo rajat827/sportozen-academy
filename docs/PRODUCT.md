@@ -1,6 +1,8 @@
 # Product
 
-The customer direction is one configurable academy platform: independent authenticated workspaces, football/cricket/badminton configuration, individual plans, approved reports and linked-parent access. The working foundation and current limits are described in MULTI_ACADEMY_FOUNDATION.md. Rankings and comparisons between children are excluded.
+Football-only release. Multiple independent academies. Personalised player development. No rankings.
+
+One application serves independent football academies with regional settings, authenticated owners/coaches/parents, individual plans, approved reports and linked-parent communication. Football is automatic, with no sport selector. Plans explain current focus → why selected → assigned drills → coach observations → review date → next step. Only recorded, reviewed drills and observations are shown. See FOOTBALL_ONLY_RELEASE.md and QA_REPORT.md for the customer boundary and remaining pilot blockers.
 
 ## Legacy fictional demonstration
 

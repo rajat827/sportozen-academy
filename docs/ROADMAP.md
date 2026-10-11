@@ -1,6 +1,8 @@
 # Implementation scope and roadmap
 
-The authenticated multi-academy foundation implements the customer minimum: onboarding, memberships, sport selection, individual plans, verified report approval and correct parent access. Remaining commercial work includes secure scheduling/media/attendance migration, localisation behaviour beyond stored configuration, managed persistence, identity verification, consent procedures, operations, billing and real provider adapters. This is separate from the fictional frontend inventory below.
+Football-only release. Multiple independent academies. Personalised player development. No rankings.
+
+The authenticated foundation implements football onboarding, memberships, individual plans, verified report approval and linked-parent access. Football session personalisation, scheduling, attendance and evidence/media must move to authenticated server persistence before the full customer pilot journey can pass. Localisation beyond stored regional configuration, managed persistence, identity/guardian verification, consent, operations and billing remain production work. No other-sport launch work is planned. The fictional frontend inventory below is not customer pilot acceptance.
 
 ## Implemented frontend workflows
 

@@ -1,5 +1,17 @@
 # Verification record
 
+## Current football-only release — 12 October 2026
+
+Football-only release. Multiple independent academies. Personalised player development. No rankings.
+
+Implementation `629f0e72bdb5fec7dce7620946a0b978a936dc40`: lint/typecheck/build pass, 22 unit tests pass, and all 16 browser scenarios pass in 5.6 minutes with no skips. Customer browser fixtures are three independent football academies (India/INR/Asia-Kolkata, UK/GBP/Europe-London, Australia/AUD/Australia-Perth), on guarded fictional test storage and separate server ports. Onboarding, coach plan creation, parent report/reply, source approval, NOT_SENT delivery, permissions, refresh/restart, historical-record preservation and six-width overflow checks pass.
+
+The authenticated parent PDF passes one-page facts/privacy/layout review. Current visual review finds that the unchanged long demo PDF omits repeated header/footer text visually on continuation pages, despite passing extracted-text checks; P2 PDF-001 remains open. Earlier text-based header claims below are historical and do not override this current finding.
+
+Authenticated session personalisation, attendance and structured evidence/media are not implemented and block the full football pilot. Separate fictional demo tests are regression coverage, not customer acceptance. See QA_REPORT.md, QA_BUG_LOG.md and PILOT_READINESS.md for exact commands, coverage and blockers. Screenshots/PDF evidence: screenshots/football-only. The current app/server and customer data were preserved.
+
+## Historical validation logs
+
 Verified locally on Windows, 7 October 2026, against the production Next.js server.
 
 Story: an owner selects a player; a coach edits goals, creates and personalises a session, records attendance and evidence, then approves a report; the linked parent reads reviewed public progress. Edits flow from the feature hook through the repository into the browser-storage adapter and survive refresh. No backend is configured or required for this demo.

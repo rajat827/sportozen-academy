@@ -50,6 +50,17 @@ export const kinds: WorkspaceKind[] = [
 ];
 const staff = ["OWNER", "ADMIN", "COACH"] as const;
 const now = () => new Date().toISOString();
+function academyReleaseView(
+  academy: AcademyConfiguration,
+): AcademyConfiguration {
+  return {
+    ...academy,
+    sportIds: academy.sportIds.filter((sport) => sport === "football"),
+    legacyRecordsRestricted: academy.sportIds.some(
+      (sport) => sport !== "football",
+    ),
+  };
+}
 export function workspaces(userId: string) {
   return database()
     .prepare(
@@ -57,7 +68,9 @@ export function workspaces(userId: string) {
     )
     .all(userId, now())
     .map((row) => ({
-      academy: JSON.parse(String(row.config)) as AcademyConfiguration,
+      academy: academyReleaseView(
+        JSON.parse(String(row.config)) as AcademyConfiguration,
+      ),
       role: String(row.role),
       membershipId: String(row.membershipId),
     }));
@@ -113,9 +126,9 @@ export function workspace(ctx: WorkspaceAccess): WorkspacePayload {
   const members = ["OWNER", "ADMIN", "COACH"].includes(ctx.membership.role)
     ? database()
         .prepare(
-          `SELECT m.id,m.userId,m.role,m.active,u.name FROM academy_memberships m JOIN "user" u ON u.id=m.userId WHERE m.academyId=? AND (?<>'COACH' OR m.userId=? OR m.role IN ('OWNER','ADMIN') OR (m.role='PARENT' AND EXISTS(SELECT 1 FROM guardian_relationships g JOIN workspace_records p ON p.academyId=g.academyId AND p.id=g.playerId AND p.kind='player' WHERE g.academyId=m.academyId AND g.userId=m.userId AND json_extract(p.body,'$.coachId')=?)))`,
+          `SELECT m.id,m.userId,m.role,m.active,u.name FROM academy_memberships m JOIN "user" u ON u.id=m.userId WHERE m.academyId=? AND (?<>'COACH' OR m.userId=? OR m.role IN ('OWNER','ADMIN') OR (m.role='PARENT' AND EXISTS(SELECT 1 FROM guardian_relationships g JOIN workspace_records p ON p.academyId=g.academyId AND p.id=g.playerId AND p.kind='player' WHERE g.academyId=m.academyId AND g.userId=m.userId AND json_extract(p.body,'$.coachId')=? AND EXISTS(SELECT 1 FROM json_each(p.body,'$.sportIds') WHERE value='football'))))`,
         )
-        .all(ctx.academy.id,ctx.membership.role,ctx.user.id,ctx.user.id)
+        .all(ctx.academy.id, ctx.membership.role, ctx.user.id, ctx.user.id)
         .map((r) => ({
           id: String(r.id),
           userId: String(r.userId),
@@ -124,24 +137,32 @@ export function workspace(ctx: WorkspaceAccess): WorkspacePayload {
           name: String(r.name),
         }))
     : [];
-  return { academy: ctx.academy, membership: ctx.membership, records, members };
+  return {
+    academy: academyReleaseView(ctx.academy),
+    membership: ctx.membership,
+    records,
+    members,
+  };
 }
 export function updateAcademy(ctx: WorkspaceAccess, input: unknown) {
   requireRole(ctx, ["OWNER", "ADMIN"]);
   const value = academySchema.parse(input);
   region(value);
-  const usedSports = repo.list(ctx.academy.id, "plan").map((p) => p.sportId);
-  if (usedSports.some((s) => !value.sportIds.includes(s)))
-    throw new WorkspaceError(
-      409,
-      "A sport with existing plans cannot be disabled.",
-    );
-  const academy = { ...ctx.academy, ...value };
+  // Keep historical enrolments/configuration unchanged in storage, but never
+  // accept another sport from a customer request. No destructive migration.
+  const academy = {
+    ...ctx.academy,
+    ...value,
+    sportIds: [
+      "football",
+      ...ctx.academy.sportIds.filter((sport) => sport !== "football"),
+    ],
+  };
   database()
     .prepare("UPDATE academy_workspaces SET config=? WHERE id=?")
     .run(JSON.stringify(academy), academy.id);
   audit(academy.id, ctx.user.id, "Academy configuration updated");
-  return academy;
+  return academyReleaseView(academy);
 }
 function coach(ctx: WorkspaceAccess, userId: string) {
   const m = repo.membership(ctx.academy.id, userId);
@@ -191,7 +212,16 @@ export function saveRecord(
       const value = playerSchema.parse(input);
       value.sportIds.forEach((s) => requireSport(ctx, s));
       coach(ctx, value.coachId);
-      record = { ...base, ...value };
+      const historical = repo.find(ctx.academy.id, "player", id);
+      record = {
+        ...base,
+        ...value,
+        sportIds: [
+          "football",
+          ...(historical?.sportIds.filter((sport) => sport !== "football") ??
+            []),
+        ],
+      };
       break;
     }
     case "plan": {
@@ -249,7 +279,7 @@ export function saveRecord(
       const value = z
         .object({
           name: z.string().min(2).max(200),
-          sportId: z.string(),
+          sportId: z.literal("football").default("football"),
           branchId: z.string(),
         })
         .parse(input);
@@ -389,7 +419,7 @@ export function saveRecord(
       record.id,
     );
   });
-  return record;
+  return "sportIds" in record ? { ...record, sportIds: ["football"] } : record;
 }
 export function approveReport(
   ctx: WorkspaceAccess,

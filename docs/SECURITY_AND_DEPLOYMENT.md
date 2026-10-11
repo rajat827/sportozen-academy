@@ -10,4 +10,6 @@ The legacy `/owner`, `/coach` and `/parent` routes remain explicitly fictional b
 
 The request tests exercise actual cookies and APIs, forbidden cross-academy reads/writes/exports, linked-parent snapshots, hidden notes, approval reset and membership revocation. This validates tested routes, not all future integrations or a complete commercial security certification.
 
-Browser tests start their own production server with an isolated .local/e2e database. Stop a development server on port 3000 before running pnpm test:e2e; reusing a normal customer server is disabled.
+Browser tests start their own production server on port 3001 with a guarded `.local/e2e-*.sqlite` database. A controlled persistence check starts/restarts only its own process on port 3002. Do not stop the customer's app on port 3000 or reset `.local/workspaces.sqlite`. Use `SPORTOZEN_QA_BUILD=1` for both build and browser tests when preserving the running app's assets. Raw authentication traces remain ignored locally and are not uploaded by CI.
+
+The release is football-only. Historical non-football records remain in restricted storage without relabelling or deletion; customer APIs/UI/PDFs exclude them. Regional settings and independent academy privacy remain unchanged. See FOOTBALL_ONLY_RELEASE.md.

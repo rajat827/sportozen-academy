@@ -59,7 +59,10 @@ export function WorkspaceChooser() {
             </Badge>
             <h2>{academy.name}</h2>
             <p>
-              {academy.sportIds.join(" · ")} · {role}
+              {academy.sportIds.includes("football")
+                ? "Football academy"
+                : "Football configuration required"}{" "}
+              · {role}
             </p>
             <Link
               className="button primary"
@@ -79,7 +82,7 @@ export function WorkspaceChooser() {
         <Card>
           <h2>Onboard an academy</h2>
           <p>
-            Create academy → configure region and sports → add branches and
+            Create football academy → configure region → add branches and
             programs → invite staff → add players → explicitly link guardians.
           </p>
           <AcademyForm

@@ -245,8 +245,7 @@ export function PlayerPlanEditor({
         ))}
       </details>
       <p className="notice amber">
-        AI analysis: unavailable. Sport configuration does not create an AI
-        model.
+        AI analysis: unavailable. Plans and observations require coach review.
       </p>
     </Card>
   );
