@@ -914,6 +914,9 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   expect(parentData.records.evidence).toEqual([]);
   expect(JSON.stringify(parentData)).not.toMatch(/PRIVATE_|Fictional Player B/);
   // Planned messaging uses an approved snapshot and never claims an upcoming drill was completed.
+  await cp.reload();
+  await cp.getByRole("button", { name: "Messages", exact: true }).click();
+  await expect(cp.getByText("APPROVED", { exact: true })).toBeVisible();
   await cp.getByLabel("Update category").selectOption("UPCOMING_TRAINING");
   await cp
     .getByRole("button", { name: "Prepare from approved sources" })
@@ -936,9 +939,16 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
           () => document.documentElement.scrollWidth <= innerWidth,
         ),
       ).toBe(true);
+      if (name === "parent-reply" && width <= 768)
+        await page
+          .getByRole("heading", {
+            name: "Question about the assigned course",
+            exact: true,
+          })
+          .scrollIntoViewIfNeeded();
       await page.screenshot({
         path: `${shots}/${name}-${width}.png`,
-        fullPage: true,
+        fullPage: !(name === "parent-reply" && width <= 768),
       });
     }
   }

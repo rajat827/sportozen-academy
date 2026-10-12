@@ -3064,3 +3064,4 @@ summary {
 .mobile-drawer-close{display:none}@media(max-width:768px){.sidebar.is-open .mobile-drawer-close{display:flex;margin:0 16px 16px;width:calc(100% - 32px)}}
 .training-row{padding:16px 0;border-bottom:1px solid var(--border);overflow-wrap:anywhere;min-width:0}.training-actions{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}.secure-workspace .training-actions .button{white-space:normal}.secure-workspace input[type=datetime-local]{min-width:0;max-width:100%}
 .secure-workspace .training-desk-tabs{position:static;z-index:auto}
+.thread-message time{margin-left:8px}
