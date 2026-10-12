@@ -5,20 +5,23 @@ export default function Home() {
       <div className="secure-wordmark">
         Sportozen <span>ACADEMY</span>
       </div>
-      <h1>One platform. Every football academy’s own workspace.</h1>
+      <h1>One team. A different development path for every player.</h1>
       <p>
         Independent football academies, personalised player plans and clear
         parent development reports. No rankings.
       </p>
-      <Link className="button primary" href="/workspace">
-        Open your workspace
+      <Link className="button primary" href="/owner/dashboard">
+        Open academy demo
       </Link>
-      <Link className="button secondary" href="/owner/dashboard">
-        Explore fictional demo
+      <Link className="button secondary" href="/coach/dashboard">
+        Coach demo
+      </Link>
+      <Link className="button secondary" href="/parent/home">
+        Parent demo
       </Link>
       <p className="muted">
-        The local authenticated foundation is under validation for commercial
-        use. The browser demo contains fictional records only.
+        No sign-in needed. Explore with fictional players and families. Use the
+        role switcher to try the owner, coach and parent experiences.
       </p>
     </main>
   );

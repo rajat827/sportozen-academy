@@ -1,5 +1,9 @@
 # Verification record
 
+## Demo-first entry — 12 October 2026
+
+`codex/demo-first-entry`: the home page offers owner, coach and parent fictional demonstrations without a sign-in step. Existing customer workspace/API authentication is unchanged; the persistent Training workspace remains separate. Lint, strict TypeScript, 30 unit tests, the isolated QA build and the existing supported-route inventory smoke test pass (1 scenario, 44.7 seconds). A fresh anonymous browser confirms HTTP 200, only the three demo entry links, and no horizontal overflow at 390px. The running local app was preserved. The SQLite build tracing warning remains unchanged.
+
 ## Current authenticated training workflow — 12 October 2026
 
 `codex/football-session-evidence-workflow`, source `eeba12a69aa089bbd8d144b882e3ceffbbdf2c85`: persistent dated sessions/objectives, attendance corrections, structured coach evidence, review and plan/report/update/parent reply flow. Final gates and sanitised four-width screenshots/PDF results are recorded in QA_REPORT.md. Supervised synthetic-data pilot scope only; real child-data production requirements and known P2 long-PDF branding remain documented. Customer app and database preserved.

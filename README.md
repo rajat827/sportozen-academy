@@ -13,7 +13,9 @@ pnpm install
 pnpm dev
 ```
 
-Open http://127.0.0.1:3000 and choose authenticated workspace onboarding. Register a local test account at `/sign-in`; `/workspace` lists authorised academies and creates empty customer workspaces. Records and sessions persist in ignored `.local/workspaces.sqlite`. Use fictional records while validating this local foundation. Production deployment requirements are documented in `docs/SECURITY_AND_DEPLOYMENT.md`.
+Open http://127.0.0.1:3000 and choose the academy, coach or parent fictional demo. No sign-in is needed for this default preview. The role switcher lets you explore each demonstration experience.
+
+The separate authenticated training workspace remains available at `/workspace` for testing persistent academy-scoped records. Register a local test account at `/sign-in`; `/workspace` lists authorised academies and creates empty customer workspaces. Records and sessions persist in ignored `.local/workspaces.sqlite`. Use fictional records while validating this local foundation. Production deployment requirements are documented in `docs/SECURITY_AND_DEPLOYMENT.md`. Demo entry does not bypass customer authentication or expose existing academy records.
 
 The explicitly fictional demonstration remains at `/owner/dashboard`, `/coach/dashboard` and `/parent/home`. Its header role switch selects Owner (Anil), Coach (Rahul), Parent (Neha, linked to Aarav). That demonstration switch is not authentication.
 
