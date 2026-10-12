@@ -1,0 +1,8 @@
+{
+  "file": "approved-session-report.pdf",
+  "pages": 1,
+  "checks": "PASS",
+  "facts": "Reviewed completed-session result, attendance, conditions, source and next step",
+  "privacy": "Linked child only; no private evidence/plan/conversation notes",
+  "layout": "Selectable A4, safe bounds, no blank pages or broken glyphs; every page must also be visually rendered"
+}

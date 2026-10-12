@@ -1,4 +1,53 @@
-# Football-only QA report — 12 October 2026
+# Authenticated football training QA — 12 October 2026
+
+Current feature: `codex/football-session-evidence-workflow`, based on football-only `e99ebd98f03a5af23c245923c849daef3a47ca35`. Final source: `eeba12a69aa089bbd8d144b882e3ceffbbdf2c85` (core workflow `917bdc6`). Documentation/artifact commits do not change the implementation.
+
+## Training acceptance
+
+| Coverage | Result / precise boundary |
+| --- | --- |
+| Authenticated owner → coach → parent journey | PASS. Separate real Better Auth sessions and synthetic DB, no demo role switch or copied record storage. |
+| Squads / venues / sessions | Explicit roster and branch/venue relationships, assigned coaches, local zone/UTC times, ordered drill versions/durations, DRAFT/SCHEDULED/IN_PROGRESS/COMPLETED and separate cancellation. |
+| Personal objectives | Different objectives for two children; historical roster/objectives survive squad and plan edits. Missing goal is explicit, never an inferred weakness. |
+| Attendance | UNMARKED by default; individual/bulk saves, reasoned corrections, unique session/player IDs, version history, cancelled writes rejected. No seeded percentage or zero default. |
+| Coach evidence | Observation plus defined results, author/time, conditions, method/unit/drill version, separate private note, review state. Invalid counts rejected; zero attempts generate no percentage. No video/AI claim. |
+| Reviewed plan/report/update | Reviewed evidence updates next step; completed-session evidence creates the report; explicit report/update approval, correct private in-app parent publication and replies. NOT_SENT external. Upcoming messages explicitly describe planned work. |
+| Reliability | Identical retries preserve one result; stale writes/approvals return 409; mixed bulk conflict rolls back; a real SQLite failure trigger returns 500 without a saved record/receipt, and the same request succeeds after the trigger is removed. UI 503 retains the schedule draft before a real retry. |
+| Scope/privacy | Independent second academy contains its own session/attendance/evidence/report. Direct cross-academy GET/write/export denied, invalid relationships rejected, parent raw-training read/write/history denied, only linked child's approved snapshots/messages returned, internal notes excluded, revoked coach cookie and replay denied. |
+| Time zones | India and UK session UTC conversion verified against saved local times. London spring gap/autumn ambiguity rejected through the actual API. Unit checks also cover Perth and impossible dates. |
+| Persistence | Browser refresh, a fresh parent sign-in and controlled restart of only the owned port-3002 test process preserve records. Customer port 3000 stays alive. |
+| Mobile | Session list, objectives, attendance, agenda, capture, review, report, update and parent reply at 1440/768/390/320; no horizontal overflow. Nested sticky-menu overlap found during visual inspection and corrected before final rerun. |
+| Actual PDF | Private parent's actual server export saved in football-training artifacts; every page rendered, facts/privacy/bounds checked. Known long-fixture P2 PDF-001 carried forward, not silently resolved. |
+
+## Final gates for this feature
+
+Final source `eeba12a69aa089bbd8d144b882e3ceffbbdf2c85` passes all configured gates, including the phone visual fixes and final transaction checks:
+
+| Exact command | Final result |
+| --- | --- |
+| `pnpm lint` | PASS, zero errors/warnings |
+| `pnpm typecheck` | PASS, strict TypeScript |
+| `pnpm test` | PASS, 30 tests / 8 files |
+| `$env:SPORTOZEN_QA_BUILD='1'; pnpm build` | PASS; pre-existing SQLite dynamic-filesystem tracing warning retained |
+| `$env:SPORTOZEN_QA_BUILD='1'; pnpm test:e2e` | PASS, all 17 scenarios in 3.0 minutes; zero skips |
+| Bundled Python `docs/screenshots/football-training/validate_pdf.py` | PASS, actual one-page parent export, source facts/privacy/A4/bounds/glyphs/numbering |
+| Poppler render and visual inspection | PASS for every page of the actual session export (1 page). PDF-001 remains open for the separate long legacy fixture. |
+
+36 screenshots cover nine authenticated surfaces at four widths. Representative phone, tablet and desktop surfaces were visually inspected; automated overflow checks cover every captured width. The updated parent thread capture shows the actual viewport and bottom navigation. One actual PDF, its rendered page and validation script/JSON are included. This is browser emulation, not physical-device certification.
+
+An earlier final run was interrupted by an approximately eight-hour computer sleep: Chromium reported ERR_NETWORK_IO_SUSPENDED and a later legacy operation timed out, leaving 15 passes / 2 failures. No assertions were weakened. An awake rerun passed all 17; after the final timestamp/capture polish, a rebuilt full rerun passed all 17 again in 3.0 minutes. The PDF checker initially matched SENT as a substring of PRESENT; it now checks whole delivery-state words while preserving the explicit Not sent and privacy assertions.
+
+QA uses only guarded `.local/e2e-*.sqlite`, port 3001, separate `.next-football-qa` assets and individually owned port-3002 restart processes. Customer DB was never reset or seeded; no customer app restart or deployment occurred. A deliberate SQLite error logged by the test server is expected failure-injection evidence, not an unreported failing test. Raw authentication traces remain local/ignored; only fictional screenshots/PDFs are committed.
+
+New evidence is `docs/screenshots/football-training/`; reproduction and migration/rollback instructions are in FOOTBALL_SESSION_WORKFLOW.md. Scope is supervised synthetic-data training using coach-recorded evidence. Real child data, video analysis, real payments and external delivery remain outside readiness. Broader untested legacy concurrency/idempotency, recurring schedules, quiet-hour dispatch and secure video upload are not claimed complete.
+
+**READY WITH KNOWN P2 LIMITATION — supervised synthetic-data pilot using coach-recorded evidence only.** See PILOT_READINESS.md. This does not mark real child-data production ready.
+
+## Historical football-only release QA
+
+The remainder records the preceding release's findings. Its NOT_IMPLEMENTED session/attendance/structured-evidence entries and NOT READY verdict describe the former baseline and are superseded by the training acceptance above. Secure media remains separate work.
+
+# Historical football-only QA report — 12 October 2026
 
 Football-only release. Multiple independent academies. Personalised player development. No rankings.
 

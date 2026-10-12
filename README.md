@@ -32,7 +32,7 @@ pnpm exec playwright install chromium
 pnpm test:e2e
 ```
 
-Playwright starts a separate production server on port 3001 with a guarded `.local/e2e-*.sqlite` database. It tests authenticated football academies in India, the UK and Australia separately from fictional demo workflows. Customer session personalisation, attendance and media remain pilot blockers; passing demo tests does not satisfy those customer steps. See `docs/QA_REPORT.md`. Screenshots are saved to `docs/screenshots/football-only/`.
+Playwright starts a separate production server on port 3001 with a guarded `.local/e2e-*.sqlite` database. It tests authenticated football academies in India, the UK and Australia separately from fictional demo workflows. Authenticated Training now connects squad/session objectives, attendance, coach-recorded evidence, review, approved reports and private parent updates/replies. Video upload and AI analysis remain separate work. See `docs/FOOTBALL_SESSION_WORKFLOW.md` and `docs/QA_REPORT.md`. New screenshots and an actual approved report export are saved to `docs/screenshots/football-training/`.
 
 To verify without replacing the assets of an already running local app, set `SPORTOZEN_QA_BUILD=1` for both `pnpm build` and `pnpm test:e2e`. This uses `.next-football-qa`. No customer database reset or running-app restart is needed.
 

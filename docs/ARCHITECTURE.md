@@ -4,7 +4,13 @@ Football-only release. Multiple independent academies. Personalised player devel
 
 Customer flow: workspace UI → feature hook → authenticated server application service → academy-scoped repository interface → SQLite persistence. Better Auth verifies the session; application services independently verify current membership, football assignment, assigned players and guardian links. API responses and PDF exports are private/no-store. Internal sportId fields remain to avoid destructive migrations; schemas default to football and reject other sports. Read projections omit historical non-football records, including direct record/PDF links and parent snapshots. Stored historical records/configuration remain intact. Platform administration and authorised support review remain separate roles. See FOOTBALL_ONLY_RELEASE.md and SECURITY_AND_DEPLOYMENT.md.
 
-## Isolated legacy demonstration architecture
+## Authenticated training extension
+
+The workspace Training tab uses `useWorkspace.training` → training application service → existing WorkspaceRepository → SQLite. Five new football/academy-scoped kinds provide squads, venues, dated sessions, attendance and evidence. Sessions snapshot rosters, objectives and curriculum drill versions; current plan or squad edits cannot rewrite past training. Attendance IDs are session/player pairs. Reviewed parent-eligible evidence from completed sessions populates the existing ReportViewModel and approval/PDF flow; raw training records and staff notes never enter parent payloads. Upcoming messages describe intended plan work separately from reviewed session updates.
+
+New writes check current membership, module, football assignment, session coaching and player scope. BEGIN IMMEDIATE contains version checks, record save, full version history, audit and request receipt. UUID/digest receipts make identical retries safe and reject key reuse for other content. Bulk attendance failures roll back all entries. Workspace plan/report edits and approval controls send expected versions; approval also checks source eligibility inside the commit transaction. This does not claim every older API or conversation mutation has acquired global idempotency. See FOOTBALL_SESSION_WORKFLOW.md and WORKSPACE_MIGRATION.md.
+
+## Isolated legacy demonstration implementation
 
 Next App Router uses owner, coach and parent route groups with role-specific catch-all pages. A lightweight Next.js proxy validates route shapes before streaming so unsupported paths return HTTP 404; it does not perform authentication. The server route dispatcher composes focused feature screens. Business features stay outside route files. The app shell supplies navigation, role switching, shared provider and responsive chrome.
 

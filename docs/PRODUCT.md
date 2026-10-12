@@ -4,7 +4,11 @@ Football-only release. Multiple independent academies. Personalised player devel
 
 One application serves independent football academies with regional settings, authenticated owners/coaches/parents, individual plans, approved reports and linked-parent communication. Football is automatic, with no sport selector. Plans explain current focus → why selected → assigned drills → coach observations → review date → next step. Only recorded, reviewed drills and observations are shown. See FOOTBALL_ONLY_RELEASE.md and QA_REPORT.md for the customer boundary and remaining pilot blockers.
 
-## Legacy fictional demonstration
+## Authenticated football training
+
+The authenticated **Training** workspace connects dated team sessions and personal objectives to persistent attendance and structured coach observations/results. Only reviewed parent-eligible evidence from completed sessions feeds approved reports and reviewed session messages. Upcoming messages describe intended plan work separately. Parents receive only linked-child approved snapshots and can reply privately; staff notes and raw squad records stay restricted. This is a supervised synthetic-data workflow, not real child-data production approval. See FOOTBALL_SESSION_WORKFLOW.md.
+
+## Legacy fictional product demonstration
 
 Sportozen is an academy-first, youth-development operating system. The first configured sport is football. The core loop is PLAN → PERSONALISE → TRAIN → OBSERVE → REVIEW → ADAPT → REPORT → IMPROVE.
 
