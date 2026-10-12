@@ -1,5 +1,11 @@
 # Migration audit
 
+## Football training migration 002
+
+`src/server/migrations/002-football-training.ts` adds `training_submissions` (academy/user/request key, digest and committed receipt) and `training_history` (academy/kind/record/version/body/actor/time). Existing `workspace_records` holds the new squad, venue, session, attendance and evidence kinds; no destructive column or record migration is needed. Migration is transactional, rerunnable, keeps old records untouched and advances user_version to 2 without lowering a future version. Memory-DB tests check these properties. No ambiguous player squad label is converted automatically.
+
+Rollback retains new tables/records and approval snapshots while deploying the prior code, whose record-kind lists ignore the additional training kinds. That prior code resets user_version metadata to 1 on connection; a forward deployment safely reapplies the additive migration without changing retained records. Make and validate an operator-controlled consistent backup before a production migration/rollback. Do not remove customer records or drop training history to roll back. No customer reset or rollback was performed in this task. Test fixtures and deliberate failure triggers are restricted to guarded `.local/e2e-*.sqlite` databases.
+
 The original demo loads a single academy fixture and hard-coded fictional player and guardian identities through the browser repository. These remain under the `(demo)` route layout. Moving the provider out of the root layout prevents customer routes from receiving demo records. The public entry page distinguishes authenticated onboarding from fictional demonstration navigation.
 
 No implicit migration imports browser records into customer workspaces. An operator-assisted migration must assign every record an academy, link authenticated staff and verified guardians, map sports and units, validate relationships, redact working notes from approved snapshots and preserve approval history. Do not merge people by name. Archive the source and audit imported ownership before any real customer migration.

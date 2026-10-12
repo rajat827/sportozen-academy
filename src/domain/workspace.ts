@@ -1,5 +1,6 @@
 import type { RecordBase, SportRecord } from "./entities";
 import type { ReportViewModel } from "./report";
+import type { TrainingRecords } from "./training";
 export type AcademyRole = "OWNER" | "ADMIN" | "COACH" | "PARENT" | "SUPPORT";
 export interface AcademyConfiguration extends RecordBase {
   name: string;
@@ -35,6 +36,7 @@ export interface WorkspacePlayer extends RecordBase {
   coachId: string;
 }
 export interface WorkspacePlan extends SportRecord {
+  recordVersion?: number;
   playerId: string;
   coachId: string;
   focus: string;
@@ -55,6 +57,8 @@ export interface WorkspacePlan extends SportRecord {
   privateNote: string;
 }
 export interface WorkspaceReport extends SportRecord {
+  recordVersion?: number;
+  sourceEvidenceIds?: string[];
   playerId: string;
   planId: string;
   period: string;
@@ -89,11 +93,16 @@ export interface WorkspaceProgram extends SportRecord {
   branchId: string;
 }
 export interface WorkspaceUpdate extends SportRecord {
+  recordVersion?: number;
   playerId: string;
   planId: string;
   messageBody: string;
   sourceReportId?: string;
-  type: "DEVELOPMENT" | "NUTRITION_HYDRATION";
+  type:
+    | "DEVELOPMENT"
+    | "NUTRITION_HYDRATION"
+    | "UPCOMING_TRAINING"
+    | "REVIEWED_SESSION";
   approvalStatus: "DRAFT" | "PENDING_APPROVAL" | "APPROVED" | "REJECTED";
   inAppPublicationStatus: "UNPUBLISHED" | "PUBLISHED";
   externalDeliveryStatus: "NOT_SENT";
@@ -139,7 +148,7 @@ export interface WorkspaceDietaryNote extends RecordBase {
   userId: string;
   note: string;
 }
-export interface WorkspaceRecords {
+export interface WorkspaceRecords extends TrainingRecords {
   player: WorkspacePlayer;
   plan: WorkspacePlan;
   report: WorkspaceReport;

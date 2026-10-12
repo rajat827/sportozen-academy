@@ -38,6 +38,7 @@ export const playerSchema = z.object({
   coachId: id,
 });
 export const planSchema = z.object({
+  expectedVersion: z.number().int().nonnegative().optional(),
   playerId: id,
   sportId: z.literal("football").default("football"),
   coachId: id,
@@ -60,6 +61,8 @@ export const planSchema = z.object({
   privateNote: z.string().max(3000),
 });
 export const reportSchema = z.object({
+  expectedVersion: z.number().int().nonnegative().optional(),
+  sourceEvidenceIds: z.array(id).optional(),
   playerId: id,
   sportId: z.literal("football").default("football"),
   planId: id,
@@ -89,7 +92,12 @@ export const updateSchema = z.object({
   planId: id,
   messageBody: text,
   sourceReportId: id.optional(),
-  type: z.enum(["DEVELOPMENT", "NUTRITION_HYDRATION"]),
+  type: z.enum([
+    "DEVELOPMENT",
+    "NUTRITION_HYDRATION",
+    "UPCOMING_TRAINING",
+    "REVIEWED_SESSION",
+  ]),
 });
 export const inviteSchema = z.object({
   email: z.email(),

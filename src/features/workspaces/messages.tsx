@@ -49,7 +49,9 @@ export function WorkspaceMessages({
     const report = reports.find((r) => r.id === reportId)?.snapshot;
     if (report)
       setBody(
-        `Hi, here is ${report.player}'s coach-reviewed development update for ${report.period}.\n\nWhat was practised: ${report.practised}\n\nWhat the coach observed: ${report.evidence.map((e) => `${e.text} (Source: ${e.source})`).join("\n")}\n\nNext focus: ${report.nextStep}\n\nReview: ${report.reviewDate ?? "To be confirmed"}\n\nYou can reply privately in Sportozen Academy.\n— ${report.academy}`,
+        type === "UPCOMING_TRAINING"
+          ? `Hi, here is ${report.player}'s upcoming training focus from the approved plan.\n\nPlanned focus: ${report.focus}\nWhy: ${report.reviewedReason}\nPlanned drills: ${report.activities.map((a) => `${a.name}: intended to support ${a.purpose}`).join("\n")}\nWhat the coach will observe: ${report.observationCriteria}\nReview: ${report.reviewDate ?? "To be confirmed"}\nThese are planned activities, not completed results.\n— ${report.academy}`
+          : `Hi, here is ${report.player}'s coach-reviewed ${type === "REVIEWED_SESSION" ? "session" : "development"} update for ${report.period}.\n\nWhat was practised: ${report.practised}\n\nWhat the coach observed: ${report.evidence.map((e) => `${e.text} (Source: ${e.source})`).join("\n")}\n\nNext focus: ${report.nextStep}\n\nReview: ${report.reviewDate ?? "To be confirmed"}\n\nYou can reply privately in Sportozen Academy.\n— ${report.academy}`,
       );
   }
   return (
@@ -72,7 +74,8 @@ export function WorkspaceMessages({
                 planId: plans[0].id,
                 messageBody: body,
                 type,
-                sourceReportId: type === "DEVELOPMENT" ? reportId : undefined,
+                sourceReportId:
+                  type !== "NUTRITION_HYDRATION" ? reportId : undefined,
               });
             }}
           >
@@ -86,12 +89,18 @@ export function WorkspaceMessages({
                 }}
               >
                 <option value="DEVELOPMENT">Development update</option>
+                <option value="UPCOMING_TRAINING">
+                  Upcoming training update
+                </option>
+                <option value="REVIEWED_SESSION">
+                  Reviewed session update
+                </option>
                 <option value="NUTRITION_HYDRATION">
                   Nutrition & hydration
                 </option>
               </select>
             </label>
-            {type === "DEVELOPMENT" && (
+            {type !== "NUTRITION_HYDRATION" && (
               <label>
                 Approved source report
                 <select
@@ -153,6 +162,13 @@ export function WorkspaceMessages({
                 <details>
                   <summary>Source records used</summary>
                   <p>Approved report: {update.sourceReportId}</p>
+                  {reports
+                    .find((r) => r.id === update.sourceReportId)
+                    ?.snapshot?.evidence.map((source, i) => (
+                      <p key={i}>
+                        {source.text} · {source.source} · {source.reference}
+                      </p>
+                    ))}
                   <p>
                     {
                       reports.find((r) => r.id === update.sourceReportId)
@@ -165,7 +181,11 @@ export function WorkspaceMessages({
               update.approvalStatus === "REJECTED" ? (
                 <Button
                   disabled={w.busy}
-                  onClick={() => w.action("submitUpdate", update.id)}
+                  onClick={() =>
+                    w.action("submitUpdate", update.id, {
+                      expectedVersion: update.recordVersion,
+                    })
+                  }
                 >
                   Send for approval
                 </Button>
@@ -185,7 +205,12 @@ export function WorkspaceMessages({
                   <Button
                     disabled={verified !== update.id || w.busy}
                     onClick={() =>
-                      w.action("approveUpdate", update.id, undefined, true)
+                      w.action(
+                        "approveUpdate",
+                        update.id,
+                        { expectedVersion: update.recordVersion },
+                        true,
+                      )
                     }
                   >
                     Approve update
@@ -193,7 +218,11 @@ export function WorkspaceMessages({
                   <Button
                     variant="secondary"
                     disabled={w.busy}
-                    onClick={() => w.action("rejectUpdate", update.id)}
+                    onClick={() =>
+                      w.action("rejectUpdate", update.id, {
+                        expectedVersion: update.recordVersion,
+                      })
+                    }
                   >
                     Reject update
                   </Button>

@@ -85,7 +85,17 @@ export function moduleEnabled(ctx: WorkspaceAccess, kind: WorkspaceKind) {
         ? "reports"
         : ["update", "conversation", "preference", "dietary"].includes(kind)
           ? "communication"
-          : ["player", "plan", "drill", "program"].includes(kind)
+          : [
+                "player",
+                "plan",
+                "drill",
+                "program",
+                "squad",
+                "venue",
+                "session",
+                "attendance",
+                "evidence",
+              ].includes(kind)
             ? "development"
             : undefined;
   if (!required) return true;
@@ -121,6 +131,27 @@ export function visibleRecords<K extends WorkspaceKind>(
       )
       .filter((r) => {
         if (membership.role !== "COACH") return true;
+        if (kind === "session")
+          return (
+            (r as WorkspaceRecords["session"]).coachIds.includes(user.id) &&
+            (r as WorkspaceRecords["session"]).roster.every(
+              (p) =>
+                repository.find(academy.id, "player", p.playerId)?.coachId ===
+                user.id,
+            )
+          );
+        if (kind === "squad")
+          return (r as WorkspaceRecords["squad"]).playerIds.every(
+            (id) =>
+              repository.find(academy.id, "player", id)?.coachId === user.id,
+          );
+        if (
+          "sessionId" in r &&
+          !repository
+            .find(academy.id, "session", r.sessionId)
+            ?.coachIds.includes(user.id)
+        )
+          return false;
         if (kind === "player")
           return (r as WorkspaceRecords["player"]).coachId === user.id;
         if ("playerId" in r) {

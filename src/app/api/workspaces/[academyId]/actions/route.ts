@@ -30,19 +30,35 @@ export async function POST(
         .parse(await request.json());
     if (!["loadDemo", "support", "invite"].includes(body.action) && !body.id)
       throw new WorkspaceError(400, "Select a record for this action.");
+    const expected = [
+      "approveReport",
+      "submitUpdate",
+      "approveUpdate",
+      "rejectUpdate",
+    ].includes(body.action)
+      ? z
+          .object({ expectedVersion: z.number().int().positive().optional() })
+          .parse(body.data ?? {}).expectedVersion
+      : undefined;
     switch (body.action) {
       case "loadDemo":
         return privateJson(loadFictionalExample(ctx));
       case "approveReport":
-        return privateJson(approveReport(ctx, body.id!, body.verified));
+        return privateJson(
+          approveReport(ctx, body.id!, body.verified, expected),
+        );
       case "submitUpdate":
-        return privateJson(reviewUpdate(ctx, body.id!, "submit", false));
+        return privateJson(
+          reviewUpdate(ctx, body.id!, "submit", false, expected),
+        );
       case "approveUpdate":
         return privateJson(
-          reviewUpdate(ctx, body.id!, "approve", body.verified),
+          reviewUpdate(ctx, body.id!, "approve", body.verified, expected),
         );
       case "rejectUpdate":
-        return privateJson(reviewUpdate(ctx, body.id!, "reject", false));
+        return privateJson(
+          reviewUpdate(ctx, body.id!, "reject", false, expected),
+        );
       case "reply":
         return privateJson(reply(ctx, body.id!, body.data));
       case "support":

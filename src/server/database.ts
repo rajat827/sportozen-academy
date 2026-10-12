@@ -2,6 +2,7 @@ import "server-only";
 import { DatabaseSync } from "node:sqlite";
 import { mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
+import { migrateFootballTraining } from "./migrations/002-football-training";
 const connections = globalThis as typeof globalThis & {
   sportozenDatabase?: DatabaseSync;
 };
@@ -24,7 +25,8 @@ export function database() {
     CREATE TABLE IF NOT EXISTS workspace_invitations(id TEXT PRIMARY KEY,academyId TEXT NOT NULL REFERENCES academy_workspaces(id),email TEXT NOT NULL,role TEXT NOT NULL,playerIds TEXT NOT NULL,tokenHash TEXT NOT NULL UNIQUE,expiresAt TEXT NOT NULL,acceptedAt TEXT);
     CREATE TABLE IF NOT EXISTS report_approval_history(id TEXT PRIMARY KEY,academyId TEXT NOT NULL,reportId TEXT NOT NULL,snapshot TEXT NOT NULL,approvedPlan TEXT NOT NULL,approvedBy TEXT NOT NULL,at TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS update_approval_history(id TEXT PRIMARY KEY,academyId TEXT NOT NULL,updateId TEXT NOT NULL,version INTEGER NOT NULL,body TEXT NOT NULL,source TEXT NOT NULL,approvedBy TEXT NOT NULL,at TEXT NOT NULL);
-    PRAGMA user_version=1;`);
+    `);
+  migrateFootballTraining(db);
   connections.sportozenDatabase = db;
   return db;
 }

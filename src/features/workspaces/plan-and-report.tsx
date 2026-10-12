@@ -106,7 +106,15 @@ export function PlayerPlanEditor({
         className="form-stack"
         onSubmit={async (e) => {
           e.preventDefault();
-          await w.save("plan", plan, existing?.id);
+          const saved = await w.save<WorkspacePlan>(
+            "plan",
+            {
+              ...plan,
+              expectedVersion: "recordVersion" in plan ? plan.recordVersion : 0,
+            },
+            existing?.id,
+          );
+          if (saved) setPlan(saved);
         }}
       >
         <label>
@@ -268,6 +276,10 @@ export function ReportEditor({
     [closingNote, setNote] = useState(""),
     [verified, setVerified] = useState(""),
     [editingId, setEditingId] = useState<string | undefined>(),
+    [sourceEvidenceIds, setSourceEvidenceIds] = useState<
+      string[] | undefined
+    >(),
+    [expectedVersion, setExpectedVersion] = useState<number | undefined>(),
     [source, setSource] = useState("COACH_OBSERVATION");
   const reports = data.records.report.filter(
     (r) => r.playerId === player.id && r.sportId === sportId,
@@ -286,7 +298,7 @@ export function ReportEditor({
               className="form-stack"
               onSubmit={async (e) => {
                 e.preventDefault();
-                await w.save(
+                const saved = await w.save(
                   "report",
                   {
                     playerId: player.id,
@@ -297,10 +309,16 @@ export function ReportEditor({
                     evidenceType: source,
                     nextStep: plan.nextStep,
                     closingNote,
+                    sourceEvidenceIds,
+                    expectedVersion,
                   },
                   editingId,
                 );
-                setEditingId(undefined);
+                if (saved) {
+                  setEditingId(undefined);
+                  setExpectedVersion(undefined);
+                  setSourceEvidenceIds(undefined);
+                }
               }}
             >
               <label>
@@ -372,6 +390,8 @@ export function ReportEditor({
                 setObservation(report.observation);
                 setSource(report.evidenceType);
                 setNote(report.closingNote);
+                setSourceEvidenceIds(report.sourceEvidenceIds);
+                setExpectedVersion(report.recordVersion);
                 setVerified("");
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
@@ -397,7 +417,7 @@ export function ReportEditor({
                     w.action(
                       "approveReport",
                       report.id,
-                      undefined,
+                      { expectedVersion: report.recordVersion },
                       verified === report.id,
                     )
                   }
@@ -419,6 +439,16 @@ export function ReportEditor({
               <h3>{report.period} · Draft source records</h3>
               <p>{report.observation}</p>
               <p>Source: {report.evidenceType}</p>
+              {report.sourceEvidenceIds?.map((id) => {
+                const evidence = data.records.evidence.find((e) => e.id === id);
+                return (
+                  <p key={id}>
+                    Session source: {evidence?.drillName} · {evidence?.status} ·{" "}
+                    {evidence?.conditions} · {evidence?.recordedAt} · No video
+                    attached
+                  </p>
+                );
+              })}
               <p>Next: {report.nextStep}</p>
               <p>{report.closingNote}</p>
               <p className="muted">

@@ -10,6 +10,7 @@ import { AcademyStructure } from "./academy-structure";
 import { AcademyForm } from "./academy-form";
 import { PlayerPlanEditor, ReportEditor, ParentPlans } from "./plan-and-report";
 import { WorkspaceMessages } from "./messages";
+import { FootballTraining } from "./training";
 export function WorkspaceScreen({ academyId }: { academyId: string }) {
   const [academies, setAcademies] = useState<
     { academy: { id: string; name: string } }[]
@@ -117,7 +118,13 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
         </Badge>
       </header>
       <nav className="workspace-tabs" aria-label="Workspace sections">
-        {["Development", "Reports", "Messages", "Settings"].map((t) => (
+        {[
+          "Development",
+          ...(!parent && !support ? ["Training"] : []),
+          "Reports",
+          "Messages",
+          "Settings",
+        ].map((t) => (
           <Button
             key={t}
             variant={tab === t ? "primary" : "secondary"}
@@ -150,7 +157,7 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
         {configuration.name} · {d.academy.timezone} · AI analysis unavailable ·
         External messaging NOT_SENT
       </p>
-      {tab !== "Settings" && (
+      {tab !== "Settings" && tab !== "Training" && (
         <Card>
           <label>
             {parent ? "Your linked child" : "Player"}
@@ -167,6 +174,9 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
           </label>
           {!players.length && <p>No authorised football players yet.</p>}
         </Card>
+      )}
+      {tab === "Training" && !parent && !support && (
+        <FootballTraining workspace={w} />
       )}
       {player &&
         tab === "Development" &&

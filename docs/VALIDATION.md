@@ -1,6 +1,12 @@
 # Verification record
 
-## Current football-only release — 12 October 2026
+## Current authenticated training workflow — 12 October 2026
+
+`codex/football-session-evidence-workflow`, source `eeba12a69aa089bbd8d144b882e3ceffbbdf2c85`: persistent dated sessions/objectives, attendance corrections, structured coach evidence, review and plan/report/update/parent reply flow. Final gates and sanitised four-width screenshots/PDF results are recorded in QA_REPORT.md. Supervised synthetic-data pilot scope only; real child-data production requirements and known P2 long-PDF branding remain documented. Customer app and database preserved.
+
+## Historical football-only release — 12 October 2026
+
+The session/attendance/structured-evidence gaps below describe the prior baseline and are superseded by the current training feature. Secure video upload/AI remain separate work.
 
 Football-only release. Multiple independent academies. Personalised player development. No rankings.
 

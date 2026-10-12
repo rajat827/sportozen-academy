@@ -2,9 +2,9 @@
 
 Football-only release. Multiple independent academies. Personalised player development. No rankings.
 
-The authenticated foundation implements football onboarding, memberships, individual plans, verified report approval and linked-parent access. Football session personalisation, scheduling, attendance and evidence/media must move to authenticated server persistence before the full customer pilot journey can pass. Localisation beyond stored regional configuration, managed persistence, identity/guardian verification, consent, operations and billing remain production work. No other-sport launch work is planned. The fictional frontend inventory below is not customer pilot acceptance.
+The authenticated workspace now connects football onboarding, memberships, individual plans, squads/venues, dated regional sessions, personalised objectives, attendance, structured coach evidence, reviewed next steps, approved reports and private parent updates/replies. Secure video upload and AI analysis remain separate work. Recurring schedules, localisation/measurement conversion, managed persistence, identity/guardian verification, consent, operations and billing remain production work. No other-sport launch work is planned. See FOOTBALL_SESSION_WORKFLOW.md and current QA_REPORT.md. The fictional inventory below remains separate from customer acceptance.
 
-## Implemented frontend workflows
+## Legacy fictional frontend workflows
 
 - App shell, role switch, collapsible sidebar, mobile drawer and bottom navigation.
 - Owner and coach dashboards with navigation, charts, queues and task toggles.

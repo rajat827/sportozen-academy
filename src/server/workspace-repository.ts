@@ -36,19 +36,32 @@ export const workspaceRepository: WorkspaceRepository = {
   list<K extends WorkspaceKind>(academyId: string, kind: K) {
     return database()
       .prepare(
-        "SELECT body FROM workspace_records WHERE academyId=? AND kind=? ORDER BY rowid",
+        "SELECT body,version FROM workspace_records WHERE academyId=? AND kind=? ORDER BY rowid",
       )
       .all(academyId, kind)
-      .map((r) => JSON.parse(String(r.body)) as WorkspaceRecords[K]);
+      .map(
+        (r) =>
+          ({
+            ...JSON.parse(String(r.body)),
+            ...(["plan", "report", "update"].includes(kind)
+              ? { recordVersion: Number(r.version) }
+              : {}),
+          }) as WorkspaceRecords[K],
+      );
   },
   find<K extends WorkspaceKind>(academyId: string, kind: K, id: string) {
     const row = database()
       .prepare(
-        "SELECT body FROM workspace_records WHERE academyId=? AND kind=? AND id=?",
+        "SELECT body,version FROM workspace_records WHERE academyId=? AND kind=? AND id=?",
       )
       .get(academyId, kind, id);
     return row
-      ? (JSON.parse(String(row.body)) as WorkspaceRecords[K])
+      ? ({
+          ...JSON.parse(String(row.body)),
+          ...(["plan", "report", "update"].includes(kind)
+            ? { recordVersion: Number(row.version) }
+            : {}),
+        } as WorkspaceRecords[K])
       : undefined;
   },
   save(academyId, kind, record) {

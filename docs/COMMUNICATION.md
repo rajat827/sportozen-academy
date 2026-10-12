@@ -4,6 +4,10 @@ Football-only release. Multiple independent academies. Personalised player devel
 
 Authenticated workspaces separate approval, private in-app publication and external delivery. Approved-source development updates and optional academy-approved nutrition can reach linked, opted-in parents in-app; private replies work and internal notes stay hidden. External delivery remains NOT_SENT. Approval history snapshots the source and message version. See MULTI_ACADEMY_FOUNDATION.md.
 
+## Authenticated session updates
+
+Authenticated **Upcoming training update** uses an approved plan/report snapshot and states what is planned and intended. **Reviewed session update** requires an approved report backed by reviewed parent-eligible evidence from completed sessions. Source records are shown before review. Report/update approvals check the draft version and source eligibility; approved message/source history stays immutable and later edits require new approval. Parents receive only their linked child's authorised in-app publication, can request attendance corrections privately and cannot overwrite attendance. No WhatsApp/SMS/email/push provider is connected; NOT_SENT remains external delivery. See FOOTBALL_SESSION_WORKFLOW.md.
+
 ## Legacy fictional communication preparation
 
 Current flow: Communication UI → `useMessageDrafts` → Message Draft Service → Approval Workflow → repository/storage → NOT_SENT.

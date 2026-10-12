@@ -1,23 +1,15 @@
-# Football pilot readiness
+# Football training pilot readiness
 
-Football-only release. Multiple independent academies. Personalised player development. No rankings.
+**READY WITH KNOWN P2 LIMITATION for a supervised synthetic-data pilot using coach-recorded evidence.** Final lint/typecheck/build pass, 30 unit tests and all 17 browser scenarios pass; four-width screenshots and every page of the actual session PDF were checked. This does not authorise a real child-data rollout.
 
-The scope simplification retains authenticated academy/coach/guardian boundaries, regional configuration, individual plans, approved report snapshots and private parent messaging. It does not turn fictional training screens into authenticated customer features.
+The authenticated session/attendance/structured-observation blockers from the football-only baseline are resolved. The actual owner → coach → session objectives → attendance → evidence review → next step → approved report/update → linked parent → private reply/response workflow passes, including mobile visual fixes and transaction/source guards. Legacy demo tests remain separate from customer acceptance.
 
-## Remaining essential blockers
+Known P2 PDF-001 remains open: the long legacy report's continuation-page branding/privacy footer is missing visually despite extracted text. The actual compact session report is checked separately; no claim that the long-report issue is fixed. Supervisors must review long exports rather than assume extracted header text proves visual correctness.
 
-1. **P1 — Authenticated football sessions and player-specific objectives are not implemented.** The customer repository has no session/personalisation record kind. Legacy `/coach/sessions` is a fictional browser demonstration.
-2. **P1 — Authenticated attendance and structured training evidence/media are not implemented.** There is no secured customer attendance ledger, observation/evidence collection or media access route. Reports support explicit coach-entered observations, not an end-to-end reviewed session/evidence pipeline.
-3. **P1 — The requested full training journey cannot pass.** Owner onboarding → coach assignment → plan → approved report → parent reply is supported; session personalisation → attendance/evidence must be completed before a full football training pilot can be called ready.
+## Before real children’s data
 
-No other-sport work is needed to remove these blockers. Legacy demos remain separately tested and must not substitute for customer acceptance.
+Require verified account ownership/recovery, staff MFA, verified guardian identity/consent, durable backups and recovery drills, operational monitoring, retention/deletion and independent security review. Replace single-host SQLite before multi-instance hosting. Broader legacy API idempotency/concurrency, invitation expiry/revocation edge coverage and production abuse controls still need work. The new training transaction guards do not certify all older endpoints.
 
-## Production prerequisites
+Secure video upload, AI analysis, recurring schedules, localisation/measurement conversion, quiet-hour dispatch, payments and WhatsApp/SMS/email/push integrations are separate work. External delivery stays NOT_SENT; approved private in-app publication/replies work. No medical or personalised nutrition recommendation is introduced. Dated regional sessions reject invalid and ambiguous DST local times; that is not a recurring schedule engine.
 
-Secure account ownership/recovery and staff MFA, verified guardian identity/consent procedures, durable managed persistence and backups, operational monitoring, retention/access audits, media controls and independent security review are still required before real children's data. Quiet-hour dispatch, daylight-saving session scheduling, units conversion and full localisation are not established by storing settings. SQLite local validation is not production approval. External providers remain disconnected and NOT_SENT.
-
-See QA_REPORT.md for exact verification and QA_BUG_LOG.md for the scoped defect/blocker inventory.
-
-All five configured quality gates pass (22 unit tests, 16 browser scenarios). The unchanged long demo PDF has an additional open P2 repeated header/footer visual issue. Automated green checks do not remove the essential authenticated training gaps above.
-
-**NOT READY — BLOCKERS LISTED**
+Customer port 3000 and its database remain untouched. QA owns separate assets, server and synthetic database. Read QA_REPORT.md for exact final gates, QA_BUG_LOG.md for remaining defects and FOOTBALL_SESSION_WORKFLOW.md for reproducible steps and migration/rollback.
