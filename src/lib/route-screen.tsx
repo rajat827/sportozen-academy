@@ -1,3 +1,4 @@
+import { DemoPractice } from "@/features/parent-development/demo-practice";
 import { notFound } from "next/navigation";
 import { Dashboard } from "@/features/analytics/dashboard";
 import { PlayerDirectory } from "@/features/players/directory";
@@ -54,6 +55,8 @@ export function RouteScreen({
   )
     return <ConversationThread key={id} conversationId={id} />;
   if (role === "parent" && screen === "messages" && !id) return <ParentInbox />;
+  if (role === "parent" && screen === "practice" && segments.length === 1)
+    return <DemoPractice />;
   if (role === "parent") {
     if (
       segments.length !== 1 ||
@@ -85,7 +88,11 @@ export function RouteScreen({
     if (!id) return <Sessions />;
     if (id === "new" && !action && role === "coach") return <SessionBuilder />;
     if (action === "personalise" && role === "coach")
-      return <SessionPersonaliser key={id} sessionId={id} />;
+      return (
+        <Suspense fallback={<p>Loading session context…</p>}>
+          <SessionPersonaliser key={id} sessionId={id} />
+        </Suspense>
+      );
     if (action === "desk" && role === "coach")
       return <SessionDesk key={id} sessionId={id} />;
   }

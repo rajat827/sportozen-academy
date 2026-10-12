@@ -1,4 +1,5 @@
 "use client";
+import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
 import { useRef, useState } from "react";
 import { Card, Button, Badge } from "@/components/ui/primitives";
 import type { useWorkspace } from "@/hooks/use-workspace";
@@ -37,9 +38,30 @@ function useTraining(w: Controller) {
   return { submit, notice };
 }
 type Submit = ReturnType<typeof useTraining>["submit"];
-export function FootballTraining({ workspace: w }: { workspace: Controller }) {
+export function FootballTraining({
+  workspace: w,
+  selected,
+  onSelect: setSelected,
+  onViewPlan,
+  section,
+  onSection,
+  selectedPlayer,
+  onSelectPlayer,
+  currentDrill,
+  onDrill,
+}: {
+  workspace: Controller;
+  selected: string;
+  onSelect: (id: string) => void;
+  onViewPlan: (playerId: string) => void;
+  section: string;
+  onSection: (section: string) => void;
+  selectedPlayer: string;
+  onSelectPlayer: (id: string) => void;
+  currentDrill: number;
+  onDrill: (index: number) => void;
+}) {
   const d = w.data!,
-    [selected, setSelected] = useState(""),
     [onlyToday, setOnlyToday] = useState(false),
     t = useTraining(w);
   const session = d.records.session.find((s) => s.id === selected);
@@ -51,6 +73,11 @@ export function FootballTraining({ workspace: w }: { workspace: Controller }) {
       <p role="status" aria-live="polite">
         {t.notice}
       </p>
+      {selected && !session && (
+        <p role="alert">
+          The selected session is unavailable. Choose an assigned session.
+        </p>
+      )}
       {!session ? (
         <>
           <Card>
@@ -109,7 +136,18 @@ export function FootballTraining({ workspace: w }: { workspace: Controller }) {
           <Button variant="secondary" onClick={() => setSelected("")}>
             Back to sessions
           </Button>
-          <SessionDesk workspace={w} session={session} submit={t.submit} />
+          <SessionDesk
+            workspace={w}
+            session={session}
+            submit={t.submit}
+            onViewPlan={onViewPlan}
+            section={section}
+            onSection={onSection}
+            selectedPlayer={selectedPlayer}
+            onSelectPlayer={onSelectPlayer}
+            currentDrill={currentDrill}
+            onDrill={onDrill}
+          />
         </>
       )}
     </>
@@ -432,14 +470,26 @@ function SessionDesk({
   workspace: w,
   session: s,
   submit,
+  onViewPlan,
+  section,
+  onSection: setSection,
+  selectedPlayer,
+  onSelectPlayer,
+  currentDrill: current,
+  onDrill: setCurrent,
 }: {
   workspace: Controller;
   session: FootballSession;
   submit: Submit;
+  onViewPlan: (playerId: string) => void;
+  section: string;
+  onSection: (section: string) => void;
+  selectedPlayer: string;
+  onSelectPlayer: (id: string) => void;
+  currentDrill: number;
+  onDrill: (index: number) => void;
 }) {
-  const [section, setSection] = useState("Objectives"),
-    [current, setCurrent] = useState(0),
-    [reason, setReason] = useState(""),
+  const [reason, setReason] = useState(""),
     d = w.data!;
   return (
     <>
@@ -533,6 +583,7 @@ function SessionDesk({
             session={s}
             playerId={p.playerId}
             submit={submit}
+            onViewPlan={onViewPlan}
           />
         ))}
       {section === "Attendance" && (
@@ -570,7 +621,14 @@ function SessionDesk({
         </Card>
       )}
       {section === "Evidence" && (
-        <EvidenceEditor workspace={w} session={s} submit={submit} />
+        <EvidenceEditor
+          workspace={w}
+          session={s}
+          submit={submit}
+          selectedPlayer={selectedPlayer}
+          onSelectPlayer={onSelectPlayer}
+          selectedDrill={s.agenda[current]?.drill.id || ""}
+        />
       )}
       {section === "Review" && (
         <ReviewDesk workspace={w} session={s} submit={submit} />
@@ -583,11 +641,13 @@ function ObjectiveEditor({
   session: s,
   playerId,
   submit,
+  onViewPlan,
 }: {
   workspace: Controller;
   session: FootballSession;
   playerId: string;
   submit: Submit;
+  onViewPlan: (playerId: string) => void;
 }) {
   const plan = w.data!.records.plan.find(
       (p) =>
@@ -603,6 +663,10 @@ function ObjectiveEditor({
         s.agenda.find((a) => plan?.drillIds.includes(a.drill.id))?.drill.id ??
         "",
     );
+  const [saved, setSaved] = useState(
+    JSON.stringify({ goal, cue, observe, drill }),
+  );
+  useUnsavedChanges(saved !== JSON.stringify({ goal, cue, observe, drill }));
   return (
     <Card>
       <h3>{s.roster.find((p) => p.playerId === playerId)?.name}</h3>
@@ -611,16 +675,24 @@ function ObjectiveEditor({
           ? `Current plan: ${plan.focus}`
           : "No current plan. Assign an explicit session objective; no weakness is inferred."}
       </p>
+      <Button
+        data-leave-editor
+        variant="secondary"
+        onClick={() => onViewPlan(playerId)}
+      >
+        View current player plan
+      </Button>
       <form
         className="form-stack"
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          void submit(
+          const result = await submit(
             "objective",
             { playerId, planId: plan?.id, goal, drillId: drill, cue, observe },
             s.id,
             s.version,
           );
+          if (result) setSaved(JSON.stringify({ goal, cue, observe, drill }));
         }}
       >
         <label>
@@ -651,7 +723,7 @@ function ObjectiveEditor({
         </label>
         <label>
           Personal coaching cue
-          <input
+          <textarea
             required
             value={cue}
             onChange={(e) => setCue(e.target.value)}
@@ -770,13 +842,23 @@ function EvidenceEditor({
   workspace: w,
   session: s,
   submit,
+  selectedPlayer,
+  onSelectPlayer,
+  selectedDrill,
 }: {
   workspace: Controller;
   session: FootballSession;
   submit: Submit;
+  selectedPlayer: string;
+  onSelectPlayer: (id: string) => void;
+  selectedDrill: string;
 }) {
-  const [playerId, setPlayer] = useState(s.roster[0]?.playerId ?? ""),
-    [drillId, setDrill] = useState(s.agenda[0]?.drill.id ?? ""),
+  const [playerId, setPlayer] = useState(
+      s.roster.some((p) => p.playerId === selectedPlayer) ? selectedPlayer : "",
+    ),
+    [drillId, setDrill] = useState(
+      s.agenda.some((a) => a.drill.id === selectedDrill) ? selectedDrill : "",
+    ),
     [observation, setObservation] = useState(""),
     [conditions, setConditions] = useState(""),
     [method, setMethod] = useState("Coach recorded during session"),
@@ -786,6 +868,7 @@ function EvidenceEditor({
     [elapsed, setElapsed] = useState(""),
     [staffNote, setNote] = useState(""),
     [visibility, setVisibility] = useState("PARENT_ELIGIBLE");
+  useUnsavedChanges(!!observation.trim() || !!staffNote.trim());
   return (
     <Card>
       <h2>Record training evidence</h2>
@@ -820,13 +903,36 @@ function EvidenceEditor({
               elapsedSeconds:
                 measurement === "ELAPSED_TIME" ? Number(elapsed) : undefined,
             })
-          )
+          ) {
             setObservation("");
+            setNote("");
+          }
         }}
       >
         <label>
           Evidence player
-          <select value={playerId} onChange={(e) => setPlayer(e.target.value)}>
+          <select
+            required
+            value={playerId}
+            onChange={(e) => {
+              if (
+                (observation.trim() || staffNote.trim()) &&
+                !window.confirm(
+                  "Discard this unsaved observation and choose another player?",
+                )
+              )
+                return;
+              setPlayer(e.target.value);
+              onSelectPlayer(e.target.value);
+              setObservation("");
+              setNote("");
+              setConditions("");
+              setAttempts("");
+              setSuccesses("");
+              setElapsed("");
+            }}
+          >
+            <option value="">Choose a session player</option>
             {s.roster.map((p) => (
               <option key={p.playerId} value={p.playerId}>
                 {p.name}

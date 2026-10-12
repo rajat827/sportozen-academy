@@ -9,7 +9,7 @@ const routePatterns = [
   /^\/coach\/sessions\/new\/?$/,
   /^\/coach\/sessions\/[^/]+\/(personalise|desk)\/?$/,
   /^\/coach\/(drills|evidence|reports)(?:\/[^/]+)?\/?$/,
-  /^\/parent\/(home|schedule|progress|reports|fees|messages|profile)\/?$/,
+  /^\/parent\/(home|schedule|progress|reports|fees|messages|profile|practice)\/?$/,
 ];
 export function isSupportedRoute(pathname: string): boolean {
   return routePatterns.some((pattern) => pattern.test(pathname));

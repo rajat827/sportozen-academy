@@ -5,6 +5,7 @@ import {
   context,
   approveReport,
   reviewUpdate,
+  publishUpdate,
   reply,
   invite,
   revokeMembership,
@@ -34,6 +35,7 @@ export async function POST(
       "approveReport",
       "submitUpdate",
       "approveUpdate",
+      "publishUpdate",
       "rejectUpdate",
     ].includes(body.action)
       ? z
@@ -55,6 +57,8 @@ export async function POST(
         return privateJson(
           reviewUpdate(ctx, body.id!, "approve", body.verified, expected),
         );
+      case "publishUpdate":
+        return privateJson(publishUpdate(ctx, body.id!, expected));
       case "rejectUpdate":
         return privateJson(
           reviewUpdate(ctx, body.id!, "reject", false, expected),

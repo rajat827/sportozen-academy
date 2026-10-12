@@ -14,9 +14,10 @@ import {
 } from "@/services/communication/conversations";
 import type { ConversationTopic } from "@/domain/parent-development";
 export function ParentInbox() {
-  const { data, actor, ready, mutate } = useDevelopmentWorkspace();
+  const { data, actor, ready, mutate, practiceDraft, setPracticeDraft } =
+    useDevelopmentWorkspace();
   const [topic, setTopic] = useState<ConversationTopic>("GENERAL"),
-    [body, setBody] = useState("");
+    [body, setBody] = useState(practiceDraft);
   if (!ready) return <p>Loading private inbox…</p>;
   const records = parentProjection(data, actor.id),
     player = records.players[0];
@@ -25,15 +26,34 @@ export function ParentInbox() {
     <div className="parent-content">
       <PageTitle
         title="Parent inbox"
-        description="Private in-app messages · External delivery: NOT_SENT"
+        description="Private coach updates and conversations for your linked child"
       />
       {records.updates.map((u) => (
         <Card key={u.id}>
-          <h2>{u.updateType.replaceAll("_", " ")}</h2>
-          <Badge>Approval: {u.approvalStatus}</Badge>
-          <Badge>In app: {u.inAppPublicationStatus}</Badge>
-          <Badge>External: {u.externalDeliveryStatus}</Badge>
-          <p className="message-body">{u.approvalSnapshot?.body}</p>
+          <h2>Coach update · {player.name}</h2>
+          <p>
+            {data.academy.name} ·{" "}
+            {new Date(u.publishedAt || u.updatedAt).toLocaleDateString()}
+          </p>
+          <Badge>Shared in your parent app</Badge>
+          <p>Current focus: {u.approvalSnapshot?.plan.parentSummary}</p>
+          {u.approvalSnapshot?.sources.find(
+            (s) => s.kind === "OBSERVATION",
+          ) && (
+            <p>
+              Reviewed coach observation:{" "}
+              {
+                u.approvalSnapshot.sources.find((s) => s.kind === "OBSERVATION")
+                  ?.text
+              }
+            </p>
+          )}
+          <p>Next step: {u.approvalSnapshot?.plan.nextGoal}</p>
+          <p>Review: {u.approvalSnapshot?.plan.reviewDate}</p>
+          <details>
+            <summary>Read full coach message</summary>
+            <p className="message-body">{u.approvalSnapshot?.body}</p>
+          </details>
           <div className="actions">
             <Link className="button secondary" href="/parent/progress">
               View Plan
@@ -42,7 +62,7 @@ export function ParentInbox() {
               className="button secondary"
               href={`/parent/messages/${records.conversations.find((c) => c.updateId === u.id)?.id ?? ""}`}
             >
-              Open Update and Reply
+              Message coach
             </Link>
           </div>
         </Card>
@@ -85,8 +105,10 @@ export function ParentInbox() {
                 mutate((s) =>
                   startConversation(s, actor, player.id, topic, body),
                 )
-              )
+              ) {
                 setBody("");
+                setPracticeDraft("");
+              }
             }}
           >
             Start Private Conversation
@@ -105,8 +127,9 @@ export function ConversationThread({
 }: {
   conversationId: string;
 }) {
-  const { data, actor, ready, mutate } = useDevelopmentWorkspace();
-  const [body, setBody] = useState(""),
+  const { data, actor, ready, mutate, practiceDraft, setPracticeDraft } =
+    useDevelopmentWorkspace();
+  const [body, setBody] = useState(practiceDraft),
     [note, setNote] = useState("");
   const c = data.conversations.find((c) => c.id === conversationId);
   const allowed = !!c && canReadConversation(data, actor, c);
@@ -147,7 +170,7 @@ export function ConversationThread({
       </Link>
       <Card>
         <Badge>Private in-app thread</Badge>
-        <Badge>External: NOT_SENT</Badge>
+        {!parent && <Badge>External: NOT_SENT</Badge>}
         {c.updateId && (
           <Link
             className="text-link"
@@ -163,7 +186,17 @@ export function ConversationThread({
             <strong>
               {m.senderRole === "parent" ? "Parent" : "Coach / Staff"}
             </strong>
-            <p className="message-body">{m.body}</p>
+            {parent &&
+            c.updateId &&
+            data.parentUpdates.find((u) => u.id === c.updateId)
+              ?.approvalSnapshot?.body === m.body ? (
+              <details>
+                <summary>Read full approved coach update</summary>
+                <p className="message-body">{m.body}</p>
+              </details>
+            ) : (
+              <p className="message-body">{m.body}</p>
+            )}
             <small>{new Date(m.createdAt).toLocaleString()}</small>
           </article>
         ))}
@@ -172,8 +205,10 @@ export function ConversationThread({
           <Button
             disabled={!body.trim() || c.status === "CLOSED"}
             onClick={() => {
-              if (mutate((s) => addConversationMessage(s, actor, c.id, body)))
+              if (mutate((s) => addConversationMessage(s, actor, c.id, body))) {
                 setBody("");
+                setPracticeDraft("");
+              }
             }}
           >
             Reply In App

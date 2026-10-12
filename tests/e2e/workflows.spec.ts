@@ -67,12 +67,12 @@ test("Coach changes goal, builds draft, personalises, marks attendance and revie
   ).toBeVisible();
   await page.goto("/coach/sessions/s1/personalise");
   await page
-    .getByLabel("Individual focus for Aarav Sharma", { exact: true })
+    .getByLabel("Today’s personal focus for Aarav Sharma", { exact: true })
     .fill("Scan over both shoulders");
-  await page.getByRole("button", { name: "Save objectives" }).click();
+  await page.getByRole("button", { name: "Save session objectives" }).click();
   await page.reload();
   await expect(
-    page.getByLabel("Individual focus for Aarav Sharma", { exact: true }),
+    page.getByLabel("Today’s personal focus for Aarav Sharma", { exact: true }),
   ).toHaveValue("Scan over both shoulders");
   await page.goto("/owner/attendance");
   await page

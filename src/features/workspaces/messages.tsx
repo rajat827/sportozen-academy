@@ -1,4 +1,5 @@
 "use client";
+import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
 import { useState } from "react";
 import { Card, Button, Badge } from "@/components/ui/primitives";
 import { useWorkspace } from "@/hooks/use-workspace";
@@ -12,10 +13,14 @@ export function WorkspaceMessages({
   workspace: w,
   player,
   sportId,
+  initialFeedback = "",
+  onFeedbackSent,
 }: {
   workspace: Controller;
   player: WorkspacePlayer;
   sportId: string;
+  initialFeedback?: string;
+  onFeedbackSent?: () => void;
 }) {
   const data = w.data!,
     parent = data.membership.role === "PARENT",
@@ -38,9 +43,17 @@ export function WorkspaceMessages({
     [body, setBody] = useState(""),
     [reportId, setReportId] = useState(reports[0]?.id ?? ""),
     [verified, setVerified] = useState(""),
-    [subject, setSubject] = useState(""),
+    [subject, setSubject] = useState(
+      initialFeedback ? "Parent-submitted practice feedback" : "",
+    ),
     [guardian, setGuardian] = useState(parent ? data.membership.userId : ""),
-    [open, setOpen] = useState("");
+    [firstMessage, setFirstMessage] = useState(initialFeedback),
+    [open, setOpen] = useState(
+      initialFeedback
+        ? conversations.find((c) => c.status === "OPEN")?.id || ""
+        : "",
+    );
+  useUnsavedChanges(!!body.trim() || !!firstMessage.trim());
   function prefill() {
     if (type === "NUTRITION_HYDRATION") {
       setBody(generalNutritionGuidance);
@@ -56,6 +69,71 @@ export function WorkspaceMessages({
   }
   return (
     <>
+      <Card>
+        <h2>{parent ? "Message your coach" : "Private conversations"}</h2>
+        <form
+          className="form-stack"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const c = await w.save<WorkspaceConversation>("conversation", {
+              playerId: player.id,
+              guardianId: guardian,
+              subject,
+            });
+            if (c) {
+              setOpen(c.id);
+            }
+          }}
+        >
+          <label>
+            Conversation topic
+            <input
+              required
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+            />
+          </label>
+          {parent && !open && (
+            <label>
+              Parent-submitted practice feedback
+              <textarea
+                value={firstMessage}
+                onChange={(e) => setFirstMessage(e.target.value)}
+              />
+            </label>
+          )}
+          {!parent && (
+            <label>
+              Linked guardian
+              <select
+                required
+                value={guardian}
+                onChange={(e) => setGuardian(e.target.value)}
+              >
+                <option value="">Choose authorised guardian</option>
+                {data.members
+                  .filter((m) => m.role === "PARENT" && m.active)
+                  .map((m) => (
+                    <option key={m.userId} value={m.userId}>
+                      {m.name}
+                    </option>
+                  ))}
+              </select>
+            </label>
+          )}
+          <Button disabled={w.busy || data.membership.role === "SUPPORT"}>
+            Start private conversation
+          </Button>
+        </form>
+        {conversations.map((c) => (
+          <Button variant="secondary" key={c.id} onClick={() => setOpen(c.id)}>
+            {c.subject} · {c.status}
+            {c.messages.at(-1)?.senderRole === "PARENT" && !parent
+              ? " · Parent replied"
+              : ""}
+          </Button>
+        ))}
+      </Card>
       {!parent && data.membership.role !== "SUPPORT" && (
         <Card>
           <h2>Create parent development update</h2>
@@ -68,7 +146,7 @@ export function WorkspaceMessages({
             onSubmit={async (e) => {
               e.preventDefault();
               if (!plans[0]) return;
-              await w.save("update", {
+              const saved = await w.save("update", {
                 playerId: player.id,
                 sportId,
                 planId: plans[0].id,
@@ -77,6 +155,7 @@ export function WorkspaceMessages({
                 sourceReportId:
                   type !== "NUTRITION_HYDRATION" ? reportId : undefined,
               });
+              if (saved) setBody("");
             }}
           >
             <label>
@@ -149,13 +228,94 @@ export function WorkspaceMessages({
               : "Development update"}
           </h2>
           <div className="inline">
-            <Badge>{update.approvalStatus}</Badge>
-            <Badge>{update.inAppPublicationStatus}</Badge>
-            <Badge>External delivery: {update.externalDeliveryStatus}</Badge>
+            {parent ? (
+              <Badge>Shared in your parent app</Badge>
+            ) : (
+              <>
+                <Badge>{update.approvalStatus}</Badge>
+                <Badge>{update.inAppPublicationStatus}</Badge>
+                <Badge>
+                  External delivery: {update.externalDeliveryStatus}
+                </Badge>
+              </>
+            )}
           </div>
-          <p className="message-body">
-            {parent ? update.approvedBody : update.messageBody}
-          </p>
+          {parent ? (
+            <>
+              <p>
+                {player.name} · {data.academy.name}
+              </p>
+              <p>
+                Current focus:{" "}
+                {"focus" in (update.approvedSource || {})
+                  ? (
+                      update.approvedSource as import("@/domain/report").ReportViewModel
+                    ).focus
+                  : "Academy guidance"}
+              </p>
+              {update.approvedSource && "nextStep" in update.approvedSource && (
+                <>
+                  <p>
+                    Coach: {update.approvedSource.coach || data.academy.name} ·{" "}
+                    {update.approvedSource.period}
+                  </p>
+                  <p>Next step: {update.approvedSource.nextStep}</p>
+                  <p>
+                    Review:{" "}
+                    {update.approvedSource.reviewDate || "To be confirmed"}
+                  </p>
+                  {update.type !== "UPCOMING_TRAINING" &&
+                    update.approvedSource.evidence[0] && (
+                      <p>
+                        Reviewed observation:{" "}
+                        {update.approvedSource.evidence[0].text}
+                        <br />
+                        Evidence source:{" "}
+                        {update.approvedSource.evidence[0].source.replaceAll(
+                          "_",
+                          " ",
+                        )}
+                      </p>
+                    )}
+                </>
+              )}
+              {update.type === "UPCOMING_TRAINING" && (
+                <p>
+                  Upcoming practice · planned activities, not completed results.
+                </p>
+              )}
+              <details>
+                <summary>Read full coach message</summary>
+                <p className="message-body">{update.approvedBody}</p>
+              </details>
+              <Button
+                variant="secondary"
+                disabled={w.busy}
+                onClick={async () => {
+                  const conversation = conversations.find(
+                    (c) => c.updateId === update.id && c.status === "OPEN",
+                  );
+                  if (conversation) setOpen(conversation.id);
+                  else {
+                    const created = await w.save<WorkspaceConversation>(
+                      "conversation",
+                      {
+                        playerId: player.id,
+                        guardianId: data.membership.userId,
+                        updateId: update.id,
+                        subject: `Question about ${player.name}'s coach update`,
+                      },
+                    );
+                    if (created) setOpen(created.id);
+                  }
+                }}
+              >
+                Message coach
+              </Button>
+            </>
+          ) : (
+            <p className="message-body">{update.messageBody}</p>
+          )}
           {!parent && data.membership.role !== "SUPPORT" && (
             <div className="form-stack">
               {update.sourceReportId && (
@@ -227,6 +387,17 @@ export function WorkspaceMessages({
                     Reject update
                   </Button>
                 </>
+              ) : update.inAppPublicationStatus !== "PUBLISHED" ? (
+                <Button
+                  disabled={w.busy}
+                  onClick={() =>
+                    w.action("publishUpdate", update.id, {
+                      expectedVersion: update.recordVersion,
+                    })
+                  }
+                >
+                  Share in parent app
+                </Button>
               ) : (
                 <p>
                   Published only to authorised, opted-in in-app recipients. No
@@ -237,64 +408,19 @@ export function WorkspaceMessages({
           )}
         </Card>
       ))}
-      <Card>
-        <h2>{parent ? "Message your coach" : "Private conversations"}</h2>
-        <form
-          className="form-stack"
-          onSubmit={async (e) => {
-            e.preventDefault();
-            const c = await w.save<WorkspaceConversation>("conversation", {
-              playerId: player.id,
-              guardianId: guardian,
-              subject,
-            });
-            if (c) setOpen(c.id);
-          }}
-        >
-          <label>
-            Conversation topic
-            <input
-              required
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-            />
-          </label>
-          {!parent && (
-            <label>
-              Linked guardian
-              <select
-                required
-                value={guardian}
-                onChange={(e) => setGuardian(e.target.value)}
-              >
-                <option value="">Choose authorised guardian</option>
-                {data.members
-                  .filter((m) => m.role === "PARENT" && m.active)
-                  .map((m) => (
-                    <option key={m.userId} value={m.userId}>
-                      {m.name}
-                    </option>
-                  ))}
-              </select>
-            </label>
-          )}
-          <Button disabled={w.busy || data.membership.role === "SUPPORT"}>
-            Start private conversation
-          </Button>
-        </form>
-        {conversations.map((c) => (
-          <Button variant="secondary" key={c.id} onClick={() => setOpen(c.id)}>
-            {c.subject} · {c.status}
-            {c.messages.at(-1)?.senderRole === "PARENT" && !parent
-              ? " · Parent replied"
-              : ""}
-          </Button>
-        ))}
-      </Card>
       {conversations
         .filter((c) => c.id === open)
         .map((c) => (
-          <ConversationThread key={c.id} workspace={w} conversation={c} />
+          <ConversationThread
+            key={c.id}
+            workspace={w}
+            conversation={c}
+            initialBody={firstMessage}
+            onSent={() => {
+              setFirstMessage("");
+              onFeedbackSent?.();
+            }}
+          />
         ))}
     </>
   );
@@ -302,13 +428,18 @@ export function WorkspaceMessages({
 function ConversationThread({
   workspace: w,
   conversation: c,
+  initialBody = "",
+  onSent,
 }: {
   workspace: Controller;
   conversation: WorkspaceConversation;
+  initialBody?: string;
+  onSent?: () => void;
 }) {
-  const [body, setBody] = useState(""),
+  const [body, setBody] = useState(initialBody),
     [internal, setInternal] = useState(false),
     parent = w.data!.membership.role === "PARENT";
+  useUnsavedChanges(!!body.trim());
   return (
     <Card>
       <h2>{c.subject}</h2>
@@ -345,7 +476,10 @@ function ConversationThread({
             internal,
             action: "reply",
           });
-          if (result) setBody("");
+          if (result) {
+            setBody("");
+            onSent?.();
+          }
         }}
       >
         <label>

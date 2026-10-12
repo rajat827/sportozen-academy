@@ -359,6 +359,7 @@ export function saveRecord(
           playerId: z.string(),
           guardianId: z.string(),
           subject: z.string().min(2).max(200),
+          updateId: z.string().optional(),
         })
         .parse(input);
       requirePlayer(ctx, value.playerId);
@@ -378,6 +379,18 @@ export function saveRecord(
           403,
           "An authorised guardian relationship is required.",
         );
+      if (value.updateId) {
+        const update = visibleRecord(ctx, "update", value.updateId);
+        if (
+          update.playerId !== value.playerId ||
+          update.approvalStatus !== "APPROVED" ||
+          update.inAppPublicationStatus !== "PUBLISHED"
+        )
+          throw new WorkspaceError(
+            403,
+            "Choose this child’s published update.",
+          );
+      }
       record = { ...base, ...value, status: "OPEN", messages: [] };
       break;
     }
@@ -527,9 +540,19 @@ export function approveReport(
           const a = repo
             .find(ctx.academy.id, "session", e.sessionId)!
             .agenda.find((a) => a.drill.id === e.drillId)!;
-          return { name: a.drill.name, purpose: a.drill.purpose };
+          return {
+            name: a.drill.name,
+            purpose: a.drill.purpose,
+            cue: a.drill.cue,
+            drillId: a.drill.id,
+          };
         })
-      : assigned.map((d) => ({ name: d.name, purpose: d.purpose })),
+      : assigned.map((d) => ({
+          name: d.name,
+          purpose: d.purpose,
+          cue: d.cue,
+          drillId: d.id,
+        })),
     evidence: trainingSources.length
       ? trainingSources.map((e) => ({
           text: `${e.observation.replace(/[.!?]\s*$/, "")}. ${measurementText(e)}. Conditions: ${e.conditions.replace(/[.!?]\s*$/, "")}. Recorded attendance: ${repo.find(ctx.academy.id, "attendance", `${e.sessionId}:${e.playerId}`)?.status ?? "UNMARKED"}. No video attached.`,
@@ -665,12 +688,6 @@ export function reviewUpdate(
           reportTrainingSources(ctx, r);
         }
       }
-      const guardians = database()
-        .prepare(
-          "SELECT g.userId FROM guardian_relationships g JOIN academy_memberships m ON m.academyId=g.academyId AND m.userId=g.userId WHERE g.academyId=? AND g.playerId=? AND m.role='PARENT' AND m.active=1",
-        )
-        .all(ctx.academy.id, record.playerId)
-        .map((r) => String(r.userId));
       next = {
         ...next,
         approvalStatus: "APPROVED",
@@ -680,19 +697,9 @@ export function reviewUpdate(
             ? { guideline: nutritionGuidance, approval: "ACADEMY_APPROVED" }
             : repo.find(ctx.academy.id, "report", record.sourceReportId!)!
                 .snapshot,
-        inAppPublicationStatus: "PUBLISHED",
-        publishedGuardianIds: guardians.filter((id) => {
-          const p = repo.find(ctx.academy.id, "preference", id);
-          return (
-            (!p || p.inApp) &&
-            (record.type === "NUTRITION_HYDRATION"
-              ? p?.nutrition === true
-              : p?.development !== false)
-          );
-        }),
+        inAppPublicationStatus: "UNPUBLISHED",
+        publishedGuardianIds: [],
       };
-      if (!next.publishedGuardianIds?.length)
-        next.inAppPublicationStatus = "UNPUBLISHED";
     }
   }
   atomic(() => {
@@ -747,6 +754,93 @@ export function reviewUpdate(
   );
   return next;
 }
+/** Explicit private publication; approval alone never adds an inbox recipient. */
+export function publishUpdate(
+  ctx: WorkspaceAccess,
+  id: string,
+  expectedVersion?: number,
+) {
+  requireRole(ctx, [...staff]);
+  const record = visibleRecord(ctx, "update", id);
+  if (expectedVersion !== undefined && expectedVersion !== record.recordVersion)
+    throw new WorkspaceError(409, "Update changed. Review before sharing.");
+  if (
+    record.approvalStatus !== "APPROVED" ||
+    !record.approvedBody ||
+    !record.approvedSource
+  )
+    throw new WorkspaceError(
+      409,
+      "Approve this update before sharing in the parent app.",
+    );
+  return atomic(() => {
+    if (
+      repo.find(ctx.academy.id, "update", id)?.recordVersion !==
+      record.recordVersion
+    )
+      throw new WorkspaceError(409, "Update changed during publication.");
+    if (record.type === "NUTRITION_HYDRATION") {
+      requireRole(ctx, ["OWNER", "ADMIN"]);
+      if (record.approvedBody !== nutritionGuidance)
+        throw new WorkspaceError(
+          400,
+          "Only approved general guidance may be shared.",
+        );
+    } else {
+      const source = repo.find(
+        ctx.academy.id,
+        "report",
+        record.sourceReportId!,
+      );
+      if (
+        !source ||
+        source.status !== "Approved" ||
+        source.playerId !== record.playerId ||
+        source.sportId !== record.sportId ||
+        JSON.stringify(source.snapshot) !==
+          JSON.stringify(record.approvedSource)
+      )
+        throw new WorkspaceError(
+          409,
+          "Approved source changed. Review a new draft before sharing.",
+        );
+      if (record.type === "REVIEWED_SESSION")
+        reportTrainingSources(ctx, source);
+    }
+    const guardians = database()
+      .prepare(
+        "SELECT g.userId FROM guardian_relationships g JOIN academy_memberships m ON m.academyId=g.academyId AND m.userId=g.userId WHERE g.academyId=? AND g.playerId=? AND m.role='PARENT' AND m.active=1",
+      )
+      .all(ctx.academy.id, record.playerId)
+      .map((r) => String(r.userId));
+    const recipients = guardians.filter((userId) => {
+      const preference = repo.find(ctx.academy.id, "preference", userId);
+      return (
+        (!preference || preference.inApp) &&
+        (record.type === "NUTRITION_HYDRATION"
+          ? preference?.nutrition === true
+          : preference?.development !== false)
+      );
+    });
+    const next: WorkspaceUpdate = {
+      ...record,
+      publishedGuardianIds: recipients,
+      inAppPublicationStatus: recipients.length ? "PUBLISHED" : "UNPUBLISHED",
+      externalDeliveryStatus: "NOT_SENT",
+    };
+    repo.save(ctx.academy.id, "update", next);
+    audit(
+      ctx.academy.id,
+      ctx.user.id,
+      recipients.length
+        ? "Approved update shared privately in parent app"
+        : "Publication withheld by preferences or guardian access",
+      id,
+    );
+    return next;
+  });
+}
+
 export function reply(ctx: WorkspaceAccess, id: string, input: unknown) {
   requireRole(ctx, [...staff, "PARENT"]);
   const value = z

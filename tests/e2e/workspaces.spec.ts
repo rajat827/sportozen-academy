@@ -515,7 +515,13 @@ test("authenticated football academies isolate regional plans, approved parent r
       "Coach-reviewed focus and next review are available in your private plan.",
   });
   await action(a.api, aid, "submitUpdate", update.id);
-  const published = await action(a.api, aid, "approveUpdate", update.id);
+  const approvedUpdate = await action(a.api, aid, "approveUpdate", update.id);
+  expect(approvedUpdate.inAppPublicationStatus).toBe("UNPUBLISHED");
+  expect(
+    (await (await parent.api.get(`/api/workspaces/${aid}`)).json()).records
+      .update,
+  ).toHaveLength(0);
+  const published = await action(a.api, aid, "publishUpdate", update.id);
   expect(published.externalDeliveryStatus).toBe("NOT_SENT");
   expect(
     (await (await parent.api.get(`/api/workspaces/${aid}`)).json()).records
@@ -565,6 +571,7 @@ test("authenticated football academies isolate regional plans, approved parent r
   });
   await action(a.api, aid, "submitUpdate", nutrition.id);
   await action(a.api, aid, "approveUpdate", nutrition.id);
+  await action(a.api, aid, "publishUpdate", nutrition.id);
   expect(
     (await (await parent.api.get(`/api/workspaces/${aid}`)).json()).records
       .update,
@@ -586,6 +593,7 @@ test("authenticated football academies isolate regional plans, approved parent r
   });
   await action(a.api, aid, "submitUpdate", opted.id);
   await action(a.api, aid, "approveUpdate", opted.id);
+  await action(a.api, aid, "publishUpdate", opted.id);
   expect(
     (await (await parent.api.get(`/api/workspaces/${aid}`)).json()).records
       .update,
@@ -643,6 +651,7 @@ test("authenticated football academies isolate regional plans, approved parent r
   });
   const coachPage = await coachContext.newPage();
   await coachPage.goto(`/workspace/${aid}`);
+  await coachPage.getByLabel("Player", { exact: true }).selectOption(child.id);
   await coachPage
     .getByRole("button", { name: "Messages", exact: true })
     .click();

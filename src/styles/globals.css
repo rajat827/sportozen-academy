@@ -3065,3 +3065,18 @@ summary {
 .training-row{padding:16px 0;border-bottom:1px solid var(--border);overflow-wrap:anywhere;min-width:0}.training-actions{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}.secure-workspace .training-actions .button{white-space:normal}.secure-workspace input[type=datetime-local]{min-width:0;max-width:100%}
 .secure-workspace .training-desk-tabs{position:static;z-index:auto}
 .thread-message time{margin-left:8px}
+
+/* UX simplification: meaningful values wrap; modal navigation remains scrollable. */
+.mobile-dialog { overflow-y:auto; max-height:100dvh; z-index:100; }
+.mobile-dialog .mobile-drawer-close { display:flex; }
+.form-stack textarea { min-height:88px; resize:vertical; }
+.card summary, .card .button, .bottom-nav a span { overflow-wrap:anywhere; white-space:normal; }
+@media(max-width:768px) { .parent-workspace { padding-bottom:150px; } .mobile-dialog { width:min(280px,100vw); transform:none; } }
+@media(max-width:768px) { .parent-workspace .workspace-tabs .button { white-space:normal; overflow-wrap:break-word; line-height:1.3; min-height:52px; } }
+
+.mobile-tab-label { display:none; }
+@media(max-width:768px) {
+ .parent-workspace .workspace-tabs { gap:4px; }
+ .parent-workspace .desktop-tab-label { display:none; }
+ .parent-workspace .mobile-tab-label { display:block; min-width:0; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+}

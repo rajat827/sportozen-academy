@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Check, Flag, ArrowRight, CalendarDays } from "lucide-react";
 import { useAcademy } from "@/hooks/use-academy";
 import type { GoalStatus } from "@/domain/entities";
@@ -55,6 +56,9 @@ export function DevelopmentPlan({ playerId = "p1" }: { playerId?: string }) {
   const goals = data.goals.filter((g) => g.playerId === playerId);
   return (
     <>
+      <Suspense fallback={null}>
+        <SessionReturn playerId={playerId} />
+      </Suspense>
       <PageTitle
         eyebrow="PLAN → PERSONALISE → PRACTISE"
         title={`${player.name.split(" ")[0]}’s development plan`}
@@ -233,3 +237,41 @@ export function DevelopmentPlan({ playerId = "p1" }: { playerId?: string }) {
   );
 }
 
+function SessionReturn({ playerId }: { playerId: string }) {
+  const query = useSearchParams();
+  const { data } = useAcademy();
+  const id = query.get("session");
+  if (!id) return null;
+  const session = data.sessions.find((s) => s.id === id);
+  const player = data.players.find((p) => p.id === playerId);
+  if (
+    !session ||
+    query.get("player") !== playerId ||
+    session.squad !== player?.squad
+  )
+    return (
+      <p role="alert">
+        Session context is unavailable. Choose an assigned session from My
+        Sessions.
+      </p>
+    );
+  return (
+    <Card>
+      <p>
+        {data.academy.name} · {session.title} · {session.squad} · {session.date}{" "}
+        {session.time} · {player.name}
+      </p>
+      <p>
+        Recorded session focus:{" "}
+        {session.focuses[playerId] || "No focus recorded"}. Changing this
+        long-term plan does not change the session objective.
+      </p>
+      <Link
+        className="button secondary"
+        href={`/coach/sessions/${session.id}/personalise?player=${encodeURIComponent(playerId)}`}
+      >
+        Return to selected session
+      </Link>
+    </Card>
+  );
+}

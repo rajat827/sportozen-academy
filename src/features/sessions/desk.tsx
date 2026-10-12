@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
 import { Play, Pause, Mic, Bookmark, Plus, Check } from "lucide-react";
 import { useAcademy } from "@/hooks/use-academy";
 import {
@@ -19,8 +20,9 @@ export function SessionDesk({ sessionId }: { sessionId: string }) {
   const [seconds, setSeconds] = useState(0);
   const [current, setCurrent] = useState(0);
   const [tab, setTab] = useState("Training");
-  const [playerId, setPlayerId] = useState("p1");
+  const [playerId, setPlayerId] = useState("");
   const [note, setNote] = useState("");
+  useUnsavedChanges(!!note.trim());
   const [attempts, setAttempts] = useState(0);
   const [successes, setSuccesses] = useState(0);
   useEffect(() => {
@@ -35,9 +37,9 @@ export function SessionDesk({ sessionId }: { sessionId: string }) {
   const drill = drills[current];
   const players = data.players.filter((p) => p.squad === session.squad);
   function capture() {
-    if (!note.trim() || !session) return;
+    if (!note.trim() || !session || !playerId) return;
     const id = crypto.randomUUID();
-    update((s) => ({
+    const saved = update((s) => ({
       ...s,
       observations: [
         ...s.observations,
@@ -59,7 +61,10 @@ export function SessionDesk({ sessionId }: { sessionId: string }) {
           sportId: session.sportId,
           playerId,
           sessionId,
-          goalId: s.goals.find((g) => g.playerId === playerId)?.id ?? "",
+          goalId:
+            s.personalisations.find(
+              (o) => o.sessionId === sessionId && o.playerId === playerId,
+            )?.goalId ?? "",
           title: `${data.players.find((p) => p.id === playerId)?.name} · session observation`,
           type: "Coach Observation",
           status: "Awaiting Review",
@@ -68,6 +73,7 @@ export function SessionDesk({ sessionId }: { sessionId: string }) {
         },
       ],
     }));
+    if (!saved) return;
     setNote("");
     setAttempts(0);
     setSuccesses(0);
@@ -77,7 +83,7 @@ export function SessionDesk({ sessionId }: { sessionId: string }) {
       <PageTitle
         eyebrow="COACHING, IN THE MOMENT"
         title="Session Desk"
-        description={`${session.title} · ${session.squad} · ${session.venue}`}
+        description={`${data.academy.name} · ${session.title} · ${session.squad} · ${session.date} ${session.time} · ${session.venue}`}
       >
         <Link
           className="button secondary"
@@ -123,7 +129,7 @@ export function SessionDesk({ sessionId }: { sessionId: string }) {
             <div>
               <Badge tone="green">{session.status}</Badge>
               <h2>{drill?.name ?? "No drill selected"}</h2>
-              <p>{session.coachingPoints}</p>
+              <p>{drill?.objective || session.coachingPoints}</p>
             </div>
             <div className="timer-controls">
               <strong>
@@ -179,9 +185,11 @@ export function SessionDesk({ sessionId }: { sessionId: string }) {
                   <label>
                     Player
                     <select
+                      aria-label="Player"
                       value={playerId}
                       onChange={(e) => setPlayerId(e.target.value)}
                     >
+                      <option value="">Choose a player deliberately</option>
                       {players.map((p) => (
                         <option value={p.id} key={p.id}>
                           {p.name}
@@ -214,7 +222,10 @@ export function SessionDesk({ sessionId }: { sessionId: string }) {
                       Success · {successes}
                     </Button>
                   </div>
-                  <Button disabled={!note.trim()} onClick={capture}>
+                  <Button
+                    disabled={!note.trim() || !playerId}
+                    onClick={capture}
+                  >
                     Save observation for review
                   </Button>
                   <div className="inline">

@@ -31,3 +31,9 @@ Approving a report makes it available in the linked private parent report view. 
 ## Authenticated multi-academy foundation
 
 The authenticated customer entry is /workspace, with server-checked academy memberships, sport-specific plans, approved report snapshots and private parent messaging. Legacy role routes remain fictional demonstrations. See [MULTI_ACADEMY_FOUNDATION.md](MULTI_ACADEMY_FOUNDATION.md), [SECURITY_AND_DEPLOYMENT.md](SECURITY_AND_DEPLOYMENT.md) and [WORKSPACE_MIGRATION.md](WORKSPACE_MIGRATION.md) for the boundary, migration audit and remaining commercial requirements. External delivery remains NOT_SENT; no real messaging, billing or AI provider is connected.
+
+## Parent-supported practice and concise messages
+
+Parents see plain-language in-app sharing and approved focus/next-step context; full approved message wording remains expandable. Staff retain accurate approval, publication and external NOT_SENT details. Coach demo Messages opens Conversations. Practise together prepares editable **Parent-submitted practice feedback** in a linked-child private conversation; a parent submits intentionally. It never verifies improvement or changes a goal. No external adapter was connected. See UX_SIMPLIFICATION_RESULTS.md for retest scope and limits.
+
+Approval and in-app publication are explicit separate commands: approveUpdate snapshots and approves without publishing; publishUpdate rechecks source/current scope and guardian preferences before private in-app sharing. Update-linked conversation creation validates the published update belongs to the chosen authorized child. Existing callers must invoke publication explicitly after approval; no external delivery is enabled.

@@ -164,9 +164,11 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     pp = await parentContext.newPage(),
     op = await ownerContext.newPage();
   cp.setDefaultTimeout(15000);
+  cp.on("dialog", (dialog) => dialog.accept());
   pp.setDefaultTimeout(15000);
   op.setDefaultTimeout(15000);
   await cp.goto(`/workspace/${aid}`);
+  await cp.getByLabel("Player", { exact: true }).selectOption(first.id);
   await cp.getByLabel("Development focus").selectOption("Dribbling");
   await cp
     .getByLabel("Why this focus", { exact: true })
@@ -266,6 +268,35 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   const cards = cp.locator("section.card").filter({
     has: cp.getByRole("heading", { name: "Fictional Player A", exact: true }),
   });
+  await cards.getByRole("button", { name: "View current player plan" }).click();
+  await expect(cp.getByLabel("Player", { exact: true })).toHaveValue(first.id);
+  await expect(cp.getByText("COACH", { exact: true })).toBeVisible();
+  await cp.getByRole("button", { name: "Return to selected session" }).click();
+  await expect(
+    cp.getByRole("heading", { name: "Session Desk · Dribbling and finishing" }),
+  ).toBeVisible();
+  await cards
+    .getByLabel("Individual goal")
+    .fill("Keep comfortable close control while turning.");
+  await cards
+    .getByLabel("Personal coaching cue")
+    .fill("Keep comfortable close touches.");
+  await cp.route("**/training", async (route) => {
+    await route.fulfill({
+      status: 503,
+      json: { error: "Synthetic objective save failure" },
+    });
+    await cp.unroute("**/training");
+  });
+  await cards.getByRole("button", { name: "Save personal objective" }).click();
+  await expect(
+    cp
+      .getByRole("alert")
+      .filter({ hasText: "Synthetic objective save failure" }),
+  ).toBeVisible();
+  await expect(cards.getByLabel("Individual goal")).toHaveValue(
+    "Keep comfortable close control while turning.",
+  );
   await cards
     .getByLabel("Personal coaching cue")
     .fill("Keep comfortable close touches.");
@@ -292,6 +323,15 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
         (await payload(coach.api)).records.session[0].objectives.length,
     )
     .toBe(2);
+  await cardB
+    .getByRole("button", { name: "View current player plan", exact: true })
+    .click();
+  await cp
+    .getByRole("button", { name: "Return to selected session", exact: true })
+    .click();
+  await cp.getByRole("button", { name: "Evidence", exact: true }).click();
+  await expect(cp.getByLabel("Evidence player")).toHaveValue(second.id);
+  await cp.getByRole("button", { name: "Objectives", exact: true }).click();
   session = (await payload(coach.api)).records.session[0];
   const snapshot = session.objectives;
   await command(
@@ -489,6 +529,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     session.id,
   );
   await cp.getByRole("button", { name: "Evidence", exact: true }).click();
+  await cp.getByLabel("Evidence player").selectOption(first.id);
   await cp
     .getByLabel("Coach observation", { exact: true })
     .fill("Kept the ball close on three of six recorded turns.");
@@ -555,7 +596,9 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   );
   await cp.reload();
   await cp.getByRole("button", { name: "Training", exact: true }).click();
-  await cp.getByRole("button", { name: "Open session desk" }).click();
+  await expect(
+    cp.getByRole("heading", { name: "Session Desk · Dribbling and finishing" }),
+  ).toBeVisible();
   await cp.getByRole("button", { name: "Review", exact: true }).click();
   const reviewCard = cp
     .locator("section.card")
@@ -851,7 +894,21 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     .poll(async () => (await payload(coach.api)).records.update.length)
     .toBe(1);
   const update = (await payload(coach.api)).records.update[0];
-  await action(coach.api, "submitUpdate", update.id);
+  expect(
+    (
+      await owner.api.post(`${root}/actions`, {
+        data: { action: "publishUpdate", id: update.id },
+      })
+    ).status(),
+  ).toBe(409);
+  await cp
+    .getByRole("button", { name: "Send for approval", exact: true })
+    .click();
+  await expect
+    .poll(
+      async () => (await payload(coach.api)).records.update[0].approvalStatus,
+    )
+    .toBe("PENDING_APPROVAL");
   const pendingUpdate = (await payload(coach.api)).records.update[0];
   expect(
     (
@@ -865,7 +922,30 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
       })
     ).status(),
   ).toBe(409);
-  await action(owner.api, "approveUpdate", update.id);
+  await op.reload();
+  await op.getByLabel("Player", { exact: true }).selectOption(first.id);
+  await op.getByRole("button", { name: "Messages", exact: true }).click();
+  await op
+    .getByRole("checkbox", {
+      name: "I verified the correct player, authorised guardian, approved source records and guidance",
+    })
+    .check();
+  await op.getByRole("button", { name: "Approve update", exact: true }).click();
+  await expect
+    .poll(
+      async () => (await payload(owner.api)).records.update[0].approvalStatus,
+    )
+    .toBe("APPROVED");
+  expect(
+    (await payload(owner.api)).records.update[0].inAppPublicationStatus,
+  ).toBe("UNPUBLISHED");
+  expect((await payload(parent.api)).records.update).toHaveLength(0);
+  await op
+    .getByRole("button", { name: "Share in parent app", exact: true })
+    .click();
+  await expect
+    .poll(async () => (await payload(parent.api)).records.update.length)
+    .toBe(1);
   expect(
     (await payload(parent.api)).records.update[0].externalDeliveryStatus,
   ).toBe("NOT_SENT");
@@ -881,6 +961,26 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   await expect(
     pp.getByText(/Kept the ball close on three of six/).first(),
   ).toBeVisible();
+  await pp.getByRole("button", { name: "Message coach", exact: true }).click();
+  await expect(
+    pp.getByRole("heading", {
+      name: "Question about Fictional Player A's coach update",
+    }),
+  ).toBeVisible();
+  await pp
+    .getByLabel("Reply to coach")
+    .fill("Could you explain the assigned drill?");
+  await pp.getByRole("button", { name: "Post reply", exact: true }).click();
+  await expect(
+    pp.getByText("Could you explain the assigned drill?", { exact: true }),
+  ).toBeVisible();
+  const linkedConversation = (
+    await payload(parent.api)
+  ).records.conversation.find((c) => c.updateId === update.id)!;
+  expect(linkedConversation.playerId).toBe(first.id);
+  await pp
+    .getByRole("button", { name: "Close conversation", exact: true })
+    .click();
   const conversation = await save<{ id: string }>(parent.api, "conversation", {
     playerId: first.id,
     guardianId: parent.id,
@@ -908,6 +1008,91 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
       exact: true,
     }),
   ).toBeVisible();
+  const reviewedBeforeFeedback = (await payload(parent.api)).records.report;
+  await pp
+    .getByRole("button", { name: "Practise together", exact: true })
+    .click();
+  await expect(
+    pp.getByRole("heading", { name: "Practise together", exact: true }),
+  ).toBeVisible();
+  await expect(
+    pp.getByRole("heading", { name: "One coaching cue" }),
+  ).toBeVisible();
+  await pp
+    .getByRole("button", { name: "This felt difficult.", exact: true })
+    .click();
+  await expect(pp.getByLabel("Reply to coach")).toHaveValue(
+    /Parent-submitted practice feedback/,
+  );
+  await pp
+    .getByLabel("Reply to coach")
+    .fill(
+      "Parent-submitted practice feedback\nThis felt difficult. Could you demonstrate again?",
+    );
+  await pp.getByRole("button", { name: "Post reply", exact: true }).click();
+  await expect
+    .poll(async () =>
+      (await payload(parent.api)).records.conversation.some((c) =>
+        c.messages.some((m) => m.body.includes("Could you demonstrate again?")),
+      ),
+    )
+    .toBe(true);
+  await cp.reload();
+  await cp.getByRole("button", { name: "Messages", exact: true }).click();
+  await cp
+    .getByRole("button", { name: /Question about the assigned course/ })
+    .click();
+  await expect(
+    cp.getByText(
+      "Parent-submitted practice feedback\nThis felt difficult. Could you demonstrate again?",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await cp
+    .getByLabel("Conversation reply")
+    .fill(
+      "Thank you. We can demonstrate the assigned activity at the next session.",
+    );
+  await cp.getByRole("button", { name: "Post reply", exact: true }).click();
+  await pp.reload();
+  await pp.getByRole("button", { name: "Messages", exact: true }).click();
+  await pp
+    .getByRole("button", { name: /Question about the assigned course/ })
+    .click();
+  await expect(
+    pp.getByText(
+      "Thank you. We can demonstrate the assigned activity at the next session.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  expect((await payload(parent.api)).records.report).toEqual(
+    reviewedBeforeFeedback,
+  );
+  for (const width of [1440, 390, 320]) {
+    await pp.setViewportSize({ width, height: 844 });
+    await pp
+      .getByRole("button", { name: "Practise together", exact: true })
+      .click();
+    expect(
+      await pp.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    if (width < 768)
+      expect(
+        await pp
+          .locator(".parent-workspace .workspace-tabs button")
+          .evaluateAll((buttons) =>
+            buttons.every((b) => b.scrollWidth <= b.clientWidth),
+          ),
+      ).toBe(true);
+    mkdirSync("docs/screenshots/ux-simplification", { recursive: true });
+    await pp.screenshot({
+      path: `docs/screenshots/ux-simplification/authenticated-practice-${width}.png`,
+      fullPage: true,
+    });
+    await pp.getByRole("button", { name: "Messages", exact: true }).click();
+  }
   const parentData = await payload(parent.api);
   expect(parentData.records.player).toHaveLength(1);
   expect(parentData.records.session).toEqual([]);
@@ -915,6 +1100,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   expect(JSON.stringify(parentData)).not.toMatch(/PRIVATE_|Fictional Player B/);
   // Planned messaging uses an approved snapshot and never claims an upcoming drill was completed.
   await cp.reload();
+  await cp.getByLabel("Player", { exact: true }).selectOption(first.id);
   await cp.getByRole("button", { name: "Messages", exact: true }).click();
   await expect(cp.getByText("APPROVED", { exact: true })).toBeVisible();
   await cp.getByLabel("Update category").selectOption("UPCOMING_TRAINING");
@@ -953,10 +1139,16 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     }
   }
   await capture(cp, "parent-update");
+  await pp
+    .getByRole("button", { name: /Question about the assigned course/ })
+    .click();
   await capture(pp, "parent-reply");
   await cp.getByRole("button", { name: "Reports", exact: true }).click();
   await capture(cp, "report-preview");
   await cp.getByRole("button", { name: "Training", exact: true }).click();
+  await cp
+    .getByRole("button", { name: "Back to sessions", exact: true })
+    .click();
   await capture(cp, "sessions");
   await cp.getByRole("button", { name: "Open session desk" }).click();
   for (const section of [

@@ -46,6 +46,7 @@ const rupees = (n: number) =>
   }).format(n);
 export function Dashboard({ coach = false }: { coach?: boolean }) {
   const { data, update } = useAcademy();
+  const featured = data.sessions.find((s) => s.id === "s1");
   const coachSquads = data.squads.filter((s) => s.coachId === "c1");
   const coachPlayers = data.players.filter((p) =>
     coachSquads.some((s) => s.name === p.squad),
@@ -128,7 +129,7 @@ export function Dashboard({ coach = false }: { coach?: boolean }) {
         title={
           coach ? "Let’s make today count, Rahul." : "Good afternoon, Anil."
         }
-        description="Wednesday, 7 October 2026 · A little progress, every session."
+        description="Fictional demo reference date: 7 October 2026 · A little progress, every session."
       >
         <Link
           className="button secondary"
@@ -192,32 +193,37 @@ export function Dashboard({ coach = false }: { coach?: boolean }) {
           <SectionTitle
             title={coach ? "Your next session" : "Today at the academy"}
             subtitle="A clear focus for every training group"
-            href="/owner/sessions"
+            href={coach ? "/coach/sessions" : "/owner/sessions"}
           />
           <div className="session-feature">
             <div className="date-tile">
-              <small>OCT</small>
-              <strong>07</strong>
-              <span>WED</span>
+              <small>{featured?.date.slice(0, 7)}</small>
+              <strong>{featured?.date.slice(8)}</strong>
+              <span>DEMO</span>
             </div>
             <div>
               <div className="inline">
-                <Badge tone="green">U-13</Badge>
-                <Badge>Published</Badge>
+                <Badge tone="green">{featured?.squad}</Badge>
+                <Badge>{featured?.status}</Badge>
               </div>
-              <h3>Receive. Scan. Progress.</h3>
+              <h3>{featured?.title || "No session selected"}</h3>
               <p>
-                <Clock size={14} /> 4:00–4:45 PM <span>·</span> Coach Rahul
+                <Clock size={14} /> {featured?.date} · {featured?.time}{" "}
+                <span>·</span> Coach Rahul
               </p>
               <p>
-                <MapPin size={14} /> Indiranagar Training Ground
+                <MapPin size={14} /> {featured?.venue}
               </p>
             </div>
           </div>
           <div className="session-focus">
             <span>TEAM FOCUS</span>
-            <strong>Receiving & passing</strong>
-            <p>6 players · 3 drills · individual goals assigned</p>
+            <strong>{featured?.title}</strong>
+            <p>
+              {data.players.filter((p) => p.squad === featured?.squad).length}{" "}
+              players · {featured?.drillIds.length ?? 0} drills · individual
+              goals assigned
+            </p>
           </div>
           <div className="card-footer">
             <span className="avatar-stack">
@@ -246,7 +252,10 @@ export function Dashboard({ coach = false }: { coach?: boolean }) {
             </div>
             <ArrowUpRight size={17} />
           </Link>
-          <Link className="attention-row" href="/owner/attendance">
+          <Link
+            className="attention-row"
+            href={coach ? "/coach/sessions" : "/owner/attendance"}
+          >
             <span className="attention-icon blue">
               <ClipboardCheck size={19} />
             </span>
@@ -265,7 +274,10 @@ export function Dashboard({ coach = false }: { coach?: boolean }) {
             </div>
             <ArrowUpRight size={17} />
           </Link>
-          <Link className="attention-row" href="/owner/communication">
+          <Link
+            className="attention-row"
+            href={coach ? "/coach/messages" : "/owner/communication"}
+          >
             <span className="attention-icon purple">
               <MessageSquare size={19} />
             </span>
@@ -278,9 +290,11 @@ export function Dashboard({ coach = false }: { coach?: boolean }) {
             </div>
             <ArrowUpRight size={17} />
           </Link>
-          <Link className="text-link attention-link" href="/owner/fees">
-            Review outstanding fees <ArrowRight size={15} />
-          </Link>
+          {!coach && (
+            <Link className="text-link attention-link" href="/owner/fees">
+              Review outstanding fees <ArrowRight size={15} />
+            </Link>
+          )}
         </Card>
         <Card>
           <SectionTitle
@@ -341,8 +355,17 @@ export function Dashboard({ coach = false }: { coach?: boolean }) {
             </span>
             <div>
               <strong>U-13 session published</strong>
-              <p>Receiving & passing · 6 personal objectives</p>
-              <small>Today · 10:20 AM</small>
+              <p>
+                {featured?.title} ·{" "}
+                {
+                  data.players.filter(
+                    (p) =>
+                      p.squad === featured?.squad && featured?.focuses[p.id],
+                  ).length
+                }{" "}
+                personal objectives
+              </p>
+              <small>Fictional demo week · {featured?.date}</small>
             </div>
           </div>
           <div className="activity">
@@ -360,7 +383,7 @@ export function Dashboard({ coach = false }: { coach?: boolean }) {
       <div className="quick-actions">
         <strong>Keep things moving</strong>
         {[
-          ["Add a player", "/owner/players"],
+          ["Add a player", coach ? "/coach/players" : "/owner/players"],
           ["Build a session", "/coach/sessions/new"],
           ["Review development", "/coach/development/p1"],
           ["Browse drills", "/coach/drills"],

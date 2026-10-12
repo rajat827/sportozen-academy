@@ -1,4 +1,5 @@
 "use client";
+import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
 import { useState } from "react";
 import { Button, Card, Badge } from "@/components/ui/primitives";
 import { operationalSports } from "@/config/sports/workspace-sports";
@@ -92,6 +93,8 @@ export function PlayerPlanEditor({
       privateNote: "",
     },
   );
+  const [savedDraft, setSavedDraft] = useState(JSON.stringify(plan));
+  useUnsavedChanges(savedDraft !== JSON.stringify(plan));
   const set = (key: keyof WorkspacePlan, value: unknown) =>
     setPlan({ ...plan, [key]: value });
   const drills = data.records.drill.filter((d) => d.sportId === sportId);
@@ -114,7 +117,10 @@ export function PlayerPlanEditor({
             },
             existing?.id,
           );
-          if (saved) setPlan(saved);
+          if (saved) {
+            setPlan(saved);
+            setSavedDraft(JSON.stringify(saved));
+          }
         }}
       >
         <label>
@@ -465,10 +471,12 @@ export function ParentPlans({
   workspace: w,
   player,
   sportId,
+  reportsOnly = false,
 }: {
   workspace: Controller;
   player: WorkspacePlayer;
   sportId: string;
+  reportsOnly?: boolean;
 }) {
   const data = w.data!,
     plans = data.records.plan.filter(
@@ -479,38 +487,39 @@ export function ParentPlans({
     );
   return (
     <>
-      {plans.map((plan) => (
-        <Card key={plan.id}>
-          <p className="report-kicker">
-            {operationalSports[sportId].name} · APPROVED PLAN SNAPSHOT
-          </p>
-          <h2>{plan.focus}</h2>
-          <p>{plan.reason}</p>
-          <h3>What the coach will observe</h3>
-          <p>{plan.observe}</p>
-          <h3>Optional home practice</h3>
-          <p>{plan.homePractice || "No home practice recorded"}</p>
-          <h3>Next development step</h3>
-          <p>{plan.nextStep}</p>
-          <p>Review date: {plan.reviewDate || "To be confirmed"}</p>
-          <Badge>{plan.status}</Badge>
-        </Card>
-      ))}
-      {!plans.length && (
+      {!reportsOnly &&
+        plans.map((plan) => (
+          <Card key={plan.id}>
+            <p className="report-kicker">
+              {operationalSports[sportId].name} · Current focus
+            </p>
+            <h2>{plan.focus}</h2>
+            <p>{plan.reason}</p>
+            <h3>What the coach will observe</h3>
+            <p>{plan.observe}</p>
+            <h3>Optional home practice</h3>
+            <p>{plan.homePractice || "No home practice recorded"}</p>
+            <h3>Next development step</h3>
+            <p>{plan.nextStep}</p>
+            <p>Review date: {plan.reviewDate || "To be confirmed"}</p>
+            <Badge>{plan.status}</Badge>
+          </Card>
+        ))}
+      {!reportsOnly && !plans.length && (
         <Card>
           <h2>No approved development plan yet</h2>
           <p>
-            Your linked player’s reviewed plan will appear after report
-            approval.
+            Your linked child’s approved plan will appear after source approval.
           </p>
         </Card>
       )}
-      {reports.map((report) => (
-        <div key={report.id} className="secure-report-section">
-          <SecureReportDownload academyId={data.academy.id} report={report} />
-          <ReportPreview model={report.snapshot!} />
-        </div>
-      ))}
+      {reportsOnly &&
+        reports.map((report) => (
+          <div key={report.id} className="secure-report-section">
+            <SecureReportDownload academyId={data.academy.id} report={report} />
+            <ReportPreview model={report.snapshot!} />
+          </div>
+        ))}
     </>
   );
 }

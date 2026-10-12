@@ -31,3 +31,9 @@ The report application service derives a domain ReportViewModel from recorded re
 ## Authenticated multi-academy foundation
 
 The authenticated customer entry is /workspace, with server-checked academy memberships, sport-specific plans, approved report snapshots and private parent messaging. Legacy role routes remain fictional demonstrations. See [MULTI_ACADEMY_FOUNDATION.md](MULTI_ACADEMY_FOUNDATION.md), [SECURITY_AND_DEPLOYMENT.md](SECURITY_AND_DEPLOYMENT.md) and [WORKSPACE_MIGRATION.md](WORKSPACE_MIGRATION.md) for the boundary, migration audit and remaining commercial requirements. External delivery remains NOT_SENT; no real messaging, billing or AI provider is connected.
+
+## UX simplification boundary
+
+Workspace player/session query references restore navigation after refresh; all data is still checked through current server membership and scoped projections. Missing/inaccessible references do not select another player/session. Same-workspace plan navigation retains desk section and current drill; academy switches recreate private state. Existing Radix Dialog manages demo mobile navigation. Unsaved editor guards and a single-flight mutation lock preserve failed drafts and prevent overlapping requests. Approval/publication remain separate. Approved report activity snapshots optionally include recorded cue/drillId for parent-supported practice; old snapshots remain unchanged. Practice feedback flows through existing private conversation services, never evidence or plan mutation. See UX_SIMPLIFICATION_RESULTS.md.
+
+Approval and in-app publication are explicit separate commands: approveUpdate snapshots and approves without publishing; publishUpdate rechecks source/current scope and guardian preferences before private in-app sharing. Update-linked conversation creation validates the published update belongs to the chosen authorized child. Existing callers must invoke publication explicitly after approval; no external delivery is enabled.
