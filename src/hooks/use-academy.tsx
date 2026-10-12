@@ -13,13 +13,16 @@ import { browserStorage } from "@/services/storage/demo-storage";
 const repository = createRepository(browserStorage);
 const Context = createContext<{
   data: DemoState;
-  update: (fn: (state: DemoState) => DemoState) => void;
+  update: (fn: (state: DemoState) => DemoState) => boolean;
   ready: boolean;
   toast: string;
   notify: (message: string) => void;
   reset: () => void;
+  practiceDraft: string;
+  setPracticeDraft: (body: string) => void;
 } | null>(null);
 export function AcademyProvider({ children }: { children: ReactNode }) {
+  const [practiceDraft, setPracticeDraft] = useState("");
   const [data, setData] = useState(seed);
   const [ready, setReady] = useState(false);
   const [toast, notify] = useState("");
@@ -41,8 +44,10 @@ export function AcademyProvider({ children }: { children: ReactNode }) {
       repository.save(next);
       setData(next);
       notify("Saved to this browser · Demo Data");
+      return true;
     } catch {
       notify("Could not save: browser storage is unavailable.");
+      return false;
     }
   }
   function reset() {
@@ -51,7 +56,18 @@ export function AcademyProvider({ children }: { children: ReactNode }) {
     notify("Demo data reset");
   }
   return (
-    <Context.Provider value={{ data, update, ready, toast, notify, reset }}>
+    <Context.Provider
+      value={{
+        data,
+        update,
+        ready,
+        toast,
+        notify,
+        reset,
+        practiceDraft,
+        setPracticeDraft,
+      }}
+    >
       {children}
     </Context.Provider>
   );

@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { confirmUnsavedChanges } from "@/hooks/use-unsaved-changes";
 import { navigatePrivateWorkspace } from "@/lib/private-navigation";
 import { useState, useEffect } from "react";
 import { useWorkspace, workspaceRequest } from "@/hooks/use-workspace";
@@ -10,8 +11,17 @@ import { AcademyStructure } from "./academy-structure";
 import { AcademyForm } from "./academy-form";
 import { PlayerPlanEditor, ReportEditor, ParentPlans } from "./plan-and-report";
 import { WorkspaceMessages } from "./messages";
+import { ParentPractice } from "./practice";
 import { FootballTraining } from "./training";
-export function WorkspaceScreen({ academyId }: { academyId: string }) {
+export function WorkspaceScreen({
+  academyId,
+  initialPlayer = "",
+  initialSession = "",
+}: {
+  academyId: string;
+  initialPlayer?: string;
+  initialSession?: string;
+}) {
   const [academies, setAcademies] = useState<
     { academy: { id: string; name: string } }[]
   >([]);
@@ -30,8 +40,13 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
     return () => controller.abort();
   }, []);
   const w = useWorkspace(academyId),
-    [selected, setSelected] = useState(""),
+    [selected, setSelected] = useState(initialPlayer),
     [tab, setTab] = useState("Development"),
+    [trainingSection, setTrainingSection] = useState("Objectives"),
+    [trainingDrill, setTrainingDrill] = useState(0),
+    [trainingSession, setTrainingSession] = useState(initialSession),
+    [returnToSession, setReturnToSession] = useState(false),
+    [feedback, setFeedback] = useState(""),
     [name, setName] = useState(""),
     [squad, setSquad] = useState(""),
     [coach, setCoach] = useState(""),
@@ -39,6 +54,16 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
     [role, setRole] = useState("PARENT"),
     [verified, setVerified] = useState(false),
     [token, setToken] = useState("");
+  function rememberSelection(key: "player" | "session", value: string) {
+    const url = new URL(window.location.href);
+    if (value) url.searchParams.set(key, value);
+    else url.searchParams.delete(key);
+    window.history.replaceState(null, "", url.pathname + url.search);
+    if (key === "player") {
+      if (value !== selected) setFeedback("");
+      setSelected(value);
+    } else setTrainingSession(value);
+  }
   if (!w.data)
     return (
       <main className="secure-workspace">
@@ -66,7 +91,11 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
     support = d.membership.role === "SUPPORT",
     admin = ["OWNER", "ADMIN"].includes(d.membership.role),
     players = d.records.player.filter((p) => p.sportIds.includes(activeSport)),
-    player = players.find((p) => p.id === selected) ?? players[0],
+    player = selected
+      ? players.find((p) => p.id === selected)
+      : players.length === 1
+        ? players[0]
+        : undefined,
     configuration = operationalSports[activeSport];
   return (
     <main
@@ -99,9 +128,10 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
             <select
               aria-label="Switch academy"
               value={academyId}
-              onChange={(e) =>
-                navigatePrivateWorkspace(`/workspace/${e.target.value}`)
-              }
+              onChange={(e) => {
+                if (confirmUnsavedChanges())
+                  navigatePrivateWorkspace(`/workspace/${e.target.value}`);
+              }}
             >
               {academies.map(({ academy }) => (
                 <option key={academy.id} value={academy.id}>
@@ -123,14 +153,31 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
           ...(!parent && !support ? ["Training"] : []),
           "Reports",
           "Messages",
+          ...(parent ? ["Practise together"] : []),
           "Settings",
         ].map((t) => (
           <Button
             key={t}
+            aria-label={t}
             variant={tab === t ? "primary" : "secondary"}
             onClick={() => setTab(t)}
           >
-            {t}
+            {parent ? (
+              <>
+                <span className="desktop-tab-label">{t}</span>
+                <span className="mobile-tab-label">
+                  {t === "Development"
+                    ? "Plan"
+                    : t === "Practise together"
+                      ? "Practise"
+                      : t === "Settings"
+                        ? "More"
+                        : t}
+                </span>
+              </>
+            ) : (
+              t
+            )}
           </Button>
         ))}
       </nav>
@@ -154,17 +201,22 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
           </p>
         )}
       <p className="muted">
-        {configuration.name} · {d.academy.timezone} · AI analysis unavailable ·
-        External messaging NOT_SENT
+        {configuration.name} · {d.academy.timezone}
+        {!parent && " · AI analysis unavailable · External messaging NOT_SENT"}
       </p>
       {tab !== "Settings" && tab !== "Training" && (
         <Card>
           <label>
             {parent ? "Your linked child" : "Player"}
             <select
+              aria-label={parent ? "Your linked child" : "Player"}
               value={player?.id ?? ""}
-              onChange={(e) => setSelected(e.target.value)}
+              onChange={(e) => {
+                if (confirmUnsavedChanges())
+                  rememberSelection("player", e.target.value);
+              }}
             >
+              <option value="">Choose an authorised player</option>
               {players.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.name} · {p.squad}
@@ -172,11 +224,64 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
               ))}
             </select>
           </label>
+          {player && (
+            <p>
+              {player.name} · {player.squad}
+            </p>
+          )}
           {!players.length && <p>No authorised football players yet.</p>}
+          {selected && !player && (
+            <p role="alert">
+              The selected player is unavailable. Choose an authorised player;
+              no other child has been selected.
+            </p>
+          )}
         </Card>
       )}
       {tab === "Training" && !parent && !support && (
-        <FootballTraining workspace={w} />
+        <FootballTraining
+          workspace={w}
+          selected={trainingSession}
+          onSelect={(id) => {
+            rememberSelection("session", id);
+            setTrainingSection("Objectives");
+            setTrainingDrill(0);
+          }}
+          section={trainingSection}
+          onSection={setTrainingSection}
+          selectedPlayer={selected}
+          onSelectPlayer={(id) => rememberSelection("player", id)}
+          currentDrill={trainingDrill}
+          onDrill={setTrainingDrill}
+          onViewPlan={(playerId) => {
+            rememberSelection("player", playerId);
+            setReturnToSession(true);
+            setTab("Development");
+          }}
+        />
+      )}
+      {returnToSession && tab === "Development" && (
+        <Button
+          data-leave-editor
+          variant="secondary"
+          onClick={() => {
+            setReturnToSession(false);
+            setTab("Training");
+          }}
+        >
+          Return to selected session
+        </Button>
+      )}
+      {parent && player && tab === "Practise together" && (
+        <ParentPractice
+          key={player.id}
+          workspace={w}
+          player={player}
+          onHelp={(body) => {
+            setFeedback(body);
+            setTab("Messages");
+          }}
+        />
       )}
       {player &&
         tab === "Development" &&
@@ -198,7 +303,12 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
       {player &&
         tab === "Reports" &&
         (parent || support ? (
-          <ParentPlans workspace={w} player={player} sportId={activeSport} />
+          <ParentPlans
+            workspace={w}
+            player={player}
+            sportId={activeSport}
+            reportsOnly
+          />
         ) : (
           <ReportEditor
             key={`${player.id}-${activeSport}`}
@@ -213,6 +323,8 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
           workspace={w}
           player={player}
           sportId={activeSport}
+          initialFeedback={feedback}
+          onFeedbackSent={() => setFeedback("")}
         />
       )}
       {tab === "Settings" && (
@@ -363,7 +475,10 @@ export function WorkspaceScreen({ academyId }: { academyId: string }) {
                         Linked child
                         <select
                           value={player?.id ?? ""}
-                          onChange={(e) => setSelected(e.target.value)}
+                          onChange={(e) => {
+                            if (confirmUnsavedChanges())
+                              rememberSelection("player", e.target.value);
+                          }}
                         >
                           {players.map((p) => (
                             <option key={p.id} value={p.id}>

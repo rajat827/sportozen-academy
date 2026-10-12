@@ -13,8 +13,7 @@ export function useDevelopmentWorkspace() {
       : { role: "coach", id: "c1" };
   function mutate(transform: (state: DemoState) => DemoState) {
     try {
-      ctx.update(transform);
-      return true;
+      return ctx.update(transform);
     } catch (error) {
       ctx.notify(error instanceof Error ? error.message : "Could not save.");
       return false;

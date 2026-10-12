@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import type { WorkspaceKind, WorkspacePayload } from "@/domain/workspace";
 export async function workspaceRequest<T>(
   url: string,
@@ -21,6 +21,7 @@ export async function workspaceRequest<T>(
   return value;
 }
 export function useWorkspace(academyId: string) {
+  const pending = useRef(false);
   const [data, setData] = useState<WorkspacePayload | null>(null),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
@@ -58,6 +59,8 @@ export function useWorkspace(academyId: string) {
     method: string,
     body: unknown,
   ): Promise<T | undefined> {
+    if (pending.current) return undefined;
+    pending.current = true;
     setBusy(true);
     setError("");
     try {
@@ -72,6 +75,7 @@ export function useWorkspace(academyId: string) {
       setError(e instanceof Error ? e.message : "Could not save.");
       return undefined;
     } finally {
+      pending.current = false;
       setBusy(false);
     }
   }

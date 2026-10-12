@@ -36,6 +36,7 @@ const routes = [
   "/parent/fees",
   "/parent/messages",
   "/parent/profile",
+  "/parent/practice",
 ];
 for (const width of [320, 390, 768]) {
   test(`All supported routes fit ${width}px without runtime errors`, async ({
@@ -86,6 +87,9 @@ test("Phone communication controls and drawer work by touch", async ({
     .getByRole("button", { name: "Close navigation", exact: true })
     .click();
   await page
+    .getByRole("tab", { name: "Development Updates", exact: true })
+    .click();
+  await page
     .getByRole("button", { name: "Prepare from Source Records" })
     .click();
   await page
@@ -107,7 +111,7 @@ test("Phone communication controls and drawer work by touch", async ({
     .getByRole("heading", { name: "Communication centre", exact: true })
     .click();
   await page.screenshot({
-    path: "docs/screenshots/qa-communication-phone.png",
+    path: "docs/screenshots/ux-simplification/qa-communication-phone.png",
     fullPage: true,
   });
 });

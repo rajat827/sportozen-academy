@@ -69,3 +69,7 @@ Reports now use the same approved view model for the responsive parent/staff pre
 ## Authenticated multi-academy foundation
 
 The authenticated customer entry is /workspace, with server-checked academy memberships, sport-specific plans, approved report snapshots and private parent messaging. Legacy role routes remain fictional demonstrations. See [MULTI_ACADEMY_FOUNDATION.md](docs/MULTI_ACADEMY_FOUNDATION.md), [SECURITY_AND_DEPLOYMENT.md](docs/SECURITY_AND_DEPLOYMENT.md) and [WORKSPACE_MIGRATION.md](docs/WORKSPACE_MIGRATION.md) for the boundary, migration audit and remaining commercial requirements. External delivery remains NOT_SENT; no real messaging, billing or AI provider is connected.
+
+## Coach and parent UX simplification
+
+Coach session navigation retains context and personal objectives have one editor/save. Parents have concise coach updates, private conversations and **Practise together**, using only approved linked-child activities and optional safe home practice. Feedback is an editable private message, never performance evidence. Demo route: `/parent/practice`; authenticated route: `/workspace/[academyId]` → Practise together. See [UX_SIMPLIFICATION_RESULTS.md](docs/UX_SIMPLIFICATION_RESULTS.md) for before/after evidence and separate demo/authenticated verification.

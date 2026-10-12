@@ -42,7 +42,9 @@ const tabs = [
 ];
 export function DevelopmentCentre() {
   const { data, actor, ready } = useDevelopmentWorkspace();
-  const [tab, setTab] = useState(tabs[0]),
+  const [tab, setTab] = useState(
+      actor.role === "coach" ? "Conversations" : tabs[0],
+    ),
     [squad, setSquad] = useState(""),
     [coach, setCoach] = useState(""),
     [focus, setFocus] = useState(""),

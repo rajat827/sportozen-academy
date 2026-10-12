@@ -19,7 +19,13 @@ export interface ReportViewModel {
   focus: string;
   reviewedReason?: string;
   practised: string;
-  activities: { name: string; purpose: string; activity?: string }[];
+  activities: {
+    name: string;
+    purpose: string;
+    activity?: string;
+    cue?: string;
+    drillId?: string;
+  }[];
   evidence: {
     text: string;
     source: string;

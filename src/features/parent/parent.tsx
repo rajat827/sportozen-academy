@@ -65,7 +65,7 @@ export function ParentScreen({ screen }: { screen: string }) {
           <ParentPlan compact />
           <Card>
             <SectionTitle
-              title="Next training"
+              title="Training in the fictional demo week"
               href="/parent/schedule"
               action="Schedule"
             />

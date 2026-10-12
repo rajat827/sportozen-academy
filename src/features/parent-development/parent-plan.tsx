@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useDevelopmentWorkspace } from "@/hooks/use-development-workspace";
 import { parentProjection } from "@/services/communication/conversations";
-import { Card, Badge } from "@/components/ui/primitives";
+import { Card } from "@/components/ui/primitives";
 export function ParentPlan({ compact = false }: { compact?: boolean }) {
   const { data, actor, ready } = useDevelopmentWorkspace();
   if (!ready) return <p>Loading approved plan…</p>;
@@ -35,8 +35,7 @@ export function ParentPlan({ compact = false }: { compact?: boolean }) {
         ’s Current Focus
       </h2>
       <h3>{plan.parentSummary || plan.focusAreas.join(", ")}</h3>
-      <Badge>{plan.status}</Badge>
-      <Badge>{plan.progress}</Badge>
+      <p>Approved current focus · Planned activities, not completed results</p>
       <p>Why selected: {plan.reason}</p>
       <p>Training frequency: {plan.frequency}</p>
       <h3>Planned drills</h3>
@@ -47,8 +46,11 @@ export function ParentPlan({ compact = false }: { compact?: boolean }) {
           {!compact && (
             <>
               <p>Coaching cues: {a.cue}</p>
-              <p>Coach will observe: {a.successCriteria}</p>
-              <p>Evidence method: {a.evidenceMethod}</p>
+              <details>
+                <summary>How the coach reviews this activity</summary>
+                <p>Coach will observe: {a.successCriteria}</p>
+                <p>Evidence method: {a.evidenceMethod}</p>
+              </details>
             </>
           )}
         </div>
@@ -68,6 +70,9 @@ export function ParentPlan({ compact = false }: { compact?: boolean }) {
         </>
       )}
       <div className="actions">
+        <Link className="button primary" href="/parent/practice">
+          Practise together
+        </Link>
         <Link className="button secondary" href="/parent/progress">
           View Plan
         </Link>

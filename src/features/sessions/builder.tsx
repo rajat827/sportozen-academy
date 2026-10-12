@@ -1,7 +1,7 @@
 "use client";
 import { IndividualSessionObjectives } from "@/features/parent-development/session-objectives";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import { useAcademy } from "@/hooks/use-academy";
 import { Button, Card, PageTitle, Badge } from "@/components/ui/primitives";
@@ -59,7 +59,7 @@ export function SessionBuilder() {
   function save(status: "Draft" | "Published") {
     if (!valid()) return;
     const id = `s-${crypto.randomUUID()}`;
-    update((s) => ({
+    const saved = update((s) => ({
       ...s,
       sessions: [
         ...s.sessions,
@@ -93,7 +93,7 @@ export function SessionBuilder() {
         })),
       ],
     }));
-    router.push("/coach/sessions");
+    if (saved) router.push("/coach/sessions");
   }
   return (
     <>
@@ -348,9 +348,9 @@ export function FocusFields({
         <label key={p.id}>
           <span>
             <strong>{p.name}</strong>
-            <small>Team focus: Passing & receiving</small>
+            <small>Current player goal: {p.goal}</small>
           </span>
-          <input
+          <textarea
             aria-label={`Individual focus for ${p.name}`}
             value={focuses[p.id] ?? p.goal}
             onChange={(e) => onChange(p.id, e.target.value)}
@@ -361,37 +361,22 @@ export function FocusFields({
   );
 }
 export function SessionPersonaliser({ sessionId }: { sessionId: string }) {
-  const { data, update } = useAcademy();
+  const { data } = useAcademy();
+  const query = useSearchParams();
+  const selectedPlayer = query.get("player") || "";
   const session = data.sessions.find((s) => s.id === sessionId);
-  const [focuses, setFocuses] = useState(session?.focuses ?? {});
-  if (!session) return <p>Session not found.</p>;
+  if (!session)
+    return <p>Session unavailable. Choose a session from My Sessions.</p>;
   return (
     <>
       <PageTitle
         title="One team. Individual purpose."
-        description={`${session.title} · ${session.squad}`}
-      >
-        <Button
-          onClick={() =>
-            update((s) => ({
-              ...s,
-              sessions: s.sessions.map((x) =>
-                x.id === sessionId ? { ...x, focuses } : x,
-              ),
-            }))
-          }
-        >
-          Save objectives
-        </Button>
-      </PageTitle>
-      <Card>
-        <FocusFields
-          players={data.players.filter((p) => p.squad === session.squad)}
-          focuses={focuses}
-          onChange={(id, value) => setFocuses({ ...focuses, [id]: value })}
-        />
-      </Card>
-      <IndividualSessionObjectives sessionId={sessionId} />
+        description={`${data.academy.name} · ${session.title} · ${session.squad} · ${session.date} ${session.time} · ${session.venue}`}
+      />
+      <IndividualSessionObjectives
+        sessionId={sessionId}
+        initialPlayer={selectedPlayer}
+      />
     </>
   );
 }
