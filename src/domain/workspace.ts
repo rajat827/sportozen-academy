@@ -1,6 +1,7 @@
 import type { RecordBase, SportRecord } from "./entities";
 import type { ReportViewModel } from "./report";
 import type { TrainingRecords } from "./training";
+import type { WeeklyPlan, MonthlySources, ReportingPeriod } from "./communication";
 export type AcademyRole = "OWNER" | "ADMIN" | "COACH" | "PARENT" | "SUPPORT";
 export interface AcademyConfiguration extends RecordBase {
   name: string;
@@ -57,6 +58,8 @@ export interface WorkspacePlan extends SportRecord {
   privateNote: string;
 }
 export interface WorkspaceReport extends SportRecord {
+  reportingPeriod?: ReportingPeriod;
+  monthlySources?: MonthlySources;
   recordVersion?: number;
   sourceEvidenceIds?: string[];
   playerId: string;
@@ -98,6 +101,7 @@ export interface WorkspaceUpdate extends SportRecord {
   planId: string;
   messageBody: string;
   sourceReportId?: string;
+  sourceWeeklyPlanId?: string;
   type:
     | "DEVELOPMENT"
     | "NUTRITION_HYDRATION"
@@ -125,6 +129,7 @@ export interface WorkspaceConversation extends RecordBase {
     body: string;
     at: string;
     internal: boolean;
+    channel?: "IN_APP" | "WHATSAPP";
   }[];
 }
 export interface WorkspaceMoney extends RecordBase {
@@ -149,6 +154,7 @@ export interface WorkspaceDietaryNote extends RecordBase {
   note: string;
 }
 export interface WorkspaceRecords extends TrainingRecords {
+  weekly: WeeklyPlan;
   player: WorkspacePlayer;
   plan: WorkspacePlan;
   report: WorkspaceReport;

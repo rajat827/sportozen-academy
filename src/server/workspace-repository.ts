@@ -43,7 +43,7 @@ export const workspaceRepository: WorkspaceRepository = {
         (r) =>
           ({
             ...JSON.parse(String(r.body)),
-            ...(["plan", "report", "update"].includes(kind)
+            ...(["plan", "report", "update", "weekly"].includes(kind)
               ? { recordVersion: Number(r.version) }
               : {}),
           }) as WorkspaceRecords[K],
@@ -58,7 +58,7 @@ export const workspaceRepository: WorkspaceRepository = {
     return row
       ? ({
           ...JSON.parse(String(row.body)),
-          ...(["plan", "report", "update"].includes(kind)
+          ...(["plan", "report", "update", "weekly"].includes(kind)
             ? { recordVersion: Number(row.version) }
             : {}),
         } as WorkspaceRecords[K])
