@@ -98,5 +98,7 @@ export function useWorkspace(academyId: string) {
     ) => mutate<T>("/actions", "POST", { action, id, data: payload, verified }),
     configure: (body: unknown) => mutate("", "PATCH", body),
     training: <T>(body: unknown) => mutate<T>("/training", "POST", body),
+    period: <T>(body: unknown) => mutate<T>("/periods", "POST", body),
+    communication: <T>(body: unknown) => mutate<T>("/communication", "POST", body),
   };
 }

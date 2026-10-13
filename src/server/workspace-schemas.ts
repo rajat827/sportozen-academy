@@ -92,6 +92,7 @@ export const updateSchema = z.object({
   planId: id,
   messageBody: text,
   sourceReportId: id.optional(),
+  sourceWeeklyPlanId: id.optional(),
   type: z.enum([
     "DEVELOPMENT",
     "NUTRITION_HYDRATION",

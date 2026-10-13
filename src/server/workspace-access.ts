@@ -44,6 +44,7 @@ export function requireSport(ctx: WorkspaceAccess, sportId: string) {
     );
 }
 const parentKinds = new Set<WorkspaceKind>([
+  "weekly",
   "player",
   "plan",
   "report",
@@ -95,6 +96,7 @@ export function moduleEnabled(ctx: WorkspaceAccess, kind: WorkspaceKind) {
                 "session",
                 "attendance",
                 "evidence",
+                "weekly",
               ].includes(kind)
             ? "development"
             : undefined;
@@ -192,6 +194,10 @@ export function visibleRecords<K extends WorkspaceKind>(
     values = (values as WorkspaceRecords["report"][]).filter(
       (r) => r.status === "Approved" && r.snapshot,
     );
+  if (kind === "weekly")
+    values = (values as WorkspaceRecords["weekly"][])
+      .filter((r) => r.status === "APPROVED" && r.snapshot && r.issuedAt)
+      .map((r) => ({ ...r, content: r.snapshot! }));
   if (kind === "update")
     values = (values as WorkspaceRecords["update"][]).filter(
       (r) =>
