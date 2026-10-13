@@ -14,6 +14,7 @@ import type {
 import type { ReportViewModel } from "@/domain/report";
 import { operationalSports } from "@/config/sports/workspace-sports";
 import { reportTrainingSources } from "./training-service";
+import { assertMonthlyCurrent, weeklySource } from "./period-service";
 import { measurementText } from "@/services/training-rules";
 import { workspaceRepository as repo } from "./workspace-repository";
 import { database, atomic, audit } from "./database";
@@ -38,6 +39,7 @@ import {
   inviteSchema,
 } from "./workspace-schemas";
 export const kinds: WorkspaceKind[] = [
+  "weekly",
   "player",
   "plan",
   "report",
@@ -240,6 +242,8 @@ export function saveRecord(
       break;
     }
     case "report": {
+      if (repo.find(ctx.academy.id, "report", id)?.monthlySources)
+        throw new WorkspaceError(409, "Use the monthly review editor to preserve period sources.");
       const { expectedVersion: _expected, ...value } =
         reportSchema.parse(input);
       void _expected;
@@ -318,6 +322,11 @@ export function saveRecord(
           400,
           "Medical or unsupported nutrition recommendations are not allowed.",
         );
+      if (value.sourceWeeklyPlanId) {
+        const source = weeklySource(ctx, value.sourceWeeklyPlanId);
+        if (value.type !== "UPCOMING_TRAINING" || source.playerId !== value.playerId || value.sourceReportId)
+          throw new WorkspaceError(400, "Choose one weekly source for this player's upcoming training.");
+      }
       if (value.sourceReportId) {
         const r = repo.find(ctx.academy.id, "report", value.sourceReportId);
         if (
@@ -509,6 +518,7 @@ export function approveReport(
     repo.find(ctx.academy.id, "drill", id)!,
   );
   const trainingSources = reportTrainingSources(ctx, report);
+  assertMonthlyCurrent(ctx, report);
   const coachName = database()
     .prepare('SELECT name FROM "user" WHERE id=?')
     .get(plan.coachId)?.name;
@@ -580,6 +590,11 @@ export function approveReport(
     approvedPlan,
     externalDeliveryStatus: "NOT_SENT",
   };
+  if (report.monthlySources) {
+    Object.assign(snapshot, report.monthlySources.model);
+    snapshot.evidence = [...report.monthlySources.model.evidence,
+      ...(report.observation.trim() ? [{ text: report.observation, source: "Coach reviewed commentary" }] : [])];
+  }
   atomic(() => {
     if (
       repo.find(ctx.academy.id, "report", id)?.recordVersion !==
@@ -598,6 +613,7 @@ export function approveReport(
         "The source plan changed during review. Review its current version.",
       );
     reportTrainingSources(ctx, report);
+    assertMonthlyCurrent(ctx, report);
     repo.save(ctx.academy.id, "report", approved);
     database()
       .prepare(
@@ -664,7 +680,9 @@ export function reviewUpdate(
           400,
           "Only the approved general nutrition guideline is allowed.",
         );
-      if (record.type !== "NUTRITION_HYDRATION") {
+      if (record.sourceWeeklyPlanId) {
+        weeklySource(ctx, record.sourceWeeklyPlanId);
+      } else if (record.type !== "NUTRITION_HYDRATION") {
         const r = record.sourceReportId
           ? repo.find(ctx.academy.id, "report", record.sourceReportId)
           : undefined;
@@ -695,7 +713,7 @@ export function reviewUpdate(
         approvedSource:
           record.type === "NUTRITION_HYDRATION"
             ? { guideline: nutritionGuidance, approval: "ACADEMY_APPROVED" }
-            : repo.find(ctx.academy.id, "report", record.sourceReportId!)!
+            : record.sourceWeeklyPlanId ? weeklySource(ctx, record.sourceWeeklyPlanId) : repo.find(ctx.academy.id, "report", record.sourceReportId!)!
                 .snapshot,
         inAppPublicationStatus: "UNPUBLISHED",
         publishedGuardianIds: [],
@@ -711,7 +729,10 @@ export function reviewUpdate(
         409,
         "Update changed during review. Review again.",
       );
-    if (action === "approve" && record.type !== "NUTRITION_HYDRATION") {
+    if (action === "approve" && record.sourceWeeklyPlanId) {
+      if (JSON.stringify(weeklySource(ctx, record.sourceWeeklyPlanId)) !== JSON.stringify(next.approvedSource))
+        throw new WorkspaceError(409, "Weekly source changed during approval.");
+    } else if (action === "approve" && record.type !== "NUTRITION_HYDRATION") {
       const source = repo.find(
         ctx.academy.id,
         "report",
@@ -786,6 +807,9 @@ export function publishUpdate(
           400,
           "Only approved general guidance may be shared.",
         );
+    } else if (record.sourceWeeklyPlanId) {
+      if (JSON.stringify(weeklySource(ctx, record.sourceWeeklyPlanId)) !== JSON.stringify(record.approvedSource))
+        throw new WorkspaceError(409, "Weekly source changed. Review before sharing.");
     } else {
       const source = repo.find(
         ctx.academy.id,

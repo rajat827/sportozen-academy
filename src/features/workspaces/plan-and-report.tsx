@@ -259,7 +259,7 @@ export function PlayerPlanEditor({
         ))}
       </details>
       <p className="notice amber">
-        AI analysis: unavailable. Plans and observations require coach review.
+        AI Video Analysis — Coming soon. Plans and observations require coach review.
       </p>
     </Card>
   );
@@ -288,7 +288,7 @@ export function ReportEditor({
     [expectedVersion, setExpectedVersion] = useState<number | undefined>(),
     [source, setSource] = useState("COACH_OBSERVATION");
   const reports = data.records.report.filter(
-    (r) => r.playerId === player.id && r.sportId === sportId,
+    (r) => r.playerId === player.id && r.sportId === sportId && !r.monthlySources,
   );
   return (
     <>
