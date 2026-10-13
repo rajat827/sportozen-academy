@@ -1,4 +1,4 @@
-// Future contract only. No implementation, credentials, connection, or delivery calls exist.
+// External transport is server-only; approval/publication remain separate services.
 export interface MessagingProvider {
   channel: "whatsapp" | "email" | "sms" | "push";
   deliver(request: {
@@ -9,5 +9,8 @@ export interface MessagingProvider {
     consentRecordId: string;
     communicationPreferenceId: string;
     approvedTemplateReference?: string;
+    template?: { name: string; language: string; parameters: string[] };
+    replyText?: string;
+    correlationId?: string;
   }): Promise<{ providerReference: string }>;
 }
