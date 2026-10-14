@@ -6,6 +6,7 @@ import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
 import type { WeeklyPlan } from "@/domain/communication";
 import type { WorkspaceReport } from "@/domain/workspace";
 import { weeklyWording } from "@/services/communication/period-rules";
+import { privateSourcePath } from "@/services/communication/private-source-path";
 import { templateParameters } from "@/services/communication/whatsapp-templates";
 import { ReportPreview } from "@/features/reports/report-preview";
 import { SecureReportDownload } from "./plan-and-report";
@@ -119,9 +120,10 @@ function WeeklyReview({
     preview = templateParameters(
       "WEEKLY",
       w.data!.academy.name,
-      c.period.key,
+      c.period.key + (r.correctionOf ? " · Reviewed correction" : ""),
       typeof window !== "undefined"
-        ? `${window.location.origin}/workspace/${w.data!.academy.id}?player=${r.playerId}&weekly=${r.id}`
+        ? window.location.origin +
+            privateSourcePath(w.data!.academy.id, r.playerId, r.id, "WEEKLY")
         : "Private schedule link",
       c,
     ).rendered;
@@ -130,6 +132,7 @@ function WeeklyReview({
   }
   return (
     <Card>
+      <span id={`weekly-${r.id}`} />
       <h3>
         {c.playerName} · {c.period.key}
       </h3>
@@ -290,6 +293,7 @@ export function MonthlyReports({
   playerId: string;
 }) {
   const [month, setMonth] = useState("");
+  const [batch, setBatch] = useState(false);
   const reports = w.data!.records.report.filter(
     (r) => r.playerId === playerId && r.monthlySources,
   );
@@ -307,7 +311,9 @@ export function MonthlyReports({
           onSubmit={async (e) => {
             e.preventDefault();
             await command(w, "monthlyPrepare", {
-              playerIds: [playerId],
+              playerIds: batch
+                ? w.data!.records.player.map((p) => p.id)
+                : [playerId],
               month,
             });
           }}
@@ -322,6 +328,15 @@ export function MonthlyReports({
             />
           </label>
           <Button disabled={w.busy}>Prepare monthly draft</Button>
+          <label className="check-row">
+            <input
+              type="checkbox"
+              checked={batch}
+              onChange={(e) => setBatch(e.target.checked)}
+            />
+            Prepare drafts for all authorised players. Review each player
+            separately.
+          </label>
         </form>
       </Card>
       {reports.map((r) => (

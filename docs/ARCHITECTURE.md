@@ -1,5 +1,7 @@
 # Architecture
 
+Weekly/monthly additions preserve this architecture: approved weekly snapshots are academy-scoped workspace records; monthly sources extend the existing report model/approval/PDF; communication repositories use additive SQLite tables for settings, contacts, jobs, attempts and signed events. The persistent worker calls a server-only Meta adapter outside transactions and routes verified inbound text through existing private conversations. See WHATSAPP_WEEKLY_MONTHLY.md. Earlier NOT_SENT-only statements below describe the prior delivery boundary; actual sending remains disabled by default.
+
 Football-only release. Multiple independent academies. Personalised player development. No rankings.
 
 Customer flow: workspace UI → feature hook → authenticated server application service → academy-scoped repository interface → SQLite persistence. Better Auth verifies the session; application services independently verify current membership, football assignment, assigned players and guardian links. API responses and PDF exports are private/no-store. Internal sportId fields remain to avoid destructive migrations; schemas default to football and reject other sports. Read projections omit historical non-football records, including direct record/PDF links and parent snapshots. Stored historical records/configuration remain intact. Platform administration and authorised support review remain separate roles. See FOOTBALL_ONLY_RELEASE.md and SECURITY_AND_DEPLOYMENT.md.

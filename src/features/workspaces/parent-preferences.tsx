@@ -76,8 +76,8 @@ export function ParentPreferences({
           />
         </label>
         <p>
-          Quiet hours are saved for future notification dispatch. No external
-          notifications are connected.
+          Quiet hours apply to configured WhatsApp dispatch. Manage verified
+          contact, consent and categories in the WhatsApp settings above.
         </p>
         <Button disabled={w.busy}>Save preferences</Button>
       </form>

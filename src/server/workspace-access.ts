@@ -182,6 +182,7 @@ export function visibleRecords<K extends WorkspaceKind>(
     values = reports
       .map((r) => r.approvedPlan)
       .filter(Boolean)
+      .sort((a, b) => (b?.recordVersion ?? 0) - (a?.recordVersion ?? 0))
       .filter((p, i, list) => list.findIndex((q) => q?.id === p?.id) === i);
   } else
     values = database()
@@ -191,19 +192,12 @@ export function visibleRecords<K extends WorkspaceKind>(
       .all(academy.id, kind, user.id)
       .map((r) => JSON.parse(String(r.body)));
   if (kind === "report")
-    values = (values as WorkspaceRecords["report"][]).filter(
-      (r) => r.status === "Approved" && r.snapshot,
-    );
+    values = (values as WorkspaceRecords["report"][])
+      .filter((r) => r.status === "Approved" && r.snapshot)
+      .map((r) => ({ ...r, monthlySources: undefined }));
   if (kind === "weekly")
     values = (values as WorkspaceRecords["weekly"][])
-      .filter(
-        (r) =>
-          r.status === "APPROVED" &&
-          r.snapshot &&
-          r.issuedAt &&
-          (membership.role === "SUPPORT" ||
-            r.publishedGuardianIds?.includes(user.id)),
-      )
+      .filter((r) => r.status === "APPROVED" && r.snapshot && r.issuedAt)
       .map((r) => ({ ...r, content: r.snapshot! }));
   if (kind === "update")
     values = (values as WorkspaceRecords["update"][]).filter(

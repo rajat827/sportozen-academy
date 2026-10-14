@@ -72,7 +72,7 @@ export function prepareSchedules(now: Date) {
       continue;
     const clock = localClock(now, s.timezone),
       day = new Date(clock.date + "T12:00Z").getUTCDay();
-    const week = shiftDate(clock.date, (8 - day) % 7);
+    const week = shiftDate(clock.date, (8 - day) % 7 || 7);
     const previousMonth = new Date(
       Date.UTC(
         Number(clock.date.slice(0, 4)),
@@ -160,6 +160,16 @@ export function prepareSchedules(now: Date) {
                 );
         if (!source) {
           reminder(s, type, key, player.id, "Awaiting coach approval");
+          continue;
+        }
+        if (!s.verifiedAt) {
+          reminder(
+            s,
+            type,
+            key,
+            player.id,
+            "Verify the academy sender and approved templates before queueing",
+          );
           continue;
         }
         const guardians = database()
@@ -264,29 +274,37 @@ export async function workerTick(
   if (
     process.env.SPORTOZEN_WHATSAPP_SEND_ENABLED !== "true" ||
     process.env.CI ||
-    process.env.NODE_ENV === "test"
+    process.env.NODE_ENV !== "production"
   )
     return { sending: "disabled" };
   const job = claimJob(now);
   if (!job) return { sending: "idle" };
+  let invokedProvider = false;
   try {
     let check = dispatchCheck(job, now);
-    if (check.deferred) {
+    if (check.deferred || check.waitingPublication) {
       database()
         .prepare(
-          "UPDATE delivery_jobs SET claim=NULL,claimedAt=NULL,dueAt=? WHERE id=? AND claim=?",
+          "UPDATE delivery_jobs SET claim=NULL,claimedAt=NULL,dueAt=?,reason=? WHERE id=? AND claim=?",
         )
         .run(
           new Date(now.getTime() + 15 * 60000).toISOString(),
+          check.waitingPublication
+            ? "Awaiting private parent-app publication"
+            : "Quiet hours",
           job.id,
           job.claim!,
         );
-      return { sending: "quiet hours" };
+      return {
+        sending: check.waitingPublication
+          ? "awaiting publication"
+          : "quiet hours",
+      };
     }
     const provider = providerFactory(check.settings);
     await provider.verify(); // Fresh provider/template evidence, outside database transaction.
     check = dispatchCheck(job, new Date()); // Immediate recheck after network verification.
-    if (check.deferred)
+    if (check.deferred || check.waitingPublication)
       throw new ProviderFailure(
         "TRANSIENT",
         "Quiet hours began before dispatch.",
@@ -301,10 +319,28 @@ export async function workerTick(
         .run(job.id);
       database()
         .prepare(
-          "INSERT INTO delivery_attempts(id,jobId,at,state) VALUES(?,?,?,'UNKNOWN')",
+          "INSERT INTO delivery_attempts(id,jobId,at,state,metadata) VALUES(?,?,?,'UNKNOWN',?)",
         )
-        .run(attempt, job.id, new Date().toISOString());
+        .run(
+          attempt,
+          job.id,
+          new Date().toISOString(),
+          JSON.stringify({
+            recipient: check.contact.phone,
+            contactVersion: check.contact.version,
+            consentReference: check.contact.consentReference,
+            sender: {
+              academyId: job.academyId,
+              phoneNumberId: check.settings.phoneNumberId,
+              wabaId: check.settings.wabaId,
+              credentialRef: check.settings.credentialRef,
+            },
+            template: check.request.template,
+            body: check.request.body,
+          }),
+        );
     });
+    invokedProvider = true;
     const receipt = await provider.deliver(check.request);
     atomic(() => {
       // A webhook may arrive before the HTTP receipt. Preserve its stronger state.
@@ -327,10 +363,8 @@ export async function workerTick(
           });
       }
       database()
-        .prepare(
-          "UPDATE delivery_attempts SET state='PROVIDER_ACCEPTED',providerId=? WHERE id=?",
-        )
-        .run(receipt.providerReference, attempt);
+        .prepare("UPDATE delivery_attempts SET state=?,providerId=? WHERE id=?")
+        .run(state, receipt.providerReference, attempt);
       audit(
         job.academyId,
         "communication-worker",
@@ -340,8 +374,21 @@ export async function workerTick(
     });
     return { sending: "accepted" };
   } catch (e) {
-    const outcome = e instanceof ProviderFailure ? e.outcome : "PERMANENT";
+    const outcome =
+      e instanceof ProviderFailure
+        ? e.outcome
+        : invokedProvider
+          ? "UNKNOWN"
+          : "PERMANENT";
     const current = comm.job(job.id)!;
+    if (current.state === "CANCELLED" && !invokedProvider) {
+      database()
+        .prepare(
+          "UPDATE delivery_jobs SET claim=NULL,claimedAt=NULL WHERE id=?",
+        )
+        .run(job.id);
+      return { sending: "CANCELLED" };
+    }
     if (["SENT", "DELIVERED", "READ"].includes(current.state))
       return { sending: current.state };
     const reason =
@@ -353,8 +400,14 @@ export async function workerTick(
     if (attempts === job.attempts && outcome === "TRANSIENT") {
       // Provider verification failures are also bounded, even before POST.
       attempts++;
-      database().prepare("UPDATE delivery_jobs SET attempts=? WHERE id=?").run(attempts,job.id);
-      database().prepare("INSERT INTO delivery_attempts(id,jobId,at,state,reason) VALUES(?,?,?,'FAILED',?)").run(randomUUID(),job.id,new Date().toISOString(),reason);
+      database()
+        .prepare("UPDATE delivery_jobs SET attempts=? WHERE id=?")
+        .run(attempts, job.id);
+      database()
+        .prepare(
+          "INSERT INTO delivery_attempts(id,jobId,at,state,reason) VALUES(?,?,?,'FAILED',?)",
+        )
+        .run(randomUUID(), job.id, new Date().toISOString(), reason);
     }
     const state =
       outcome === "UNKNOWN"

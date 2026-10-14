@@ -181,7 +181,7 @@ export class MetaWhatsAppProvider implements MessagingProvider {
   async deliver(request: Parameters<MessagingProvider["deliver"]>[0]) {
     if (
       process.env.SPORTOZEN_WHATSAPP_SEND_ENABLED !== "true" ||
-      process.env.NODE_ENV === "test" ||
+      process.env.NODE_ENV !== "production" ||
       process.env.CI
     )
       throw new ProviderFailure(
@@ -213,14 +213,19 @@ export class MetaWhatsAppProvider implements MessagingProvider {
         "Verified contact, consent and approval are required.",
       );
     const t = request.template;
-    if(request.replyText && request.replyText.length>4096)throw new ProviderFailure("PERMANENT","WhatsApp text reply exceeds provider limit.");
+    if (request.replyText && request.replyText.length > 4096)
+      throw new ProviderFailure(
+        "PERMANENT",
+        "WhatsApp text reply exceeds provider limit.",
+      );
     if (
       !request.replyText &&
       (!t ||
         ![this.settings.weeklyTemplate, this.settings.monthlyTemplate].includes(
           t.name,
         ) ||
-        t.parameters.length !== (t.name === this.settings.weeklyTemplate ? 7 : 3) ||
+        t.parameters.length !==
+          (t.name === this.settings.weeklyTemplate ? 7 : 3) ||
         t.language !== this.settings.language ||
         t.parameters.some(
           (p) => !p.trim() || /[\r\n\t]/.test(p) || p.length > 400,

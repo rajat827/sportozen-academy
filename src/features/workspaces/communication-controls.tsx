@@ -566,6 +566,13 @@ export function DeliveryPanel({
                 ))}
               {c.data.unrouted.map((e) => (
                 <div key={e.id}>
+                  {e.guardianId && (
+                    <strong>
+                      {w.data!.members.find((m) => m.userId === e.guardianId)
+                        ?.name ?? "Verified guardian"}
+                    </strong>
+                  )}
+                  {e.body && <p>{e.body}</p>}
                   <p>
                     {e.outcome} · {e.receivedAt}. Staff must confirm the child
                     with the parent.

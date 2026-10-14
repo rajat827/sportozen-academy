@@ -64,6 +64,16 @@ export function WorkspaceScreen({
     [role, setRole] = useState("PARENT"),
     [verified, setVerified] = useState(false),
     [token, setToken] = useState("");
+  useEffect(() => {
+    if (!w.data) return;
+    const query = new URLSearchParams(window.location.search),
+      key = query.has("report") ? "report" : "weekly",
+      id = query.get(key);
+    if (id)
+      document
+        .getElementById(`${key}-${id}`)
+        ?.scrollIntoView({ block: "start" });
+  }, [w.data, tab, selected]);
   function rememberSelection(key: "player" | "session", value: string) {
     const url = new URL(window.location.href);
     if (value) url.searchParams.set(key, value);
@@ -212,7 +222,8 @@ export function WorkspaceScreen({
         )}
       <p className="muted">
         {configuration.name} · {d.academy.timezone}
-        {!parent && " · AI analysis unavailable · External messaging NOT_SENT"}
+        {!parent &&
+          " · AI Video Analysis — Coming soon · Delivery status is per recipient"}
       </p>
       {tab !== "Settings" && tab !== "Training" && (
         <Card>

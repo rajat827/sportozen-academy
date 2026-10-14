@@ -5,6 +5,7 @@ export function ReportPreview({ model: m }: { model: ReportViewModel }) {
   const labels = { ...reportLabels, ...m.labels };
   return (
     <article
+      id={`report-${m.reportId}`}
       className="development-report"
       aria-label="Player development report"
       style={{ borderTopColor: m.brandAccent }}

@@ -5,6 +5,7 @@ export default defineConfig([
   ...nextVitals,
   ...nextTs,
   globalIgnores([
+    ".local/**",
     ".next/**",
     ".next-football-qa/**",
     "next-env.d.ts",

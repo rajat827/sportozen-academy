@@ -7,6 +7,7 @@ export interface ReportingPeriod {
   timezone: string;
 }
 export interface WeeklyContent {
+  remainingFrom?: string;
   period: ReportingPeriod;
   playerName: string;
   teamFocus: string;
@@ -42,6 +43,7 @@ export interface WeeklyPlan extends SportRecord {
   correctionOf?: string;
 }
 export interface MonthlySources {
+  trainingFingerprint?: string;
   period: ReportingPeriod;
   fingerprint: string;
   sessionIds: string[];

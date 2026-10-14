@@ -15,7 +15,7 @@ export function templateParameters(
       ? [academy, period, url]
       : [
           academy,
-          period,
+          `${content?.playerName ?? ""} · ${period}`,
           content?.teamFocus ?? "",
           content?.personalFocus ?? "",
           content?.activities

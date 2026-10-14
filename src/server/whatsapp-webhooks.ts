@@ -7,11 +7,7 @@ import { workspaceRepository as repo } from "./workspace-repository";
 import { senderSecret, validSignature } from "./whatsapp-provider";
 import { authorisedGuardian, appendInbound } from "./communication-service";
 import { providerState } from "@/services/communication/period-rules";
-import type {
-  GuardianContact,
-  DeliveryJob,
-  DeliveryState,
-} from "@/domain/communication";
+import type { GuardianContact, DeliveryJob } from "@/domain/communication";
 import { WorkspaceError } from "./auth";
 const statusSchema = z.object({
   id: z.string(),
@@ -131,9 +127,7 @@ export function processEvents() {
         value = JSON.parse(String(event.body)),
         s = comm.settings(academyId);
       let outcome = "IGNORED";
-      if (!s || s.phoneNumberId !== event.phoneNumberId)
-        outcome = "SENDER_CHANGED";
-      else if (value.status) {
+      if (value.status) {
         const st = statusSchema.parse(value.status);
         const row = database()
           .prepare(
@@ -147,9 +141,21 @@ export function processEvents() {
         const contact = row
           ? comm.contact(academyId, row.guardianId)
           : undefined;
+        const attempt = row
+          ? database()
+              .prepare(
+                "SELECT metadata FROM delivery_attempts WHERE jobId=? AND (providerId=? OR state='UNKNOWN') ORDER BY at DESC LIMIT 1",
+              )
+              .get(row.id, st.id)
+          : undefined;
+        const metadata = attempt?.metadata
+          ? JSON.parse(String(attempt.metadata))
+          : undefined;
         if (
           row &&
-          contact?.phone === `+${st.recipient_id}` &&
+          (metadata?.recipient ?? contact?.phone) === `+${st.recipient_id}` &&
+          (metadata?.sender?.phoneNumberId ?? s?.phoneNumberId) ===
+            event.phoneNumberId &&
           (!row.providerId || row.providerId === st.id) &&
           row.attempts > 0
         ) {
@@ -170,10 +176,12 @@ export function processEvents() {
             .prepare(
               "UPDATE delivery_attempts SET providerId=COALESCE(providerId,?),state=? WHERE jobId=? AND (providerId=? OR state='UNKNOWN')",
             )
-            .run(st.id, states[st.status], row.id, st.id);
+            .run(st.id, state, row.id, st.id);
           outcome = `STATUS_${state}`;
         } else outcome = "UNMATCHED_STATUS";
-      } else if (value.message) {
+      } else if (!s || s.phoneNumberId !== event.phoneNumberId)
+        outcome = "SENDER_CHANGED";
+      else if (value.message) {
         const m = messageSchema.parse(value.message);
         const contactRow = database()
           .prepare(
@@ -232,7 +240,7 @@ export function processEvents() {
             const playerId =
               context && linked.includes(String(context.playerId))
                 ? String(context.playerId)
-                : linked.length === 1
+                : !m.context?.id && linked.length === 1
                   ? linked[0]
                   : undefined;
             if (playerId) {

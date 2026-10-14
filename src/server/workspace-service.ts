@@ -528,6 +528,14 @@ export function approveReport(
     repo.find(ctx.academy.id, "drill", id)!,
   );
   const trainingSources = reportTrainingSources(ctx, report);
+  if (
+    report.monthlySources &&
+    new Date().toISOString() < report.monthlySources.period.endAt
+  )
+    throw new WorkspaceError(
+      409,
+      "Wait until the reporting month ends before final approval.",
+    );
   assertMonthlyCurrent(ctx, report);
   const coachName = database()
     .prepare('SELECT name FROM "user" WHERE id=?')
@@ -541,7 +549,8 @@ export function approveReport(
     brandAccent: ctx.academy.brandAccent,
     logoData: ctx.academy.logoData || undefined,
     player: player.name,
-    period: report.period,
+    period:
+      report.period + (report.correctionOf ? " · Reviewed correction" : ""),
     status: "Approved",
     externalDelivery: "Not sent",
     demo: ctx.academy.demo,

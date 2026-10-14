@@ -9,6 +9,9 @@ import type {
   FootballEvidence,
 } from "@/domain/training";
 import { resolveSessionTime, measurementText } from "@/services/training-rules";
+// Cache only derived IANA boundaries, never content or delivery state. Batch
+// preparation should not repeat thousands of offset probes under a write lock.
+const boundaries = new Map<string, ReportingPeriod>();
 export function shiftDate(date: string, days: number) {
   const value = new Date(date + "T12:00:00Z");
   value.setUTCDate(value.getUTCDate() + days);
@@ -19,6 +22,9 @@ export function periodFor(
   timezone: string,
   kind: "WEEKLY" | "MONTHLY",
 ): ReportingPeriod {
+  const cacheKey = `${kind}:${timezone}:${key}`;
+  const cached = boundaries.get(cacheKey);
+  if (cached) return { ...cached };
   const start = kind === "WEEKLY" ? key : `${key}-01`;
   if (
     !/^\d{4}-\d{2}-\d{2}$/.test(start) ||
@@ -33,12 +39,16 @@ export function periodFor(
       : new Date(Date.UTC(Number(key.slice(0, 4)), Number(key.slice(5, 7)), 1))
           .toISOString()
           .slice(0, 10);
-  return {
+  const period = {
     key,
     timezone,
     startAt: resolveSessionTime(start + "T00:00", timezone),
     endAt: resolveSessionTime(next + "T00:00", timezone),
   };
+  if (boundaries.size >= 200)
+    boundaries.delete(boundaries.keys().next().value!);
+  boundaries.set(cacheKey, period);
+  return { ...period };
 }
 export function inPeriod(instant: string, period: ReportingPeriod) {
   return instant >= period.startAt && instant < period.endAt;

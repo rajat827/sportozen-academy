@@ -7,7 +7,6 @@ import type { ReportViewModel } from "@/domain/report";
 import {
   periodFor,
   inPeriod,
-  monthlyRecords,
   weeklyWording,
 } from "@/services/communication/period-rules";
 import { workspaceRepository as repo } from "./workspace-repository";
@@ -21,6 +20,7 @@ import {
   type WorkspaceAccess,
 } from "./workspace-access";
 import { authorisedSession } from "./training-service";
+import { monthlySourceData } from "./monthly-source-data";
 import { atomic, database, audit } from "./database";
 import { WorkspaceError } from "./auth";
 function fail(message: string): never {
@@ -63,6 +63,7 @@ export function weeklyCurrent(academyId: string, r: WeeklyPlan) {
         s.squadId === r.squadId &&
         s.status === "SCHEDULED" &&
         inPeriod(s.startAt, c.period) &&
+        (!c.remainingFrom || s.startAt >= c.remainingFrom) &&
         s.roster.some((p) => p.playerId === r.playerId),
     );
   if (
@@ -117,19 +118,15 @@ export function assembleMonthly(
   playerId: string,
   key: string,
 ): MonthlySources {
+  requireRole(ctx, ["OWNER", "ADMIN", "COACH"]);
   requireModule(ctx, "report");
   requirePlayer(ctx, playerId);
   const period = periodFor(key, ctx.academy.timezone, "MONTHLY");
   const plans = visibleRecords(ctx, "plan").filter(
     (p) => p.playerId === playerId,
   );
-  const records = monthlyRecords(
-    playerId,
-    period,
-    visibleRecords(ctx, "session"),
-    visibleRecords(ctx, "attendance"),
-    visibleRecords(ctx, "evidence"),
-  );
+  const data = monthlySourceData(ctx.academy.id, playerId, period),
+    records = data.records;
   const activities = records.actual.flatMap((s) =>
     s.agenda.map((a) => ({
       name: a.drill.name,
@@ -139,19 +136,14 @@ export function assembleMonthly(
     })),
   );
   return {
+    trainingFingerprint: data.fingerprint,
     period,
     sessionIds: records.actual.map((s) => s.id),
     evidenceIds: records.eligible.map((e) => e.id),
     fingerprint: createHash("sha256")
       .update(
         JSON.stringify({
-          sessions: records.actual,
-          attendance: visibleRecords(ctx, "attendance").filter(
-            (a) =>
-              records.actual.some((s) => s.id === a.sessionId) &&
-              a.playerId === playerId,
-          ),
-          evidence: records.eligible,
+          training: data.fingerprint,
           plans,
         }),
       )
@@ -219,8 +211,12 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
     .update(JSON.stringify(command))
     .digest("hex");
   return atomic(() => {
-    if (!repo.membership(ctx.academy.id, ctx.user.id))
+    const membership = repo.membership(ctx.academy.id, ctx.user.id),
+      academy = repo.academy(ctx.academy.id);
+    if (!membership || !academy || membership.role !== ctx.membership.role)
       fail("Membership revoked.");
+    ctx = { ...ctx, membership, academy };
+    staff(ctx);
     const prior = database()
       .prepare(
         "SELECT digest,response FROM training_submissions WHERE academyId=? AND userId=? AND requestId=?",
@@ -230,7 +226,8 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
       if (prior.digest !== digest)
         fail("Submission key reused with different content.");
       const response = JSON.parse(String(prior.response));
-      if (response.playerId) requirePlayer(ctx, response.playerId);
+      for (const record of Array.isArray(response) ? response : [response])
+        if (record.playerId) requirePlayer(ctx, record.playerId);
       return response;
     }
     let result: unknown;
@@ -261,6 +258,7 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
             correction.content.period.key !== d.week)
         )
           fail("Correction requires an issued plan for this squad and week.");
+        const remainingFrom = correction ? new Date().toISOString() : undefined;
         result = squad.playerIds
           .filter((p) => !correction || p === correction.playerId)
           .map((playerId) => {
@@ -292,6 +290,7 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
                 s.squadId === squad.id &&
                 s.status === "SCHEDULED" &&
                 inPeriod(s.startAt, period) &&
+                (!remainingFrom || s.startAt >= remainingFrom) &&
                 s.roster.some((p) => p.playerId === playerId),
             );
             sessions.forEach((s) => authorisedSession(ctx, s.id));
@@ -306,6 +305,7 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
               if (!drills.some((d) => d.id === id)) drills.push(drill);
             }
             const content = {
+              remainingFrom,
               period,
               playerName: player.name,
               teamFocus: [...new Set(sessions.map((s) => s.theme))].join("; "),
@@ -379,10 +379,8 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
               .all(ctx.academy.id, r.playerId)
               .map((g) => String(g.userId))
               .filter((userId) => {
-                const m = repo.membership(ctx.academy.id, userId),
-                  p = repo.find(ctx.academy.id, "preference", userId);
                 return (
-                  m?.role === "PARENT" && (!p || (p.inApp && p.development))
+                  repo.membership(ctx.academy.id, userId)?.role === "PARENT"
                 );
               });
             if (!recipients.length)

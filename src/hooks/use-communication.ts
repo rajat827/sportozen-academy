@@ -11,7 +11,13 @@ export interface CommunicationView {
   contacts: GuardianContact[];
   jobs: DeliveryJob[];
   reminders: { playerId: string; period: string; reason: string }[];
-  unrouted: { id: string; receivedAt: string; outcome: string }[];
+  unrouted: {
+    id: string;
+    receivedAt: string;
+    outcome: string;
+    guardianId?: string;
+    body?: string;
+  }[];
 }
 export function useCommunication(w: ReturnType<typeof useWorkspace>) {
   const [data, setData] = useState<CommunicationView>(),

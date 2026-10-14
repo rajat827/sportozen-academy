@@ -16,10 +16,12 @@ import {
 } from "@/services/communication/period-rules";
 import { resolveSessionTime } from "@/services/training-rules";
 import { templateParameters } from "@/services/communication/whatsapp-templates";
+import { privateSourcePath } from "@/services/communication/private-source-path";
 import { communicationRepository as comm } from "./communication-repository";
 import { workspaceRepository as repo } from "./workspace-repository";
 import { MetaWhatsAppProvider } from "./whatsapp-provider";
 import { weeklyCurrent } from "./period-service";
+import { monthlySourceData } from "./monthly-source-data";
 import {
   requireRole,
   requireModule,
@@ -138,13 +140,32 @@ export function communicationView(ctx: WorkspaceAccess) {
           .prepare("SELECT * FROM communication_reminders WHERE academyId=?")
           .all(ctx.academy.id)
           .filter((r) => players.has(String(r.playerId))),
-    unrouted: parent
+    unrouted: !["OWNER", "ADMIN"].includes(ctx.membership.role)
       ? []
       : database()
           .prepare(
-            "SELECT id,receivedAt,outcome FROM communication_events WHERE academyId=? AND outcome IN ('AMBIGUOUS_CHILD','UNKNOWN_CONTACT','UNSUPPORTED_MESSAGE')",
+            "SELECT id,receivedAt,outcome,body FROM communication_events WHERE academyId=? AND outcome IN ('AMBIGUOUS_CHILD','UNKNOWN_CONTACT','UNSUPPORTED_MESSAGE')",
           )
-          .all(ctx.academy.id),
+          .all(ctx.academy.id)
+          .map((row) => {
+            const message = JSON.parse(String(row.body)).message;
+            const contact = contacts.find(
+              (c) => c.phone === `+${message?.from}`,
+            );
+            return {
+              id: String(row.id),
+              receivedAt: String(row.receivedAt),
+              outcome: String(row.outcome),
+              guardianId:
+                row.outcome === "AMBIGUOUS_CHILD"
+                  ? contact?.guardianId
+                  : undefined,
+              body:
+                row.outcome === "AMBIGUOUS_CHILD"
+                  ? message?.text?.body
+                  : undefined,
+            };
+          }),
   };
 }
 export function privateSourceUrl(
@@ -155,7 +176,7 @@ export function privateSourceUrl(
 ) {
   const origin = new URL(process.env.BETTER_AUTH_URL ?? "http://127.0.0.1:3000")
     .origin;
-  return `${origin}/workspace/${encodeURIComponent(academyId)}?player=${encodeURIComponent(playerId)}&${type === "WEEKLY" ? "weekly" : "report"}=${encodeURIComponent(sourceId)}`;
+  return origin + privateSourcePath(academyId, playerId, sourceId, type);
 }
 export function notificationContent(
   academyId: string,
@@ -178,7 +199,7 @@ export function notificationContent(
       ...templateParameters(
         type,
         academy.name,
-        c.period.key,
+        c.period.key + (r.correctionOf ? " · Reviewed correction" : ""),
         privateSourceUrl(academyId, r.playerId, r.id, type),
         c,
       ),
@@ -191,10 +212,32 @@ export function notificationContent(
       "Approve an explicit-period monthly report first.",
     );
   for (const evidenceId of r.sourceEvidenceIds ?? []) {
-    const e=repo.find(academyId,"evidence",evidenceId),session=e?repo.find(academyId,"session",e.sessionId):undefined;
-    if(!e || e.playerId!==r.playerId || e.status!=="REVIEWED" || e.visibility!=="PARENT_ELIGIBLE" || !session || session.status!=="COMPLETED" || !inPeriod(session.startAt,r.reportingPeriod) || !inPeriod(e.recordedAt,r.reportingPeriod))
-      throw new WorkspaceError(409,"Monthly notification sources were cancelled, superseded or are no longer parent-eligible.");
+    const e = repo.find(academyId, "evidence", evidenceId),
+      session = e ? repo.find(academyId, "session", e.sessionId) : undefined;
+    if (
+      !e ||
+      e.playerId !== r.playerId ||
+      e.status !== "REVIEWED" ||
+      e.visibility !== "PARENT_ELIGIBLE" ||
+      !session ||
+      session.status !== "COMPLETED" ||
+      !inPeriod(session.startAt, r.reportingPeriod) ||
+      !inPeriod(e.recordedAt, r.reportingPeriod)
+    )
+      throw new WorkspaceError(
+        409,
+        "Monthly notification sources were cancelled, superseded or are no longer parent-eligible.",
+      );
   }
+  if (
+    r.monthlySources &&
+    r.monthlySources.trainingFingerprint !==
+      monthlySourceData(academyId, r.playerId, r.reportingPeriod).fingerprint
+  )
+    throw new WorkspaceError(
+      409,
+      "Monthly training or attendance changed after approval. Prepare and approve a correction before notifying parents.",
+    );
   return {
     playerId: r.playerId,
     period: r.reportingPeriod,
@@ -210,7 +253,7 @@ export function notificationContent(
     ...templateParameters(
       type,
       academy.name,
-      r.reportingPeriod.key,
+      r.reportingPeriod.key + (r.correctionOf ? " · Reviewed correction" : ""),
       privateSourceUrl(academyId, r.playerId, r.id, type),
     ),
   };
@@ -223,6 +266,14 @@ export function contactEligible(
 ) {
   const contact = comm.contact(academyId, guardianId);
   const preference = repo.find(academyId, "preference", guardianId);
+  if (
+    preference &&
+    !/^(english|en(?:[-_][a-z]{2})?)$/i.test(preference.language.trim())
+  )
+    throw new WorkspaceError(
+      409,
+      "No approved WhatsApp template supports this guardian's preferred language.",
+    );
   if (
     !authorisedGuardian(academyId, guardianId, playerId) ||
     !contact?.verifiedAt ||
@@ -268,6 +319,11 @@ export function queueNotification(
         expiresAt,
       );
   }
+  database()
+    .prepare(
+      "DELETE FROM communication_reminders WHERE academyId=? AND period=? AND type=? AND playerId=?",
+    )
+    .run(academyId, source.period.key, type, source.playerId);
 }
 export function scheduleTimes(
   s: CommunicationSettings,
@@ -337,6 +393,9 @@ export async function communicationAction(
       connection = "Configuration error";
     }
     return atomic(() => {
+      const membership = repo.membership(ctx.academy.id, ctx.user.id);
+      if (!membership || !["OWNER", "ADMIN"].includes(membership.role))
+        throw new WorkspaceError(403, "Sender verification access revoked.");
       if (comm.settings(ctx.academy.id)?.version !== s.version)
         throw new WorkspaceError(409, "Settings changed during verification.");
       const next = {
@@ -353,8 +412,12 @@ export async function communicationAction(
     });
   }
   return atomic(() => {
-    if (!repo.membership(ctx.academy.id, ctx.user.id))
+    const membership = repo.membership(ctx.academy.id, ctx.user.id),
+      academy = repo.academy(ctx.academy.id);
+    if (!membership || !academy || membership.role !== ctx.membership.role)
       throw new WorkspaceError(403, "Membership revoked.");
+    ctx = { ...ctx, membership, academy };
+    requireModule(ctx, "update");
     if (cmd.action === "settings") {
       requireRole(ctx, ["OWNER", "ADMIN"]);
       const { expectedVersion, ...d } = settingsSchema.parse(cmd.data);
@@ -369,7 +432,16 @@ export async function communicationAction(
           400,
           "Draft generation must precede notification day.",
         );
-      if(d.weeklyTemplate===d.monthlyTemplate)throw new WorkspaceError(400,"Use distinct weekly and monthly provider templates.");
+      if (d.weeklyDay === 1 && d.weeklyLeadDays === 0)
+        throw new WorkspaceError(
+          400,
+          "A Monday sending schedule needs at least one planning lead day, before the training week begins.",
+        );
+      if (d.weeklyTemplate === d.monthlyTemplate)
+        throw new WorkspaceError(
+          400,
+          "Use distinct weekly and monthly provider templates.",
+        );
       const old = comm.settings(ctx.academy.id);
       if ((old?.version ?? 0) !== expectedVersion)
         throw new WorkspaceError(409, "Settings changed. Reload.");
@@ -523,7 +595,10 @@ export async function communicationAction(
       visibleRecord(ctx, d.type === "WEEKLY" ? "weekly" : "report", d.sourceId);
       const c = notificationContent(ctx.academy.id, d.type, d.sourceId);
       const now = new Date().toISOString();
-      if (d.type === "WEEKLY" && now >= c.period.startAt)
+      if (
+        d.type === "WEEKLY" &&
+        now >= (c.correction ? c.period.endAt : c.period.startAt)
+      )
         throw new WorkspaceError(
           409,
           "Missed weekly plans cannot be sent after their period begins.",
@@ -532,7 +607,9 @@ export async function communicationAction(
         throw new WorkspaceError(409, "Wait until the reporting month ends.");
       const expiresAt =
         d.type === "WEEKLY"
-          ? c.period.startAt
+          ? c.correction
+            ? c.period.endAt
+            : c.period.startAt
           : periodFor(
               localClock(new Date(c.period.endAt), s.timezone).date.slice(0, 7),
               s.timezone,
@@ -569,6 +646,7 @@ export async function communicationAction(
       return { cancelled: true };
     }
     if (cmd.action === "resolveReply") {
+      requireRole(ctx, ["OWNER", "ADMIN"]);
       const d = z
         .object({ eventId: z.string(), playerId: z.string() })
         .parse(cmd.data);
@@ -643,7 +721,7 @@ export async function communicationAction(
       s.paused ||
       !message ||
       message.internal ||
-      message.senderRole === "PARENT"
+      !["OWNER", "ADMIN", "COACH"].includes(message.senderRole)
     )
       throw new WorkspaceError(
         409,
@@ -751,6 +829,25 @@ export function dispatchCheck(job: DeliveryJob, now: Date) {
       "Academy configuration or entitlement changed.",
     );
   const player = repo.find(job.academyId, "player", job.playerId);
+  const requiredModule =
+    job.type === "WEEKLY"
+      ? "development"
+      : job.type === "MONTHLY"
+        ? "reports"
+        : "communication";
+  const entitlement = database()
+    .prepare("SELECT modules FROM platform_entitlements WHERE academyId=?")
+    .get(job.academyId);
+  if (
+    !academy.modules.includes(requiredModule) ||
+    !entitlement ||
+    !JSON.parse(String(entitlement.modules)).includes(requiredModule) ||
+    !JSON.parse(String(entitlement.modules)).includes("communication")
+  )
+    throw new WorkspaceError(
+      409,
+      "Notification source module or communication entitlement is unavailable.",
+    );
   if (!player?.sportIds.includes("football"))
     throw new WorkspaceError(409, "Player no longer eligible.");
   const contact = contactEligible(
@@ -773,10 +870,16 @@ export function dispatchCheck(job: DeliveryJob, now: Date) {
   if (job.type === "REPLY") {
     const c = repo.find(job.academyId, "conversation", job.sourceId),
       m = c?.messages.find((m) => m.id === job.period);
+    const author = m ? repo.membership(job.academyId, m.senderId) : undefined;
     if (
       !m ||
       m.internal ||
-      m.senderRole === "PARENT" ||
+      !author ||
+      !["OWNER", "ADMIN", "COACH"].includes(author.role) ||
+      (author.sportIds.length > 0 && !author.sportIds.includes("football")) ||
+      (author.role === "COACH" &&
+        repo.find(job.academyId, "player", job.playerId)?.coachId !==
+          m.senderId) ||
       c?.guardianId !== job.guardianId ||
       c.playerId !== job.playerId ||
       !contact.lastInboundAt ||
@@ -790,6 +893,7 @@ export function dispatchCheck(job: DeliveryJob, now: Date) {
       settings: s,
       contact,
       deferred,
+      waitingPublication: false,
       request: {
         draftId: c.id,
         body: m.body,
@@ -822,6 +926,7 @@ export function dispatchCheck(job: DeliveryJob, now: Date) {
   if (
     !m ||
     !["OWNER", "ADMIN", "COACH"].includes(m.role) ||
+    (m.sportIds.length > 0 && !m.sportIds.includes("football")) ||
     (m.role === "COACH" && coachId !== author)
   )
     throw new WorkspaceError(409, "Approving staff is no longer authorised.");
@@ -829,6 +934,9 @@ export function dispatchCheck(job: DeliveryJob, now: Date) {
     settings: s,
     contact,
     deferred,
+    waitingPublication:
+      job.type === "WEEKLY" &&
+      !repo.find(job.academyId, "weekly", job.sourceId)?.issuedAt,
     request: {
       draftId: job.sourceId,
       body: source.rendered,
