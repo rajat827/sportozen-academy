@@ -21,6 +21,7 @@ The new UI uses real text, links, icons, selects and cards. There is no screensh
 - Noto Sans is retained from the existing licensed local font assets. Reference font metadata was not supplied; weights and hierarchy are matched by visual inspection rather than claiming an exact font match.
 - The handwritten hero slogan is omitted; a separate source font/asset was not provided. The reference's outer presentation captions and device frames are excluded as requested.
 - Parent child selection and the small fictional-preview notice remain for truthful, usable review. Longer source-based focus/update text changes some wrapping and card height. Profile menus provide review controls without a large testing toolbar in the main composition.
+- The primary action uses the existing validated academy accent, preserving academy-specific branding and readable white-label contrast; Riverside's button is darker than the reference's bright gradient.
 - AI Analysis remains Coming soon. There are no new live payment or WhatsApp states.
 
 ## Figma

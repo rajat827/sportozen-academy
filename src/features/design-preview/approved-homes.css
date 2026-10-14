@@ -323,7 +323,7 @@
   gap: 12px;
 }
 .approved-review .ar-start {
-  background: linear-gradient(#00b87b, #00935e);
+  background: var(--ar-accent);
   box-shadow: 0 6px 12px #0003;
 }
 .approved-review .ar-start .ar-logo-mark {
