@@ -3,6 +3,7 @@ import { useState, type CSSProperties, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import * as Dialog from "@radix-ui/react-dialog";
 import {
   Home,
   CalendarDays,
@@ -23,6 +24,7 @@ import {
   Menu,
   Timer,
   ChevronRight,
+  X,
 } from "lucide-react";
 import {
   previewAdapter,
@@ -30,7 +32,12 @@ import {
   playerWeeklyState,
   playerReportStatus,
 } from "./adapter";
-import { previewAcademies, resolvedAcademy, weekPlanContext } from "./fixtures";
+import {
+  previewAcademies,
+  previewDrills,
+  resolvedAcademy,
+  weekPlanContext,
+} from "./fixtures";
 import {
   previewRoute,
   previewScenarios,
@@ -42,7 +49,6 @@ const nav = [
   ["Calendar", "sessions", CalendarDays],
   ["Sessions", "session-agenda", ClipboardList],
   ["Players", "players", Users],
-  ["Drills Library", "drill-library", BookOpen],
   ["Reports", "report-queue", ClipboardList],
   ["Messages", "parent-questions", MessageSquare],
   ["Academy", "coach-more", Building2],
@@ -77,6 +83,7 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
     ctx = weekPlanContext(state.fields, state.players),
     router = useRouter();
   const [search, setSearch] = useState("");
+  const [toolsOpen, setToolsOpen] = useState(false);
   const weekStart = new Date(`${ctx.week}T12:00:00Z`),
     weekEnd = new Date(weekStart);
   weekEnd.setUTCDate(weekEnd.getUTCDate() + 6);
@@ -92,91 +99,116 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
   const report = playerReportStatus(state),
     roster = state.players.filter((p) => ctx.playerIds.includes(p.id));
   const controls = (
-    <details className="ar-controls">
-      <summary aria-label="Preview context & screen gallery">
-        <span className="ar-avatar" aria-hidden="true">
-          {parent ? "NS" : "MR"}
-        </span>
-      </summary>
-      <div>
-        <Link href="/design-preview/prototype">Reference prototype</Link>
-        <label>
-          Review academy fixture
-          <select
-            aria-label="Review academy fixture"
-            value={academy.id}
-            onChange={(e) => previewAdapter.save({ academyId: e.target.value })}
-          >
-            {previewAcademies.map((a) => (
-              <option value={a.id} key={a.id}>
-                {a.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Review player context
-          <select
-            aria-label={parent ? "Review player context" : "Player context"}
-            value={state.playerId}
-            onChange={(e) => previewAdapter.save({ playerId: e.target.value })}
-          >
-            {(parent
-              ? state.players.filter((p) => p.guardian === "Neha Shah")
-              : state.players
-            ).map((p) => (
-              <option value={p.id} key={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Role preview
-          <select
-            aria-label="Role preview"
-            value={parent ? "PARENT" : "COACH"}
-            onChange={(e) =>
-              router.push(
-                previewRoute(
-                  reviewRoles[e.target.value as keyof typeof reviewRoles],
-                ),
-              )
-            }
-          >
-            {Object.keys(reviewRoles).map((role) => (
-              <option key={role}>{role}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Design scenario
-          <select
-            aria-label="Design scenario"
-            value="default"
-            onChange={(e) =>
-              router.push(
-                previewRoute(
-                  parent ? "parent-home" : "coach-today",
-                  e.target.value as PreviewScenario,
-                ),
-              )
-            }
-          >
-            {previewScenarios.map((scenario) => (
-              <option key={scenario} value={scenario}>
-                {scenario.replaceAll("-", " ")}
-              </option>
-            ))}
-          </select>
-        </label>
-        <Jump to={parent ? "parent-more" : "coach-more"}>More tools</Jump>
-        <Link href="/design-preview">Screen gallery</Link>
-        <button onClick={() => previewAdapter.reset()}>
-          Reset fictional preview
+    <Dialog.Root open={toolsOpen} onOpenChange={setToolsOpen}>
+      <Dialog.Trigger asChild>
+        <button
+          className="ar-controls"
+          aria-label="Preview context & screen gallery"
+          type="button"
+        >
+          <span className="ar-avatar" aria-hidden="true">
+            {parent ? "NS" : "MR"}
+          </span>
         </button>
-      </div>
-    </details>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="ar-tools-overlay" />
+        <Dialog.Content className="ar-tools-drawer">
+          <div className="ar-tools-heading">
+            <Dialog.Title>Preview tools</Dialog.Title>
+            <Dialog.Close aria-label="Close preview tools">
+              <X size={20} />
+            </Dialog.Close>
+          </div>
+          <Dialog.Description>
+            Fictional fixtures and review settings. No real messages or payments
+            are processed.
+          </Dialog.Description>
+          <Link href="/design-preview/prototype">Reference prototype</Link>
+          <label>
+            Review academy fixture
+            <select
+              aria-label="Review academy fixture"
+              value={academy.id}
+              onChange={(e) =>
+                previewAdapter.save({ academyId: e.target.value })
+              }
+            >
+              {previewAcademies.map((a) => (
+                <option value={a.id} key={a.id}>
+                  {a.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Review player context
+            <select
+              aria-label={parent ? "Review player context" : "Player context"}
+              value={state.playerId}
+              onChange={(e) =>
+                previewAdapter.save({ playerId: e.target.value })
+              }
+            >
+              {(parent
+                ? state.players.filter((p) => p.guardian === "Neha Shah")
+                : state.players
+              ).map((p) => (
+                <option value={p.id} key={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Role preview
+            <select
+              aria-label="Role preview"
+              value={parent ? "PARENT" : "COACH"}
+              onChange={(e) => {
+                setToolsOpen(false);
+                router.push(
+                  previewRoute(
+                    reviewRoles[e.target.value as keyof typeof reviewRoles],
+                  ),
+                );
+              }}
+            >
+              {Object.keys(reviewRoles).map((role) => (
+                <option key={role}>{role}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Design scenario
+            <select
+              aria-label="Design scenario"
+              value="default"
+              onChange={(e) => {
+                setToolsOpen(false);
+                router.push(
+                  previewRoute(
+                    parent ? "parent-home" : "coach-today",
+                    e.target.value as PreviewScenario,
+                  ),
+                );
+              }}
+            >
+              {previewScenarios.map((scenario) => (
+                <option key={scenario} value={scenario}>
+                  {scenario.replaceAll("-", " ")}
+                </option>
+              ))}
+            </select>
+          </label>
+          <Jump to={parent ? "parent-more" : "coach-more"}>More tools</Jump>
+          <Link href="/design-preview">Screen gallery</Link>
+          <button onClick={() => previewAdapter.reset()}>
+            Reset fictional preview
+          </button>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
   return (
     <div
@@ -218,21 +250,9 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
         <header className="ar-header">
           {parent ? (
             <>
-              <div className="ar-parent-identity dp-brand">
+              <div className="ar-parent-identity">
                 <span className="ar-logo-mark">S</span>
-                <select
-                  aria-label="Academy fixture"
-                  value={academy.id}
-                  onChange={(e) =>
-                    previewAdapter.save({ academyId: e.target.value })
-                  }
-                >
-                  {previewAcademies.map((a) => (
-                    <option key={a.id} value={a.id}>
-                      {a.name}
-                    </option>
-                  ))}
-                </select>
+                <strong>{academy.name}</strong>
               </div>
               <Jump to="parent-progress" className="ar-icon">
                 <Bell size={19} />
@@ -277,22 +297,10 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
                   <ArrowRight size={16} />
                 </button>
               </form>
-              <label className="ar-academy">
-                <span className="sr-only">Academy fixture</span>
-                <select
-                  aria-label="Academy fixture"
-                  value={academy.id}
-                  onChange={(e) =>
-                    previewAdapter.save({ academyId: e.target.value })
-                  }
-                >
-                  {previewAcademies.map((a) => (
-                    <option key={a.id} value={a.id}>
-                      {a.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <Jump to="academy-profile" className="ar-academy">
+                <Building2 size={15} />
+                <span>{academy.name}</span>
+              </Jump>
               <Jump to="outstanding-reviews" className="ar-icon">
                 <Bell size={22} />
                 <span className="sr-only">Pending reviews</span>
@@ -473,18 +481,16 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
                     <div className="ar-focus">
                       <h3>Focus Areas</h3>
                       <div>
-                        <span>
-                          <Footprints size={18} />
-                          Receiving
-                        </span>
-                        <span>
-                          <Target size={18} />
-                          Passing
-                        </span>
-                        <span>
-                          <Timer size={18} />
-                          Decision Making
-                        </span>
+                        {state.drills.map((id, i) => {
+                          const drill = previewDrills.find((d) => d.id === id);
+                          const Icon = [Footprints, Target, Timer][i % 3];
+                          return drill ? (
+                            <span key={id}>
+                              <Icon size={18} />
+                              {drill.skill}
+                            </span>
+                          ) : null;
+                        })}
                       </div>
                       <p>{state.batchFocus}</p>
                     </div>
@@ -591,13 +597,13 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
                     <h2>AI Analysis</h2>
                     <Bot size={28} />
                   </div>
-                  <span className="ar-coming">Coming soon</span>
+                  <Jump to="ai-coming-soon" className="ar-ai-status">
+                    <span className="sr-only">AI analysis status: </span>
+                    <span className="ar-coming">Coming soon</span>
+                  </Jump>
                   <p>
                     Coach-led plans and recorded observations remain available.
                   </p>
-                  <Jump to="ai-coming-soon">
-                    View status <ArrowRight size={14} />
-                  </Jump>
                 </section>
               </div>
             </>

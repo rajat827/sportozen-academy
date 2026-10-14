@@ -5,7 +5,7 @@ test("approved-reference screens preserve controls, context and narrow usability
   page,
 }) => {
   test.setTimeout(120000);
-  const folder = "docs/design/visual-correction";
+  const folder = "docs/design/locked-ui/regressions";
   await mkdir(folder, { recursive: true });
   const errors: string[] = [],
     calls: string[] = [];
@@ -78,7 +78,12 @@ test("approved-reference screens preserve controls, context and narrow usability
   }
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/design-preview/coach-today");
-  await page.locator(".ar-controls summary").click();
+  await page
+    .getByRole("button", {
+      name: "Preview context & screen gallery",
+      exact: true,
+    })
+    .click();
   await expect(
     page.getByLabel("Review academy fixture", { exact: true }),
   ).toBeVisible();
@@ -91,10 +96,20 @@ test("approved-reference screens preserve controls, context and narrow usability
   await page
     .getByLabel("Design scenario", { exact: true })
     .selectOption("default");
-  await page.locator(".ar-controls summary").click();
+  await page
+    .getByRole("button", {
+      name: "Preview context & screen gallery",
+      exact: true,
+    })
+    .click();
   await page.getByLabel("Role preview", { exact: true }).selectOption("PARENT");
   await expect(page).toHaveURL(/parent-home/);
-  await page.locator(".ar-controls summary").click();
+  await page
+    .getByRole("button", {
+      name: "Preview context & screen gallery",
+      exact: true,
+    })
+    .click();
   await page.getByLabel("Role preview", { exact: true }).selectOption("COACH");
   await expect(page).toHaveURL(/coach-today/);
   await page

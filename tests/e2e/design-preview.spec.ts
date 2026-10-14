@@ -275,9 +275,18 @@ test("preview workflows retain context, deliberate approvals and safe payment sc
   );
   await page.goto("/design-preview/parent-home");
   await page
-    .getByLabel("Academy fixture", { exact: true })
+    .getByRole("button", {
+      name: "Preview context & screen gallery",
+      exact: true,
+    })
+    .click();
+  await page
+    .getByLabel("Review academy fixture", { exact: true })
     .selectOption("harbour");
-  await expect(page.locator(".dp-brand")).toContainText(
+  await page
+    .getByRole("button", { name: "Close preview tools", exact: true })
+    .click();
+  await expect(page.locator(".ar-parent-identity")).toContainText(
     "Harbour Football Academy",
   );
   await page.goto("/design-preview/parent-fees");

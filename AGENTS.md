@@ -19,3 +19,13 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+## Approved UI direction lock
+
+Read `docs/design/UI_LOCK.md` and `docs/design/UI_REFERENCE_MAP.md` before visual, feature or backend work that touches the frontend. The named Coach Today, Player Profile and Parent Home references in `docs/reference/approved-ui/screens/`, together with `original_boards/01-approved-coach-player-parent-board.png`, are the selected visual source of truth. Older exploratory mockups and broad “Concept B” wording do not override them.
+
+Backend and feature tasks must not redesign the interface. Do not change navigation, typography, spacing, card structure, icon/button hierarchy or academy branding without explicit user approval. New screens reuse the approved components and visual rules. The current instruction defers a standalone Drills Library from primary navigation; preserve existing activity records and their session/plan links.
+
+Shared visual-component changes require regression screenshots of Coach Today and Parent Home and affected views. Real data may change; the layout must not drift because fixtures changed. Fixture/role/scenario/reset/gallery controls belong outside normal product composition in a separate gallery or accessible developer drawer closed by default; legitimate authorised selectors and a compact fictional-preview notice remain visible in context. Preserve keyboard focus, drawer accessibility, readable text and touch targets.
+
+Passing tests never establishes user approval. Distinguish “Implementation ready for visual review” from “User-approved design.” The current correction checkpoint is only Coach Today and Parent Home with responsive adaptations; preserve other screens until those two are reviewed. Do not broaden into another redesign, Figma reorganisation, backend changes, a main merge or deployment. Record actual browser evidence and remaining differences, then stop for the user's visual approval.

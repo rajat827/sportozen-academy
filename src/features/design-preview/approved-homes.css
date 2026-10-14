@@ -166,10 +166,11 @@
 }
 .approved-review .ar-academy {
   margin-left: auto;
-}
-.approved-review .ar-academy select {
-  max-width: 250px;
-  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 260px;
+  min-height: 38px;
   border: 1px solid #d6e0e9;
   border-radius: 8px;
   background: #f8fafc;
@@ -227,20 +228,27 @@
 }
 .approved-review .ar-training-photo {
   position: absolute;
-  right: 0;
+  right: 6%;
   top: 0;
   height: 100%;
-  width: 33%;
+  width: auto;
+  max-width: 43%;
   object-fit: contain;
   object-position: right bottom;
-  mask-image: linear-gradient(90deg, transparent, #000 15%);
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 25%,
+    #000 86%,
+    transparent
+  );
   opacity: 0.98;
 }
 .approved-review .ar-training-content {
   position: relative;
   z-index: 1;
   padding: 26px 26px 28px;
-  max-width: 80%;
+  max-width: 79%;
 }
 .approved-review .ar-training-label {
   font-size: 15px;
@@ -427,6 +435,14 @@
   gap: 16px;
   margin-top: 18px;
 }
+.approved-review .ar-summary,
+.approved-review .ar-ai {
+  padding: 14px 18px;
+}
+.approved-review .ar-summary .ar-symbol {
+  width: 30px;
+  height: 30px;
+}
 .approved-review .ar-summary-value {
   display: flex;
   align-items: baseline;
@@ -434,7 +450,7 @@
   margin-top: 4px;
 }
 .approved-review .ar-summary-value strong {
-  font-size: 29px;
+  font-size: 28px;
   letter-spacing: -1px;
 }
 .approved-review .ar-summary-value span {
@@ -471,6 +487,17 @@
   border-radius: 14px;
   margin: 4px 0 8px;
 }
+.approved-review .ar-ai .ar-coming {
+  color: #fff;
+  min-height: 0;
+  font-size: 11px;
+}
+.approved-review .ar-ai .ar-ai-status {
+  min-height: 44px;
+}
+.approved-review .ar-ai-status .ar-coming {
+  margin: 0;
+}
 .approved-review .ar-ai {
   background: linear-gradient(120deg, #fff, #edf2f7);
 }
@@ -479,46 +506,86 @@
   color: #425571;
 }
 .approved-review .ar-controls {
-  position: relative;
-  margin-top: 0;
-  font-size: 11px;
-  color: #64748b;
-}
-.approved-review .ar-controls summary {
-  cursor: pointer;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-}
-.approved-review .ar-controls > div {
-  position: absolute;
-  right: 0;
-  top: 48px;
-  z-index: 30;
-  background: white;
-  border: 1px solid #d6e0e9;
-  border-radius: 10px;
-  box-shadow: 0 12px 30px #0b172922;
-  width: 290px;
-  max-width: calc(100vw - 28px);
   display: grid;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 16px;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.ar-tools-overlay {
+  position: fixed;
+  inset: 0;
+  background: #09283e70;
+  z-index: 100;
+}
+.ar-tools-drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: 380px;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  background: #fff;
+  color: #142b3d;
+  box-shadow: -12px 0 40px #09283e20;
+  z-index: 101;
+  padding: 24px;
+  font:
+    14px/1.5 "Preview Noto",
+    Arial,
+    sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ar-tools-heading {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
-.approved-review .ar-controls label {
+.ar-tools-heading h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.ar-tools-drawer p {
+  margin: 0;
+  color: #526775;
+}
+.ar-tools-drawer label {
   display: grid;
   gap: 4px;
 }
-.approved-review .ar-controls select,
-.approved-review .ar-controls button {
+.ar-tools-drawer select,
+.ar-tools-drawer button {
+  font: inherit;
   min-height: 44px;
   border: 1px solid #d2dce5;
   border-radius: 6px;
   background: white;
-  padding: 6px;
-  max-width: 250px;
+  padding: 8px;
+  width: 100%;
+  color: inherit;
+  cursor: pointer;
+}
+.ar-tools-heading button {
+  width: 44px;
+  display: grid;
+  place-items: center;
+}
+.ar-tools-drawer a {
+  color: #006e53;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  text-underline-offset: 3px;
+}
+.ar-tools-drawer :focus-visible {
+  outline: 3px solid #126aa2;
+  outline-offset: 3px;
 }
 .approved-review .ar-preview-note {
   font-size: 10px;
@@ -554,17 +621,12 @@
   height: 28px;
   font-size: 20px;
 }
-.approved-review .ar-parent-identity select {
-  width: 100%;
+.approved-review .ar-parent-identity strong {
   min-width: 0;
-  border: 0;
-  background: transparent;
-  appearance: none;
-  font-size: inherit;
+  font-size: 12px;
   font-weight: 700;
-  color: inherit;
-  height: 44px;
-  padding: 0;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 .design-preview.approved-review.ar-parent .ar-avatar {
   width: 30px;
@@ -587,7 +649,7 @@
 }
 .design-preview.approved-review.ar-parent h1 {
   max-width: 56%;
-  font-size: 28px;
+  font-size: 26px;
   letter-spacing: -0.6px;
 }
 .design-preview.approved-review.ar-parent .ar-greeting p {
@@ -617,7 +679,7 @@
   margin-bottom: 12px;
 }
 .design-preview.approved-review.ar-parent h2 {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.35;
 }
 .approved-review .ar-week-card {
@@ -663,15 +725,15 @@
 }
 .approved-review .ar-week-copy {
   padding-right: 90px;
-  margin: 16px 0 18px;
+  margin: 14px 0 10px;
 }
 .approved-review .ar-week-copy h3 {
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.35;
   margin-bottom: 6px;
 }
 .approved-review .ar-week-copy p {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   color: #586b83;
 }
@@ -721,7 +783,7 @@
   color: #8390a3;
 }
 .approved-review .ar-update p {
-  font-size: 14px;
+  font-size: 13px;
   color: #576980;
   margin-top: 10px;
   line-height: 1.45;
@@ -761,7 +823,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 82px;
+  min-height: 76px;
   gap: 10px;
   text-align: center;
   font-size: 11px;
@@ -780,7 +842,7 @@
   margin-top: 0;
 }
 .design-preview.approved-review.ar-parent .ar-preview-note {
-  font-size: 9px;
+  font-size: 10px;
   line-height: 1.4;
 }
 .approved-review .ar-bottom-nav {
@@ -887,7 +949,8 @@
     padding: 20px;
   }
   .approved-review .ar-training-photo {
-    width: 43%;
+    right: 0;
+    max-width: 50%;
     opacity: 0.65;
   }
   .approved-review .ar-session-details {
@@ -922,7 +985,7 @@
     padding: 14px;
   }
   .design-preview.approved-review.ar-parent .ar-greeting {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 }
 @media (max-width: 360px) {
@@ -987,5 +1050,130 @@
   }
   .approved-review .ar-training-content {
     max-width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .design-preview.approved-review.ar-coach {
+    display: block;
+  }
+  .design-preview.approved-review.ar-coach .ar-sidebar {
+    display: block;
+    width: 100%;
+    min-height: 0;
+    padding: 8px;
+  }
+  .design-preview.approved-review.ar-coach .ar-logo,
+  .design-preview.approved-review.ar-coach .ar-coach-person {
+    display: none;
+  }
+  .design-preview.approved-review.ar-coach .ar-sidebar nav {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+  }
+  .design-preview.approved-review.ar-coach .ar-sidebar nav a {
+    font-size: 11px;
+    gap: 6px;
+    padding: 0 10px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .design-preview.approved-review.ar-coach .ar-sidebar nav svg {
+    width: 16px;
+    height: 16px;
+  }
+  .design-preview.approved-review.ar-coach .ar-search {
+    flex: 1;
+    width: auto;
+  }
+  .design-preview.approved-review.ar-coach .ar-training-content {
+    max-width: 100%;
+  }
+  .design-preview.approved-review.ar-coach .ar-training-photo {
+    top: auto;
+    bottom: 0;
+    width: 48%;
+    height: auto;
+    opacity: 0.4;
+  }
+}
+@media (min-width: 900px) {
+  .design-preview.approved-review.ar-parent {
+    background: #f8fafc;
+  }
+  .design-preview.approved-review.ar-parent .ar-workspace {
+    max-width: 1120px;
+    min-height: 100vh;
+  }
+  .design-preview.approved-review.ar-parent .ar-header {
+    height: 72px;
+    padding: 0 32px;
+    border-bottom: 1px solid #edf0f3;
+  }
+  .design-preview.approved-review.ar-parent .ar-parent-identity strong {
+    font-size: 14px;
+  }
+  .design-preview.approved-review.ar-parent .ar-main {
+    padding: 28px 32px 110px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+  }
+  .design-preview.approved-review.ar-parent .ar-greeting {
+    grid-column: 1 / -1;
+    margin-bottom: 4px;
+  }
+  .design-preview.approved-review.ar-parent .ar-child {
+    max-width: 220px;
+    width: 220px;
+  }
+  .design-preview.approved-review.ar-parent .ar-card {
+    margin: 0;
+    padding: 22px;
+  }
+  .design-preview.approved-review.ar-parent .ar-week-card {
+    grid-column: 1;
+    grid-row: 2;
+    min-height: 230px;
+  }
+  .design-preview.approved-review.ar-parent .ar-week-image {
+    width: 100px;
+    height: 150px;
+    right: 22px;
+  }
+  .design-preview.approved-review.ar-parent .ar-week-copy {
+    padding-right: 125px;
+    margin: 18px 0;
+  }
+  .design-preview.approved-review.ar-parent .ar-week-copy h3 {
+    font-size: 20px;
+  }
+  .design-preview.approved-review.ar-parent .ar-week-copy p {
+    font-size: 14px;
+  }
+  .design-preview.approved-review.ar-parent .ar-update {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .design-preview.approved-review.ar-parent .ar-next {
+    grid-column: 2;
+    grid-row: 2;
+    min-height: 140px;
+  }
+  .design-preview.approved-review.ar-parent .ar-shortcuts {
+    grid-column: 2;
+    grid-row: 3;
+    margin: 0;
+  }
+  .design-preview.approved-review.ar-parent .ar-shortcuts a {
+    min-height: 112px;
+  }
+  .design-preview.approved-review.ar-parent .ar-preview-note {
+    grid-column: 1 / -1;
+  }
+  .design-preview.approved-review.ar-parent .ar-bottom-nav {
+    max-width: 1120px;
+    padding-inline: 180px;
   }
 }

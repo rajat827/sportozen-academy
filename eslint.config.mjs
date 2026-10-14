@@ -8,6 +8,7 @@ export default defineConfig([
     ".local/**",
     ".next/**",
     ".next-football-qa/**",
+    ".next-gallery-qa/**",
     "next-env.d.ts",
     "playwright-report/**",
     "test-results/**",
