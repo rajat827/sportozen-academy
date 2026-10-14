@@ -1,0 +1,150 @@
+{
+  "capturedAt": "2026-10-14T17:58:25.775Z",
+  "evidence": [
+    {
+      "route": "/design-preview/coach-today",
+      "viewport": {
+        "width": 1440,
+        "height": 780
+      },
+      "overflow": false,
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif",
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/approved-ui/football-training.png",
+          "naturalWidth": 191,
+          "naturalHeight": 290,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "route": "/design-preview/parent-home",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif",
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/approved-ui/weekly-football.png",
+          "naturalWidth": 50,
+          "naturalHeight": 84,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "route": "/design-preview/parent-home",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "overflow": false,
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif",
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/approved-ui/weekly-football.png",
+          "naturalWidth": 50,
+          "naturalHeight": 84,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "route": "/design-preview/parent-home",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "overflow": false,
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif",
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/approved-ui/weekly-football.png",
+          "naturalWidth": 50,
+          "naturalHeight": 84,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "route": "/design-preview/coach-today",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif",
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/approved-ui/football-training.png",
+          "naturalWidth": 191,
+          "naturalHeight": 290,
+          "complete": true
+        }
+      ]
+    }
+  ]
+}

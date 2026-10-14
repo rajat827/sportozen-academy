@@ -41,4 +41,4 @@ Capture the implementation before edits. Capture the corrected Coach Today at 14
 
 Deliver files changed, before/after screenshots, reference/implementation comparisons, remaining differences and applicable lint/typecheck/unit/frontend/build/regression outcomes. Stop after these two screens for user approval. Applying these rules to the remaining screens is a later, explicitly approved task.
 
-**Implementation review status:** pending the current correction evidence and the user's review. No approval of the corrected implementation is recorded here.
+**Implementation review status:** implementation ready for visual review of Coach Today and Parent Home. Tested product commit: `ef9cce5dc6e154a6340724bff25d16952bc82ccb` on `codex/locked-ui-fidelity`. Actual before/after captures, reference comparisons, responsive sizes, remaining differences and test results are recorded in [locked-ui/README.md](locked-ui/README.md). No approval of the corrected implementation is recorded here. Stop at this checkpoint until the user reviews these two screens.
