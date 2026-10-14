@@ -163,6 +163,7 @@ export function DesignPreview({
             <label>
               Academy fixture
               <select
+                aria-label="Academy fixture"
                 value={academy.id}
                 onChange={(e) =>
                   previewAdapter.save({
@@ -181,6 +182,7 @@ export function DesignPreview({
             <label>
               Role preview
               <select
+                aria-label="Role preview"
                 value={role}
                 onChange={(e) => {
                   const r = e.target.value as PreviewRole;
@@ -197,6 +199,7 @@ export function DesignPreview({
               <label>
                 Player context
                 <select
+                  aria-label="Player context"
                   value={parentScopeValid ? state.playerId : ""}
                   onChange={(e) =>
                     previewAdapter.save({ playerId: e.target.value })
@@ -219,6 +222,7 @@ export function DesignPreview({
             <label>
               Design scenario
               <select
+                aria-label="Design scenario"
                 value={scenario}
                 onChange={(e) =>
                   router.push(

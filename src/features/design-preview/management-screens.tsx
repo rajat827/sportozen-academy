@@ -117,6 +117,8 @@ export function Access({ screen: s, scenario }: Props) {
 
 export function DirectoryScreen({ screen: s }: Props) {
   const state = usePreviewState();
+  const branchDraft = state.fields[`${state.academyId}:branch-edit`];
+  const venueDraft = state.fields[`${state.academyId}:venue-edit`];
   const [search, setSearch] = useState(""),
     [filter, setFilter] = useState("All"),
     [calendar, setCalendar] = useState(false);
@@ -149,8 +151,10 @@ export function DirectoryScreen({ screen: s }: Props) {
       : s.id === "branches"
         ? [
             {
-              title: "North branch",
-              note: "Main academy operations · 2 football batches",
+              title: branchDraft?.["Branch name"] ?? "North branch",
+              note:
+                branchDraft?.Location ??
+                "Main academy operations · 2 football batches",
               status: "Active",
               to: "branch-edit",
               id: "north",
@@ -159,8 +163,10 @@ export function DirectoryScreen({ screen: s }: Props) {
         : s.id === "venues"
           ? [
               {
-                title: "North pitch",
-                note: "Riverside ground · Confirmed training location",
+                title: venueDraft?.["Venue name"] ?? "North pitch",
+                note:
+                  venueDraft?.Location ??
+                  "Riverside ground · Confirmed training location",
                 status: "Available",
                 to: "venue-edit",
                 id: "north",
@@ -493,6 +499,7 @@ export function PlatformScreen({ screen: s }: Props) {
       "Investigate the reported access issue; customer metadata only",
     ),
     [expiry, setExpiry] = useState("2026-10-15"),
+    [subscription, setSubscription] = useState("Active"),
     [requested, setRequested] = useState(false);
   return (
     <div className="dp-grid">
@@ -533,6 +540,27 @@ export function PlatformScreen({ screen: s }: Props) {
               </div>
             ))}
           </dl>
+        )}
+        {s.id === "subscription-status" && (
+          <>
+            <Field
+              label="Software subscription scenario"
+              value={subscription}
+              onChange={setSubscription}
+              options={["Active", "Past due", "Suspended"]}
+            />
+            <p role="status" className="dp-alert">
+              {subscription === "Active"
+                ? "Fictional software subscription is active."
+                : subscription === "Past due"
+                  ? "Fictional software invoice is past due. Contact the academy billing administrator to review it."
+                  : "Fictional software account is suspended. Contact Sportozen support to review restoration."}
+            </p>
+            <p className="dp-note">
+              This changes only the design scenario; no customer access or
+              billing records change.
+            </p>
+          </>
         )}
         {s.id === "support-access" && (
           <form

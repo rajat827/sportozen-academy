@@ -179,6 +179,17 @@ export function PaymentScreen({ screen: s }: Props) {
               : state.payment;
   const paid =
     phase === "paid" ? charge : phase === "partial" ? academy.partPayment : 0;
+  if (s.id === "receipt" && paid === 0)
+    return (
+      <Card>
+        <Head title="Receipt not yet available" />
+        <p>No verified fictional payment is recorded for this invoice.</p>
+        <p className="dp-note">
+          A pending reference or failed attempt does not produce a paid receipt.
+        </p>
+        <Go to="checkout">Review the payment simulation</Go>
+      </Card>
+    );
   function outcome(value: "paid" | "failed" | "cancelled" | "partial") {
     previewAdapter.save({
       payment: value,

@@ -68,15 +68,24 @@ export function Field({
     <label className="dp-field">
       {label}
       {options ? (
-        <select value={value} onChange={(e) => onChange(e.target.value)}>
+        <select
+          aria-label={label}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        >
           {options.map((s) => (
             <option key={s}>{s}</option>
           ))}
         </select>
       ) : area ? (
-        <textarea value={value} onChange={(e) => onChange(e.target.value)} />
+        <textarea
+          aria-label={label}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
       ) : (
         <input
+          aria-label={label}
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}
