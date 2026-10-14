@@ -113,6 +113,10 @@ test("locked home compositions load real fonts and assets at five review viewpor
         expect(training!.width).toBeGreaterThan(side!.width * 2);
         expect(Math.abs(training!.y - side!.y)).toBeLessThanOrEqual(2);
       } else {
+        await expect(page.locator(".ar-mobile-academy")).toBeVisible();
+        await expect(page.locator(".ar-mobile-academy")).toContainText(
+          "Riverside Football Academy",
+        );
         await expectTouchTarget(
           page.getByRole("link", { name: "Start Session", exact: true }),
         );
@@ -277,6 +281,9 @@ test("home navigation preserves session and player workflows and approval stays 
 }) => {
   test.setTimeout(180000);
   const { errors, businessCalls } = recordRequests(page);
+  await page.goto("/design-preview/coach-today");
+  await page.locator(".ar-academy").click();
+  await expect(page).toHaveURL(/design-preview\/coach-more/);
   await page.goto("/design-preview/coach-today");
   await page
     .getByLabel("Search players, sessions, drills", { exact: true })

@@ -226,6 +226,7 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
               Sportozen<small>Academy</small>
             </span>
           </Jump>
+          <p className="ar-mobile-academy">{academy.name}</p>
           <nav aria-label="Preview workspace navigation">
             {nav.map(([title, to, Icon]) => (
               <Jump
@@ -297,7 +298,7 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
                   <ArrowRight size={16} />
                 </button>
               </form>
-              <Jump to="academy-profile" className="ar-academy">
+              <Jump to="coach-more" className="ar-academy">
                 <Building2 size={15} />
                 <span>{academy.name}</span>
               </Jump>

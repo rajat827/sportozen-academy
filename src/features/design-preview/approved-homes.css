@@ -124,6 +124,9 @@
   font-size: 11px;
   margin-top: 4px;
 }
+.approved-review .ar-mobile-academy {
+  display: none;
+}
 .approved-review .ar-workspace {
   flex: 1;
   min-width: 0;
@@ -1070,6 +1073,12 @@
     display: flex;
     gap: 4px;
     overflow-x: auto;
+  }
+  .design-preview.approved-review.ar-coach .ar-mobile-academy {
+    display: block;
+    padding: 4px 10px 10px;
+    font-size: 12px;
+    overflow-wrap: anywhere;
   }
   .design-preview.approved-review.ar-coach .ar-sidebar nav a {
     font-size: 11px;
