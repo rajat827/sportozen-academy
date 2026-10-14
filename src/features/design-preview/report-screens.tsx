@@ -1,6 +1,9 @@
 "use client";
 import type { ScreenProps as Props } from "./types";
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { previewRoute } from "./catalog";
 import { ReportPreview } from "@/features/reports/report-preview";
 import { ReportDownload } from "@/features/reports/report-download";
 import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
@@ -33,9 +36,10 @@ export function ReportScreen({ screen: s, scenario }: Props) {
     state.fields[`report:${p.id}`]?.comment,
     p,
   );
-  model.status = state.reportStatus;
+  const reportStatus = playerReportStatus(state, p.id);
+  model.status = reportStatus;
   const parent = s.role === "PARENT";
-  if (parent && state.reportStatus !== "Approved")
+  if (parent && reportStatus !== "Approved")
     return (
       <div className="dp-empty">
         <h2>This draft is awaiting coach review</h2>
@@ -72,7 +76,15 @@ export function ReportScreen({ screen: s, scenario }: Props) {
               >
                 Select
               </Button>
-              <Go to={i === 0 ? "report-sources" : "report-limited"}>Review</Go>
+              <Link
+                className="dp-link"
+                href={previewRoute(
+                  i === 0 ? "report-sources" : "report-limited",
+                )}
+                onClick={() => previewAdapter.save({ playerId: p.id })}
+              >
+                Review
+              </Link>
             </div>
           ))}
           <div className="dp-actions">
@@ -106,11 +118,31 @@ export function ReportScreen({ screen: s, scenario }: Props) {
   return (
     <div className="dp-stack">
       <Card>
+        {parent && p.id === "aarav" && reportStatus === "Approved" && (
+          <figure className="dp-reference-photo" style={{ margin: "0 0 18px" }}>
+            <Image
+              src="/design-preview/ui-gallery/football-week-banner.png"
+              alt="Fictional football reference illustration"
+              width={900}
+              height={240}
+              unoptimized
+              style={{
+                width: "100%",
+                height: 150,
+                objectFit: "cover",
+                borderRadius: 10,
+              }}
+            />
+            <figcaption className="dp-note">
+              Reference illustration · not evidence of this player’s performance
+            </figcaption>
+          </figure>
+        )}
         <Head
           title={`${p.name} · September 2026`}
           note="What was practised → What was observed → What comes next"
         >
-          <Badge>{state.reportStatus}</Badge>
+          <Badge>{reportStatus}</Badge>
         </Head>
         {["report-sources", "report-edit", "report-approval"].includes(
           s.id,

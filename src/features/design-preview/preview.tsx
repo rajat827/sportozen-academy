@@ -11,6 +11,8 @@ import {
   BookOpen,
   Wallet,
   Building2,
+  ClipboardList,
+  Settings,
 } from "lucide-react";
 import {
   screenCatalog,
@@ -21,11 +23,18 @@ import {
   type PreviewRole,
 } from "./catalog";
 import { previewAdapter, usePreviewState } from "./adapter";
-import { previewAcademies, resolvedAcademy } from "./fixtures";
+import { previewAcademies, previewDrills, resolvedAcademy } from "./fixtures";
 import { Button, Card, Badge, Go } from "./ui";
 import { ScreenContent } from "./screens";
 import { ApprovedHomes } from "./approved-homes";
+import { GalleryPlayerProfile } from "./gallery-player";
+import { GalleryWeeklyPlan } from "./gallery-plan";
+import { GalleryOperations } from "./gallery-operations";
+import { GalleryParentFrame } from "./gallery-parent-frame";
+import { galleryScreenIds } from "./gallery-catalog";
 import "./preview.css";
+import "./gallery-workflows.css";
+import "./gallery-shell.css";
 const roleHome: Record<PreviewRole, string> = {
   OWNER: "owner-home",
   COACH: "coach-today",
@@ -79,9 +88,27 @@ export function DesignPreview({
   const role = screen?.role ?? galleryRole,
     academy = resolvedAcademy(state.academyId, state.profiles),
     name = state.profiles[academy.id]?.["Academy name"] ?? academy.name,
-    nav = navFor(role),
+    gallery = scenario === "default" && galleryScreenIds.has(screenId),
+    nav =
+      gallery && role === "COACH"
+        ? ([
+            ["Home", "coach-today", Home],
+            ["Calendar", "sessions", CalendarDays],
+            ["Sessions", "session-agenda", ClipboardList],
+            ["Players", "players", Users],
+            ["Drills Library", "drill-library", BookOpen],
+            ["Reports", "report-queue", ClipboardList],
+            ["Messages", "parent-questions", MessageSquare],
+            ["Academy", "coach-more", Building2],
+            ["Settings", "coach-more", Settings],
+          ] as const)
+        : navFor(role),
     mobile =
-      nav.length > 4 ? nav.filter((_, i) => [0, 2, 5, 6].includes(i)) : nav;
+      gallery && role === "COACH"
+        ? nav.filter((_, i) => [0, 3, 6, 8].includes(i))
+        : nav.length > 4
+          ? nav.filter((_, i) => [0, 2, 5, 6].includes(i))
+          : nav;
   const filter = screenCatalog.filter(
     (s) =>
       !search ||
@@ -100,9 +127,35 @@ export function DesignPreview({
     (screenId === "coach-today" || screenId === "parent-home")
   )
     return <ApprovedHomes parent={screenId === "parent-home"} />;
+  if (gallery && screenId === "player-profile") return <GalleryPlayerProfile />;
+  if (gallery && role === "PARENT" && parentScopeValid && screen)
+    return (
+      <GalleryParentFrame screenId={screenId} title={screen.title}>
+        {screenId === "parent-weekly" ? (
+          <GalleryWeeklyPlan key={`${academy.id}:${state.playerId}`} parent />
+        ) : (
+          <ScreenContent
+            key={`${screen.id}:${academy.id}:${state.playerId}`}
+            screen={screen}
+            scenario={scenario}
+          />
+        )}
+      </GalleryParentFrame>
+    );
+  const selectedDrill = previewDrills.find(
+    (d) => d.id === (state.fields["drill-context"]?.id ?? "receive"),
+  );
+  const title =
+    screenId === "drill-detail" && selectedDrill
+      ? selectedDrill.name
+      : gallery && screenId === "weekly-plan"
+        ? "Weekly Plan"
+        : screen?.title;
   return (
     <div
-      className="design-preview"
+      className={`design-preview${gallery ? " gallery-prototype" : ""}`}
+      data-screen={screenId}
+      data-role={role}
       style={{ "--dp-green": academy.accent } as CSSProperties}
     >
       <a className="skip-link" href="#preview-content">
@@ -133,7 +186,7 @@ export function DesignPreview({
         <aside className="dp-sidebar">
           <Link href={previewRoute(roleHome[role])} className="dp-brand">
             <span className="dp-monogram">
-              {role === "PLATFORM" ? "S" : academy.monogram}
+              {gallery || role === "PLATFORM" ? "S" : academy.monogram}
             </span>
             <span>
               <strong>{role === "PLATFORM" ? "Sportozen" : name}</strong>
@@ -163,6 +216,14 @@ export function DesignPreview({
             Review set · awaiting your approval
             <br />
             <Link href="/design-preview">All screens & states</Link>
+            {gallery && (
+              <>
+                <br />
+                <Link href="/design-preview/prototype">
+                  Reference prototype
+                </Link>
+              </>
+            )}
           </footer>
         </aside>
         <main id="preview-content" className="dp-main">
@@ -250,6 +311,14 @@ export function DesignPreview({
             <Link href="/design-preview" className="dp-gallery-link">
               Screen gallery
             </Link>
+            {gallery && (
+              <Link
+                href="/design-preview/prototype"
+                className="dp-gallery-link"
+              >
+                Prototype home
+              </Link>
+            )}
             <Button
               variant="ghost"
               onClick={() => {
@@ -275,18 +344,43 @@ export function DesignPreview({
                   <p className="dp-eyebrow">
                     {screen.area} / {screen.role} · {screen.id}
                   </p>
-                  <h1>{screen.title}</h1>
+                  <h1>{title}</h1>
                   <p>{screen.description}</p>
                 </div>
                 <Badge>{screen.state}</Badge>
               </div>
               {scenario !== "default" && <ScenarioNotice scenario={scenario} />}
               {parentScopeValid ? (
-                <ScreenContent
-                  key={`${screen.id}:${academy.id}:${state.playerId}`}
-                  screen={screen}
-                  scenario={scenario}
-                />
+                gallery &&
+                ["weekly-plan", "parent-weekly"].includes(screenId) ? (
+                  <div className="gp-workflow-content">
+                    <GalleryWeeklyPlan
+                      key={`${academy.id}:${state.playerId}`}
+                      parent={role === "PARENT"}
+                    />
+                  </div>
+                ) : gallery &&
+                  [
+                    "evidence-library",
+                    "evidence-viewer",
+                    "academy-analytics",
+                    "report-notification",
+                  ].includes(screenId) ? (
+                  <div className="gp-workflow-content">
+                    <GalleryOperations
+                      key={`${screenId}:${academy.id}:${state.playerId}`}
+                      screenId={screenId}
+                    />
+                  </div>
+                ) : (
+                  <div className={gallery ? "gp-workflow-content" : undefined}>
+                    <ScreenContent
+                      key={`${screen.id}:${academy.id}:${state.playerId}`}
+                      screen={screen}
+                      scenario={scenario}
+                    />
+                  </div>
+                )
               ) : (
                 <div className="dp-empty">
                   <h2>Select a linked child</h2>

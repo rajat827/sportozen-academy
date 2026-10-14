@@ -99,6 +99,7 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
         </span>
       </summary>
       <div>
+        <Link href="/design-preview/prototype">Reference prototype</Link>
         <label>
           Review academy fixture
           <select
@@ -197,7 +198,7 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
             {nav.map(([title, to, Icon]) => (
               <Jump
                 to={to}
-                key={to}
+                key={title}
                 className={to === "coach-today" ? "active" : ""}
               >
                 <Icon size={20} />

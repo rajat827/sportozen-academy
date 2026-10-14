@@ -1,6 +1,8 @@
 "use client";
 import type { ScreenProps as Props } from "./types";
 import { useState } from "react";
+import Link from "next/link";
+import { previewRoute } from "./catalog";
 import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
 import { previewAdapter, usePreviewState } from "./adapter";
 import {
@@ -229,6 +231,9 @@ export function DrillScreen({ screen: s }: Props) {
     [query, setQuery] = useState(""),
     [skill, setSkill] = useState("All"),
     detail = s.id === "drill-detail";
+  const selectedDrill =
+    previewDrills.find((d) => d.id === state.fields["drill-context"]?.id) ??
+    previewDrills[0];
   const drills = previewDrills.filter(
     (d) =>
       (skill === "All" || d.skill === skill) &&
@@ -239,7 +244,7 @@ export function DrillScreen({ screen: s }: Props) {
       <div className="dp-stack">
         <Card>
           <Head
-            title={detail ? "Receive and turn" : "Academy drill library"}
+            title={detail ? selectedDrill.name : "Academy drill library"}
             note="Approved fictional curriculum · no AI-generated assessment"
           />
           {!detail && (
@@ -257,7 +262,7 @@ export function DrillScreen({ screen: s }: Props) {
               />
             </div>
           )}
-          {(detail ? previewDrills.slice(0, 1) : drills).map((d) => (
+          {(detail ? [selectedDrill] : drills).map((d) => (
             <article key={d.id} className="dp-row">
               <div className="dp-copy">
                 <h3>{d.name}</h3>
@@ -267,13 +272,15 @@ export function DrillScreen({ screen: s }: Props) {
                 <p>{d.purpose}</p>
                 {detail && (
                   <>
-                    <Pitch />
+                    {d.id === "receive" && <Pitch />}
                     <h3>Setup</h3>
                     <p>{d.setup}</p>
                     <h3>Instructions</h3>
                     <p>{d.instructions}</p>
                     <h3>Adaptations</h3>
                     <p>{d.adaptation}</p>
+                    <h3>One coaching cue</h3>
+                    <p>{d.cue}</p>
                   </>
                 )}
               </div>
@@ -293,9 +300,24 @@ export function DrillScreen({ screen: s }: Props) {
                     : "Add to shared plan"}
                 </Button>
               )}
-              <Go to={detail ? "drill-edit" : "drill-detail"}>
-                {detail ? "Edit academy wording" : "Drill detail"}
-              </Go>
+              {detail ? (
+                <Go to="drill-edit">Edit academy wording</Go>
+              ) : (
+                <Link
+                  className="dp-link"
+                  href={previewRoute("drill-detail")}
+                  onClick={() =>
+                    previewAdapter.save({
+                      fields: {
+                        ...state.fields,
+                        "drill-context": { id: d.id },
+                      },
+                    })
+                  }
+                >
+                  Drill detail
+                </Link>
+              )}
             </article>
           ))}
           <div className="dp-actions">
@@ -306,13 +328,13 @@ export function DrillScreen({ screen: s }: Props) {
       <Card>
         <Head title="One useful cue" />
         <div className="dp-focus">
-          <strong>Look, open, receive</strong>
+          <strong>{detail ? selectedDrill.cue : previewDrills[0].cue}</strong>
           <p className="dp-note">
             Simplify the task before adding complexity; observe the recorded
             conditions.
           </p>
         </div>
-        <Pitch />
+        {(!detail || selectedDrill.id === "receive") && <Pitch />}
       </Card>
     </div>
   );

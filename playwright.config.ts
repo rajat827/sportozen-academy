@@ -37,6 +37,9 @@ export default defineConfig({
       ...(process.env.SPORTOZEN_QA_BUILD === "1"
         ? { SPORTOZEN_QA_BUILD: "1" }
         : {}),
+      ...(process.env.SPORTOZEN_GALLERY_QA === "1"
+        ? { SPORTOZEN_GALLERY_QA: "1" }
+        : {}),
     },
     timeout: 120000,
   },

@@ -1,8 +1,15 @@
 "use client";
 import type { ScreenProps as Props } from "./types";
 import { useState } from "react";
+import Link from "next/link";
+import { previewRoute } from "./catalog";
 import { previewAdapter, usePreviewState } from "./adapter";
-import { previewAcademies, money, resolvedAcademy } from "./fixtures";
+import {
+  previewAcademies,
+  money,
+  resolvedAcademy,
+  reportFixture,
+} from "./fixtures";
 import { Button, Card, Badge, Go, Head, Field, Pitch } from "./ui";
 import { SessionRows } from "./rows";
 export function Access({ screen: s, scenario }: Props) {
@@ -274,7 +281,22 @@ export function DirectoryScreen({ screen: s }: Props) {
                 <p>{r.note}</p>
               </div>
               <Badge>{r.status}</Badge>
-              <Go to={r.to}>Open</Go>
+              {players ? (
+                <Link
+                  className="dp-link"
+                  href={previewRoute(r.to)}
+                  onClick={() =>
+                    previewAdapter.save({
+                      playerId: r.id,
+                      notice: `Opened ${r.title}`,
+                    })
+                  }
+                >
+                  Open
+                </Link>
+              ) : (
+                <Go to={r.to}>Open</Go>
+              )}
               {players && (
                 <Button
                   variant="secondary"
@@ -304,6 +326,15 @@ export function DetailScreen({ screen: s }: Props) {
   const state = usePreviewState(),
     p = state.players.find((p) => p.id === state.playerId)!,
     academy = resolvedAcademy(state.academyId, state.profiles);
+  const reviewedObservation = reportFixture(
+    academy,
+    p.id,
+    "default",
+    undefined,
+    p,
+  ).evidence.find(
+    (e) => e.reference === "OBS-SEPT-08 · paired receiving task · widened gate",
+  );
   const placement = s.id.startsWith("placement-");
   if (s.id.endsWith("-more")) {
     const destinations =
@@ -435,7 +466,7 @@ export function DetailScreen({ screen: s }: Props) {
                 ["Coach", "Maya Rao"],
                 [
                   "Latest reviewed observation",
-                  "September paired task: first touch into useful space; not a trend or universal skill score",
+                  reviewedObservation?.text ?? "Not recorded for this player",
                 ],
               ];
   return (
@@ -456,11 +487,15 @@ export function DetailScreen({ screen: s }: Props) {
         {s.id === "development-history" && (
           <div className="dp-row">
             <div className="dp-copy">
-              <strong>30 September · Coach review</strong>
+              <strong>
+                {reviewedObservation
+                  ? "30 September · Coach review"
+                  : "No reviewed history recorded"}
+              </strong>
               <p>
-                Retain a widened receiving gate before increasing task
-                complexity. Same observation conditions must be considered
-                before comparison.
+                {reviewedObservation
+                  ? "Retain a widened receiving gate before increasing task complexity. Same observation conditions must be considered before comparison."
+                  : "Another player’s observation is not used as this player’s history. Ask the assigned coach to record and review the next session."}
               </p>
             </div>
           </div>

@@ -1,5 +1,9 @@
 # Frontend / Figma screen registry
 
+## HTML gallery prototype
+
+The later request for `Sportozen_UI_Gallery.html` extends this local review iteration. Open [/design-preview/prototype](/design-preview/prototype) for all 34 supplied panels mapped to 31 working workflow views. [Gallery prototype notes and actual captures](gallery-prototype/README.md) supersede the relevant earlier screenshots. Player Profile, Weekly Plan and the compact parent workflow frame now follow the gallery; supporting workflows retain source data and current product rules. Four new preview views supplement the original 121-screen baseline. Visual approval remains pending.
+
 ## Two-screen visual correction awaiting approval
 
 The approved-reference correction supersedes only Coach Today desktop and Parent Home mobile. Current captures and reference comparisons are in [visual-correction review](visual-correction/README.md): [Coach Today 1440px](visual-correction/coach-today-1440.png) and [Parent Home 390px](visual-correction/parent-home-390.png). The earlier full-inventory captures below remain a baseline. Other 119 screens are preserved. No corrected Figma frames have been saved because the authorised tool quota is still blocked.

@@ -1,10 +1,11 @@
 "use client";
 import type { ScreenProps as Props } from "./types";
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { previewRoute } from "./catalog";
-import { previewAdapter, usePreviewState } from "./adapter";
-import { previewDrills } from "./fixtures";
+import { previewAdapter, usePreviewState, playerWeeklyState } from "./adapter";
+import { previewDrills, weekPlanContext } from "./fixtures";
 import { Button, Card, Badge, Go, Head, Field, Check, Pitch } from "./ui";
 export function PracticeScreen({ screen: s, scenario }: Props) {
   const state = usePreviewState(),
@@ -13,6 +14,23 @@ export function PracticeScreen({ screen: s, scenario }: Props) {
       "We need another demonstration of the receiving task.",
     ),
     router = useRouter();
+  const weekly = playerWeeklyState(state);
+  const inBatch = weekPlanContext(
+    state.fields,
+    state.players,
+  ).playerIds.includes(p.id);
+  if (!weekly.approved || !weekly.published || !inBatch)
+    return (
+      <Card>
+        <Head title="Your practice is awaiting coach review" />
+        <p>
+          An approved activity has not been published for {p.name} in this
+          training week. Changed wording and another child’s activity are not
+          shown as an approved plan.
+        </p>
+        <Go to="conversation">Ask the coach for help</Go>
+      </Card>
+    );
   return (
     <div className="dp-grid">
       <Card>
@@ -20,6 +38,24 @@ export function PracticeScreen({ screen: s, scenario }: Props) {
           title={`Practise together · ${p.name}`}
           note="Optional, parent-supported activity · no independent child account"
         />
+        <figure className="dp-reference-photo" style={{ margin: "0 0 18px" }}>
+          <Image
+            src="/design-preview/ui-gallery/football-week-banner.png"
+            alt="Fictional football reference illustration"
+            width={900}
+            height={240}
+            unoptimized
+            style={{
+              width: "100%",
+              height: 150,
+              objectFit: "cover",
+              borderRadius: 10,
+            }}
+          />
+          <figcaption className="dp-note">
+            Reference illustration · not a recorded player performance
+          </figcaption>
+        </figure>
         <div className="dp-focus">
           <p className="dp-overline">Assigned approved activity</p>
           <strong>Receive and turn</strong>

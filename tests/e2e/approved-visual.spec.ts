@@ -110,6 +110,9 @@ test("approved-reference screens preserve controls, context and narrow usability
   await expect(page).toHaveURL(/session-agenda/);
   await page.goto("/design-preview/weekly-plan");
   await page
+    .getByRole("button", { name: "Edit team focus", exact: true })
+    .click();
+  await page
     .getByLabel("Shared batch focus", { exact: true })
     .fill("Receive through the wide gate");
   await page

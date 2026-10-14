@@ -35,6 +35,9 @@ test("player drafts, group reset, batch dates and subscription scenarios", async
   await expect(dialog).toContainText("Receive the ball into useful space");
   await page.keyboard.press("Escape");
   await page
+    .getByRole("button", { name: "Edit team focus", exact: true })
+    .click();
+  await page
     .getByLabel("Batch", { exact: true })
     .selectOption("U12 Development");
   await page.getByLabel("Week starting", { exact: true }).fill("2026-11-02");
@@ -78,7 +81,11 @@ for (const width of [1440, 390])
               ? "Good morning, Coach Maya"
               : screen.id === "parent-home"
                 ? "Hi Neha"
-                : screen.title,
+                : screen.id === "player-profile"
+                  ? "Aarav Shah"
+                  : screen.id === "weekly-plan"
+                    ? "Weekly Plan"
+                    : screen.title,
           exact: true,
         }),
       ).toBeVisible();
@@ -122,6 +129,9 @@ test("preview workflows retain context, deliberate approvals and safe payment sc
     "Riverside Review Academy",
   );
   await page
+    .getByRole("button", { name: "Edit team focus", exact: true })
+    .click();
+  await page
     .getByLabel("Shared batch focus", { exact: true })
     .fill("Receive toward an open gate, then find a passing angle");
   await page
@@ -163,6 +173,7 @@ test("preview workflows retain context, deliberate approvals and safe payment sc
     .getByRole("button", { name: "Publish in parent preview", exact: true })
     .click();
   await page.goto("/design-preview/parent-weekly");
+  await page.getByRole("tab", { name: "Aarav’s Focus", exact: true }).click();
   await expect(page.locator("main")).toContainText(
     "Open the body before receiving into space",
   );
