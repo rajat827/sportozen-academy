@@ -24,6 +24,7 @@ import { previewAdapter, usePreviewState } from "./adapter";
 import { previewAcademies, resolvedAcademy } from "./fixtures";
 import { Button, Card, Badge, Go } from "./ui";
 import { ScreenContent } from "./screens";
+import { ApprovedHomes } from "./approved-homes";
 import "./preview.css";
 const roleHome: Record<PreviewRole, string> = {
   OWNER: "owner-home",
@@ -93,6 +94,12 @@ export function DesignPreview({
     state.players.some(
       (p) => p.id === state.playerId && p.guardian === "Neha Shah",
     );
+  if (
+    scenario === "default" &&
+    parentScopeValid &&
+    (screenId === "coach-today" || screenId === "parent-home")
+  )
+    return <ApprovedHomes parent={screenId === "parent-home"} />;
   return (
     <div
       className="design-preview"

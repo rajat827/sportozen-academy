@@ -73,7 +73,12 @@ for (const width of [1440, 390])
       await expect(
         page.getByRole("heading", {
           level: 1,
-          name: screen.title,
+          name:
+            screen.id === "coach-today"
+              ? "Good morning, Coach Maya"
+              : screen.id === "parent-home"
+                ? "Hi Neha"
+                : screen.title,
           exact: true,
         }),
       ).toBeVisible();
@@ -264,6 +269,7 @@ test("preview workflows retain context, deliberate approvals and safe payment sc
   await expect(page.locator(".dp-brand")).toContainText(
     "Harbour Football Academy",
   );
+  await page.goto("/design-preview/parent-fees");
   await expect(page.locator("main")).toContainText("£70");
   await expect(page.locator("main")).not.toContainText("₹");
 });
