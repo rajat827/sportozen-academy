@@ -1076,6 +1076,7 @@
   }
   .design-preview.approved-review.ar-coach .ar-mobile-academy {
     display: block;
+    color: #e5edf3;
     padding: 4px 10px 10px;
     font-size: 12px;
     overflow-wrap: anywhere;
