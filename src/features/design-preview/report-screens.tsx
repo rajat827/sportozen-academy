@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ReportPreview } from "@/features/reports/report-preview";
 import { ReportDownload } from "@/features/reports/report-download";
 import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
-import { previewAdapter, usePreviewState } from "./adapter";
+import { previewAdapter, usePreviewState, playerReportStatus } from "./adapter";
 import { reportFixture, resolvedAcademy } from "./fixtures";
 import { Button, Card, Badge, Go, Head, Field, Check } from "./ui";
 export function ReportScreen({ screen: s, scenario }: Props) {
@@ -65,7 +65,7 @@ export function ReportScreen({ screen: s, scenario }: Props) {
                     : "Limited evidence · no reviewed observation inferred"}
                 </p>
               </div>
-              <Badge>{i === 0 ? state.reportStatus : "Draft"}</Badge>
+              <Badge>{playerReportStatus(state, p.id)}</Badge>
               <Button
                 variant="secondary"
                 onClick={() => previewAdapter.save({ playerId: p.id })}

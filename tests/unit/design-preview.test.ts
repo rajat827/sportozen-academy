@@ -12,6 +12,19 @@ import {
   weekPlanContext,
 } from "@/features/design-preview/fixtures";
 describe("isolated football design prototype", () => {
+  it("keeps monthly approval and saved next steps with their selected child", () => {
+    const aarav = previewTransition(initialPreviewState, {
+      reportStatus: "Draft",
+      nextStep: "Aarav's reviewed next task",
+    });
+    const isha = previewTransition(aarav, { playerId: "isha" });
+    expect(isha.reportStatus).toBe("Draft");
+    expect(isha.nextStep).not.toBe("Aarav's reviewed next task");
+    const approvedIsha = previewTransition(isha, { reportStatus: "Approved" });
+    const back = previewTransition(approvedIsha, { playerId: "aarav" });
+    expect(back.reportStatus).toBe("Draft");
+    expect(back.nextStep).toBe("Aarav's reviewed next task");
+  });
   it("uses the saved batch/week without changing recorded age categories", () => {
     const state = previewTransition(initialPreviewState, {
       fields: {

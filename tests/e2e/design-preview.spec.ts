@@ -211,6 +211,15 @@ test("preview workflows retain context, deliberate approvals and safe payment sc
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "Download PDF", exact: true }).click();
   await (await download).saveAs(`${folder}/reviewed-parent-report.pdf`);
+  await page.goto("/design-preview/players");
+  await page.getByLabel("Player context", { exact: true }).selectOption("isha");
+  await page.goto("/design-preview/report-detail");
+  await expect(
+    page.getByRole("button", { name: "Download PDF", exact: true }),
+  ).toBeDisabled();
+  await page
+    .getByLabel("Player context", { exact: true })
+    .selectOption("aarav");
   await page.goto("/design-preview/parent-fees");
   await page
     .getByLabel("Submit a fictional payment reference", { exact: true })

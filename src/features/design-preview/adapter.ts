@@ -120,7 +120,24 @@ export function previewTransition(
     next.manualReference = payment?.reference ?? "";
     next.observation =
       state.fields[`session:${patch.playerId}`]?.observation ?? "";
+    next.nextStep =
+      state.fields[`session:${patch.playerId}`]?.nextStep ??
+      initialPreviewState.nextStep;
+    next.reportStatus = playerReportStatus(state, patch.playerId);
   }
+  if (patch.reportStatus !== undefined)
+    next.fields = {
+      ...next.fields,
+      [`report-status:${next.playerId}`]: { status: patch.reportStatus },
+    };
+  if (patch.nextStep !== undefined)
+    next.fields = {
+      ...next.fields,
+      [`session:${next.playerId}`]: {
+        ...next.fields[`session:${next.playerId}`],
+        nextStep: patch.nextStep,
+      },
+    };
   if (
     (patch.batchFocus !== undefined && patch.batchFocus !== state.batchFocus) ||
     (patch.fields?.["weekly-context"] &&
@@ -176,6 +193,18 @@ export function playerWeeklyState(
     approved: state.weeklyVersion === 0 && ["aarav", "leo"].includes(playerId),
     published: state.weeklyVersion === 0 && ["aarav", "leo"].includes(playerId),
   };
+}
+export function playerReportStatus(
+  state: PreviewState,
+  playerId = state.playerId,
+): PreviewState["reportStatus"] {
+  return state.fields[`report-status:${playerId}`]?.status === "Approved"
+    ? "Approved"
+    : state.fields[`report-status:${playerId}`]?.status === "Draft"
+      ? "Draft"
+      : playerId === "aarav"
+        ? "Approved"
+        : "Draft";
 }
 export const previewAdapter = {
   read: snapshot,
