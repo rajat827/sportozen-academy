@@ -1,5 +1,9 @@
 # Frontend / Figma screen registry
 
+## Two-screen visual correction awaiting approval
+
+The approved-reference correction supersedes only Coach Today desktop and Parent Home mobile. Current captures and reference comparisons are in [visual-correction review](visual-correction/README.md): [Coach Today 1440px](visual-correction/coach-today-1440.png) and [Parent Home 390px](visual-correction/parent-home-390.png). The earlier full-inventory captures below remain a baseline. Other 119 screens are preserved. No corrected Figma frames have been saved because the authorised tool quota is still blocked.
+
 Design awaiting user approval. All routes use fictional session-local data. Desktop: 1440px; mobile: 390px. Additional layout checks: 1280, 1024, 768 and 320px.
 
 Figma destination: [Sportozen Academy — Football Product UI](https://www.figma.com/design/IOvXhhYikQH0zE04vBvNCP). Only the initial empty page (actual ID 0:1) exists. **Authoring, capture, variables, components and prototype wiring are BLOCKED by the Starter MCP quota.** No screen node URLs exist. Making additional MCP calls available on the authorised account is the minimum setup needed. Browser navigation is implemented separately and does not establish Figma wiring.
