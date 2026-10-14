@@ -1,5 +1,17 @@
 # Approved UI reference map
 
+## Home reference update — 15 October 2026
+
+The latest explicit Home task selects [home-screen.png](../reference/approved-ui/home-screen.png) for `/design-preview/coach-today`. This supplied 1536 × 1024 image supersedes the older Coach Today panel **for Home only**. It does not replace the Parent Home or Player Profile references, approve the implementation, or authorise changes to Players and the other screens. The older checkpoint below remains historical evidence.
+
+The actual task attachment `codex-clipboard-5c436cb6-8c64-4a56-993a-d51d3097a8ce.png` was opened and visually inspected. Its byte-identical canonical copy is `docs/reference/approved-ui/home-screen.png`, SHA-256 `12C77B9DDD8645E2F9E3884A682DD166A63EDFB55D5AF044C3F15D3B93AB8CD0`. The attachment filename differs from the illustrative `Sportozen_Home_Approved_Reference.png` name in the instructions; this is the supplied Home image, not an older collage.
+
+Match its approximately 248 px navy sidebar, compact header, greeting/date row, three-fifths football hero with adjacent schedule, four summaries, compact three-column activity/actions row, and bottom focus/report/planning row. Navigation is Home, Calendar, Players, Training, Messages, Reports, Fees and More, with AI Video Analysis labelled **Coming soon**. These changes are scoped to the Home route and its responsive states.
+
+Four legitimate raster assets are cropped from this supplied reference. The hero uses the text-free boots-and-ball photograph; it does not place the dashboard screenshot behind controls. Text remains editable. The Sportozen mark is a brand asset; the Riverside crest and illustrated Aarav portrait must remain tied to their corresponding fictional identities rather than mislabelling other academies or players. Source resolution, navy crop backgrounds and the absence of a separate font/vector/stock licence remain explicit limitations. See [home-assets.json](../reference/approved-ui/home-assets.json) for exact crop coordinates, sizes and SHA-256 values, and [Home evidence](../screenshots/home-ui/README.md) for actual browser comparisons and checks.
+
+Reference names, session counts, dates, activity, report statuses and fee states are illustrative. Use coherent scoped preview records or authorised customer records. Preserve role permissions, batch-plan inheritance, optional personalisation, report review/publication boundaries, accessibility and the existing application architecture. This task remains in the existing fictional preview; its data cannot establish customer attendance, payments, external delivery or an approved design implementation.
+
 Recorded on 14 October 2026 for `codex/locked-ui-fidelity`, based on the newer local frontend at `748d023f756de899c58e2b5226eb39293db6a813`. The user selected the visual direction in these references; the corrected implementation still requires visual review.
 
 ## Available source files

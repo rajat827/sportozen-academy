@@ -9,6 +9,7 @@ import {
   money,
   resolvedAcademy,
   reportFixture,
+  sessionViewContext,
 } from "./fixtures";
 import { Button, Card, Badge, Go, Head, Field, Pitch } from "./ui";
 import { SessionRows } from "./rows";
@@ -126,6 +127,12 @@ export function DirectoryScreen({ screen: s }: Props) {
   const state = usePreviewState();
   const branchDraft = state.fields[`${state.academyId}:branch-edit`];
   const venueDraft = state.fields[`${state.academyId}:venue-edit`];
+  const session = sessionViewContext(
+    state.fields,
+    state.players,
+    state.academyId,
+    state.playerId,
+  );
   const [search, setSearch] = useState(""),
     [filter, setFilter] = useState("All"),
     [calendar, setCalendar] = useState(false);
@@ -237,6 +244,17 @@ export function DirectoryScreen({ screen: s }: Props) {
       </div>
       {s.id === "sessions" || s.id === "parent-schedule" ? (
         <>
+          {session.selected && (
+            <p className="dp-note">
+              Calendar context: {session.label} · {session.batch}
+            </p>
+          )}
+          {session.stale && (
+            <p className="dp-note">
+              Previous session context is unavailable in this batch plan. Choose
+              a recorded session below.
+            </p>
+          )}
           <div className="dp-actions">
             <Button variant="secondary" onClick={() => setCalendar(!calendar)}>
               {calendar ? "Show list" : "Show calendar"}
@@ -325,7 +343,13 @@ export function DirectoryScreen({ screen: s }: Props) {
 export function DetailScreen({ screen: s }: Props) {
   const state = usePreviewState(),
     p = state.players.find((p) => p.id === state.playerId)!,
-    academy = resolvedAcademy(state.academyId, state.profiles);
+    academy = resolvedAcademy(state.academyId, state.profiles),
+    session = sessionViewContext(
+      state.fields,
+      state.players,
+      state.academyId,
+      state.playerId,
+    );
   const reviewedObservation = reportFixture(
     academy,
     p.id,
@@ -386,6 +410,17 @@ export function DetailScreen({ screen: s }: Props) {
       </Card>
     );
   }
+  if (s.id === "session-summary" && session.stale)
+    return (
+      <Card>
+        <Head title="Selected session unavailable" />
+        <p>
+          The selected session no longer matches the current academy, batch,
+          player or recorded plan date. Choose a recorded session in Calendar.
+        </p>
+        <Go to="sessions">View Calendar</Go>
+      </Card>
+    );
   const rows =
     s.id === "permissions"
       ? [
@@ -423,12 +458,22 @@ export function DetailScreen({ screen: s }: Props) {
           ]
         : s.id === "session-summary"
           ? [
-              ["Session", "Tuesday, 20 October · 17:30–18:30"],
-              ["Batch", "U10 Foundations"],
+              [
+                "Session",
+                session.selected
+                  ? `${new Intl.DateTimeFormat("en-GB", { weekday: "long", timeZone: "UTC" }).format(new Date(`${session.date}T12:00:00Z`))}, ${session.label} · ${session.time}`
+                  : "Tuesday, 20 October · 17:30–18:30",
+              ],
+              ["Batch", session.selected ? session.batch : "U10 Foundations"],
               ["Venue", academy.venue],
               ["Reporting timezone", academy.timezone],
               ["Coach", "Maya Rao"],
-              ["Status", "Confirmed; roster attendance unmarked"],
+              [
+                "Status",
+                session.selected
+                  ? `${session.status}; attendance is recorded separately`
+                  : "Confirmed; roster attendance unmarked",
+              ],
             ]
           : placement
             ? [
@@ -473,7 +518,13 @@ export function DetailScreen({ screen: s }: Props) {
     <div className="dp-grid">
       <Card>
         <Head
-          title={s.id === "player-profile" ? p.name : s.title}
+          title={
+            s.id === "player-profile"
+              ? p.name
+              : s.id === "session-summary" && session.selected
+                ? `${session.label} · ${session.batch}`
+                : s.title
+          }
           note="Recorded facts, deliberate decisions"
         />
         <dl>

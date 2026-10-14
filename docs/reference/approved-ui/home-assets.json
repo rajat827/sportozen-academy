@@ -1,0 +1,73 @@
+{
+  "source_attachment": "C:\\Users\\rajat\\AppData\\Local\\Temp\\codex-clipboard-5c436cb6-8c64-4a56-993a-d51d3097a8ce.png",
+  "canonical_reference": "docs/reference/approved-ui/home-screen.png",
+  "source_pixels": [
+    1536,
+    1024
+  ],
+  "source_sha256": "12C77B9DDD8645E2F9E3884A682DD166A63EDFB55D5AF044C3F15D3B93AB8CD0",
+  "crop_coordinates": "PIL (left, top, right, bottom); right and bottom excluded",
+  "assets": [
+    {
+      "path": "public/design-preview/approved-home/sportozen-mark.png",
+      "crop_box": [
+        25,
+        17,
+        65,
+        65
+      ],
+      "pixels": [
+        40,
+        48
+      ],
+      "sha256": "631E836633D5963A5E0E8ADE1398F10452EF4542DE0359B54C3C40FDDE7C7BC8",
+      "note": "Supplied Sportozen brand mark; text-free crop, raster navy background retained."
+    },
+    {
+      "path": "public/design-preview/approved-home/riverside-crest.png",
+      "crop_box": [
+        16,
+        98,
+        70,
+        154
+      ],
+      "pixels": [
+        54,
+        56
+      ],
+      "sha256": "A8A9AE85F3205695D972825D0CA118ADE346894C49118184E44710ABDDAA8A42",
+      "note": "Supplied Riverside crest; use only with configured Riverside preview academy."
+    },
+    {
+      "path": "public/design-preview/approved-home/football-session.png",
+      "crop_box": [
+        610,
+        157,
+        1031,
+        421
+      ],
+      "pixels": [
+        421,
+        264
+      ],
+      "sha256": "3E0F53A17E4EF3974CF021599FE8085FD333FAB0BA95C67B93C073CA50DB6D23",
+      "note": "Supplied boots-and-ball hero illustration, text-free photograph crop from the right side of the hero. Blend a dark green left overlay in CSS."
+    },
+    {
+      "path": "public/design-preview/approved-home/player-portrait.png",
+      "crop_box": [
+        300,
+        872,
+        383,
+        970
+      ],
+      "pixels": [
+        83,
+        98
+      ],
+      "sha256": "ACDE6A22622CAFB35C358F4C23049DD473858DD73896B9028C424FD077F36BD6",
+      "note": "Supplied fictional Aarav portrait, cropped from the focus card. Use only where matching preview illustration identity is intended; do not substitute for other player identities."
+    }
+  ],
+  "licence_provenance": "Images are extracted from the user-supplied approved reference for the requested local preview. No separate stock/vector licence was supplied; no claim of new licensing or independent customer/player identity is made."
+}

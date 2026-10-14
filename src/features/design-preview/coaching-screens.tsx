@@ -9,6 +9,7 @@ import {
   previewDrills,
   money,
   resolvedAcademy,
+  sessionViewContext,
   weekPlanContext,
 } from "./fixtures";
 import {
@@ -343,6 +344,12 @@ export function DrillScreen({ screen: s }: Props) {
 export function SessionScreen({ screen: s, scenario }: Props) {
   const state = usePreviewState(),
     p = state.players.find((p) => p.id === state.playerId)!,
+    session = sessionViewContext(
+      state.fields,
+      state.players,
+      state.academyId,
+      state.playerId,
+    ),
     [observation, setObservation] = useState(state.observation),
     [defined, setDefined] = useState(
       Boolean(state.fields[`session:${p.id}`]?.result),
@@ -367,6 +374,18 @@ export function SessionScreen({ screen: s, scenario }: Props) {
         : s.id.includes("next-step")
           ? "next"
           : "agenda";
+  if (session.stale)
+    return (
+      <Card>
+        <Head title="Selected session unavailable" />
+        <p>
+          The selected session does not match the current academy, batch, player
+          or recorded plan date. Choose the correct session rather than opening
+          another one.
+        </p>
+        <Go to="sessions">View Calendar</Go>
+      </Card>
+    );
   return (
     <>
       <div className="dp-tabs">
@@ -386,8 +405,8 @@ export function SessionScreen({ screen: s, scenario }: Props) {
         <div className="dp-stack">
           <Card>
             <Head
-              title={`${weekPlanContext(state.fields, state.players).batch} · ${weekPlanContext(state.fields, state.players).first.label}`}
-              note={`${weekPlanContext(state.fields, state.players).time} · Maya Rao · recorded venue`}
+              title={`${session.batch} · ${session.label}`}
+              note={`${session.time} · Maya Rao · recorded venue`}
             />
             <Context />
             {stage === "attendance" ? (

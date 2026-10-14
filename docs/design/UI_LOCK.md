@@ -1,5 +1,15 @@
 # Sportozen approved visual direction lock
 
+## Scoped Home update — 15 October 2026
+
+The latest explicit user instruction authorises implementation of the supplied Home dashboard on `codex/home-screen-locked-ui`. For `/design-preview/coach-today`, [home-screen.png](../reference/approved-ui/home-screen.png) is now the visual source of truth and supersedes the older Coach Today panel below. The actual 1536 × 1024 attachment was opened and preserved byte-for-byte; its provenance and asset crops are recorded in [UI_REFERENCE_MAP.md](UI_REFERENCE_MAP.md) and `docs/reference/approved-ui/home-assets.json`.
+
+This override is limited to the Home composition, cards, existing action navigation, compatible honest states, responsive adaptation and relevant tests. Keep other screens—including Players, its details, Parent Home and Player Profile—unchanged. Reuse the approved navigation visually within Home without letting Home-specific styles drift into unrelated screens. Preserve uncommitted work, authentication, academy scope, existing data/services/schema, batch-plan inheritance, player/session context and report approval/publication rules. Reference examples do not grant finance access or establish real payments, attendance, messages or player scores.
+
+Implement the Home reference as real components and editable controls. Use the supplied text-free football-photo crop, configured academy branding, readable workflow counts, contextual links and a compact fictional-data notice. Keep development controls in the closed existing developer panel or gallery. Do not introduce a standalone Drills Library, alternate dashboard application, backend/API/provider work, or screenshot hotspots. AI Video Analysis remains **Coming soon**.
+
+Capture the current Home before editing; verify the corrected 1536 × 1024, 1440 px, 390 px and 320 px views, honest no-session/loading/error states and unrelated-screen regressions in the isolated QA environment. Inspect actual browser/reference comparisons and record remaining differences in [Home evidence](../screenshots/home-ui/README.md). The user has selected this reference, but the implementation still requires their visual approval. Prepare the requested reviewable pull request; do not merge, deploy or continue redesigning other screens. The older correction checkpoint below is historical and does not restrict this newly authorised Home task or confer implementation approval.
+
 The user has selected the reference visual direction. The current Coach Today / Parent Home implementation is a correction checkpoint and requires separate user review. **Implementation ready for visual review** and **user-approved design implementation** are different states. Tests, screenshot generation, this document and agent conclusions do not grant user approval.
 
 ## Visual source of truth

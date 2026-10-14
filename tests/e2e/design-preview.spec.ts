@@ -1,7 +1,10 @@
 import { test, expect } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 import { screenCatalog } from "../../src/features/design-preview/catalog";
-const folder = "docs/design/screenshots";
+const folder =
+  process.env.SPORTOZEN_HOME_UI_QA === "1"
+    ? "test-results/home-ui-inventory"
+    : "docs/design/screenshots";
 test.use({ actionTimeout: 15000 });
 test("player drafts, group reset, batch dates and subscription scenarios", async ({
   page,
