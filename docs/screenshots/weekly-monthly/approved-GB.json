@@ -1,0 +1,36 @@
+{
+  "reportId": "d49e28b9-d2a1-45f3-9604-b8407979ba96",
+  "playerId": "7da51052-4773-48d5-b4a5-a638658654b4",
+  "academy": "Synthetic GB Monthly Academy",
+  "brandAccent": "#008463",
+  "player": "Synthetic GB Child A",
+  "period": "2026-09 (Europe/London)",
+  "status": "Approved",
+  "externalDelivery": "Not sent",
+  "demo": true,
+  "sport": "Football",
+  "squad": "U13",
+  "coach": "PeriodOwner",
+  "focus": "No training focus recorded in this month",
+  "reviewedReason": "Recorded focus",
+  "practised": "No completed session participation recorded",
+  "activities": [],
+  "evidence": [
+    {
+      "text": "0 completed roster sessions; 0 present, 0 absent, 0 excused, 0 unmarked. Attendance basis: present / (present + absent); excused and unmarked excluded. No marked attendance basis; no percentage. Cancelled and unfinished sessions excluded.",
+      "source": "Recorded session attendance"
+    },
+    {
+      "text": "No reviewed parent-eligible observations recorded in this period.",
+      "source": "Missing evidence — no result inferred"
+    },
+    {
+      "text": "No completed September session records are available for this synthetic player.",
+      "source": "Coach reviewed commentary"
+    }
+  ],
+  "nextStep": "Repeat the recorded activity",
+  "observationCriteria": "Controlled first touch",
+  "reviewDate": "2027-01-10",
+  "note": ""
+}

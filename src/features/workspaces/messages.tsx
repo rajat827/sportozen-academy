@@ -453,6 +453,7 @@ function ConversationThread({
             <div>
               <strong>
                 {m.senderRole}
+                {m.channel === "WHATSAPP" ? " · WhatsApp" : " · In-app"}
                 {m.internal ? " · Staff-only note" : ""}
               </strong>
               <time>
@@ -464,6 +465,24 @@ function ConversationThread({
               </time>
             </div>
             <p>{m.body}</p>
+            {!parent && !m.internal && m.senderRole !== "PARENT" && (
+              <Button
+                variant="secondary"
+                disabled={w.busy}
+                onClick={() =>
+                  w.communication({
+                    action: "whatsappReply",
+                    data: {
+                      conversationId: c.id,
+                      messageId: m.id,
+                      verified: true,
+                    },
+                  })
+                }
+              >
+                Send this reply via WhatsApp
+              </Button>
+            )}
           </article>
         ))}
       </div>

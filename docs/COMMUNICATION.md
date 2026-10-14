@@ -1,5 +1,9 @@
 # Communication preparation and approval
 
+## Weekly/monthly authenticated extension
+
+The current authenticated release additionally implements independent weekly-plan sources, monthly-period reports, a persistent per-guardian delivery queue, server-only Meta WhatsApp Cloud API adapter and signed webhooks/private reply routing. Sending defaults off; historical NOT_SENT-only statements below describe the preceding release and fictional demo. See [WHATSAPP_WEEKLY_MONTHLY.md](WHATSAPP_WEEKLY_MONTHLY.md) for the current approval/publication/provider boundary, configuration, consent, schedules, worker and controlled-test procedure.
+
 Football-only release. Multiple independent academies. Personalised player development. No rankings. Customer updates reference approved football records. Historical other-sport updates and linked conversations are preserved in restricted storage and excluded from customer APIs. No external provider or clinical nutrition capability was added.
 
 Authenticated workspaces separate approval, private in-app publication and external delivery. Approved-source development updates and optional academy-approved nutrition can reach linked, opted-in parents in-app; private replies work and internal notes stay hidden. External delivery remains NOT_SENT. Approval history snapshots the source and message version. See MULTI_ACADEMY_FOUNDATION.md.

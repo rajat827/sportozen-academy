@@ -873,8 +873,8 @@ function EvidenceEditor({
     <Card>
       <h2>Record training evidence</h2>
       <p>
-        No video attached. Coach-recorded evidence only; automated analysis
-        unavailable.
+        No video attached. Coach-recorded evidence only. AI Video Analysis —
+        Coming soon.
       </p>
       <form
         className="form-stack"

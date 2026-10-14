@@ -13,6 +13,11 @@ import { PlayerPlanEditor, ReportEditor, ParentPlans } from "./plan-and-report";
 import { WorkspaceMessages } from "./messages";
 import { ParentPractice } from "./practice";
 import { FootballTraining } from "./training";
+import { WeeklyPlans, MonthlyReports } from "./period-plans";
+import {
+  CommunicationSettingsPanel,
+  DeliveryPanel,
+} from "./communication-controls";
 export function WorkspaceScreen({
   academyId,
   initialPlayer = "",
@@ -41,7 +46,12 @@ export function WorkspaceScreen({
   }, []);
   const w = useWorkspace(academyId),
     [selected, setSelected] = useState(initialPlayer),
-    [tab, setTab] = useState("Development"),
+    [tab, setTab] = useState(() =>
+      typeof window !== "undefined" &&
+      new URLSearchParams(window.location.search).has("report")
+        ? "Reports"
+        : "Development",
+    ),
     [trainingSection, setTrainingSection] = useState("Objectives"),
     [trainingDrill, setTrainingDrill] = useState(0),
     [trainingSession, setTrainingSession] = useState(initialSession),
@@ -54,6 +64,16 @@ export function WorkspaceScreen({
     [role, setRole] = useState("PARENT"),
     [verified, setVerified] = useState(false),
     [token, setToken] = useState("");
+  useEffect(() => {
+    if (!w.data) return;
+    const query = new URLSearchParams(window.location.search),
+      key = query.has("report") ? "report" : "weekly",
+      id = query.get(key);
+    if (id)
+      document
+        .getElementById(`${key}-${id}`)
+        ?.scrollIntoView({ block: "start" });
+  }, [w.data, tab, selected]);
   function rememberSelection(key: "player" | "session", value: string) {
     const url = new URL(window.location.href);
     if (value) url.searchParams.set(key, value);
@@ -202,7 +222,8 @@ export function WorkspaceScreen({
         )}
       <p className="muted">
         {configuration.name} · {d.academy.timezone}
-        {!parent && " · AI analysis unavailable · External messaging NOT_SENT"}
+        {!parent &&
+          " · AI Video Analysis — Coming soon · Delivery status is per recipient"}
       </p>
       {tab !== "Settings" && tab !== "Training" && (
         <Card>
@@ -237,6 +258,9 @@ export function WorkspaceScreen({
             </p>
           )}
         </Card>
+      )}
+      {tab === "Training" && !parent && !support && (
+        <WeeklyPlans workspace={w} />
       )}
       {tab === "Training" && !parent && !support && (
         <FootballTraining
@@ -300,6 +324,12 @@ export function WorkspaceScreen({
             sportId={activeSport}
           />
         ))}
+      {parent && player && tab === "Development" && (
+        <WeeklyPlans workspace={w} playerId={player.id} />
+      )}
+      {!parent && !support && player && tab === "Reports" && (
+        <MonthlyReports workspace={w} playerId={player.id} />
+      )}
       {player &&
         tab === "Reports" &&
         (parent || support ? (
@@ -318,6 +348,9 @@ export function WorkspaceScreen({
           />
         ))}
       {player && tab === "Messages" && !support && (
+        <DeliveryPanel workspace={w} playerId={player.id} />
+      )}
+      {player && tab === "Messages" && !support && (
         <WorkspaceMessages
           key={`${player.id}-${activeSport}`}
           workspace={w}
@@ -329,17 +362,7 @@ export function WorkspaceScreen({
       )}
       {tab === "Settings" && (
         <>
-          <Card>
-            <h2>WhatsApp Business</h2>
-            <Badge>NOT CONNECTED</Badge>
-            <p>
-              WhatsApp Business messaging is not currently connected. Approved
-              messages remain saved as drafts and must be copied or shared
-              manually.
-            </p>
-            <Button disabled>FUTURE INTEGRATION</Button>
-            <p>Email, SMS and push providers are also disconnected.</p>
-          </Card>
+          {!support && <CommunicationSettingsPanel workspace={w} />}
           {parent && (
             <ParentPreferences
               key={player?.id}

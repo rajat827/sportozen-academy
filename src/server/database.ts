@@ -3,6 +3,7 @@ import { DatabaseSync } from "node:sqlite";
 import { mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { migrateFootballTraining } from "./migrations/002-football-training";
+import { migrateCommunications } from "./migrations/003-communications";
 const connections = globalThis as typeof globalThis & {
   sportozenDatabase?: DatabaseSync;
 };
@@ -27,6 +28,7 @@ export function database() {
     CREATE TABLE IF NOT EXISTS update_approval_history(id TEXT PRIMARY KEY,academyId TEXT NOT NULL,updateId TEXT NOT NULL,version INTEGER NOT NULL,body TEXT NOT NULL,source TEXT NOT NULL,approvedBy TEXT NOT NULL,at TEXT NOT NULL);
     `);
   migrateFootballTraining(db);
+  migrateCommunications(db);
   connections.sportozenDatabase = db;
   return db;
 }

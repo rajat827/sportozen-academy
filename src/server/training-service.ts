@@ -18,6 +18,7 @@ import {
   measurementText,
 } from "@/services/training-rules";
 import { workspaceRepository as repo } from "./workspace-repository";
+import { inPeriod } from "@/services/communication/period-rules";
 import { atomic, database, audit } from "./database";
 import { WorkspaceError } from "./auth";
 import {
@@ -661,14 +662,30 @@ export function reportTrainingSources(
   ctx: WorkspaceAccess,
   report: WorkspaceReport,
 ): FootballEvidence[] {
+  requirePlayer(ctx, report.playerId);
   return (report.sourceEvidenceIds ?? []).map((id) => {
-    const e = scoped(ctx, "evidence", id);
+    const e = report.monthlySources
+      ? repo.find(ctx.academy.id, "evidence", id)
+      : scoped(ctx, "evidence", id);
+    const session =
+      e &&
+      (report.monthlySources
+        ? repo.find(ctx.academy.id, "session", e.sessionId)
+        : authorisedSession(ctx, e.sessionId));
     if (
+      !e ||
+      e.sportId !== "football" ||
+      !session ||
+      session.sportId !== "football" ||
       e.playerId !== report.playerId ||
-      e.planId !== report.planId ||
+      (!report.monthlySources && e.planId !== report.planId) ||
       e.status !== "REVIEWED" ||
       e.visibility !== "PARENT_ELIGIBLE" ||
-      authorisedSession(ctx, e.sessionId).status !== "COMPLETED"
+      session.status !== "COMPLETED" ||
+      (report.monthlySources &&
+        (!session.roster.some((p) => p.playerId === report.playerId) ||
+          !inPeriod(session.startAt, report.monthlySources.period) ||
+          !inPeriod(e.recordedAt, report.monthlySources.period)))
     )
       fail(
         "A report source is no longer eligible. Review its sources again.",

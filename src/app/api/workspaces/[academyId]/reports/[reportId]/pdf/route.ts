@@ -1,4 +1,5 @@
 import { join } from "node:path";
+import { readFile } from "node:fs/promises";
 import { context } from "@/server/workspace-service";
 import { visibleRecord, apiError } from "@/server/workspace-access";
 import { WorkspaceError } from "@/server/auth";
@@ -19,6 +20,10 @@ export async function GET(
     const blob = await generateReportPdf(
       report.snapshot,
       join(process.cwd(), "public/fonts"),
+      await Promise.all([
+        readFile(join(process.cwd(), "public/fonts/NotoSans-Regular.ttf")),
+        readFile(join(process.cwd(), "public/fonts/NotoSans-Bold.ttf")),
+      ]),
     );
     audit(
       academyId,
