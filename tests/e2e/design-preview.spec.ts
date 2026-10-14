@@ -213,7 +213,7 @@ test("preview workflows retain context, deliberate approvals and safe payment sc
   await (await download).saveAs(`${folder}/reviewed-parent-report.pdf`);
   await page.goto("/design-preview/players");
   await page.getByLabel("Player context", { exact: true }).selectOption("isha");
-  await page.goto("/design-preview/report-detail");
+  await page.goto("/design-preview/report-edit");
   await expect(
     page.getByRole("button", { name: "Download PDF", exact: true }),
   ).toBeDisabled();
