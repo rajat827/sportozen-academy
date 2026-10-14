@@ -358,7 +358,22 @@ function MonthlyReview({
         <h3>{r.period}</h3>
         <Badge>{r.status}</Badge>
         {r.status === "Approved" ? (
-          <SecureReportDownload academyId={w.data!.academy.id} report={r} />
+          <>
+            <SecureReportDownload academyId={w.data!.academy.id} report={r} />
+            <Button
+              variant="secondary"
+              disabled={w.busy}
+              onClick={() =>
+                command(w, "monthlyPrepare", {
+                  playerIds: [r.playerId],
+                  month: r.reportingPeriod!.key,
+                  correctionOf: r.id,
+                })
+              }
+            >
+              Prepare reviewed monthly correction
+            </Button>
+          </>
         ) : (
           <>
             <details open>

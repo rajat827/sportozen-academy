@@ -86,5 +86,46 @@ export const workspaceRepository: WorkspaceRepository = {
         playerId,
         JSON.stringify(record),
       );
+    if (kind === "session" || kind === "plan") {
+      // Every writer uses this boundary. A schedule/objective/plan change must
+      // invalidate queued notifications immediately, not wait for an open UI.
+      const weekly = database()
+        .prepare(
+          "SELECT id,body FROM workspace_records WHERE academyId=? AND kind='weekly'",
+        )
+        .all(academyId);
+      for (const row of weekly) {
+        const r = JSON.parse(String(row.body)) as WorkspaceRecords["weekly"];
+        if (
+          !(kind === "plan"
+            ? r.content.sourcePlanId === record.id
+            : r.content.sessions.some((s) => s.id === record.id) ||
+              ("squadId" in record && r.squadId === record.squadId))
+        )
+          continue;
+        database()
+          .prepare(
+            "UPDATE delivery_jobs SET state='CANCELLED',reason='Training source changed; review required' WHERE academyId=? AND sourceId=? AND state='QUEUED'",
+          )
+          .run(academyId, r.id);
+        if (!r.issuedAt && r.status === "APPROVED") {
+          database()
+            .prepare(
+              "UPDATE workspace_records SET body=?,version=version+1 WHERE academyId=? AND kind='weekly' AND id=?",
+            )
+            .run(
+              JSON.stringify({
+                ...r,
+                status: "INVALIDATED",
+                snapshot: undefined,
+                approvedAt: undefined,
+                reviewerId: undefined,
+              }),
+              academyId,
+              r.id,
+            );
+        }
+      }
+    }
   },
 };

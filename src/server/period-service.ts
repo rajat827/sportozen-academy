@@ -371,8 +371,27 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
         if (command.action === "weeklyPublish") {
           if (!weeklyCurrent(ctx.academy.id, r))
             fail("Approve a current weekly plan before publication.");
-          if (!r.issuedAt) {
-            result = { ...r, issuedAt: new Date().toISOString() };
+          if (!r.publishedGuardianIds?.length) {
+            const recipients = database()
+              .prepare(
+                "SELECT userId FROM guardian_relationships WHERE academyId=? AND playerId=?",
+              )
+              .all(ctx.academy.id, r.playerId)
+              .map((g) => String(g.userId))
+              .filter((userId) => {
+                const m = repo.membership(ctx.academy.id, userId),
+                  p = repo.find(ctx.academy.id, "preference", userId);
+                return (
+                  m?.role === "PARENT" && (!p || (p.inApp && p.development))
+                );
+              });
+            if (!recipients.length)
+              fail("No current guardian permits in-app publication.");
+            result = {
+              ...r,
+              issuedAt: r.issuedAt ?? new Date().toISOString(),
+              publishedGuardianIds: recipients,
+            };
             repo.save(ctx.academy.id, "weekly", result as WeeklyPlan);
             audit(
               ctx.academy.id,
@@ -451,9 +470,21 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
           .object({
             playerIds: z.array(z.string()).min(1),
             month: z.string().regex(/^\d{4}-\d{2}$/),
+            correctionOf: z.string().optional(),
           })
           .parse(command.data);
         result = [...new Set(d.playerIds)].map((playerId) => {
+          if (d.correctionOf) {
+            const original = visibleRecord(ctx, "report", d.correctionOf);
+            if (
+              original.status !== "Approved" ||
+              original.playerId !== playerId ||
+              original.reportingPeriod?.key !== d.month
+            )
+              fail(
+                "Select an approved monthly report for this player's explicit correction.",
+              );
+          }
           const plan = visibleRecords(ctx, "plan").find(
             (p) => p.playerId === playerId,
           );
@@ -463,7 +494,9 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
             );
           const existing = visibleRecords(ctx, "report").find(
             (r) =>
-              r.playerId === playerId && r.reportingPeriod?.key === d.month,
+              r.playerId === playerId &&
+              r.reportingPeriod?.key === d.month &&
+              r.correctionOf === d.correctionOf,
           );
           if (existing) return existing; // Approved historical months never overwritten by regeneration.
           const sources = assembleMonthly(ctx, playerId, d.month);
@@ -475,6 +508,7 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
             planId: plan.id,
             period: `${d.month} (${sources.period.timezone})`,
             reportingPeriod: sources.period,
+            correctionOf: d.correctionOf,
             monthlySources: sources,
             sourceEvidenceIds: sources.evidenceIds,
             observation: "",
@@ -492,6 +526,8 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
         });
       } else {
         const r = visibleRecord(ctx, "report", command.id ?? "");
+        if (!r.monthlySources || !r.reportingPeriod)
+          fail("Use the existing report editor for non-monthly reports.");
         if (r.status === "Approved")
           fail(
             "Approved monthly reports remain historical; create an explicit reviewed correction.",

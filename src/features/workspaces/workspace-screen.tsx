@@ -13,6 +13,11 @@ import { PlayerPlanEditor, ReportEditor, ParentPlans } from "./plan-and-report";
 import { WorkspaceMessages } from "./messages";
 import { ParentPractice } from "./practice";
 import { FootballTraining } from "./training";
+import { WeeklyPlans, MonthlyReports } from "./period-plans";
+import {
+  CommunicationSettingsPanel,
+  DeliveryPanel,
+} from "./communication-controls";
 export function WorkspaceScreen({
   academyId,
   initialPlayer = "",
@@ -41,7 +46,12 @@ export function WorkspaceScreen({
   }, []);
   const w = useWorkspace(academyId),
     [selected, setSelected] = useState(initialPlayer),
-    [tab, setTab] = useState("Development"),
+    [tab, setTab] = useState(() =>
+      typeof window !== "undefined" &&
+      new URLSearchParams(window.location.search).has("report")
+        ? "Reports"
+        : "Development",
+    ),
     [trainingSection, setTrainingSection] = useState("Objectives"),
     [trainingDrill, setTrainingDrill] = useState(0),
     [trainingSession, setTrainingSession] = useState(initialSession),
@@ -239,6 +249,9 @@ export function WorkspaceScreen({
         </Card>
       )}
       {tab === "Training" && !parent && !support && (
+        <WeeklyPlans workspace={w} />
+      )}
+      {tab === "Training" && !parent && !support && (
         <FootballTraining
           workspace={w}
           selected={trainingSession}
@@ -300,6 +313,12 @@ export function WorkspaceScreen({
             sportId={activeSport}
           />
         ))}
+      {parent && player && tab === "Development" && (
+        <WeeklyPlans workspace={w} playerId={player.id} />
+      )}
+      {!parent && !support && player && tab === "Reports" && (
+        <MonthlyReports workspace={w} playerId={player.id} />
+      )}
       {player &&
         tab === "Reports" &&
         (parent || support ? (
@@ -318,6 +337,9 @@ export function WorkspaceScreen({
           />
         ))}
       {player && tab === "Messages" && !support && (
+        <DeliveryPanel workspace={w} playerId={player.id} />
+      )}
+      {player && tab === "Messages" && !support && (
         <WorkspaceMessages
           key={`${player.id}-${activeSport}`}
           workspace={w}
@@ -329,17 +351,7 @@ export function WorkspaceScreen({
       )}
       {tab === "Settings" && (
         <>
-          <Card>
-            <h2>WhatsApp Business</h2>
-            <Badge>NOT CONNECTED</Badge>
-            <p>
-              WhatsApp Business messaging is not currently connected. Approved
-              messages remain saved as drafts and must be copied or shared
-              manually.
-            </p>
-            <Button disabled>FUTURE INTEGRATION</Button>
-            <p>Email, SMS and push providers are also disconnected.</p>
-          </Card>
+          {!support && <CommunicationSettingsPanel workspace={w} />}
           {parent && (
             <ParentPreferences
               key={player?.id}

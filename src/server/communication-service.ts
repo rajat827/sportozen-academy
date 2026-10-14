@@ -12,6 +12,7 @@ import {
   localClock,
   shiftDate,
   quiet,
+  inPeriod,
 } from "@/services/communication/period-rules";
 import { resolveSessionTime } from "@/services/training-rules";
 import { templateParameters } from "@/services/communication/whatsapp-templates";
@@ -189,6 +190,11 @@ export function notificationContent(
       409,
       "Approve an explicit-period monthly report first.",
     );
+  for (const evidenceId of r.sourceEvidenceIds ?? []) {
+    const e=repo.find(academyId,"evidence",evidenceId),session=e?repo.find(academyId,"session",e.sessionId):undefined;
+    if(!e || e.playerId!==r.playerId || e.status!=="REVIEWED" || e.visibility!=="PARENT_ELIGIBLE" || !session || session.status!=="COMPLETED" || !inPeriod(session.startAt,r.reportingPeriod) || !inPeriod(e.recordedAt,r.reportingPeriod))
+      throw new WorkspaceError(409,"Monthly notification sources were cancelled, superseded or are no longer parent-eligible.");
+  }
   return {
     playerId: r.playerId,
     period: r.reportingPeriod,
@@ -363,6 +369,7 @@ export async function communicationAction(
           400,
           "Draft generation must precede notification day.",
         );
+      if(d.weeklyTemplate===d.monthlyTemplate)throw new WorkspaceError(400,"Use distinct weekly and monthly provider templates.");
       const old = comm.settings(ctx.academy.id);
       if ((old?.version ?? 0) !== expectedVersion)
         throw new WorkspaceError(409, "Settings changed. Reload.");

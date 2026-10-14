@@ -665,7 +665,7 @@ export function reportTrainingSources(
     const e = scoped(ctx, "evidence", id);
     if (
       e.playerId !== report.playerId ||
-      e.planId !== report.planId ||
+      (!report.monthlySources && e.planId !== report.planId) ||
       e.status !== "REVIEWED" ||
       e.visibility !== "PARENT_ELIGIBLE" ||
       authorisedSession(ctx, e.sessionId).status !== "COMPLETED"

@@ -196,7 +196,14 @@ export function visibleRecords<K extends WorkspaceKind>(
     );
   if (kind === "weekly")
     values = (values as WorkspaceRecords["weekly"][])
-      .filter((r) => r.status === "APPROVED" && r.snapshot && r.issuedAt)
+      .filter(
+        (r) =>
+          r.status === "APPROVED" &&
+          r.snapshot &&
+          r.issuedAt &&
+          (membership.role === "SUPPORT" ||
+            r.publishedGuardianIds?.includes(user.id)),
+      )
       .map((r) => ({ ...r, content: r.snapshot! }));
   if (kind === "update")
     values = (values as WorkspaceRecords["update"][]).filter(

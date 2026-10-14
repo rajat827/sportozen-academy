@@ -1,7 +1,11 @@
 import type { RecordBase, SportRecord } from "./entities";
 import type { ReportViewModel } from "./report";
 import type { TrainingRecords } from "./training";
-import type { WeeklyPlan, MonthlySources, ReportingPeriod } from "./communication";
+import type {
+  WeeklyPlan,
+  MonthlySources,
+  ReportingPeriod,
+} from "./communication";
 export type AcademyRole = "OWNER" | "ADMIN" | "COACH" | "PARENT" | "SUPPORT";
 export interface AcademyConfiguration extends RecordBase {
   name: string;
@@ -58,6 +62,7 @@ export interface WorkspacePlan extends SportRecord {
   privateNote: string;
 }
 export interface WorkspaceReport extends SportRecord {
+  correctionOf?: string;
   reportingPeriod?: ReportingPeriod;
   monthlySources?: MonthlySources;
   recordVersion?: number;

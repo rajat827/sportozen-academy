@@ -213,12 +213,14 @@ export class MetaWhatsAppProvider implements MessagingProvider {
         "Verified contact, consent and approval are required.",
       );
     const t = request.template;
+    if(request.replyText && request.replyText.length>4096)throw new ProviderFailure("PERMANENT","WhatsApp text reply exceeds provider limit.");
     if (
       !request.replyText &&
       (!t ||
         ![this.settings.weeklyTemplate, this.settings.monthlyTemplate].includes(
           t.name,
         ) ||
+        t.parameters.length !== (t.name === this.settings.weeklyTemplate ? 7 : 3) ||
         t.language !== this.settings.language ||
         t.parameters.some(
           (p) => !p.trim() || /[\r\n\t]/.test(p) || p.length > 400,

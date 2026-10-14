@@ -13,7 +13,14 @@ export interface WeeklyContent {
   personalFocus: string;
   observe: string;
   homePractice: string;
-  sessions: { id: string; version: number; startAt: string; endAt: string; timezone: string; location: string }[];
+  sessions: {
+    id: string;
+    version: number;
+    startAt: string;
+    endAt: string;
+    timezone: string;
+    location: string;
+  }[];
   activities: { id: string; name: string; purpose: string; cue: string }[];
   sourcePlanId?: string;
   sourcePlanVersion?: number;
@@ -31,6 +38,7 @@ export interface WeeklyPlan extends SportRecord {
   reviewerId?: string;
   approvedAt?: string;
   issuedAt?: string;
+  publishedGuardianIds?: string[];
   correctionOf?: string;
 }
 export interface MonthlySources {
@@ -38,9 +46,21 @@ export interface MonthlySources {
   fingerprint: string;
   sessionIds: string[];
   evidenceIds: string[];
-  model: Pick<ReportViewModel, "focus" | "practised" | "activities" | "evidence">;
+  model: Pick<
+    ReportViewModel,
+    "focus" | "practised" | "activities" | "evidence"
+  >;
 }
-export type DeliveryState = "NOT_SENT" | "QUEUED" | "PROVIDER_ACCEPTED" | "SENT" | "DELIVERED" | "READ" | "FAILED" | "UNKNOWN" | "CANCELLED";
+export type DeliveryState =
+  | "NOT_SENT"
+  | "QUEUED"
+  | "PROVIDER_ACCEPTED"
+  | "SENT"
+  | "DELIVERED"
+  | "READ"
+  | "FAILED"
+  | "UNKNOWN"
+  | "CANCELLED";
 export type NotificationType = "WEEKLY" | "MONTHLY";
 export interface CommunicationSettings {
   academyId: string;
@@ -63,7 +83,12 @@ export interface CommunicationSettings {
   monthlyTemplate: string;
   language: string;
   mode: "TEST" | "LIVE";
-  connection: "Not configured" | "Awaiting provider/template setup" | "Ready for controlled testing" | "Connected" | "Configuration error";
+  connection:
+    | "Not configured"
+    | "Awaiting provider/template setup"
+    | "Ready for controlled testing"
+    | "Connected"
+    | "Configuration error";
   verifiedAt?: string;
 }
 export interface GuardianContact {

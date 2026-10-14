@@ -9,5 +9,6 @@ export function migrateCommunications(db: DatabaseSync) {
     CREATE TABLE IF NOT EXISTS communication_events(id TEXT PRIMARY KEY,academyId TEXT NOT NULL,phoneNumberId TEXT NOT NULL,body TEXT NOT NULL,receivedAt TEXT NOT NULL,processedAt TEXT,outcome TEXT);
     CREATE TABLE IF NOT EXISTS communication_reminders(academyId TEXT NOT NULL,period TEXT NOT NULL,type TEXT NOT NULL,playerId TEXT NOT NULL,reason TEXT NOT NULL,PRIMARY KEY(academyId,period,type,playerId));
   `);
-  if (Number(db.prepare("PRAGMA user_version").get()?.user_version) < 3) db.exec("PRAGMA user_version=3");
+  if (Number(db.prepare("PRAGMA user_version").get()?.user_version) < 3)
+    db.exec("PRAGMA user_version=3");
 }

@@ -318,6 +318,14 @@ export async function workerTick(
         "Provider accepted; delivery not yet confirmed",
         receipt.providerReference,
       );
+      if (job.type === "WEEKLY") {
+        const source = repo.find(job.academyId, "weekly", job.sourceId);
+        if (source && !source.issuedAt)
+          repo.save(job.academyId, "weekly", {
+            ...source,
+            issuedAt: new Date().toISOString(),
+          });
+      }
       database()
         .prepare(
           "UPDATE delivery_attempts SET state='PROVIDER_ACCEPTED',providerId=? WHERE id=?",
@@ -341,7 +349,13 @@ export async function workerTick(
       (e instanceof Error && e.name === "WorkspaceError")
         ? (e as Error).message
         : "Dispatch checks failed; staff review required";
-    const attempts = current.attempts;
+    let attempts = current.attempts;
+    if (attempts === job.attempts && outcome === "TRANSIENT") {
+      // Provider verification failures are also bounded, even before POST.
+      attempts++;
+      database().prepare("UPDATE delivery_jobs SET attempts=? WHERE id=?").run(attempts,job.id);
+      database().prepare("INSERT INTO delivery_attempts(id,jobId,at,state,reason) VALUES(?,?,?,'FAILED',?)").run(randomUUID(),job.id,new Date().toISOString(),reason);
+    }
     const state =
       outcome === "UNKNOWN"
         ? "UNKNOWN"
