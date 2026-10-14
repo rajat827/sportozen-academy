@@ -19,6 +19,12 @@ The separate authenticated training workspace remains available at `/workspace` 
 
 The explicitly fictional demonstration remains at `/owner/dashboard`, `/coach/dashboard` and `/parent/home`. Its header role switch selects Owner (Anil), Coach (Rahul), Parent (Neha, linked to Aarav). That demonstration switch is not authentication.
 
+## Football frontend design review
+
+Open `/design-preview` for the separate football product review gallery. This prototype uses typed fictional academy/player fixtures and session-local state; its account, message, payment and administrative actions do not call customer APIs. The customer workspace remains independent. Reset fictional preview clears only the prototype session.
+
+The screen inventory, responsive captures, Figma capability status and future service contracts are documented in [screen map](docs/design/SCREEN_MAP.md), [work ledger](docs/design/WORK_LEDGER.md), [design system](docs/design/DESIGN_SYSTEM.md) and [backend handoff](docs/design/BACKEND_HANDOFF.md). Design awaits user approval. The Figma destination currently contains only an empty page because the authorised Starter account's MCP quota blocks authoring; it is not a completed editable review set.
+
 ## Stack
 
 Next.js 16 App Router, strict TypeScript, React 19, Tailwind 4 with shared CSS tokens, Lucide, Radix accessible sheets, TanStack Table, React Hook Form/Zod, Recharts, date-fns, Vitest and Playwright. Custom reusable UI primitives keep the academy visual identity consistent.
