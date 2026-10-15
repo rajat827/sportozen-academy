@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import {
   test,
   expect,
@@ -27,7 +28,7 @@ test("real Calendar and Training controls preserve session identity, shared plan
   const origin = "http://127.0.0.1:3001";
   const suffix = crypto.randomUUID();
   const day = "2032-10-19";
-  const shots = "docs/screenshots/academy-portal/scheduling";
+  const shots = evidencePath("docs/screenshots/academy-portal/scheduling");
   const apis: APIRequestContext[] = [];
   const contexts: BrowserContext[] = [];
   const pageErrors: string[] = [];

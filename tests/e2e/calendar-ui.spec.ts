@@ -1,8 +1,9 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const captures = "docs/screenshots/calendar-ui/after";
-const regressions = "docs/screenshots/calendar-ui/regressions";
+const captures = evidencePath("docs/screenshots/calendar-ui/after");
+const regressions = evidencePath("docs/screenshots/calendar-ui/regressions");
 const storageKey = "sportozen-design-preview-v1";
 const firstId = "riverside:U10 Foundations:2026-10-20";
 const secondId = "riverside:U10 Foundations:2026-10-22";
@@ -211,11 +212,15 @@ test("Calendar captures the approved composition at six widths without clipping 
       await expect(
         page.getByText("Loading fictional calendar records…", { exact: true }),
       ).toBeVisible();
-    else if (scenario === "failed-save")
-      await expect(page.getByRole("alert")).toContainText(
-        "No empty schedule is inferred",
+    else if (scenario === "failed-save") {
+      const calendarError = page
+        .locator(".approved-calendar")
+        .getByRole("alert");
+      await expect(calendarError).toHaveCount(1);
+      await expect(calendarError).toContainText(
+        "Unable to load calendar records. No empty schedule is inferred.",
       );
-    else
+    } else
       await expect(
         page.getByText("No accessible sessions in this period.", {
           exact: true,

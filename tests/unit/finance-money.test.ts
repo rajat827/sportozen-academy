@@ -2,8 +2,16 @@ import { describe, expect, it } from "vitest";
 import {
   parseFinanceAmount,
   formatFinanceMoney,
+  financeAmountInput,
 } from "@/services/finance-rules";
 describe("Exact finance minor units", () => {
+  it("round-trips editable values at currency precision without float rounding", () => {
+    for (const currency of ["INR", "JPY", "KWD"])
+      for (const minor of [1, 10000, Number.MAX_SAFE_INTEGER])
+        expect(
+          parseFinanceAmount(financeAmountInput(minor, currency), currency),
+        ).toBe(minor);
+  });
   it("parses international currency precision without rounding a submitted amount", () => {
     expect(parseFinanceAmount("4500.50", "INR")).toBe(450050);
     expect(parseFinanceAmount("1000", "JPY")).toBe(1000);

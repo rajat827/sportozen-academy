@@ -1,7 +1,10 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect, type Locator, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const captureFolder = "docs/screenshots/home-ui/regressions/locked-home";
+const captureFolder = evidencePath(
+  "docs/screenshots/home-ui/regressions/locked-home",
+);
 const previewNotice =
   "Design preview — fictional data; no payments or messages are processed.";
 const toolsName = "Preview context & screen gallery";
@@ -257,9 +260,16 @@ test("home branding and linked-child context survive review controls without exp
   await child.selectOption("leo");
   await expect(page.locator(".ar-greeting")).toContainText("Leo");
   await expect(page.locator(".ar-next")).toContainText(
-    "No confirmed current-week session",
+    "Schedule awaiting coach review",
+  );
+  await expect(page.locator(".ar-next")).not.toContainText("20 October");
+  await expect(page.locator(".ar-week-card")).toContainText(
+    "Your plan is awaiting coach review",
   );
   await expect(page.locator(".ar-update")).toContainText("Not recorded");
+  await expect(page.locator(".ar-update")).not.toContainText(
+    "The paired receiving task used a wider gate",
+  );
   await child.selectOption("aarav");
   await page.getByRole("link", { name: "View Plan", exact: true }).click();
   await expect(page).toHaveURL(/design-preview\/parent-weekly/);

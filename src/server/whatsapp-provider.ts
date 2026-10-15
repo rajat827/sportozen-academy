@@ -6,6 +6,7 @@ import type { CommunicationSettings } from "@/domain/communication";
 import {
   weeklyTemplateBody,
   monthlyTemplateBody,
+  announcementTemplateBody,
 } from "@/services/communication/whatsapp-templates";
 export class ProviderFailure extends Error {
   constructor(
@@ -140,6 +141,9 @@ export class MetaWhatsAppProvider implements MessagingProvider {
     for (const [name, body] of [
       [this.settings.weeklyTemplate, weeklyTemplateBody],
       [this.settings.monthlyTemplate, monthlyTemplateBody],
+      ...(this.settings.announcementTemplate
+        ? [[this.settings.announcementTemplate, announcementTemplateBody]]
+        : []),
     ]) {
       const templates = z
         .object({
@@ -221,9 +225,11 @@ export class MetaWhatsAppProvider implements MessagingProvider {
     if (
       !request.replyText &&
       (!t ||
-        ![this.settings.weeklyTemplate, this.settings.monthlyTemplate].includes(
-          t.name,
-        ) ||
+        ![
+          this.settings.weeklyTemplate,
+          this.settings.monthlyTemplate,
+          this.settings.announcementTemplate,
+        ].includes(t.name) ||
         t.parameters.length !==
           (t.name === this.settings.weeklyTemplate ? 7 : 3) ||
         t.language !== this.settings.language ||

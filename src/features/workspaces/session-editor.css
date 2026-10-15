@@ -1,0 +1,24 @@
+.session-field-error {
+  color: #b42318;
+  font-size: 0.85rem;
+}
+.session-location-results {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.session-location-results ul {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+}
+.session-location-results button {
+  text-align: left;
+  width: 100%;
+  margin: 4px 0;
+}
+.session-maps-attribution {
+  color: #5e5e5e;
+  font: 400 12px/1.5 sans-serif;
+  white-space: nowrap;
+}

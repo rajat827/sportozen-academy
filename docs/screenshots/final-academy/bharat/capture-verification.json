@@ -1,0 +1,514 @@
+{
+  "status": "FAIL",
+  "purpose": "Read-only capture attempt; partial files do not establish completed evidence.",
+  "captures": [
+    {
+      "section": "home",
+      "role": "OWNER",
+      "file": "home-1536.png",
+      "sha256": "fc81f71cf935aec655ad0dbe0a34301138af25a769e93865f55473dbad753c00",
+      "pngPixels": {
+        "width": 1536,
+        "height": 1114
+      },
+      "layout": {
+        "viewport": {
+          "width": 1536,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "players",
+      "role": "OWNER",
+      "file": "players-1536.png",
+      "sha256": "6ccd9837f08e5f304f02a4894890e9093db143f8abd013368db7581cf5101733",
+      "pngPixels": {
+        "width": 1536,
+        "height": 1304
+      },
+      "layout": {
+        "viewport": {
+          "width": 1536,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "calendar",
+      "role": "OWNER",
+      "file": "calendar-1536.png",
+      "sha256": "817e5d5dc99ad3b85cd743e365b7bcfb8301787a3afe49f3c3656c32ab0c4e5b",
+      "pngPixels": {
+        "width": 1536,
+        "height": 1024
+      },
+      "layout": {
+        "viewport": {
+          "width": 1536,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "training",
+      "role": "OWNER",
+      "file": "training-1536.png",
+      "sha256": "fe97b256e2621f956dc48ec54a65a1cd2f95ef858f06aae24ac01fef686134ef",
+      "pngPixels": {
+        "width": 1536,
+        "height": 1215
+      },
+      "layout": {
+        "viewport": {
+          "width": 1536,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "reports",
+      "role": "OWNER",
+      "file": "reports-1536.png",
+      "sha256": "007f534322ac4ab9411bad90b920ce149359d48ca688802211ee9bfd0935dcf3",
+      "pngPixels": {
+        "width": 1536,
+        "height": 1236
+      },
+      "layout": {
+        "viewport": {
+          "width": 1536,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "fees",
+      "role": "OWNER",
+      "file": "fees-1536.png",
+      "sha256": "cfac651607ac86234565057b766fc9b16b0555d4bc9ba144675bac3960c6d62c",
+      "pngPixels": {
+        "width": 1536,
+        "height": 1024
+      },
+      "layout": {
+        "viewport": {
+          "width": 1536,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "settings",
+      "role": "OWNER",
+      "file": "settings-1536.png",
+      "sha256": "c81aea0778c01cfdd4cdf4a956b392187cffe2b923239b2a6ec630d87e98ff55",
+      "pngPixels": {
+        "width": 1536,
+        "height": 1047
+      },
+      "layout": {
+        "viewport": {
+          "width": 1536,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "home",
+      "role": "OWNER",
+      "file": "home-1440.png",
+      "sha256": "a456b8c8260b01e4342580fbe1a9869a48cf955f9eec311d4bdfb8081ff40c72",
+      "pngPixels": {
+        "width": 1440,
+        "height": 1114
+      },
+      "layout": {
+        "viewport": {
+          "width": 1440,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "players",
+      "role": "OWNER",
+      "file": "players-1440.png",
+      "sha256": "2f25f115eb960756ff6dab61010fbc34153f6a1b4819c8e80f372acbe4d70e02",
+      "pngPixels": {
+        "width": 1440,
+        "height": 1304
+      },
+      "layout": {
+        "viewport": {
+          "width": 1440,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "calendar",
+      "role": "OWNER",
+      "file": "calendar-1440.png",
+      "sha256": "fe26a78468a1bfda816a4b36e7b6c986c49775466a5f6b2f37b6f062866d378f",
+      "pngPixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "layout": {
+        "viewport": {
+          "width": 1440,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "training",
+      "role": "OWNER",
+      "file": "training-1440.png",
+      "sha256": "b9f0e6445a58c1dfee552f94a9c15a017c18155c5295e0a1eec705e0233b7b46",
+      "pngPixels": {
+        "width": 1440,
+        "height": 1291
+      },
+      "layout": {
+        "viewport": {
+          "width": 1440,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "reports",
+      "role": "OWNER",
+      "file": "reports-1440.png",
+      "sha256": "999b88011205d899b2bfa4d8157aeeef5c877cb966d23ec7ee7ee9d4af044dcb",
+      "pngPixels": {
+        "width": 1440,
+        "height": 1236
+      },
+      "layout": {
+        "viewport": {
+          "width": 1440,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "fees",
+      "role": "OWNER",
+      "file": "fees-1440.png",
+      "sha256": "d456128971435c8400f989372fa5e9857329b574c1bcb49b00da3c41d5713cd9",
+      "pngPixels": {
+        "width": 1440,
+        "height": 1024
+      },
+      "layout": {
+        "viewport": {
+          "width": 1440,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "settings",
+      "role": "OWNER",
+      "file": "settings-1440.png",
+      "sha256": "2f031ea32ae346b573b7d3c7761efae5c984f214a5090b4be5d70b1819232327",
+      "pngPixels": {
+        "width": 1440,
+        "height": 1047
+      },
+      "layout": {
+        "viewport": {
+          "width": 1440,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "home",
+      "role": "OWNER",
+      "file": "home-768.png",
+      "sha256": "34fcbd507da21351c49f32ab0f5a88dfa8e87acd399e04a4145367b594ceee55",
+      "pngPixels": {
+        "width": 768,
+        "height": 1720
+      },
+      "layout": {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "players",
+      "role": "OWNER",
+      "file": "players-768.png",
+      "sha256": "bd9083d98e6b3a2dc3ff9700079af70409b2bd0ea03ef41c3ace8672e79454d0",
+      "pngPixels": {
+        "width": 768,
+        "height": 2466
+      },
+      "layout": {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "calendar",
+      "role": "OWNER",
+      "file": "calendar-768.png",
+      "sha256": "3bb7c21cfaeb59105e374ed760a053b5e16eeae0de82a2aed1b92f6381a9863c",
+      "pngPixels": {
+        "width": 768,
+        "height": 1024
+      },
+      "layout": {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "training",
+      "role": "OWNER",
+      "file": "training-768.png",
+      "sha256": "ab4930a4d7705b316093aa9695039b785c9de4d379973b0bfbd7723be735dc31",
+      "pngPixels": {
+        "width": 768,
+        "height": 2200
+      },
+      "layout": {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "reports",
+      "role": "OWNER",
+      "file": "reports-768.png",
+      "sha256": "206cd95ff9ae7008cf7c9256e9f773eae98d8e531c87fd13a0778c53cdd500ee",
+      "pngPixels": {
+        "width": 768,
+        "height": 2285
+      },
+      "layout": {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "fees",
+      "role": "OWNER",
+      "file": "fees-768.png",
+      "sha256": "eb0509bd0bdf97b47fe583e052b7dd1d661f5845a5a652b35c02e138d0ceb8ac",
+      "pngPixels": {
+        "width": 768,
+        "height": 1024
+      },
+      "layout": {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    },
+    {
+      "section": "settings",
+      "role": "OWNER",
+      "file": "settings-768.png",
+      "sha256": "24d989aa01894253b57c9c39513dda1fc92a5c4fd3cdb5b7d64a26912f8af409",
+      "pngPixels": {
+        "width": 768,
+        "height": 1756
+      },
+      "layout": {
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "scrollX": 0,
+        "scrollY": 0,
+        "fontsReady": true,
+        "portalFontLoaded": true,
+        "unloadedImages": 0,
+        "documentOverflow": false,
+        "activeField": false,
+        "sidebarTop": 0
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "externalRequests": [],
+  "blockedMutations": []
+}

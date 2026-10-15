@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 test("demo storage failure retains objective, observation and session drafts", async ({
@@ -50,7 +51,7 @@ test("demo objectives, modal navigation and parent-supported practice stay usabl
   page,
 }) => {
   test.setTimeout(120000);
-  const shots = "docs/screenshots/ux-simplification";
+  const shots = evidencePath("docs/screenshots/ux-simplification");
   mkdirSync(shots, { recursive: true });
   await page.goto("/coach/dashboard");
   await expect(

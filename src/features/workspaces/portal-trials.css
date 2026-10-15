@@ -1,0 +1,70 @@
+.portal-trials {
+  margin-top: 14px;
+  padding: 16px;
+}
+.portal-trials p {
+  overflow-wrap: anywhere;
+}
+.portal-trial-record {
+  border-bottom: 1px solid #e5edf4;
+  padding: 10px 0;
+}
+.portal-trial-record details {
+  margin: 10px 0;
+}
+.portal-trial-record summary {
+  cursor: pointer;
+  min-height: 36px;
+  padding: 8px 0;
+}
+.portal-trial-dialog {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: calc(100dvh - 28px);
+}
+.portal-trial-dialog h2,
+.portal-trial-dialog > p {
+  flex-shrink: 0;
+}
+.portal-trial-form {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  gap: 14px;
+}
+.portal-trial-fields {
+  display: grid;
+  gap: 14px;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 6px;
+}
+.portal-trial-dialog .button {
+  min-height: 44px;
+  white-space: normal;
+}
+.portal-trial-dialog .button.primary {
+  background: var(--portal-trial-accent, #008463);
+}
+.portal-trial-dialog .portal-actions {
+  flex-shrink: 0;
+  margin-top: 0;
+  padding-top: 10px;
+  border-top: 1px solid #e5edf4;
+}
+.portal-trial-dialog .portal-actions > * {
+  flex: 1;
+}
+.portal-trial-dialog .check-row input {
+  flex: 0 0 20px;
+  width: 20px;
+  min-height: 20px;
+  margin: 3px 0;
+}
+@media (max-width: 600px) {
+  .portal-trial-dialog {
+    padding: 22px 17px;
+  }
+}

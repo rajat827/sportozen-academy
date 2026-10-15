@@ -4,7 +4,11 @@ import type {
   CommunicationSettings,
   DeliveryJob,
 } from "@/domain/communication";
-import { localClock, shiftDate } from "@/services/communication/period-rules";
+import {
+  localClock,
+  shiftDate,
+  periodFor,
+} from "@/services/communication/period-rules";
 import { database, atomic, audit } from "./database";
 import { communicationRepository as comm } from "./communication-repository";
 import { workspaceRepository as repo } from "./workspace-repository";
@@ -19,6 +23,7 @@ import { periodAction, weeklyCurrent } from "./period-service";
 import type { WorkspaceAccess } from "./workspace-access";
 import { MetaWhatsAppProvider, ProviderFailure } from "./whatsapp-provider";
 import { processEvents } from "./whatsapp-webhooks";
+import { resolveSessionTime } from "@/services/training-rules";
 function reminder(
   s: CommunicationSettings,
   type: string,
@@ -83,6 +88,58 @@ export function prepareSchedules(now: Date) {
       .toISOString()
       .slice(0, 7);
     const ctx = ownerContext(s);
+    if (ctx && s.weeklyDraftEnabled) {
+      try {
+        const due = resolveSessionTime(
+          `${shiftDate(week, -(s.weeklyDraftLeadDays ?? 2))}T${s.weeklyDraftTime ?? "09:00"}`,
+          s.timezone,
+        );
+        if (
+          now.toISOString() >= due &&
+          now.toISOString() < periodFor(week, s.timezone, "WEEKLY").startAt
+        ) {
+          for (const squad of repo.list(s.academyId, "squad")) {
+            const missing = squad.playerIds.filter(
+              (playerId) =>
+                !repo
+                  .list(s.academyId, "weekly")
+                  .some(
+                    (record) =>
+                      record.playerId === playerId &&
+                      record.content.period.key === week &&
+                      !record.correctionOf,
+                  ),
+            );
+            if (!missing.length) continue;
+            try {
+              periodAction(ctx, {
+                requestId: randomUUID(),
+                action: "weeklyPrepare",
+                data: { squadId: squad.id, week, playerIds: missing },
+              });
+            } catch {
+              for (const playerId of missing)
+                reminder(
+                  s,
+                  "WEEKLY",
+                  week,
+                  playerId,
+                  "Weekly draft preparation needs recorded batch/session review",
+                );
+            }
+          }
+        }
+      } catch {
+        for (const player of repo.list(s.academyId, "player"))
+          reminder(
+            s,
+            "WEEKLY",
+            week,
+            player.id,
+            "Weekly preparation time invalid or ambiguous in reporting timezone",
+          );
+      }
+    }
     if (ctx && Number(clock.date.slice(-2)) >= s.monthlyDraftDay) {
       for (const p of repo
         .list(s.academyId, "player")
@@ -335,7 +392,8 @@ export async function workerTick(
               wabaId: check.settings.wabaId,
               credentialRef: check.settings.credentialRef,
             },
-            template: check.request.template,
+            template:
+              "template" in check.request ? check.request.template : undefined,
             body: check.request.body,
           }),
         );

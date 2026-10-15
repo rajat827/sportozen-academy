@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import {
   test,
   expect,
@@ -20,7 +21,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   test.setTimeout(420000);
   const origin = "http://127.0.0.1:3001",
     suffix = crypto.randomUUID(),
-    shots = "docs/screenshots/football-training";
+    shots = evidencePath("docs/screenshots/football-training");
   mkdirSync(shots, { recursive: true });
   let registrations = 0;
   async function account(name: string) {
@@ -167,9 +168,55 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   cp.on("dialog", (dialog) => dialog.accept());
   pp.setDefaultTimeout(15000);
   op.setDefaultTimeout(15000);
-  await cp.goto(`/workspace/${aid}`);
+  async function staffNavigate(page: Page, label: string) {
+    await expect(page.locator(".academy-portal")).toBeVisible();
+    const desktop = page
+      .locator(".portal-sidebar")
+      .getByRole("button", { name: label, exact: true });
+    if (await desktop.isVisible()) await desktop.click();
+    else {
+      await page
+        .getByRole("button", { name: "Open academy navigation", exact: true })
+        .click();
+      await page
+        .getByRole("dialog", { name: "Academy navigation", exact: true })
+        .getByRole("button", { name: label, exact: true })
+        .click();
+    }
+  }
+  async function closeDesk() {
+    const desk = cp.getByRole("dialog", { name: "Session Desk", exact: true });
+    if (await desk.isVisible())
+      await desk
+        .getByRole("button", { name: "Close session editor", exact: true })
+        .click();
+  }
+  async function returnToSessionObjectives() {
+    await staffNavigate(cp, "Training");
+    await cp
+      .getByRole("button", {
+        name: "Optional player personalisation",
+        exact: true,
+      })
+      .click();
+  }
+  async function parentNavigate(label: string) {
+    await pp
+      .getByRole("navigation", { name: "Parent navigation", exact: true })
+      .getByRole("button", { name: label, exact: true })
+      .click();
+  }
+  async function openPractice() {
+    await parentNavigate("More");
+    await pp
+      .getByRole("button", { name: "Practise Together", exact: true })
+      .click();
+  }
+  await cp.goto(`/workspace/${aid}?section=development&player=${first.id}`);
   await cp.getByLabel("Player", { exact: true }).selectOption(first.id);
-  await cp.getByLabel("Development focus").selectOption("Dribbling");
+  await cp
+    .getByRole("combobox", { name: "Development focus", exact: true })
+    .selectOption("Dribbling");
   await cp
     .getByLabel("Why this focus", { exact: true })
     .fill("Coach selected close control for the current individual goal.");
@@ -189,7 +236,9 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   await cp
     .getByLabel("Next development step")
     .fill("Repeat the same course before interpreting a change.");
-  await cp.getByLabel("Plan status").selectOption("ACTIVE");
+  await cp
+    .getByRole("combobox", { name: "Plan status", exact: true })
+    .selectOption("ACTIVE");
   await cp.getByLabel("Private coach working note").fill("PRIVATE_PLAN_NOTE");
   await cp.getByRole("button", { name: "Save individual plan" }).click();
   await expect
@@ -206,7 +255,10 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   });
   // Owner creates the actual squad and venue in the authenticated interface.
   await op.goto(`/workspace/${aid}`);
-  await op.getByRole("button", { name: "Training", exact: true }).click();
+  await staffNavigate(op, "Training");
+  await op
+    .getByRole("button", { name: "Set up batch and venue", exact: true })
+    .click();
   await op
     .getByLabel("Squad name", { exact: true })
     .fill("U-13 training squad");
@@ -228,16 +280,28 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   await expect
     .poll(async () => (await payload(owner.api)).records.venue.length)
     .toBe(1);
+  await op
+    .getByRole("button", { name: "Close session editor", exact: true })
+    .click();
   await cp.reload();
-  await cp.getByRole("button", { name: "Training", exact: true }).click();
+  await staffNavigate(cp, "Training");
+  await cp.getByRole("button", { name: "Create Session", exact: true }).click();
   const squad = (await payload(owner.api)).records.squad[0],
     venue = (await payload(owner.api)).records.venue[0];
-  await cp.getByLabel("Session squad").selectOption(squad.id);
-  await cp.getByLabel("Session venue").selectOption(venue.id);
-  await cp.getByLabel("Session theme").fill("Dribbling and finishing");
+  await cp
+    .getByRole("combobox", { name: "Session squad", exact: true })
+    .selectOption(squad.id);
+  await cp
+    .getByRole("combobox", { name: "Session venue", exact: true })
+    .selectOption(venue.id);
+  await cp
+    .getByLabel("Session theme", { exact: true })
+    .fill("Dribbling and finishing");
   await cp.getByLabel("Session start").fill("2026-10-12T18:00");
   await cp.getByLabel("Session end").fill("2026-10-12T19:00");
-  await cp.getByLabel("Add agenda drill").selectOption(drill.id);
+  await cp
+    .getByRole("combobox", { name: "Add agenda drill", exact: true })
+    .selectOption(drill.id);
   // Failure retains the unsaved schedule. Retry reaches the real backend.
   await cp.route("**/training", async (route) => {
     await route.fulfill({
@@ -252,7 +316,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
       .getByRole("alert")
       .filter({ hasText: "Synthetic temporary save failure" }),
   ).toBeVisible();
-  await expect(cp.getByLabel("Session theme")).toHaveValue(
+  await expect(cp.getByLabel("Session theme", { exact: true })).toHaveValue(
     "Dribbling and finishing",
   );
   await cp.getByRole("button", { name: "Save session draft" }).click();
@@ -264,14 +328,19 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   expect(
     (await payload(coach.api)).records.attendance.map((a) => a.status),
   ).toEqual(["UNMARKED", "UNMARKED"]);
-  await cp.getByRole("button", { name: "Open session desk" }).click();
+  await cp
+    .getByRole("button", {
+      name: "Optional player personalisation",
+      exact: true,
+    })
+    .click();
   const cards = cp.locator("section.card").filter({
     has: cp.getByRole("heading", { name: "Fictional Player A", exact: true }),
   });
   await cards.getByRole("button", { name: "View current player plan" }).click();
   await expect(cp.getByLabel("Player", { exact: true })).toHaveValue(first.id);
   await expect(cp.getByText("COACH", { exact: true })).toBeVisible();
-  await cp.getByRole("button", { name: "Return to selected session" }).click();
+  await returnToSessionObjectives();
   await expect(
     cp.getByRole("heading", { name: "Session Desk · Dribbling and finishing" }),
   ).toBeVisible();
@@ -326,9 +395,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   await cardB
     .getByRole("button", { name: "View current player plan", exact: true })
     .click();
-  await cp
-    .getByRole("button", { name: "Return to selected session", exact: true })
-    .click();
+  await returnToSessionObjectives();
   await cp.getByRole("button", { name: "Evidence", exact: true }).click();
   await expect(cp.getByLabel("Evidence player")).toHaveValue(second.id);
   await cp.getByRole("button", { name: "Objectives", exact: true }).click();
@@ -536,7 +603,9 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   await cp
     .getByLabel("Course, target and conditions")
     .fill("Six turns; 10m course; dry ground; same cones.");
-  await cp.getByLabel("Measurement").selectOption("ATTEMPTS");
+  await cp
+    .getByRole("combobox", { name: "Measurement", exact: true })
+    .selectOption("ATTEMPTS");
   await cp
     .getByRole("spinbutton", { name: "Recorded attempts", exact: true })
     .fill("6");
@@ -595,7 +664,10 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     extra.version,
   );
   await cp.reload();
-  await cp.getByRole("button", { name: "Training", exact: true }).click();
+  await staffNavigate(cp, "Training");
+  await cp
+    .getByRole("button", { name: "Review recorded evidence", exact: true })
+    .click();
   await expect(
     cp.getByRole("heading", { name: "Session Desk · Dribbling and finishing" }),
   ).toBeVisible();
@@ -853,7 +925,14 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     },
   });
   expect([400, 403, 409]).toContain(wrongPlayer.status());
-  await cp.getByRole("button", { name: "Reports", exact: true }).click();
+  await closeDesk();
+  await staffNavigate(cp, "Reports");
+  await cp.getByRole("button", { name: "Review Report", exact: true }).click();
+  await cp
+    .getByRole("dialog", { name: "Prepare & Review Reports", exact: true })
+    .locator("summary")
+    .filter({ hasText: "Other recorded development reports" })
+    .click();
   expect(
     (
       await coach.api.post(`${root}/actions`, {
@@ -880,9 +959,16 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     "3 successful out of 6",
   );
   expect(JSON.stringify(approved.snapshot)).not.toContain("PRIVATE_");
-  await cp.getByRole("button", { name: "Messages", exact: true }).click();
-  await cp.getByLabel("Update category").selectOption("REVIEWED_SESSION");
-  await cp.getByLabel("Approved source report").selectOption(report.id);
+  await cp
+    .getByRole("button", { name: "Close report workflow", exact: true })
+    .click();
+  await staffNavigate(cp, "Messages");
+  await cp
+    .getByRole("combobox", { name: "Update category", exact: true })
+    .selectOption("REVIEWED_SESSION");
+  await cp
+    .getByRole("combobox", { name: "Approved source report", exact: true })
+    .selectOption(report.id);
   await cp
     .getByRole("button", { name: "Prepare from approved sources" })
     .click();
@@ -923,8 +1009,10 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     ).status(),
   ).toBe(409);
   await op.reload();
-  await op.getByLabel("Player", { exact: true }).selectOption(first.id);
-  await op.getByRole("button", { name: "Messages", exact: true }).click();
+  await staffNavigate(op, "Messages");
+  await op
+    .getByRole("combobox", { name: "Player", exact: true })
+    .selectOption(first.id);
   await op
     .getByRole("checkbox", {
       name: "I verified the correct player, authorised guardian, approved source records and guidance",
@@ -950,6 +1038,10 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     (await payload(parent.api)).records.update[0].externalDeliveryStatus,
   ).toBe("NOT_SENT");
   await pp.goto(`/workspace/${aid}`);
+  await parentNavigate("More");
+  await pp
+    .getByRole("button", { name: "Development Plan", exact: true })
+    .click();
   await expect(
     pp
       .getByText("Continue the same course over four comparable sessions.", {
@@ -957,7 +1049,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
       })
       .first(),
   ).toBeVisible();
-  await pp.getByRole("button", { name: "Messages", exact: true }).click();
+  await parentNavigate("Messages");
   await expect(
     pp.getByText(/Kept the ball close on three of six/).first(),
   ).toBeVisible();
@@ -999,7 +1091,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     internal: false,
   });
   await pp.reload();
-  await pp.getByRole("button", { name: "Messages", exact: true }).click();
+  await parentNavigate("Messages");
   await pp
     .getByRole("button", { name: /Question about the assigned course/ })
     .click();
@@ -1009,9 +1101,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     }),
   ).toBeVisible();
   const reviewedBeforeFeedback = (await payload(parent.api)).records.report;
-  await pp
-    .getByRole("button", { name: "Practise together", exact: true })
-    .click();
+  await openPractice();
   await expect(
     pp.getByRole("heading", { name: "Practise together", exact: true }),
   ).toBeVisible();
@@ -1024,6 +1114,16 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   await expect(pp.getByLabel("Reply to coach")).toHaveValue(
     /Parent-submitted practice feedback/,
   );
+  await expect(
+    pp.getByRole("combobox", { name: "Your linked child", exact: true }),
+  ).toHaveValue(first.id);
+  await expect(pp.getByLabel("Reply to coach")).toHaveValue(
+    /Fictional Player A/,
+  );
+  expect(await pp.getByLabel("Reply to coach").inputValue()).not.toContain(
+    "Fictional Player B",
+  );
+  expect(pp.url()).not.toContain("Parent-submitted");
   await pp
     .getByLabel("Reply to coach")
     .fill(
@@ -1038,7 +1138,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     )
     .toBe(true);
   await cp.reload();
-  await cp.getByRole("button", { name: "Messages", exact: true }).click();
+  await staffNavigate(cp, "Messages");
   await cp
     .getByRole("button", { name: /Question about the assigned course/ })
     .click();
@@ -1055,7 +1155,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     );
   await cp.getByRole("button", { name: "Post reply", exact: true }).click();
   await pp.reload();
-  await pp.getByRole("button", { name: "Messages", exact: true }).click();
+  await parentNavigate("Messages");
   await pp
     .getByRole("button", { name: /Question about the assigned course/ })
     .click();
@@ -1070,9 +1170,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   );
   for (const width of [1440, 390, 320]) {
     await pp.setViewportSize({ width, height: 844 });
-    await pp
-      .getByRole("button", { name: "Practise together", exact: true })
-      .click();
+    await openPractice();
     expect(
       await pp.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
@@ -1081,17 +1179,21 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     if (width < 768)
       expect(
         await pp
-          .locator(".parent-workspace .workspace-tabs button")
+          .locator(".portal-parent-nav button")
           .evaluateAll((buttons) =>
             buttons.every((b) => b.scrollWidth <= b.clientWidth),
           ),
       ).toBe(true);
-    mkdirSync("docs/screenshots/ux-simplification", { recursive: true });
+    mkdirSync(evidencePath("docs/screenshots/ux-simplification"), {
+      recursive: true,
+    });
     await pp.screenshot({
-      path: `docs/screenshots/ux-simplification/authenticated-practice-${width}.png`,
+      path: evidencePath(
+        `docs/screenshots/ux-simplification/authenticated-practice-${width}.png`,
+      ),
       fullPage: true,
     });
-    await pp.getByRole("button", { name: "Messages", exact: true }).click();
+    await parentNavigate("Messages");
   }
   const parentData = await payload(parent.api);
   expect(parentData.records.player).toHaveLength(1);
@@ -1100,10 +1202,14 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   expect(JSON.stringify(parentData)).not.toMatch(/PRIVATE_|Fictional Player B/);
   // Planned messaging uses an approved snapshot and never claims an upcoming drill was completed.
   await cp.reload();
-  await cp.getByLabel("Player", { exact: true }).selectOption(first.id);
-  await cp.getByRole("button", { name: "Messages", exact: true }).click();
+  await staffNavigate(cp, "Messages");
+  await cp
+    .getByRole("combobox", { name: "Player", exact: true })
+    .selectOption(first.id);
   await expect(cp.getByText("APPROVED", { exact: true })).toBeVisible();
-  await cp.getByLabel("Update category").selectOption("UPCOMING_TRAINING");
+  await cp
+    .getByRole("combobox", { name: "Update category", exact: true })
+    .selectOption("UPCOMING_TRAINING");
   await cp
     .getByRole("button", { name: "Prepare from approved sources" })
     .click();
@@ -1143,14 +1249,20 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     .getByRole("button", { name: /Question about the assigned course/ })
     .click();
   await capture(pp, "parent-reply");
-  await cp.getByRole("button", { name: "Reports", exact: true }).click();
+  await staffNavigate(cp, "Reports");
   await capture(cp, "report-preview");
-  await cp.getByRole("button", { name: "Training", exact: true }).click();
-  await cp
-    .getByRole("button", { name: "Back to sessions", exact: true })
-    .click();
+  await staffNavigate(cp, "Training");
+  await expect(cp.locator(".pt-session-list .pt-selected")).toHaveAttribute(
+    "data-session-id",
+    session.id,
+  );
   await capture(cp, "sessions");
-  await cp.getByRole("button", { name: "Open session desk" }).click();
+  await cp
+    .getByRole("button", {
+      name: "Optional player personalisation",
+      exact: true,
+    })
+    .click();
   for (const section of [
     "Objectives",
     "Attendance",

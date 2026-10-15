@@ -6,6 +6,13 @@ export function currencyDigits(currency: string) {
     }).resolvedOptions().maximumFractionDigits ?? 2
   );
 }
+/** Exact editable major-unit value, without grouping or float rounding. */
+export function financeAmountInput(amountMinor: number, currency: string) {
+  const digits = currencyDigits(currency),
+    scale = 10n ** BigInt(digits),
+    amount = BigInt(amountMinor);
+  return `${amount / scale}${digits ? "." + (amount % scale).toString().padStart(digits, "0") : ""}`;
+}
 /** Parse major units without a floating-point multiplication or rounding. */
 export function parseFinanceAmount(value: string, currency: string) {
   const digits = currencyDigits(currency);

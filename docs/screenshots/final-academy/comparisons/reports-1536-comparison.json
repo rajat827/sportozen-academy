@@ -1,0 +1,40 @@
+{
+  "reference": "docs/reference/approved-ui/reports-screen.png",
+  "reference_sha256": "0e557687d787d590e671808ed2422f8911e279d01c435dd17438f034257f452c",
+  "reference_pixels": [
+    1536,
+    1024
+  ],
+  "actual": "docs/screenshots/final-academy/bharat/reports-1536.png",
+  "actual_sha256": "007f534322ac4ab9411bad90b920ce149359d48ca688802211ee9bfd0935dcf3",
+  "actual_pixels": [
+    1536,
+    1236
+  ],
+  "comparison": "docs/screenshots/final-academy/comparisons/reports-1536-comparison.png",
+  "comparison_sha256": "a9377a27062de049e0ca879912800c2e10aadc6b48a56f1132d2f8aa1d0bde78",
+  "comparison_pixels": [
+    3904,
+    1480
+  ],
+  "optional_top_viewport_comparison": null,
+  "inspection": {
+    "inspection_status": "inspected",
+    "reference_sha256": "0e557687d787d590e671808ed2422f8911e279d01c435dd17438f034257f452c",
+    "actual_sha256": "007f534322ac4ab9411bad90b920ce149359d48ca688802211ee9bfd0935dcf3",
+    "context_differences": [
+      "Actual September view: 60 authorised players, 60 selected-period reports and 120 approved reports across August/September. Reference numbers and October example states are not copied.",
+      "The selected approved report preserves recorded attendance, evidence, next steps and long review comments. Unrecorded engagement percentages or progress scores are not invented."
+    ],
+    "visual_differences": [
+      "The corrected table displays eight rows per page across eight pages. Top tabs, four metrics and the selected-report panel retain the reference arrangement.",
+      "The actual full page is 1236 px high versus the 1024 px reference. Preview excerpts are explicitly labelled; complete long wording remains in Open full report preview. Recorded evidence still makes the side panel taller.",
+      "At 768 px the preview follows the paginated table and narrative cards stack at full width. The corrected page is 2285 px high instead of the earlier 9635 px.",
+      "Reference Progress bars and engagement percentages are absent because they are not recorded. Actual date labels include reporting-period/timezone text rather than friendly example dates."
+    ],
+    "limitations": [
+      "Compact preview and full report remain distinct. Portraits, progress graphics, typeface, support-text sizing and some vertical spacing differ from the supplied raster design."
+    ]
+  },
+  "review_status": "Awaiting user visual approval; no approval inferred."
+}

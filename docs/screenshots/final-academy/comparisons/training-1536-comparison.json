@@ -1,0 +1,39 @@
+{
+  "reference": "docs/reference/approved-ui/training-screen.png",
+  "reference_sha256": "f85d50c87cbb23a1e1d0c25fe09906c95ffe937b5339bb95d39795287c4299c8",
+  "reference_pixels": [
+    1536,
+    1024
+  ],
+  "actual": "docs/screenshots/final-academy/bharat/training-1536.png",
+  "actual_sha256": "fe97b256e2621f956dc48ec54a65a1cd2f95ef858f06aae24ac01fef686134ef",
+  "actual_pixels": [
+    1536,
+    1215
+  ],
+  "comparison": "docs/screenshots/final-academy/comparisons/training-1536-comparison.png",
+  "comparison_sha256": "c5fa9b6fc814f52b13d2c2ac5e29f21bd4a2df91a11cd17b250d0762a433c8ce",
+  "comparison_pixels": [
+    3904,
+    1459
+  ],
+  "optional_top_viewport_comparison": null,
+  "inspection": {
+    "inspection_status": "inspected",
+    "reference_sha256": "f85d50c87cbb23a1e1d0c25fe09906c95ffe937b5339bb95d39795287c4299c8",
+    "actual_sha256": "fe97b256e2621f956dc48ec54a65a1cd2f95ef858f06aae24ac01fef686134ef",
+    "context_differences": [
+      "The actual selection is the confirmed Under-8 session: ten players, four recorded drills and 60 minutes. The reference shows a 16-player U12 session and 90-minute example plan.",
+      "The actual drill wording, preparation and coaching points come from the shared batch plan. Optional player personalisation remains a separate action."
+    ],
+    "visual_differences": [
+      "The session list, centre plan and right resources/actions retain the reference three-column desktop structure. Smaller support type and longer recorded wording expand the desktop page to 1215 px.",
+      "Drill thumbnails are football-pitch diagrams rather than the reference player photographs. Roster initials replace portraits because child photographs were not supplied.",
+      "The corrected 768 px view stacks the bounded session list above a full-width plan. At 320/390 px the existing filters wrap onto additional rows and retain visible option identity."
+    ],
+    "limitations": [
+      "Photographic drill thumbnails are not matched. Mobile native selects can abbreviate long option text; complete accessible labels and native option lists remain available."
+    ]
+  },
+  "review_status": "Awaiting user visual approval; no approval inferred."
+}

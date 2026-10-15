@@ -2,13 +2,18 @@
 export type FinanceStatus =
   "PENDING" | "PARTIAL" | "PAID" | "OVERDUE" | "WAIVED";
 export type ManualPaymentMethod = "BANK_TRANSFER" | "UPI" | "CASH" | "OTHER";
+export type FinanceBillingFrequency = "MONTHLY" | "TERM" | "ONE_TIME";
 export interface FinancePlan {
   id: string;
   academyId: string;
   name: string;
   amountMinor: number;
   currency: string;
-  cadence: "MONTHLY" | "TERM" | "ONE_TIME";
+  /** Retained for clients and stored plans created before billingFrequency. */
+  cadence: FinanceBillingFrequency;
+  billingFrequency?: FinanceBillingFrequency;
+  /** Older plans have no recorded start date; never infer one from creation time. */
+  applicableStartDate?: string;
   active: boolean;
   version: number;
   createdAt: string;

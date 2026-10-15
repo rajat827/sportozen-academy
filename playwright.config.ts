@@ -34,11 +34,17 @@ export default defineConfig({
     env: {
       SPORTOZEN_DATABASE_PATH: testDatabase,
       BETTER_AUTH_URL: origin,
+      SPORTOZEN_GOOGLE_PLACES_ENABLED: "0",
+      SPORTOZEN_WHATSAPP_SEND_ENABLED: "false",
+      SPORTOZEN_WHATSAPP_LIVE_ENABLED: "false",
       ...(process.env.SPORTOZEN_QA_BUILD === "1"
         ? { SPORTOZEN_QA_BUILD: "1" }
         : {}),
       ...(process.env.SPORTOZEN_GALLERY_QA === "1"
         ? { SPORTOZEN_GALLERY_QA: "1" }
+        : {}),
+      ...(process.env.SPORTOZEN_FINAL_QA === "1"
+        ? { SPORTOZEN_FINAL_QA: "1" }
         : {}),
     },
     timeout: 120000,

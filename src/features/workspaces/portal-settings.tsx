@@ -32,6 +32,7 @@ import { navigatePrivateWorkspace } from "@/lib/private-navigation";
 import { AcademyStructure } from "./academy-structure";
 import { CommunicationSettingsPanel } from "./communication-controls";
 import { ParentPreferences } from "./parent-preferences";
+import { sessionThemes } from "@/services/session-themes";
 import "./portal-settings.css";
 
 type Controller = ReturnType<typeof useWorkspace>;
@@ -883,7 +884,63 @@ function ReadySettings({
           ))}
         {tab === "Sessions" &&
           (s.permitted ? (
-            <AcademyStructure workspace={w} sportId="football" />
+            <>
+              <Card
+                title="Football session themes"
+                note="Suggested themes for the academy. Coaches can also enter a Custom Theme for a session."
+              >
+                <form
+                  className="form-stack"
+                  noValidate
+                  onSubmit={async (event) => {
+                    event.preventDefault();
+                    await s.save();
+                  }}
+                >
+                  <label>
+                    Suggested session themes · one per line
+                    <textarea
+                      aria-label="Suggested session themes"
+                      rows={8}
+                      value={sessionThemes(s.draft).join("\n")}
+                      disabled={s.busy}
+                      aria-invalid={Boolean(s.errors.sessionThemes)}
+                      aria-describedby={
+                        s.errors.sessionThemes
+                          ? "session-themes-error"
+                          : undefined
+                      }
+                      onChange={(event) =>
+                        s.update(
+                          "sessionThemes",
+                          event.target.value.split("\n"),
+                        )
+                      }
+                    />
+                  </label>
+                  {s.errors.sessionThemes && (
+                    <small id="session-themes-error" className="as-field-error">
+                      {s.errors.sessionThemes}
+                    </small>
+                  )}
+                  <p>
+                    Use 1–30 distinct football themes, up to 200 characters
+                    each. Existing session themes and approved snapshots stay
+                    unchanged.
+                  </p>
+                  <button
+                    type="submit"
+                    className="as-button as-primary"
+                    disabled={s.busy}
+                  >
+                    Save Session Preferences
+                  </button>
+                  {s.notice && <p role="status">{s.notice}</p>}
+                  {s.error && <p role="alert">{s.error}</p>}
+                </form>
+              </Card>
+              <AcademyStructure workspace={w} sportId="football" />
+            </>
           ) : (
             <Card title="Session preferences">
               <p>

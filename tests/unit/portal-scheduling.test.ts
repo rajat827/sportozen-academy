@@ -38,7 +38,16 @@ import {
   sessionConflicts,
   venuesConflict,
 } from "@/services/session-scheduling";
-import { periodFor } from "@/services/communication/period-rules";
+import {
+  periodFor,
+  weeklyWording,
+} from "@/services/communication/period-rules";
+import { createGooglePlacesClient } from "@/server/google-places";
+import {
+  reservePlaceRequest,
+  sessionPlacesAction,
+  sessionPlacesStatus,
+} from "@/server/session-places-service";
 
 const filename = join(tmpdir(), `sportozen-scheduling-${randomUUID()}.sqlite`);
 beforeAll(() => {
@@ -247,6 +256,175 @@ function monthly(
 }
 
 describe("real academy scheduling commands", () => {
+  it("persists only a signed selected place and keeps manual locations valid while Maps is blocked", async () => {
+    const f = setup();
+    const config = {
+      enabled: true,
+      apiKey: "synthetic-key-only",
+      signingSecret: "synthetic-test-signing-secret-at-least-32-chars",
+    };
+    vi.stubEnv("SPORTOZEN_GOOGLE_PLACES_ENABLED", "1");
+    vi.stubEnv("SPORTOZEN_GOOGLE_PLACES_API_KEY", config.apiKey);
+    vi.stubEnv("SPORTOZEN_GOOGLE_PLACES_SIGNING_SECRET", config.signingSecret);
+    try {
+      const fake = vi.fn<typeof fetch>().mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            id: "synthetic-place-id",
+            displayName: { text: "Synthetic training ground" },
+            formattedAddress: "Synthetic address fixture",
+          }),
+        ),
+      );
+      const place = await createGooglePlacesClient(config, fake).select(
+        "synthetic-place-id",
+        randomUUID(),
+        { academyId: f.ctx.academy.id, userId: f.ctx.user.id },
+        "Independently entered academy operating location",
+      );
+      const data = {
+        branchId: "branch",
+        squadId: f.squads[0].id,
+        coachIds: ["a"],
+        location: place.location,
+        placeConfirmation: place.confirmation,
+        timezone: "Asia/Kolkata",
+        startLocal: "2031-01-07T17:00",
+        endLocal: "2031-01-07T18:30",
+        theme: "Passing and receiving",
+        agenda: [],
+      };
+      const saved = f.command<FootballSession>("session", data);
+      expect(
+        repo.find(f.ctx.academy.id, "session", saved.id)?.googlePlaceId,
+      ).toBe(place.placeId);
+      expect(saved).not.toHaveProperty("placeConfirmation");
+      expect(saved.location).toBe(
+        "Independently entered academy operating location",
+      );
+      const stored = JSON.stringify([
+        ...database()
+          .prepare("SELECT body FROM workspace_records WHERE academyId=?")
+          .all(f.ctx.academy.id),
+        ...database()
+          .prepare("SELECT body FROM training_history WHERE academyId=?")
+          .all(f.ctx.academy.id),
+        ...database()
+          .prepare(
+            "SELECT digest,response FROM training_submissions WHERE academyId=?",
+          )
+          .all(f.ctx.academy.id),
+        Buffer.from(place.confirmation.split(".")[0], "base64url").toString(
+          "utf8",
+        ),
+      ]);
+      expect(stored).not.toContain("Synthetic training ground");
+      expect(stored).not.toContain("Synthetic address fixture");
+      expect(() =>
+        f.command("session", { ...data, placeConfirmation: "invented" }),
+      ).toThrow(/expired or changed/);
+      vi.stubEnv("SPORTOZEN_GOOGLE_PLACES_ENABLED", "0");
+      expect(sessionPlacesStatus(f.ctx).status).toBe("CONFIGURATION_BLOCKED");
+      await expect(
+        sessionPlacesAction(f.ctx, {
+          action: "search",
+          squadId: f.squads[0].id,
+          sessionToken: randomUUID(),
+          query: "Synthetic",
+        }),
+      ).rejects.toThrow(/configuration-blocked/);
+      const manual = f.command<FootballSession>("session", {
+        ...data,
+        placeConfirmation: undefined,
+        location: "Excelsior American School",
+      });
+      expect(manual.googlePlaceId).toBeUndefined();
+      expect(manual.location).toBe("Excelsior American School");
+      expect(fake).toHaveBeenCalledTimes(1);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+  it("enforces Maps staff/squad scope and durable request limits without external calls", async () => {
+    const f = setup();
+    const parent = {
+      ...f.ctx,
+      user: { ...f.ctx.user, id: "parent" },
+      membership: repo.membership(f.ctx.academy.id, "parent")!,
+    };
+    expect(() => sessionPlacesStatus(parent)).toThrow();
+    await expect(
+      sessionPlacesAction(f.ctx, {
+        action: "search",
+        squadId: "other-academy-squad",
+        sessionToken: randomUUID(),
+        query: "Synthetic",
+      }),
+    ).rejects.toThrow(/not available/);
+    vi.stubEnv("SPORTOZEN_GOOGLE_PLACES_PER_USER_MINUTE", "1");
+    try {
+      reservePlaceRequest(f.ctx, 1000);
+      expect(() => reservePlaceRequest(f.ctx, 1001)).toThrow(/limit/);
+      expect(
+        Number(
+          database()
+            .prepare(
+              "SELECT SUM(requests) AS total FROM session_places_usage WHERE academyId=?",
+            )
+            .get(f.ctx.academy.id)?.total,
+        ),
+      ).toBe(2);
+      reservePlaceRequest(f.ctx, 61000);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+  it("persists a minimum draft without drills and retries the same request without duplicate records", () => {
+    const f = setup();
+    const data = {
+      branchId: "branch",
+      squadId: f.squads[0].id,
+      coachIds: ["a"],
+      location: "Excelsior American School",
+      timezone: "Asia/Kolkata",
+      startLocal: "2031-01-07T17:00",
+      endLocal: "2031-01-07T18:30",
+      theme: "Ball control and first touch",
+      agenda: [],
+    };
+    const requestId = randomUUID();
+    const saved = f.command<FootballSession>(
+      "session",
+      data,
+      undefined,
+      0,
+      f.ctx,
+      requestId,
+    );
+    const retry = f.command<FootballSession>(
+      "session",
+      data,
+      undefined,
+      0,
+      f.ctx,
+      requestId,
+    );
+    expect(retry).toEqual(saved);
+    expect(saved.status).toBe("DRAFT");
+    expect(saved.agenda).toEqual([]);
+    expect(saved.sharedObjective).toBeUndefined();
+    expect(repo.list(f.ctx.academy.id, "session")).toHaveLength(1);
+    expect(repo.list(f.ctx.academy.id, "attendance")).toHaveLength(1);
+    const edited = f.command<FootballSession>(
+      "session",
+      { ...data, theme: "Custom & revised <focus>" },
+      saved.id,
+      saved.version,
+    );
+    expect(edited.id).toBe(saved.id);
+    expect(edited.status).toBe("DRAFT");
+    expect(edited.version).toBe(saved.version + 1);
+  });
   it("prepares, reviews, approves and renders a PDF for shared batch participation without creating an individual plan", async () => {
     const f = setup();
     database()
@@ -675,6 +853,8 @@ describe("real academy scheduling commands", () => {
     }) as WeeklyPlan[];
     expect(weekly.content.personalFocus).toBe("Following the batch plan");
     expect(weekly.content.teamFocus).toBe("Receive into space");
+    expect(weekly.content.sessions[0].theme).toBe(session.theme);
+    expect(weeklyWording(weekly.content)).toContain(session.theme);
     expect(weekly.content.missing).toEqual([]);
     const current = repo.find(f.ctx.academy.id, "weekly", weekly.id)!;
     expect(

@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect } from "@playwright/test";
 test("Communication stays internal through verification, rejection, approval and manual copy", async ({
   page,
@@ -100,7 +101,7 @@ test("Communication stays internal through verification, rejection, approval and
     .getByRole("heading", { name: "Communication centre", exact: true })
     .click();
   await page.screenshot({
-    path: "docs/screenshots/communication-desktop.png",
+    path: evidencePath("docs/screenshots/communication-desktop.png"),
     fullPage: true,
   });
   await page.setViewportSize({ width: 390, height: 844 });
@@ -113,7 +114,7 @@ test("Communication stays internal through verification, rejection, approval and
     ),
   ).toBe(false);
   await page.screenshot({
-    path: "docs/screenshots/communication-mobile.png",
+    path: evidencePath("docs/screenshots/communication-mobile.png"),
     fullPage: true,
   });
 });

@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect } from "@playwright/test";
 test("Owner filters directory, opens Aarav and edits academy settings", async ({
   page,
@@ -142,7 +143,7 @@ test("Required screenshots and responsive overflow checks", async ({
     if (url === "/owner/dashboard")
       await expect(page.locator(".recharts-area-curve")).toBeVisible();
     await page.screenshot({
-      path: `docs/screenshots/${name}.png`,
+      path: evidencePath(`docs/screenshots/${name}.png`),
       fullPage: true,
     });
   }

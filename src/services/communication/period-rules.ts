@@ -80,7 +80,13 @@ export function quiet(time: string, start: string, end: string) {
       : time >= start || time < end;
 }
 export function weeklyWording(c: WeeklyContent) {
-  return `This week, the squad will practise ${c.teamFocus}. ${c.playerName}'s personal focus is ${c.personalFocus}. The assigned activities are intended to support ${c.activities.map((a) => `${a.name}: ${a.purpose}`).join("; ")}. The coach will observe ${c.observe}.`;
+  const schedule = c.sessions
+    .map(
+      (session) =>
+        `${session.theme ? `${session.theme}: ` : ""}${new Intl.DateTimeFormat("en-GB", { timeZone: session.timezone, dateStyle: "medium", timeStyle: "short" }).format(new Date(session.startAt))}–${new Intl.DateTimeFormat("en-GB", { timeZone: session.timezone, timeStyle: "short" }).format(new Date(session.endAt))} (${session.timezone}), ${session.location}`,
+    )
+    .join("; ");
+  return `This week, the squad will practise ${c.teamFocus}. ${c.playerName}'s personal focus is ${c.personalFocus}. The assigned activities are intended to support ${c.activities.map((a) => `${a.name}: ${a.purpose}`).join("; ")}. The coach will observe ${c.observe}.${schedule ? ` Confirmed sessions: ${schedule}.` : ""}${c.preparation?.length ? ` Preparation: ${c.preparation.join("; ")}.` : ""}`;
 }
 export function monthlyRecords(
   playerId: string,

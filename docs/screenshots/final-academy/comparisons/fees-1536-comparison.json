@@ -1,0 +1,39 @@
+{
+  "reference": "docs/reference/approved-ui/fees-screen.png",
+  "reference_sha256": "4f0e1ca1c563f7658d072c700befb5e8caae310b8813d713a514c99fa2d997eb",
+  "reference_pixels": [
+    1536,
+    1024
+  ],
+  "actual": "docs/screenshots/final-academy/bharat/fees-1536.png",
+  "actual_sha256": "cfac651607ac86234565057b766fc9b16b0555d4bc9ba144675bac3960c6d62c",
+  "actual_pixels": [
+    1536,
+    1024
+  ],
+  "comparison": "docs/screenshots/final-academy/comparisons/fees-1536-comparison.png",
+  "comparison_sha256": "1b5e2036d965c8fe65da37f7fafa59ceb1d6b326e3c5e9d804ff110d7745b6d2",
+  "comparison_pixels": [
+    3904,
+    1268
+  ],
+  "optional_top_viewport_comparison": null,
+  "inspection": {
+    "inspection_status": "inspected",
+    "reference_sha256": "4f0e1ca1c563f7658d072c700befb5e8caae310b8813d713a514c99fa2d997eb",
+    "actual_sha256": "cfac651607ac86234565057b766fc9b16b0555d4bc9ba144675bac3960c6d62c",
+    "context_differences": [
+      "The Bharat fixture has no issued training invoices or verified payments. Actual totals are zero and the collection rate is unrecorded; no bill or paid state is inferred from enrolment.",
+      "The reference shows a populated invoice table and selected unpaid account. Its amounts, parent phone and payment status are example content, not seeded finance records."
+    ],
+    "visual_differences": [
+      "The actual title, tabs, four summary cards and filter/table surface preserve the main hierarchy, but an honest empty state spans the table area and no selected fee account panel appears.",
+      "The primary action is Create Invoice, following the implemented manual finance workflow. The reference Collect Payment action and phone/WhatsApp shortcuts are not represented as connected services.",
+      "Summary values remain on one line. Table/support typography is smaller than the reference. The empty table has substantially more blank space than the populated design."
+    ],
+    "limitations": [
+      "The Bharat capture cannot establish populated-account fidelity. A separately linked actual Fees capture from another isolated QA academy shows guardian/account detail, invoice rows, partial balance, verified reference and receipt; it is never substituted for Bharat."
+    ]
+  },
+  "review_status": "Awaiting user visual approval; no approval inferred."
+}

@@ -9,7 +9,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { Avatar } from "@/components/ui/primitives";
-import type { FinancePayment } from "@/domain/finance";
+import type { FinancePayment, FinancePlan } from "@/domain/finance";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { useFinance } from "@/hooks/use-finance";
 import { formatFinanceMoney as money } from "@/services/finance-rules";
@@ -41,7 +41,9 @@ export function PortalFees({
   const [editor, setEditor] = useState<{
     mode: FeeEditorMode;
     payment?: FinancePayment;
+    plan?: FinancePlan;
   } | null>(null);
+  const [notice, setNotice] = useState("");
   const [currencyChoice, setCurrencyChoice] = useState("");
   const account = finance.data,
     data = workspace.data;
@@ -120,6 +122,7 @@ export function PortalFees({
     invoices.some((invoice) => invoice.id === payment.invoiceId),
   );
   function edit(mode: FeeEditorMode, payment?: FinancePayment) {
+    setNotice("");
     setEditor({ mode, payment });
   }
   function exportCSV() {
@@ -197,6 +200,11 @@ export function PortalFees({
         {(finance.error || workspace.error) && (
           <p role="alert" className="pf-error">
             {workspace.error || finance.error}
+          </p>
+        )}
+        {notice && (
+          <p role="status" className="pf-note">
+            {notice}
           </p>
         )}
         <div className="pf-summary">
@@ -477,8 +485,24 @@ export function PortalFees({
                 <strong>{plan.name}</strong>
                 <p>
                   {format(plan.amountMinor, plan.currency)} ·{" "}
-                  {plan.cadence.toLowerCase().replaceAll("_", " ")}
+                  {(plan.billingFrequency ?? plan.cadence)
+                    .toLowerCase()
+                    .replaceAll("_", " ")}
+                  {" · "}
+                  {plan.applicableStartDate
+                    ? `Applies from ${plan.applicableStartDate}`
+                    : "Start date not recorded"}
                 </p>
+                <button
+                  className="pf-button"
+                  disabled={finance.busy}
+                  onClick={() => {
+                    setNotice("");
+                    setEditor({ mode: "plan", plan });
+                  }}
+                >
+                  Edit fee plan
+                </button>
                 <button
                   className="pf-button"
                   disabled={finance.busy}
@@ -592,13 +616,19 @@ export function PortalFees({
           workspace={data}
           invoice={selected}
           payment={editor.payment}
+          plan={editor.plan}
           initialPlayer={playerId ?? selected?.playerId}
           busy={finance.busy || workspace.busy}
           error={workspace.error || finance.error}
           onClose={() => setEditor(null)}
-          onSave={async (action, values, extra) =>
-            Boolean(await finance.mutate(action, values, extra))
-          }
+          onSave={async (action, values, extra) => {
+            const saved = Boolean(await finance.mutate(action, values, extra));
+            if (saved && action === "plan")
+              setNotice(
+                "Fee plan saved. Existing players have not been charged.",
+              );
+            return saved;
+          }}
         />
       )}
     </div>

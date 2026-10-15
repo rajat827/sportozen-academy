@@ -31,7 +31,9 @@
     ".next-football-qa/types/**/*.ts",
     ".next-football-qa/dev/types/**/*.ts",
     ".next-gallery-qa/types/**/*.ts",
-    ".next-gallery-qa/dev/types/**/*.ts"
+    ".next-gallery-qa/dev/types/**/*.ts",
+    ".next-final-qa/types/**/*.ts",
+    ".next-final-qa/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,7 +1,8 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const captureFolder = "docs/screenshots/home-ui/after";
+const captureFolder = evidencePath("docs/screenshots/home-ui/after");
 const previewNotice =
   "Design preview — fictional data; no payments or messages are processed.";
 const toolsButton = (page: Page) =>

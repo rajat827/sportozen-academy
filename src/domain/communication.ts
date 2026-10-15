@@ -7,6 +7,7 @@ export interface ReportingPeriod {
   timezone: string;
 }
 export interface WeeklyContent {
+  preparation?: string[];
   remainingFrom?: string;
   period: ReportingPeriod;
   playerName: string;
@@ -21,6 +22,7 @@ export interface WeeklyContent {
     endAt: string;
     timezone: string;
     location: string;
+    theme?: string;
   }[];
   activities: { id: string; name: string; purpose: string; cue: string }[];
   sourcePlanId?: string;
@@ -65,6 +67,10 @@ export type DeliveryState =
   | "CANCELLED";
 export type NotificationType = "WEEKLY" | "MONTHLY";
 export interface CommunicationSettings {
+  weeklyDraftEnabled?: boolean;
+  weeklyDraftLeadDays?: number;
+  weeklyDraftTime?: string;
+  announcementTemplate?: string;
   academyId: string;
   version: number;
   timezone: string;
@@ -94,6 +100,7 @@ export interface CommunicationSettings {
   verifiedAt?: string;
 }
 export interface GuardianContact {
+  operational?: boolean;
   academyId: string;
   guardianId: string;
   phone: string;
@@ -113,7 +120,7 @@ export interface DeliveryJob {
   academyId: string;
   playerId: string;
   guardianId: string;
-  type: NotificationType | "REPLY";
+  type: NotificationType | "REPLY" | "ANNOUNCEMENT";
   sourceId: string;
   sourceVersion: number;
   period: string;
