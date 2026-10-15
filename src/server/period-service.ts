@@ -127,7 +127,12 @@ export function assembleMonthly(
   );
   const data = monthlySourceData(ctx.academy.id, playerId, period),
     records = data.records;
-  const activities = records.actual.flatMap((s) =>
+  const participation = records.actual.filter(
+    (session) =>
+      repo.find(ctx.academy.id, "attendance", `${session.id}:${playerId}`)
+        ?.status === "PRESENT",
+  );
+  const activities = participation.flatMap((s) =>
     s.agenda.map((a) => ({
       name: a.drill.name,
       purpose: a.drill.purpose,
@@ -155,13 +160,14 @@ export function assembleMonthly(
             records.actual.map(
               (s) =>
                 s.objectives.find((o) => o.playerId === playerId)?.goal ||
+                s.sharedObjective?.goal ||
                 s.theme,
             ),
           ),
         ].join("; ") || "No training focus recorded in this month",
-      practised: records.actual.length
+      practised: participation.length
         ? [...new Set(activities.map((a) => a.name))].join("; ")
-        : "No completed session participation recorded",
+        : "No confirmed completed-session participation recorded",
       activities: activities.filter(
         (a, i, list) => list.findIndex((b) => b.drillId === a.drillId) === i,
       ),
@@ -308,15 +314,26 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
               remainingFrom,
               period,
               playerName: player.name,
-              teamFocus: [...new Set(sessions.map((s) => s.theme))].join("; "),
+              teamFocus: [
+                ...new Set(
+                  sessions.map((s) => s.sharedObjective?.goal || s.theme),
+                ),
+              ].join("; "),
               personalFocus:
                 [...new Set(objectives.map((o) => o.goal))].join("; ") ||
                 plan?.focus ||
-                "",
+                "Following the batch plan",
               observe:
                 [...new Set(objectives.map((o) => o.observe))].join("; ") ||
+                [
+                  ...new Set(
+                    sessions
+                      .map((s) => s.sharedObjective?.observe)
+                      .filter(Boolean),
+                  ),
+                ].join("; ") ||
                 plan?.observe ||
-                "",
+                "the planned batch activities; individual observation criteria are not recorded",
               homePractice: plan?.homePractice ?? "",
               sessions: sessions.map((s) => ({
                 id: s.id,
@@ -344,10 +361,6 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
               content.missing.push(
                 "No confirmed sessions recorded for this week",
               );
-            if (!content.personalFocus)
-              content.missing.push("Personal focus missing");
-            if (!content.observe)
-              content.missing.push("Observation criteria missing");
             if (!drills.length)
               content.missing.push("Assigned activities missing");
             return saveWeekly(ctx, {
@@ -486,10 +499,6 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
           const plan = visibleRecords(ctx, "plan").find(
             (p) => p.playerId === playerId,
           );
-          if (!plan)
-            fail(
-              "Record this player's development plan before preparing a monthly report.",
-            );
           const existing = visibleRecords(ctx, "report").find(
             (r) =>
               r.playerId === playerId &&
@@ -503,7 +512,7 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
             academyId: ctx.academy.id,
             sportId: "football",
             playerId,
-            planId: plan.id,
+            planId: plan?.id ?? "",
             period: `${d.month} (${sources.period.timezone})`,
             reportingPeriod: sources.period,
             correctionOf: d.correctionOf,
@@ -513,7 +522,7 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
             evidenceType: sources.evidenceIds.length
               ? "COACH_OBSERVATION"
               : "MISSING_OR_UNCLEAR",
-            nextStep: plan.nextStep,
+            nextStep: plan?.nextStep ?? "",
             closingNote: "",
             status: "Draft",
             externalDeliveryStatus: "NOT_SENT",

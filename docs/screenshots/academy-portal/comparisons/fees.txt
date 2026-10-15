@@ -1,0 +1,9 @@
+Inspected at native 1536 x 1024, plus 1440 and phone captures.
+
+Metrics, controls, selected account, linked guardian and payment history use persisted finance events.
+
+Only two invoices exist. Partial and overdue states, verified collection and missing phone text reflect the actual records.
+
+No gateway is connected: the action records a manual reference pending verification. No fabricated WhatsApp/phone shortcut is shown.
+
+Noto and truthful payment detail make the panel taller. At 320 px metrics stack and tabs/table scroll locally. Visual approval is pending.

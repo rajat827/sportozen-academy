@@ -3,10 +3,12 @@ import { useState } from "react";
 import { Button, Card, Badge } from "@/components/ui/primitives";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
+import { usePrivateSourceAnchor } from "@/hooks/use-private-source-anchor";
 import type { WeeklyPlan } from "@/domain/communication";
 import type { WorkspaceReport } from "@/domain/workspace";
 import { weeklyWording } from "@/services/communication/period-rules";
 import { privateSourcePath } from "@/services/communication/private-source-path";
+import { portalSourceAvailable } from "@/services/portal-source-selection";
 import { templateParameters } from "@/services/communication/whatsapp-templates";
 import { ReportPreview } from "@/features/reports/report-preview";
 import { SecureReportDownload } from "./plan-and-report";
@@ -29,18 +31,35 @@ function command(
 export function WeeklyPlans({
   workspace: w,
   playerId,
+  sourceId,
 }: {
   workspace: Controller;
   playerId?: string;
+  sourceId?: string;
 }) {
   const d = w.data!,
     parent = d.membership.role === "PARENT",
     support = d.membership.role === "SUPPORT";
   const [squadId, setSquad] = useState(""),
     [week, setWeek] = useState("");
+  const sourceAvailable =
+    !sourceId || portalSourceAvailable(d, playerId ?? "", sourceId, "WEEKLY");
+  usePrivateSourceAnchor(
+    sourceId && sourceAvailable ? "weekly-" + sourceId : undefined,
+  );
+  if (!sourceAvailable)
+    return (
+      <Card>
+        <h2>Weekly plan unavailable</h2>
+        <p>
+          This source is not available for the selected player in your current
+          academy and role.
+        </p>
+      </Card>
+    );
   return (
     <>
-      {!parent && !support && (
+      {!parent && !support && !sourceId && (
         <Card>
           <h2>Prepare weekly plan</h2>
           <p>
@@ -57,6 +76,7 @@ export function WeeklyPlans({
             <label>
               Squad
               <select
+                aria-label="Squad"
                 required
                 value={squadId}
                 onChange={(e) => setSquad(e.target.value)}
@@ -83,14 +103,30 @@ export function WeeklyPlans({
         </Card>
       )}
       {d.records.weekly
-        .filter((r) => !playerId || r.playerId === playerId)
+        .filter(
+          (r) =>
+            (!playerId || r.playerId === playerId) &&
+            (!sourceId || r.id === sourceId),
+        )
         .map((r) => (
-          <WeeklyReview
-            key={`${r.id}-${r.recordVersion}`}
-            workspace={w}
-            plan={r}
-            parent={parent || support}
-          />
+          <section
+            id={"weekly-" + r.id}
+            tabIndex={-1}
+            aria-label={
+              "Weekly plan for " +
+              r.content.playerName +
+              " · " +
+              r.content.period.key
+            }
+            key={r.id}
+          >
+            <WeeklyReview
+              key={`${r.id}-${r.recordVersion}`}
+              workspace={w}
+              plan={r}
+              parent={parent || support}
+            />
+          </section>
         ))}
       <p className="text-muted">AI Video Analysis — Coming soon</p>
     </>
@@ -132,7 +168,6 @@ function WeeklyReview({
   }
   return (
     <Card>
-      <span id={`weekly-${r.id}`} />
       <h3>
         {c.playerName} · {c.period.key}
       </h3>

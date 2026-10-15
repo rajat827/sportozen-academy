@@ -391,6 +391,118 @@ afterAll(() => {
     rmSync(filename + suffix, { force: true });
 });
 describe("weekly approval and monthly source extension", () => {
+  it("publishes an explicitly reviewed batch-only monthly update privately without manufacturing a player plan", () => {
+    const db = database();
+    db.prepare(
+      "DELETE FROM workspace_records WHERE academyId=? AND kind='plan'",
+    ).run("a");
+    db.prepare(
+      "DELETE FROM guardian_relationships WHERE academyId=? AND userId=?",
+    ).run("a", "guardian2");
+    db.prepare("INSERT INTO guardian_relationships VALUES(?,?,?)").run(
+      "a",
+      "guardian2",
+      "p2",
+    );
+    const report = (
+      command("monthlyPrepare", {
+        playerIds: ["p"],
+        month: "2026-09",
+      }) as WorkspaceReport[]
+    )[0];
+    expect(report.planId).toBe("");
+    command(
+      "monthlyEdit",
+      {
+        observation:
+          "No individual observation recorded; further coach review is needed.",
+        nextStep: "Observe receiving at the next batch session.",
+        closingNote: "Continue the shared batch plan.",
+      },
+      report.id,
+    );
+    const approved = approveReport(ctx, report.id, true);
+    const update = saveRecord(ctx, "update", {
+      playerId: "p",
+      sportId: "football",
+      planId: "",
+      type: "DEVELOPMENT",
+      sourceReportId: approved.id,
+      messageBody:
+        "Reviewed monthly update: further observation is required. Continue the shared batch plan.",
+    });
+    expect(repo.find("a", "update", update!.id)?.planId).toBe("");
+    expect(visibleRecords(parent, "update")).toEqual([]);
+    expect(() => publishUpdate(ctx, update!.id)).toThrow(/Approve/);
+    reviewUpdate(ctx, update!.id, "submit", true);
+    expect(() => reviewUpdate(ctx, update!.id, "approve", false)).toThrow(
+      /Verify/,
+    );
+    reviewUpdate(ctx, update!.id, "approve", true);
+    expect(visibleRecords(parent, "update")).toEqual([]);
+    publishUpdate(ctx, update!.id);
+    const published = visibleRecords(parent, "update");
+    expect(published).toHaveLength(1);
+    expect(published[0].sourceReportId).toBe(approved.id);
+    expect(published[0].approvedSource).toEqual(approved.snapshot);
+    expect(published[0].externalDeliveryStatus).toBe("NOT_SENT");
+    expect(
+      visibleRecords(
+        {
+          ...parent,
+          user: { ...parent.user, id: "guardian2" },
+          membership: { ...parent.membership, userId: "guardian2" },
+        },
+        "update",
+      ),
+    ).toEqual([]);
+    expect(repo.list("a", "plan")).toEqual([]);
+  });
+  it("does not let an empty update plan bypass the approved monthly source, player or category checks", () => {
+    database()
+      .prepare(
+        "DELETE FROM workspace_records WHERE academyId=? AND kind='plan'",
+      )
+      .run("a");
+    const report = (
+      command("monthlyPrepare", {
+        playerIds: ["p"],
+        month: "2026-09",
+      }) as WorkspaceReport[]
+    )[0];
+    const draft = {
+      playerId: "p",
+      sportId: "football",
+      planId: "",
+      type: "DEVELOPMENT",
+      sourceReportId: report.id,
+      messageBody: "Recorded coach wording",
+    };
+    expect(() => saveRecord(ctx, "update", draft)).toThrow(
+      /approved sport report/,
+    );
+    command(
+      "monthlyEdit",
+      {
+        observation: "Further observation needed.",
+        nextStep: "Review the next batch session.",
+        closingNote: "",
+      },
+      report.id,
+    );
+    approveReport(ctx, report.id, true);
+    for (const values of [
+      { ...draft, sourceReportId: undefined },
+      { ...draft, sourceReportId: "other-academy-report" },
+      { ...draft, playerId: "p2" },
+      { ...draft, type: "NUTRITION_HYDRATION" },
+      { ...draft, type: "UPCOMING_TRAINING" },
+      { ...draft, type: "REVIEWED_SESSION" },
+    ])
+      expect(() => saveRecord(ctx, "update", values)).toThrow();
+    expect(repo.list("a", "update")).toEqual([]);
+    expect(repo.list("a", "plan")).toEqual([]);
+  });
   it("reuses real sessions/objectives with distinct player focuses and no retrospective report", () => {
     const r = weekly();
     expect(r.content.sessions[0].id).toBe("session");

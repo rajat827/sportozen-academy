@@ -1,0 +1,9 @@
+Inspected at native 1536 x 1024.
+
+Week grid, selected day, independent overlapping sessions and right-hand details retain the approved composition. Details use icon tiles and focus/preparation cards.
+
+The selected actual session is at 23:00; the timeline scrolls to show it. It is not moved to the illustrative 17:00 reference time.
+
+Day headings, Noto typography, actual status legend and longer batch name remain different. Empty preparation stays explicit.
+
+Visual approval is pending.

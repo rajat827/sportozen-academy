@@ -4,6 +4,7 @@ import { mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { migrateFootballTraining } from "./migrations/002-football-training";
 import { migrateCommunications } from "./migrations/003-communications";
+import { migrateAcademyFinance } from "./migrations/004-academy-finance";
 const connections = globalThis as typeof globalThis & {
   sportozenDatabase?: DatabaseSync;
 };
@@ -29,6 +30,7 @@ export function database() {
     `);
   migrateFootballTraining(db);
   migrateCommunications(db);
+  migrateAcademyFinance(db);
   connections.sportozenDatabase = db;
   return db;
 }

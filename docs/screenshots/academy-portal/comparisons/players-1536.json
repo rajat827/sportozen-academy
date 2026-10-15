@@ -1,0 +1,21 @@
+{
+  "reference": "docs\\reference\\approved-ui\\players-screen.png",
+  "referenceSha256": "3b812db71d0d328bf99f557bfd7085f5b5292d8652dba8fe986d9535554b012b",
+  "referenceSourceSize": [
+    1536,
+    1024
+  ],
+  "referenceCrop": null,
+  "referenceDisplaySize": [
+    1536,
+    1024
+  ],
+  "actual": "docs\\screenshots\\academy-portal\\players-1536.png",
+  "actualSha256": "b87b41121d143e53479eb8450fd802d301aeef0d2f65b632dfa4c04e5d8b158e",
+  "actualSize": [
+    1536,
+    1024
+  ],
+  "notes": "Inspected at native 1536 x 1024.\n\nDirectory, compact filters, four metrics and selected-player panel are real components. Status and Edit share the header row.\n\nOnly three authorised QA players exist. Age, position and portraits are missing, so they remain explicit rather than copying reference identities.\n\nThe long actual name and missing-field wording make the detail header taller. Noto metrics, smaller placeholder portrait and shorter history differ.\n\nVisual approval is pending.",
+  "status": "Inspected implementation evidence; awaiting user visual approval"
+}

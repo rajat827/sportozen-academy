@@ -6,7 +6,7 @@ import type { useWorkspace } from "@/hooks/use-workspace";
 import type { FootballSession, FootballEvidence } from "@/domain/training";
 import { measurementText, comparableEvidence } from "@/services/training-rules";
 type Controller = ReturnType<typeof useWorkspace>;
-function useTraining(w: Controller) {
+export function useTraining(w: Controller) {
   const pending = useRef(new Map<string, string>()),
     [notice, setNotice] = useState("");
   async function submit(
@@ -37,7 +37,8 @@ function useTraining(w: Controller) {
   }
   return { submit, notice };
 }
-type Submit = ReturnType<typeof useTraining>["submit"];
+export type TrainingSubmit = ReturnType<typeof useTraining>["submit"];
+type Submit = TrainingSubmit;
 export function FootballTraining({
   workspace: w,
   selected,
@@ -153,7 +154,7 @@ export function FootballTraining({
     </>
   );
 }
-function SquadSetup({
+export function SquadSetup({
   workspace: w,
   submit,
 }: {
@@ -225,9 +226,7 @@ function SquadSetup({
             </label>
           ))}
         </fieldset>
-        <Button disabled={w.busy || !branch || !players.length}>
-          Save squad
-        </Button>
+        <Button disabled={w.busy || !branch}>Save squad</Button>
       </form>
       <form
         className="form-stack"
@@ -260,22 +259,61 @@ function SquadSetup({
     </Card>
   );
 }
-function SessionEditor({
+export function SessionEditor({
   workspace: w,
   submit,
+  initial,
+  onSaved,
 }: {
   workspace: Controller;
   submit: Submit;
+  initial?: FootballSession;
+  onSaved?: (session: FootballSession) => void;
 }) {
   const d = w.data!,
-    [squadId, setSquad] = useState(d.records.squad[0]?.id ?? ""),
-    [venueId, setVenue] = useState(""),
-    [location, setLocation] = useState(""),
-    [theme, setTheme] = useState(""),
-    [start, setStart] = useState(""),
-    [end, setEnd] = useState(""),
-    [coaches, setCoaches] = useState<string[]>([d.membership.userId]),
-    [agenda, setAgenda] = useState<{ drillId: string; duration: number }[]>([]);
+    [squadId, setSquad] = useState(
+      initial?.squadId ?? d.records.squad[0]?.id ?? "",
+    ),
+    [venueId, setVenue] = useState(initial?.venueId ?? ""),
+    [location, setLocation] = useState(initial?.location ?? ""),
+    [theme, setTheme] = useState(initial?.theme ?? ""),
+    [start, setStart] = useState(initial?.startLocal ?? ""),
+    [end, setEnd] = useState(initial?.endLocal ?? ""),
+    [coaches, setCoaches] = useState<string[]>(
+      initial?.coachIds ?? [d.membership.userId],
+    ),
+    [agenda, setAgenda] = useState<{ drillId: string; duration: number }[]>(
+      initial?.agenda.map((item) => ({
+        drillId: item.drill.id,
+        duration: item.duration,
+      })) ?? [],
+    ),
+    [sharedGoal, setSharedGoal] = useState(
+      initial?.sharedObjective?.goal ?? "",
+    ),
+    [sharedCue, setSharedCue] = useState(initial?.sharedObjective?.cue ?? ""),
+    [sharedObserve, setSharedObserve] = useState(
+      initial?.sharedObjective?.observe ?? "",
+    ),
+    [preparation, setPreparation] = useState(
+      initial?.preparation?.join("\n") ?? "",
+    );
+  const content = JSON.stringify({
+    squadId,
+    venueId,
+    location,
+    theme,
+    start,
+    end,
+    coaches,
+    agenda,
+    sharedGoal,
+    sharedCue,
+    sharedObserve,
+    preparation,
+  });
+  const [savedContent, setSavedContent] = useState(content);
+  useUnsavedChanges(content !== savedContent);
   const squad = d.records.squad.find((s) => s.id === squadId),
     branch = d.records.branch.find((b) => b.id === squad?.branchId);
   return (
@@ -285,8 +323,9 @@ function SessionEditor({
         className="form-stack"
         onSubmit={async (e) => {
           e.preventDefault();
-          if (
-            await submit("session", {
+          const saved = await submit(
+            "session",
+            {
               squadId,
               branchId: branch?.id,
               venueId: venueId || undefined,
@@ -297,9 +336,38 @@ function SessionEditor({
               endLocal: end,
               theme,
               agenda,
-            })
-          )
+              sharedObjective:
+                sharedGoal.trim() && sharedCue.trim()
+                  ? { goal: sharedGoal, cue: sharedCue, observe: sharedObserve }
+                  : undefined,
+              preparation: preparation
+                .split("\n")
+                .map((line) => line.trim())
+                .filter(Boolean),
+            },
+            initial?.id,
+            initial?.version ?? 0,
+          );
+          if (saved) {
+            setSavedContent(
+              JSON.stringify({
+                squadId,
+                venueId,
+                location,
+                theme: "",
+                start,
+                end,
+                coaches,
+                agenda,
+                sharedGoal,
+                sharedCue,
+                sharedObserve,
+                preparation,
+              }),
+            );
             setTheme("");
+            onSaved?.(saved as FootballSession);
+          }
         }}
       >
         <label>
@@ -459,6 +527,45 @@ function SessionEditor({
             </select>
           </label>
         </fieldset>
+        <fieldset>
+          <legend>
+            Shared batch focus · optional personalisation comes later
+          </legend>
+          <label>
+            Shared development focus
+            <input
+              value={sharedGoal}
+              required={Boolean(sharedCue)}
+              onChange={(event) => setSharedGoal(event.target.value)}
+            />
+          </label>
+          <label>
+            Shared coaching cue
+            <input
+              value={sharedCue}
+              required={Boolean(sharedGoal)}
+              onChange={(event) => setSharedCue(event.target.value)}
+            />
+          </label>
+          <label>
+            Optional shared observation criteria
+            <input
+              value={sharedObserve}
+              onChange={(event) => setSharedObserve(event.target.value)}
+            />
+          </label>
+          <label>
+            Preparation · one item per line
+            <textarea
+              value={preparation}
+              onChange={(event) => setPreparation(event.target.value)}
+            />
+          </label>
+          <p>
+            Every player follows this plan. Personal goals are optional;
+            existing goals can be reused in the session desk.
+          </p>
+        </fieldset>
         <Button disabled={w.busy || !branch || !agenda.length}>
           Save session draft
         </Button>
@@ -466,7 +573,7 @@ function SessionEditor({
     </Card>
   );
 }
-function SessionDesk({
+export function SessionDesk({
   workspace: w,
   session: s,
   submit,
@@ -673,7 +780,7 @@ function ObjectiveEditor({
       <p>
         {plan
           ? `Current plan: ${plan.focus}`
-          : "No current plan. Assign an explicit session objective; no weakness is inferred."}
+          : "Following the shared batch plan. Personalisation is optional; no individual weakness is inferred."}
       </p>
       <Button
         data-leave-editor
@@ -756,6 +863,9 @@ function AttendanceEditor({
   const rows = w.data!.records.attendance.filter((a) => a.sessionId === s.id),
     [draft, setDraft] = useState(rows),
     [reason, setReason] = useState("");
+  useUnsavedChanges(
+    JSON.stringify(draft) !== JSON.stringify(rows) || Boolean(reason.trim()),
+  );
   return (
     <Card>
       <h2>Attendance ledger</h2>
@@ -820,7 +930,7 @@ function AttendanceEditor({
         <Button
           type="button"
           variant="secondary"
-          disabled={w.busy}
+          disabled={w.busy || !draft.length || s.status === "CANCELLED"}
           onClick={() =>
             setDraft(draft.map((a) => ({ ...a, status: "PRESENT" })))
           }
@@ -831,7 +941,10 @@ function AttendanceEditor({
           Attendance correction reason
           <input value={reason} onChange={(e) => setReason(e.target.value)} />
         </label>
-        <Button disabled={w.busy || s.status === "CANCELLED"}>
+        {!draft.length && (
+          <p>No players are recorded in this session roster.</p>
+        )}
+        <Button disabled={w.busy || !draft.length || s.status === "CANCELLED"}>
           Save attendance
         </Button>
       </form>
@@ -868,10 +981,30 @@ function EvidenceEditor({
     [elapsed, setElapsed] = useState(""),
     [staffNote, setNote] = useState(""),
     [visibility, setVisibility] = useState("PARENT_ELIGIBLE");
-  useUnsavedChanges(!!observation.trim() || !!staffNote.trim());
+  const evidenceDraft = {
+    observation,
+    conditions,
+    method,
+    measurement,
+    attempts,
+    successes,
+    elapsed,
+    staffNote,
+    visibility,
+  };
+  const [savedDraft, setSavedDraft] = useState(JSON.stringify(evidenceDraft));
+  const dirty = savedDraft !== JSON.stringify(evidenceDraft);
+  useUnsavedChanges(dirty);
   return (
     <Card>
       <h2>Record training evidence</h2>
+      {selectedPlayer &&
+        !s.roster.some((record) => record.playerId === selectedPlayer) && (
+          <p role="alert">
+            The selected player is not in this session roster. Choose an
+            authorised session player.
+          </p>
+        )}
       <p>
         No video attached. Coach-recorded evidence only. AI Video Analysis —
         Coming soon.
@@ -904,6 +1037,13 @@ function EvidenceEditor({
                 measurement === "ELAPSED_TIME" ? Number(elapsed) : undefined,
             })
           ) {
+            setSavedDraft(
+              JSON.stringify({
+                ...evidenceDraft,
+                observation: "",
+                staffNote: "",
+              }),
+            );
             setObservation("");
             setNote("");
           }
@@ -912,11 +1052,12 @@ function EvidenceEditor({
         <label>
           Evidence player
           <select
+            aria-label="Evidence player"
             required
             value={playerId}
             onChange={(e) => {
               if (
-                (observation.trim() || staffNote.trim()) &&
+                dirty &&
                 !window.confirm(
                   "Discard this unsaved observation and choose another player?",
                 )
@@ -930,6 +1071,17 @@ function EvidenceEditor({
               setAttempts("");
               setSuccesses("");
               setElapsed("");
+              setSavedDraft(
+                JSON.stringify({
+                  ...evidenceDraft,
+                  observation: "",
+                  staffNote: "",
+                  conditions: "",
+                  attempts: "",
+                  successes: "",
+                  elapsed: "",
+                }),
+              );
             }}
           >
             <option value="">Choose a session player</option>

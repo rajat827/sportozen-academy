@@ -1,0 +1,21 @@
+{
+  "reference": "docs\\reference\\approved-ui\\training-screen.png",
+  "referenceSha256": "f85d50c87cbb23a1e1d0c25fe09906c95ffe937b5339bb95d39795287c4299c8",
+  "referenceSourceSize": [
+    1536,
+    1024
+  ],
+  "referenceCrop": null,
+  "referenceDisplaySize": [
+    1536,
+    1024
+  ],
+  "actual": "docs\\screenshots\\academy-portal\\training-1536.png",
+  "actualSha256": "2e78d077b1b0c6d2868e33b5b99979538e01903b31a395c6a50899f0bdbb22e9",
+  "actualSize": [
+    1536,
+    1024
+  ],
+  "notes": "Inspected at native 1536 x 1024.\n\nSession list, plan, roster/resources and action columns follow the approved structure, with larger readable drill/support text.\n\nThis actual shared plan has one activity and two players. It does not add fictional drills or fill the page with reference records.\n\nThe existing drill model has no photograph field. Editable pitch diagrams replace drill photos; this imagery deviation is explicit.\n\nNoto, absent portraits and record-dependent card heights remain different. Visual approval is pending.",
+  "status": "Inspected implementation evidence; awaiting user visual approval"
+}

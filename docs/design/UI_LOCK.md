@@ -1,3 +1,5 @@
+> 15 October 2026 — The user’s final portal integration brief supersedes earlier preview-only and per-screen stopping rules below. Continue the existing authenticated application across all seven approved screens. Preserve approved designs, tenant/child privacy, historical records and approval rules. Do not merge to main, deploy or send real external messages. See [integration map](../ACADEMY_PORTAL_INTEGRATION.md). The discovered ZIP contains unrelated tournament screens; the reference clarification is recorded there.
+
 # Sportozen approved visual direction lock
 
 ## Scoped Home update — 15 October 2026

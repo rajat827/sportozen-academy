@@ -1,11 +1,33 @@
 import {
   initialPreviewState,
   playerReportStatus,
+  playerWeeklyState,
   previewAdapter,
   usePreviewState,
   type PreviewState,
 } from "./adapter";
 import { reportFixture, resolvedAcademy, weekPlanContext } from "./fixtures";
+import {
+  listSessions,
+  selectedSession,
+  sessionAttendance,
+  sessionSelectionPatch,
+  sessionVenue,
+} from "./preview-session-records";
+
+function homeScheduleScope(state: PreviewState): PreviewState {
+  return {
+    ...state,
+    fields: {
+      ...state.fields,
+      "calendar-preview-context": {
+        ...state.fields["calendar-preview-context"],
+        role: "COACH",
+        coachId: "maya",
+      },
+    },
+  };
+}
 
 export interface HomeSession {
   id: string;
@@ -152,45 +174,45 @@ export function deriveHomeDashboard(state: PreviewState) {
     timeZone: "UTC",
   }).format(dateObject);
   const selectedPlayer = state.players.find((p) => p.id === state.playerId);
-  const playerIds = context.playerIds;
-  const [start, end] = context.time.split("–");
-  const sessions: HomeSession[] = playerIds.length
-    ? (["first", "second"] as const).map((slot, index) => {
-        const sessionDate = offsetDate(safeWeek, index === 0 ? 1 : 3);
-        const id = `${academy.id}:${context.batch}:${sessionDate}`;
-        const savedStatus = state.fields[`home-session:${id}`]?.status;
-        const status: HomeSession["status"] =
-          savedStatus === "Cancelled" ||
-          savedStatus === "Completed" ||
-          savedStatus === "In progress"
-            ? savedStatus
-            : "Scheduled";
-        const inBatch =
-          !!selectedPlayer && playerIds.includes(selectedPlayer.id);
-        const ready = status === "Scheduled" || status === "In progress";
-        return {
-          id,
-          slot,
-          date: sessionDate,
-          start,
-          end,
-          time: `${displayTime(start)} – ${displayTime(end)}`,
-          batch: context.batch,
-          title: `${context.batch} Training Session`,
-          venue: academy.venue,
-          status,
-          playerIds,
-          canOpen: inBatch && ready,
-          reason: !selectedPlayer
-            ? "Select an available player before opening a session."
-            : !inBatch
-              ? `${selectedPlayer.name} belongs to ${selectedPlayer.batch}; select the matching batch plan.`
-              : !ready
-                ? `This session is ${status.toLowerCase()} and cannot be started.`
-                : undefined,
-        };
-      })
-    : [];
+  const scheduleScope = homeScheduleScope(state);
+  const sessions: HomeSession[] = listSessions(scheduleScope)
+    .filter(
+      (record) =>
+        record.category === "Training" &&
+        record.status !== "Draft" &&
+        record.dateConfirmed,
+    )
+    .map((record) => {
+      const slot =
+        record.legacySlot ||
+        (record.id.endsWith(offsetDate(safeWeek, 1)) ? "first" : "second");
+      const { id, start, end } = record;
+      const status = record.status as HomeSession["status"];
+      const inBatch =
+        !!selectedPlayer && record.rosterIds.includes(selectedPlayer.id);
+      const ready = status === "Scheduled" || status === "In progress";
+      return {
+        id,
+        slot,
+        date: record.date,
+        start,
+        end,
+        time: `${displayTime(start)} – ${displayTime(end)}`,
+        batch: record.batch,
+        title: record.title,
+        venue: sessionVenue(scheduleScope, record),
+        status,
+        playerIds: record.rosterIds,
+        canOpen: inBatch && ready,
+        reason: !selectedPlayer
+          ? "Select an available player before opening a session."
+          : !inBatch
+            ? `${selectedPlayer.name} belongs to ${selectedPlayer.batch}; select the matching batch plan.`
+            : !ready
+              ? `This session is ${status.toLowerCase()} and cannot be started.`
+              : undefined,
+      };
+    });
   const todaySessions = sessions.filter((session) => session.date === date);
   const primarySession = todaySessions.find(
     (session) =>
@@ -232,18 +254,20 @@ export function deriveHomeDashboard(state: PreviewState) {
       to: "report-queue",
       playerId: draftReports[0].playerId,
     });
-  if (state.weeklyStatus !== "Approved" || !state.published)
+  const weekly = selectedPlayer
+    ? playerWeeklyState(state, selectedPlayer.id)
+    : undefined;
+  if (!weekly?.approved || !weekly.published)
     pending.push({
       id: "weekly-update",
-      label:
-        state.weeklyStatus === "Approved"
-          ? "Review parent publication"
-          : "Review parent update",
-      description:
-        state.weeklyStatus === "Approved"
-          ? "Approval and publication remain separate"
-          : "Shared plan changed · review needed",
+      label: weekly?.approved
+        ? "Review parent publication"
+        : "Review parent update",
+      description: weekly?.approved
+        ? "Approval and publication remain separate"
+        : "Shared plan changed · review needed",
       to: "weekly-approval",
+      playerId: selectedPlayer?.id,
       disabled: !selectedPlayer,
       reason: !selectedPlayer ? "Select an available player first." : undefined,
     });
@@ -256,9 +280,13 @@ export function deriveHomeDashboard(state: PreviewState) {
       to: "parent-questions",
       playerId: parentQuestions[0].playerId,
     });
-  const unmarked = primarySession?.playerIds.filter(
-    (id) => !state.attendance[id] || state.attendance[id] === "Unmarked",
-  ).length;
+  const primaryRecord =
+    primarySession && selectedSession(scheduleScope, primarySession.id);
+  const unmarked = primaryRecord
+    ? Object.values(sessionAttendance(scheduleScope, primaryRecord)).filter(
+        (status) => status === "Unmarked",
+      ).length
+    : 0;
   if (primarySession && unmarked)
     pending.push({
       id: "attendance",
@@ -390,17 +418,13 @@ export function homeSessionPatch(
     (item) => item.id === session.id,
   );
   if (!current?.canOpen) return null;
+  const canonical = sessionSelectionPatch(homeScheduleScope(state), current.id);
+  if (!canonical.ok) return null;
   return {
     fields: {
       ...state.fields,
       "session-context": {
-        id: current.id,
-        academyId: state.academyId,
-        batch: current.batch,
-        date: current.date,
-        slot: current.slot,
-        start: current.start,
-        end: current.end,
+        ...canonical.patch!.fields!["session-context"],
         time: current.time,
       },
     },

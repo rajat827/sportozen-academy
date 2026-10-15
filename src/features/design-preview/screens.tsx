@@ -19,6 +19,11 @@ export function ScreenContent({ screen: s, scenario }: Props) {
   const state = usePreviewState(),
     player = state.players.find((p) => p.id === state.playerId)!;
   if (
+    s.kind === "session" &&
+    state.fields["session-context"]?.source === "calendar"
+  )
+    return <SessionScreen screen={s} scenario={scenario} />;
+  if (
     s.role === "PARENT" &&
     player.id === "leo" &&
     weekPlanContext(state.fields, state.players).batch !== player.batch &&

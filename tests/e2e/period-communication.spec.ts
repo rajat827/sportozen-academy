@@ -10,7 +10,7 @@ test("weekly plans and monthly reports extend authorised workspaces across three
   test.setTimeout(480000);
   const origin = "http://127.0.0.1:3001",
     suffix = crypto.randomUUID(),
-    shots = "docs/screenshots/weekly-monthly";
+    shots = "docs/screenshots/weekly-monthly/portal";
   mkdirSync(shots, { recursive: true });
   async function account(name: string) {
     const api = await playwright.request.newContext({
@@ -184,11 +184,11 @@ test("weekly plans and monthly reports extend authorised workspaces across three
       data: { token: (await invitation.json()).token },
     });
     expect(accepted.ok(), await accepted.text()).toBe(true);
-    await staffPage.goto(`/workspace/${aid}?player=${player.id}`);
-    await staffPage
-      .getByRole("button", { name: "Training", exact: true })
-      .click();
     await staffPage.setViewportSize({ width: 1440, height: 900 });
+    await staffPage.goto(
+      `/workspace/${aid}?section=training&view=weekly&player=${player.id}`,
+    );
+    await staffPage.bringToFront();
     await staffPage.screenshot({
       path: `${shots}/staff-training-${country}.png`,
       fullPage: true,
@@ -242,6 +242,7 @@ test("weekly plans and monthly reports extend authorised workspaces across three
     await parentPage.goto(
       `/workspace/${aid}?player=${player.id}&weekly=${weekly.id}`,
     );
+    await parentPage.bringToFront();
     await expect(
       parentPage.getByRole("heading", {
         name: `Synthetic ${country} Child A · 2027-01-04`,
@@ -255,13 +256,21 @@ test("weekly plans and monthly reports extend authorised workspaces across three
       `Synthetic ${country} Child B`,
     );
     // The monthly draft intentionally has no completed sessions/evidence; no praise is manufactured.
+    await staffPage.bringToFront();
     await staffPage
       .getByRole("button", { name: "Reports", exact: true })
       .click();
     await staffPage
+      .getByRole("button", { name: "Generate Report", exact: true })
+      .click();
+    const monthlyWorkflow = staffPage.getByRole("dialog", {
+      name: "Prepare & Review Reports",
+      exact: true,
+    });
+    await monthlyWorkflow
       .getByLabel("Reporting month", { exact: true })
       .fill("2026-09");
-    await staffPage
+    await monthlyWorkflow
       .getByRole("button", { name: "Prepare monthly draft", exact: true })
       .click();
     await expect
@@ -313,9 +322,13 @@ test("weekly plans and monthly reports extend authorised workspaces across three
     expect(
       (await parent.api.get(`${firstRoot}/reports/${report.id}/pdf`)).status(),
     ).toBe(country === "IN" ? 200 : 404);
+    await monthlyWorkflow
+      .getByRole("button", { name: "Close report workflow", exact: true })
+      .click();
     await parentPage.goto(
       `/workspace/${aid}?player=${player.id}&report=${report.id}`,
     );
+    await parentPage.bringToFront();
     await expect(
       parentPage.getByText(
         "No completed September session records are available for this synthetic player.",
@@ -325,10 +338,12 @@ test("weekly plans and monthly reports extend authorised workspaces across three
     for (const width of [1440, 390, 320]) {
       await staffPage.setViewportSize({ width, height: 900 });
       await parentPage.setViewportSize({ width, height: 900 });
+      await staffPage.bringToFront();
       await staffPage.screenshot({
         path: `${shots}/staff-report-${country}-${width}.png`,
         fullPage: true,
       });
+      await parentPage.bringToFront();
       await parentPage.screenshot({
         path: `${shots}/parent-report-${country}-${width}.png`,
         fullPage: true,
@@ -344,8 +359,13 @@ test("weekly plans and monthly reports extend authorised workspaces across three
         ),
       ).toBe(true);
     }
+    await staffPage.setViewportSize({ width: 1440, height: 900 });
+    await staffPage.bringToFront();
     await staffPage
       .getByRole("button", { name: "Messages", exact: true })
+      .click();
+    await staffPage
+      .getByText("Delivery and approval details", { exact: true })
       .click();
     await expect(
       staffPage.getByRole("heading", {
@@ -353,8 +373,9 @@ test("weekly plans and monthly reports extend authorised workspaces across three
         exact: true,
       }),
     ).toBeVisible();
+    await staffPage.getByRole("button", { name: "More", exact: true }).click();
     await staffPage
-      .getByRole("button", { name: "Settings", exact: true })
+      .getByRole("tab", { name: "Notifications", exact: true })
       .click();
     await expect(
       staffPage.getByText("Not configured", { exact: true }),

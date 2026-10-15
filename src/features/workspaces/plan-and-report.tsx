@@ -1,5 +1,7 @@
 "use client";
 import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
+import { usePrivateSourceAnchor } from "@/hooks/use-private-source-anchor";
+import { portalSourceAvailable } from "@/services/portal-source-selection";
 import { useState } from "react";
 import { Button, Card, Badge } from "@/components/ui/primitives";
 import { operationalSports } from "@/config/sports/workspace-sports";
@@ -474,18 +476,40 @@ export function ParentPlans({
   player,
   sportId,
   reportsOnly = false,
+  reportId,
 }: {
   workspace: Controller;
   player: WorkspacePlayer;
   sportId: string;
   reportsOnly?: boolean;
+  reportId?: string;
 }) {
   const data = w.data!,
     plans = data.records.plan.filter(
       (p) => p.playerId === player.id && p.sportId === sportId,
     ),
     reports = data.records.report.filter(
-      (r) => r.playerId === player.id && r.sportId === sportId,
+      (r) =>
+        r.playerId === player.id &&
+        r.sportId === sportId &&
+        (!reportId || r.id === reportId),
+    );
+  const sourceAvailable =
+    !reportId || portalSourceAvailable(data, player.id, reportId, "MONTHLY");
+  usePrivateSourceAnchor(
+    reportsOnly && reportId && sourceAvailable
+      ? "report-" + reportId
+      : undefined,
+  );
+  if (!sourceAvailable)
+    return (
+      <Card>
+        <h2>Report unavailable</h2>
+        <p>
+          This source is not available for the selected player in your current
+          academy and role.
+        </p>
+      </Card>
     );
   return (
     <>
@@ -517,10 +541,16 @@ export function ParentPlans({
       )}
       {reportsOnly &&
         reports.map((report) => (
-          <div key={report.id} className="secure-report-section">
+          <section
+            key={report.id}
+            id={"report-" + report.id}
+            tabIndex={-1}
+            aria-label={"Approved report · " + report.period}
+            className="secure-report-section"
+          >
             <SecureReportDownload academyId={data.academy.id} report={report} />
             <ReportPreview model={report.snapshot!} />
-          </div>
+          </section>
         ))}
     </>
   );

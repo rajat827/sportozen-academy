@@ -208,6 +208,38 @@ export function playerReportStatus(
 }
 export const previewAdapter = {
   read: snapshot,
+  /** Confirmed local persistence for editors that must retain the old saved
+   * configuration after a quota/storage failure. Legacy demo saves remain as-is. */
+  saveConfirmed(patch: Partial<PreviewState>) {
+    const next = previewTransition(snapshot(), patch);
+    let previous: string | null = null,
+      wrote = false;
+    try {
+      previous = window.sessionStorage.getItem(key);
+      const serialized = JSON.stringify({ version: 1, state: next });
+      window.sessionStorage.setItem(key, serialized);
+      wrote = true;
+      if (window.sessionStorage.getItem(key) !== serialized)
+        throw new Error("Preview persistence could not be confirmed");
+    } catch {
+      if (wrote) {
+        try {
+          if (previous === null) window.sessionStorage.removeItem(key);
+          else window.sessionStorage.setItem(key, previous);
+        } catch {
+          /* Keep the previous confirmed in-memory configuration. */
+        }
+      }
+      return {
+        ok: false as const,
+        error:
+          "Preview storage unavailable. Your changes remain unsaved in this editor.",
+      };
+    }
+    current = next;
+    listeners.forEach((fn) => fn());
+    return { ok: true as const };
+  },
   save(patch: Partial<PreviewState>) {
     const next = previewTransition(snapshot(), patch);
     try {

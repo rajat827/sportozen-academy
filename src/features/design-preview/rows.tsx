@@ -6,16 +6,56 @@ import { previewDrills, resolvedAcademy, weekPlanContext } from "./fixtures";
 import { previewRoute } from "./catalog";
 import { deriveHomeDashboard, homeSessionPatch } from "./home-dashboard-model";
 import { Button, Badge } from "./ui";
-export function SessionRows() {
+import { parentScheduleSessions } from "./preview-session-records";
+export function SessionRows({ parent = false }: { parent?: boolean }) {
+  return parent ? <ParentSessionRows /> : <StaffSessionRows />;
+}
+
+function ParentSessionRows() {
+  const state = usePreviewState();
+  const sessions = parentScheduleSessions(state);
+  return (
+    <>
+      {sessions.map((session, index) => (
+        <div className="dp-row" key={session.id}>
+          <span className="dp-avatar">{Number(session.date.slice(8))}</span>
+          <div className="dp-copy">
+            <strong>
+              {session.batch} ·{" "}
+              {new Intl.DateTimeFormat("en-GB", {
+                day: "numeric",
+                month: "long",
+                timeZone: "UTC",
+              }).format(new Date(`${session.date}T12:00:00Z`))}{" "}
+              · {session.start}–{session.end}
+            </strong>
+            <p>
+              {index === 0
+                ? "Reviewed linked-child schedule"
+                : `Shared weekly plan · ${session.timezone}`}
+            </p>
+          </div>
+          <Link className="dp-link" href={previewRoute("parent-weekly")}>
+            {index === 0 ? "Open session" : "View details"}
+          </Link>
+        </div>
+      ))}
+      {!sessions.length && (
+        <p className="dp-note">
+          Your next schedule is awaiting coach review. Only approved sessions
+          published for your linked child appear here.
+        </p>
+      )}
+    </>
+  );
+}
+
+function StaffSessionRows() {
   const state = usePreviewState(),
-    academy = resolvedAcademy(state.academyId, state.profiles);
-  function selectSession(
-    event: MouseEvent<HTMLAnchorElement>,
-    slot: "first" | "second",
-  ) {
-    const session = deriveHomeDashboard(state).sessions.find(
-      (record) => record.slot === slot,
-    );
+    academy = resolvedAcademy(state.academyId, state.profiles),
+    sessions = deriveHomeDashboard(state).sessions;
+  function selectSession(event: MouseEvent<HTMLAnchorElement>, id: string) {
+    const session = sessions.find((record) => record.id === id);
     const patch = session ? homeSessionPatch(state, session) : null;
     if (!patch) {
       event.preventDefault();
@@ -29,46 +69,39 @@ export function SessionRows() {
   }
   return (
     <>
-      <div className="dp-row">
-        <span className="dp-avatar">
-          {weekPlanContext(state.fields, state.players).first.number}
-        </span>
-        <div className="dp-copy">
-          <strong>
-            {weekPlanContext(state.fields, state.players).batch} ·{" "}
-            {weekPlanContext(state.fields, state.players).first.label} ·{" "}
-            {weekPlanContext(state.fields, state.players).time}
-          </strong>
-          <p>Maya Rao · {academy.venue} · Confirmed</p>
+      {sessions.map((session, index) => (
+        <div className="dp-row" key={session.id}>
+          <span className="dp-avatar">{Number(session.date.slice(8))}</span>
+          <div className="dp-copy">
+            <strong>
+              {session.batch} ·{" "}
+              {new Intl.DateTimeFormat("en-GB", {
+                day: "numeric",
+                month: "long",
+                timeZone: "UTC",
+              }).format(new Date(`${session.date}T12:00:00Z`))}{" "}
+              · {session.start}–{session.end}
+            </strong>
+            <p>
+              {index === 0
+                ? `Maya Rao · ${session.venue} · ${session.status === "Scheduled" ? "Confirmed" : session.status}`
+                : `Receiving and passing · ${academy.timezone}`}
+            </p>
+          </div>
+          <Link
+            className="dp-link"
+            href={previewRoute("session-summary")}
+            onClick={(event) => selectSession(event, session.id)}
+          >
+            {index === 0 ? "Open session" : "View details"}
+          </Link>
         </div>
-        <Link
-          className="dp-link"
-          href={previewRoute("session-summary")}
-          onClick={(event) => selectSession(event, "first")}
-        >
-          Open session
-        </Link>
-      </div>
-      <div className="dp-row">
-        <span className="dp-avatar">
-          {weekPlanContext(state.fields, state.players).second.number}
-        </span>
-        <div className="dp-copy">
-          <strong>
-            {weekPlanContext(state.fields, state.players).batch} ·{" "}
-            {weekPlanContext(state.fields, state.players).second.label} ·{" "}
-            {weekPlanContext(state.fields, state.players).time}
-          </strong>
-          <p>Receiving and passing · {academy.timezone}</p>
-        </div>
-        <Link
-          className="dp-link"
-          href={previewRoute("session-summary")}
-          onClick={(event) => selectSession(event, "second")}
-        >
-          View details
-        </Link>
-      </div>
+      ))}
+      {!sessions.length && (
+        <p className="dp-note">
+          No accessible recorded sessions in this batch plan.
+        </p>
+      )}
     </>
   );
 }

@@ -221,10 +221,7 @@ test("Home actions preserve academy, player and review context without executing
     .getByRole("link", { name: "View Calendar", exact: true })
     .click();
   await expect(page).toHaveURL(/design-preview\/sessions/);
-  await expect(page.locator("main")).toContainText("20 October");
-  await expect(page.getByLabel("Player context", { exact: true })).toHaveValue(
-    "aarav",
-  );
+  await expect(page.locator(".cal-panel:visible")).toContainText("20 Oct 2026");
 
   await page.goto("/design-preview/coach-today");
   const navigation = page.getByRole("navigation", {
@@ -485,22 +482,34 @@ test("Home opens the second scheduled date and keeps a genuine no-session day ho
     .getByRole("link", { name: "View Calendar", exact: true })
     .click();
   await page
-    .locator(".dp-row")
-    .filter({ hasText: "22 October" })
-    .getByRole("link", { name: "View details", exact: true })
+    .locator(
+      'button.cal-event[data-session-id="riverside:U10 Foundations:2026-10-22"]:visible',
+    )
+    .first()
     .click();
-  await expect(page).toHaveURL(/design-preview\/session-summary/);
+  await expect(page.locator(".cal-panel:visible")).toContainText("22 Oct 2026");
+  await page
+    .locator(".cal-panel:visible")
+    .getByRole("link", { name: "Open Session", exact: true })
+    .click();
+  await expect(page).toHaveURL(/design-preview\/session-agenda/);
   await expect(page.locator("main")).toContainText("22 October");
   await expect(page.getByLabel("Player context", { exact: true })).toHaveValue(
     "aarav",
   );
   await page.goto("/design-preview/sessions");
   await page
-    .locator(".dp-row")
-    .filter({ hasText: "20 October" })
-    .getByRole("link", { name: "Open session", exact: true })
+    .locator(
+      'button.cal-event[data-session-id="riverside:U10 Foundations:2026-10-20"]:visible',
+    )
+    .first()
     .click();
-  await expect(page).toHaveURL(/design-preview\/session-summary/);
+  await expect(page.locator(".cal-panel:visible")).toContainText("20 Oct 2026");
+  await page
+    .locator(".cal-panel:visible")
+    .getByRole("link", { name: "Open Session", exact: true })
+    .click();
+  await expect(page).toHaveURL(/design-preview\/session-agenda/);
   await expect(page.locator("main")).toContainText("20 October");
   await expect(page.locator("main")).not.toContainText("22 October");
   await expect(page.getByLabel("Player context", { exact: true })).toHaveValue(

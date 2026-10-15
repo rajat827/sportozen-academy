@@ -14,12 +14,14 @@ export function WorkspaceMessages({
   player,
   sportId,
   initialFeedback = "",
+  initialReportId = "",
   onFeedbackSent,
 }: {
   workspace: Controller;
   player: WorkspacePlayer;
   sportId: string;
   initialFeedback?: string;
+  initialReportId?: string;
   onFeedbackSent?: () => void;
 }) {
   const data = w.data!,
@@ -31,7 +33,8 @@ export function WorkspaceMessages({
       (r) =>
         r.playerId === player.id &&
         r.sportId === sportId &&
-        r.status === "Approved",
+        r.status === "Approved" &&
+        r.snapshot,
     ),
     updates = data.records.update.filter(
       (u) => u.playerId === player.id && u.sportId === sportId,
@@ -41,7 +44,7 @@ export function WorkspaceMessages({
     );
   const [type, setType] = useState("DEVELOPMENT"),
     [body, setBody] = useState(""),
-    [reportId, setReportId] = useState(reports[0]?.id ?? ""),
+    [reportId, setReportId] = useState(initialReportId || reports[0]?.id || ""),
     [verified, setVerified] = useState(""),
     [subject, setSubject] = useState(
       initialFeedback ? "Parent-submitted practice feedback" : "",
@@ -54,6 +57,18 @@ export function WorkspaceMessages({
         : "",
     );
   useUnsavedChanges(!!body.trim() || !!firstMessage.trim());
+  const sourceReport = reports.find((report) => report.id === reportId),
+    sourceUnavailable =
+      !!initialReportId &&
+      !reports.some((report) => report.id === initialReportId),
+    canDraft =
+      type === "NUTRITION_HYDRATION"
+        ? !!plans.length
+        : !!sourceReport &&
+          (!!sourceReport.planId || !!sourceReport.monthlySources) &&
+          (type !== "UPCOMING_TRAINING" || !!sourceReport.approvedPlan) &&
+          (type !== "REVIEWED_SESSION" ||
+            !!sourceReport.sourceEvidenceIds?.length);
   function prefill() {
     if (type === "NUTRITION_HYDRATION") {
       setBody(generalNutritionGuidance);
@@ -64,7 +79,7 @@ export function WorkspaceMessages({
       setBody(
         type === "UPCOMING_TRAINING"
           ? `Hi, here is ${report.player}'s upcoming training focus from the approved plan.\n\nPlanned focus: ${report.focus}\nWhy: ${report.reviewedReason}\nPlanned drills: ${report.activities.map((a) => `${a.name}: intended to support ${a.purpose}`).join("\n")}\nWhat the coach will observe: ${report.observationCriteria}\nReview: ${report.reviewDate ?? "To be confirmed"}\nThese are planned activities, not completed results.\n— ${report.academy}`
-          : `Hi, here is ${report.player}'s coach-reviewed ${type === "REVIEWED_SESSION" ? "session" : "development"} update for ${report.period}.\n\nWhat was practised: ${report.practised}\n\nWhat the coach observed: ${report.evidence.map((e) => `${e.text} (Source: ${e.source})`).join("\n")}\n\nNext focus: ${report.nextStep}\n\nReview: ${report.reviewDate ?? "To be confirmed"}\n\nYou can reply privately in Sportozen Academy.\n— ${report.academy}`,
+          : `Hi, here is ${report.player}'s coach-reviewed ${type === "REVIEWED_SESSION" ? "session" : "development"} update for ${report.period}.\n\nWhat was practised: ${report.practised}\n\nReviewed evidence and coach notes: ${report.evidence.map((e) => `${e.text} (Source: ${e.source})`).join("\n")}\n\nNext focus: ${report.nextStep}\n\nReview: ${report.reviewDate ?? "To be confirmed"}\n\nYou can reply privately in Sportozen Academy.\n— ${report.academy}`,
       );
   }
   return (
@@ -145,11 +160,14 @@ export function WorkspaceMessages({
             className="form-stack"
             onSubmit={async (e) => {
               e.preventDefault();
-              if (!plans[0]) return;
+              if (!canDraft || sourceUnavailable) return;
               const saved = await w.save("update", {
                 playerId: player.id,
                 sportId,
-                planId: plans[0].id,
+                planId:
+                  type === "NUTRITION_HYDRATION"
+                    ? plans[0].id
+                    : sourceReport!.planId,
                 messageBody: body,
                 type,
                 sourceReportId:
@@ -158,6 +176,12 @@ export function WorkspaceMessages({
               if (saved) setBody("");
             }}
           >
+            {sourceUnavailable && (
+              <p role="alert">
+                The selected approved report is unavailable for this child.
+                Return to Reports and select an authorised source.
+              </p>
+            )}
             <label>
               Update category
               <select
@@ -214,9 +238,17 @@ export function WorkspaceMessages({
                 opt-in.
               </p>
             )}
-            <Button disabled={w.busy || !plans.length}>
+            <Button disabled={w.busy || !canDraft || sourceUnavailable}>
               Save update draft
             </Button>
+            {!canDraft && (
+              <p>
+                This category needs its recorded approved source. Development
+                updates can use an approved batch-only monthly report; upcoming
+                training uses an approved plan, and reviewed session updates
+                need reviewed session evidence.
+              </p>
+            )}
           </form>
         </Card>
       )}
@@ -267,7 +299,7 @@ export function WorkspaceMessages({
                   {update.type !== "UPCOMING_TRAINING" &&
                     update.approvedSource.evidence[0] && (
                       <p>
-                        Reviewed observation:{" "}
+                        Recorded source evidence:{" "}
                         {update.approvedSource.evidence[0].text}
                         <br />
                         Evidence source:{" "}

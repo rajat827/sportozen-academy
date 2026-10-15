@@ -46,7 +46,10 @@ export function useWorkspace(academyId: string) {
       controller.signal,
     )
       .then((next) => {
-        if (!controller.signal.aborted) setData(next);
+        if (!controller.signal.aborted) {
+          setData(next);
+          setError("");
+        }
       })
       .catch((e) => {
         if (!controller.signal.aborted)
@@ -69,7 +72,13 @@ export function useWorkspace(academyId: string) {
         method,
         body,
       );
-      await reload();
+      try {
+        await reload();
+      } catch {
+        setError(
+          "Saved to academy records, but the refreshed view could not load. Reload to see the confirmed result.",
+        );
+      }
       return value;
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not save.");
@@ -80,7 +89,7 @@ export function useWorkspace(academyId: string) {
     }
   }
   return {
-    data,
+    data: data?.academy.id === academyId ? data : null,
     error,
     busy,
     reload,
@@ -96,10 +105,15 @@ export function useWorkspace(academyId: string) {
       payload?: unknown,
       verified = false,
     ) => mutate<T>("/actions", "POST", { action, id, data: payload, verified }),
-    configure: (body: unknown) => mutate("", "PATCH", body),
+    configure: (body: unknown) =>
+      mutate("", "PATCH", {
+        expectedVersion: data?.academy.configVersion ?? 0,
+        ...(typeof body === "object" && body !== null ? body : {}),
+      }),
     training: <T>(body: unknown) => mutate<T>("/training", "POST", body),
     period: <T>(body: unknown) => mutate<T>("/periods", "POST", body),
     communication: <T>(body: unknown) =>
       mutate<T>("/communication", "POST", body),
+    finance: <T>(body: unknown) => mutate<T>("/finance", "POST", body),
   };
 }

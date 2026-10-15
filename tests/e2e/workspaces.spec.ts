@@ -157,12 +157,23 @@ test("authenticated football academies isolate regional plans, approved parent r
   });
   const ownerA = await ownerAContext.newPage();
   await ownerA.goto(`/workspace/${aid}`);
-  await ownerA.getByRole("button", { name: "Settings", exact: true }).click();
   await ownerA
+    .locator(".portal-sidebar")
+    .getByRole("button", { name: "Players", exact: true })
+    .click();
+  await ownerA
+    .locator(".portal-page-heading")
+    .getByRole("button", { name: "Add Player", exact: true })
+    .click();
+  const playerEditor = ownerA.getByRole("dialog", {
+    name: "Add Player",
+    exact: true,
+  });
+  await playerEditor
     .getByLabel("Player name", { exact: true })
     .fill("Fictional Child A");
-  await ownerA.getByLabel("Squad", { exact: true }).fill("Junior");
-  await ownerA
+  await playerEditor.getByLabel("Batch label", { exact: true }).fill("Junior");
+  await playerEditor
     .getByRole("combobox", { name: "Assigned coach", exact: true })
     .selectOption(coach.userId);
   // Inject one failed save, then retry against the real API. The draft must survive.
@@ -174,21 +185,25 @@ test("authenticated football academies isolate regional plans, approved parent r
       body: JSON.stringify({ error: "Temporary test save failure" }),
     }),
   );
-  await ownerA.getByRole("button", { name: "Add player", exact: true }).click();
+  await playerEditor
+    .getByRole("button", { name: "Add Player", exact: true })
+    .click();
   await expect(
-    ownerA
+    playerEditor
       .getByRole("alert")
       .filter({ hasText: "Temporary test save failure" }),
   ).toHaveText("Temporary test save failure");
-  await expect(ownerA.getByLabel("Player name", { exact: true })).toHaveValue(
-    "Fictional Child A",
-  );
+  await expect(
+    playerEditor.getByLabel("Player name", { exact: true }),
+  ).toHaveValue("Fictional Child A");
   await ownerA.unroute(playerEndpoint);
   const playerResponse = ownerA.waitForResponse(
     (r) =>
       r.url().endsWith("/records/player") && r.request().method() === "POST",
   );
-  await ownerA.getByRole("button", { name: "Add player", exact: true }).click();
+  await playerEditor
+    .getByRole("button", { name: "Add Player", exact: true })
+    .click();
   const playerCreated = await playerResponse;
   expect(playerCreated.status()).toBe(201);
   const child = await playerCreated.json();
@@ -249,7 +264,7 @@ test("authenticated football academies isolate regional plans, approved parent r
       storageState: await api.storageState(),
     });
     const page = await context.newPage();
-    await page.goto(`/workspace/${id}`);
+    await page.goto(`/workspace/${id}?section=development&player=${playerId}`);
     await page
       .getByRole("combobox", { name: "Player", exact: true })
       .selectOption(playerId);
@@ -345,7 +360,11 @@ test("authenticated football academies isolate regional plans, approved parent r
     expect(
       (
         await c.api.patch(`/api/workspaces/${cid}`, {
-          data: { ...config, sportIds: ["football", unsupported] },
+          data: {
+            ...config,
+            expectedVersion: config.configVersion ?? 0,
+            sportIds: ["football", unsupported],
+          },
         })
       ).status(),
     ).toBe(400);
@@ -435,7 +454,11 @@ test("authenticated football academies isolate regional plans, approved parent r
   ).toBe(404);
   // Saving regional settings cannot delete or convert historical records.
   expect(
-    (await c.api.patch(`/api/workspaces/${cid}`, { data: config })).status(),
+    (
+      await c.api.patch(`/api/workspaces/${cid}`, {
+        data: { ...config, expectedVersion: config.configVersion ?? 0 },
+      })
+    ).status(),
   ).toBe(200);
   const historicalAfter = execFileSync(
     process.execPath,
@@ -610,9 +633,9 @@ test("authenticated football academies isolate regional plans, approved parent r
   });
   const page = await browserContext.newPage();
   await page.goto(`/workspace/${aid}`);
-  await expect(
-    page.getByRole("heading", { name: "Fictional A Football" }),
-  ).toBeVisible();
+  await expect(page.locator(".portal-parent-identity strong")).toHaveText(
+    "Fictional A Football",
+  );
   for (const width of [1440, 1280, 1024, 768, 390, 320]) {
     await page.setViewportSize({ width, height: 900 });
     expect(
@@ -650,8 +673,7 @@ test("authenticated football academies isolate regional plans, approved parent r
     storageState: await coach.api.storageState(),
   });
   const coachPage = await coachContext.newPage();
-  await coachPage.goto(`/workspace/${aid}`);
-  await coachPage.getByLabel("Player", { exact: true }).selectOption(child.id);
+  await coachPage.goto(`/workspace/${aid}?section=messages&player=${child.id}`);
   await coachPage
     .getByRole("button", { name: "Messages", exact: true })
     .click();
@@ -692,7 +714,8 @@ test("authenticated football academies isolate regional plans, approved parent r
     path: "docs/screenshots/football-only/parent-thread.png",
     fullPage: true,
   });
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await page.getByRole("button", { name: "More", exact: true }).click();
+  await page.getByRole("tab", { name: "Notifications", exact: true }).click();
   await expect(
     page.getByRole("checkbox", {
       name: "Optional nutrition and hydration guidance",
@@ -793,16 +816,34 @@ test("authenticated football academies isolate regional plans, approved parent r
     storageState: await a.api.storageState(),
   });
   const switchingPage = await switchingContext.newPage();
-  await switchingPage.goto(`/workspace/${aid}`);
+  await switchingPage.goto(
+    `/workspace/${aid}?section=development&player=${child.id}`,
+  );
   await expect(
     switchingPage.getByRole("combobox", { name: "Player", exact: true }),
   ).toContainText("Fictional Child A");
   await switchingPage
-    .getByLabel("Switch academy", { exact: true })
-    .selectOption(cid);
-  await expect(
-    switchingPage.getByRole("heading", { name: "Fictional C Football" }),
-  ).toBeVisible();
+    .getByRole("button", { name: "Help and academy access", exact: true })
+    .click();
+  await switchingPage
+    .getByRole("dialog", { name: "Your academy workspace", exact: true })
+    .getByRole("link", { name: "Your academies", exact: true })
+    .click();
+  await switchingPage
+    .locator("section.card")
+    .filter({
+      has: switchingPage.getByRole("heading", {
+        name: "Fictional C Football",
+        exact: true,
+      }),
+    })
+    .getByRole("link", { name: "Open academy", exact: true })
+    .click();
+  await expect(switchingPage).toHaveURL(new RegExp(`/workspace/${cid}$`));
+  await expect(switchingPage.locator(".portal-academy strong")).toHaveText(
+    "Fictional C Football",
+  );
+  await switchingPage.goto(`/workspace/${cid}?section=development`);
   await expect(
     switchingPage.getByRole("combobox", { name: "Player", exact: true }),
   ).not.toContainText("Fictional Child A");
@@ -812,7 +853,9 @@ test("authenticated football academies isolate regional plans, approved parent r
     storageState: await c.api.storageState(),
   });
   const ownerPage = await ownerContext.newPage();
-  await ownerPage.goto(`/workspace/${cid}`);
+  await ownerPage.goto(
+    `/workspace/${cid}?section=development&player=${two.id}`,
+  );
   await expect(ownerPage.getByLabel("Active sport")).toHaveCount(0);
   await expect(
     ownerPage.getByRole("checkbox", { name: "Badminton", exact: true }),
@@ -829,8 +872,9 @@ test("authenticated football academies isolate regional plans, approved parent r
     path: "docs/screenshots/football-only/approved-report.png",
     fullPage: true,
   });
+  await ownerPage.getByRole("button", { name: "More", exact: true }).click();
   await ownerPage
-    .getByRole("button", { name: "Settings", exact: true })
+    .getByRole("tab", { name: "Integrations", exact: true })
     .click();
   await ownerPage.screenshot({
     path: "docs/screenshots/football-only/settings-not-connected.png",
