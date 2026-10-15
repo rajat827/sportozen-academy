@@ -1,0 +1,21 @@
+{
+  "reference": "docs\\reference\\approved-ui\\reports-screen.png",
+  "referenceSha256": "0e557687d787d590e671808ed2422f8911e279d01c435dd17438f034257f452c",
+  "referenceSourceSize": [
+    1536,
+    1024
+  ],
+  "referenceCrop": null,
+  "referenceDisplaySize": [
+    1536,
+    1024
+  ],
+  "actual": "docs\\screenshots\\academy-portal\\reports-1536.png",
+  "actualSha256": "e4acb5e3eaba6bc7c9d063ca6ce16728c6677ee17b4a62023697845a359d6f8d",
+  "actualSize": [
+    1536,
+    1024
+  ],
+  "notes": "Inspected at native 1536 x 1024.\n\nReport tabs, metrics, filters, directory and approved snapshot panel follow the reference hierarchy.\n\nActual approved wording is longer: attendance and missing individual observations are disclosed in full. It is not replaced with unsupported progress bars or scores.\n\nThree players and one recorded report leave fewer rows. Photos and age/position details are not invented.\n\nNoto and the longer evidence card shift later sections below the viewport. Full-page capture is supplied. Visual approval is pending.",
+  "status": "Inspected implementation evidence; awaiting user visual approval"
+}

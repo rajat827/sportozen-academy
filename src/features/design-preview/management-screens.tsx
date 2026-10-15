@@ -11,8 +11,16 @@ import {
   reportFixture,
   sessionViewContext,
 } from "./fixtures";
-import { Button, Card, Badge, Go, Head, Field, Pitch } from "./ui";
+import { Button, Card, Badge, Go, Head, Field, Pitch, Context } from "./ui";
 import { SessionRows } from "./rows";
+import {
+  selectedSession,
+  sessionAccess,
+  sessionVenue,
+  parentScheduleSessions,
+  weekDates,
+  calendarContext,
+} from "./preview-session-records";
 export function Access({ screen: s, scenario }: Props) {
   const [email, setEmail] = useState("maya@example.test"),
     [name, setName] = useState("Maya Rao"),
@@ -125,6 +133,8 @@ export function Access({ screen: s, scenario }: Props) {
 
 export function DirectoryScreen({ screen: s }: Props) {
   const state = usePreviewState();
+  const parentSessions =
+    s.id === "parent-schedule" ? parentScheduleSessions(state) : [];
   const branchDraft = state.fields[`${state.academyId}:branch-edit`];
   const venueDraft = state.fields[`${state.academyId}:venue-edit`];
   const session = sessionViewContext(
@@ -244,12 +254,12 @@ export function DirectoryScreen({ screen: s }: Props) {
       </div>
       {s.id === "sessions" || s.id === "parent-schedule" ? (
         <>
-          {session.selected && (
+          {s.id !== "parent-schedule" && session.selected && (
             <p className="dp-note">
               Calendar context: {session.label} · {session.batch}
             </p>
           )}
-          {session.stale && (
+          {s.id !== "parent-schedule" && session.stale && (
             <p className="dp-note">
               Previous session context is unavailable in this batch plan. Choose
               a recorded session below.
@@ -261,18 +271,38 @@ export function DirectoryScreen({ screen: s }: Props) {
             </Button>
           </div>
           {calendar && (
-            <div className="dp-status-grid" aria-label="October week calendar">
-              {[
-                "Mon 19 · No session",
-                "Tue 20 · 17:30 U10",
-                "Wed 21 · No session",
-                "Thu 22 · 17:30 U10",
-              ].map((t) => (
+            <div
+              className="dp-status-grid"
+              aria-label={
+                s.id === "parent-schedule"
+                  ? "Approved linked-child week calendar"
+                  : "October week calendar"
+              }
+            >
+              {(s.id === "parent-schedule"
+                ? weekDates(calendarContext(state).today).map((day) => {
+                    const records = parentSessions.filter(
+                      (record) => record.date === day,
+                    );
+                    const label = new Intl.DateTimeFormat("en-GB", {
+                      weekday: "short",
+                      day: "numeric",
+                      timeZone: "UTC",
+                    }).format(new Date(`${day}T12:00:00Z`));
+                    return `${label} · ${records.length ? records.map((record) => `${record.start} ${record.batch}`).join("; ") : "No approved session published"}`;
+                  })
+                : [
+                    "Mon 19 · No session",
+                    "Tue 20 · 17:30 U10",
+                    "Wed 21 · No session",
+                    "Thu 22 · 17:30 U10",
+                  ]
+              ).map((t) => (
                 <article key={t}>{t}</article>
               ))}
             </div>
           )}
-          <SessionRows />
+          <SessionRows parent={s.id === "parent-schedule"} />
         </>
       ) : (
         rows
@@ -340,7 +370,63 @@ export function DirectoryScreen({ screen: s }: Props) {
   );
 }
 
-export function DetailScreen({ screen: s }: Props) {
+export function DetailScreen(props: Props) {
+  const state = usePreviewState();
+  if (
+    props.screen.id === "session-summary" &&
+    state.fields["session-context"]?.source === "calendar"
+  ) {
+    const record = selectedSession(state);
+    if (!record)
+      return (
+        <Card>
+          <Head title="Selected session unavailable" />
+          <p>
+            This record is missing or inaccessible. Another session is not
+            selected.
+          </p>
+          <Go to="sessions">View Calendar</Go>
+        </Card>
+      );
+    const access = sessionAccess(state, record);
+    return (
+      <Card>
+        <Head
+          title={`${record.batch || record.title} · ${record.date ? new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", timeZone: "UTC" }).format(new Date(`${record.date}T12:00:00Z`)) : "Date not confirmed"}`}
+          note={record.title}
+        />
+        <dl>
+          {[
+            [
+              "Session",
+              `${record.date} · ${record.allDay ? "All day" : `${record.start}–${record.end}`}`,
+            ],
+            ["Batch", record.batch || "No training batch"],
+            ["Venue", sessionVenue(state, record)],
+            ["Reporting timezone", record.timezone],
+            ["Status", record.status],
+            ...(access.canRoster
+              ? [["Recorded roster", `${record.rosterIds.length} players`]]
+              : []),
+          ].map(([label, value]) => (
+            <div className="dp-list-detail" key={label}>
+              <dt>{label}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+        <Context />
+        <div className="dp-actions">
+          <Go to="session-agenda">Open Session</Go>
+          <Go to="sessions">View Calendar</Go>
+        </div>
+      </Card>
+    );
+  }
+  return <LegacyDetailScreen {...props} />;
+}
+
+function LegacyDetailScreen({ screen: s }: Props) {
   const state = usePreviewState(),
     p = state.players.find((p) => p.id === state.playerId)!,
     academy = resolvedAcademy(state.academyId, state.profiles),

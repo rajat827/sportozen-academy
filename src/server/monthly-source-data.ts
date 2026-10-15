@@ -28,6 +28,7 @@ export function monthlySourceData(
       timezone: s.timezone,
       status: s.status,
       theme: s.theme,
+      sharedObjective: s.sharedObjective,
       agenda: s.agenda,
       objectives: s.objectives.filter((o) => o.playerId === playerId),
     })),

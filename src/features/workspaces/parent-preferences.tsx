@@ -77,7 +77,7 @@ export function ParentPreferences({
         </label>
         <p>
           Quiet hours apply to configured WhatsApp dispatch. Manage verified
-          contact, consent and categories in the WhatsApp settings above.
+          contact, consent and delivery categories in Settings → Integrations.
         </p>
         <Button disabled={w.busy}>Save preferences</Button>
       </form>
@@ -89,6 +89,12 @@ export function ParentPreferences({
             await w.save("dietary", { playerId, note });
           }}
         >
+          <p>
+            Private note for{" "}
+            {d.records.player.find((player) => player.id === playerId)?.name ??
+              "your selected child"}
+            .
+          </p>
           <label>
             Private dietary restriction or allergy note
             <textarea

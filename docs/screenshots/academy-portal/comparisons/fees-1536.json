@@ -1,0 +1,21 @@
+{
+  "reference": "docs\\reference\\approved-ui\\fees-screen.png",
+  "referenceSha256": "4f0e1ca1c563f7658d072c700befb5e8caae310b8813d713a514c99fa2d997eb",
+  "referenceSourceSize": [
+    1536,
+    1024
+  ],
+  "referenceCrop": null,
+  "referenceDisplaySize": [
+    1536,
+    1024
+  ],
+  "actual": "docs\\screenshots\\academy-portal\\fees-1536.png",
+  "actualSha256": "cb742c9fa0979afa7a8c0566fdab05a5a67aed887d2fe1c683af0d0b0ce9d91a",
+  "actualSize": [
+    1536,
+    1024
+  ],
+  "notes": "Inspected at native 1536 x 1024, plus 1440 and phone captures.\n\nMetrics, controls, selected account, linked guardian and payment history use persisted finance events.\n\nOnly two invoices exist. Partial and overdue states, verified collection and missing phone text reflect the actual records.\n\nNo gateway is connected: the action records a manual reference pending verification. No fabricated WhatsApp/phone shortcut is shown.\n\nNoto and truthful payment detail make the panel taller. At 320 px metrics stack and tabs/table scroll locally. Visual approval is pending.",
+  "status": "Inspected implementation evidence; awaiting user visual approval"
+}

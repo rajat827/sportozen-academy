@@ -33,6 +33,10 @@ import { Button, Card, Badge, Go } from "./ui";
 import { ScreenContent } from "./screens";
 import { ApprovedHomes } from "./approved-homes";
 import { HomeDashboard } from "./home-dashboard";
+import { ApprovedCalendar } from "./approved-calendar";
+import { selectedSession as canonicalSession } from "./preview-session-records";
+import { calendarDateLabel } from "./calendar-session-panel";
+import { confirmUnsavedChanges } from "@/hooks/use-unsaved-changes";
 import { GalleryPlayerProfile } from "./gallery-player";
 import { GalleryWeeklyPlan } from "./gallery-plan";
 import { GalleryOperations } from "./gallery-operations";
@@ -132,6 +136,11 @@ export function DesignPreview({
     ["default", "empty", "loading", "failed-save"].includes(scenario)
   )
     return <HomeDashboard scenario={scenario} />;
+  if (
+    screenId === "sessions" &&
+    ["default", "empty", "loading", "failed-save"].includes(scenario)
+  )
+    return <ApprovedCalendar scenario={scenario} />;
   if (scenario === "default" && parentScopeValid && screenId === "parent-home")
     return <ApprovedHomes parent />;
   if (gallery && screenId === "player-profile") return <GalleryPlayerProfile />;
@@ -158,8 +167,18 @@ export function DesignPreview({
     state.academyId,
     state.playerId,
   );
-  const title =
-    screenId === "session-summary" && selectedSession.stale
+  const calendarRecord =
+    state.fields["session-context"]?.source === "calendar"
+      ? canonicalSession(state)
+      : undefined;
+  const calendarSelected =
+    state.fields["session-context"]?.source === "calendar" &&
+    (screen?.kind === "session" || screenId === "session-summary");
+  const title = calendarSelected
+    ? calendarRecord
+      ? `${calendarDateLabel(calendarRecord.date)} · ${calendarRecord.batch}`
+      : "Selected session unavailable"
+    : screenId === "session-summary" && selectedSession.stale
       ? "Selected session unavailable"
       : screenId === "session-summary" && selectedSession.selected
         ? `${selectedSession.label} · ${selectedSession.batch}`
@@ -250,12 +269,13 @@ export function DesignPreview({
               <select
                 aria-label="Academy fixture"
                 value={academy.id}
-                onChange={(e) =>
+                onChange={(e) => {
+                  if (!confirmUnsavedChanges()) return;
                   previewAdapter.save({
                     academyId: e.target.value,
                     notice: "Fictional academy selected",
-                  })
-                }
+                  });
+                }}
               >
                 {previewAcademies.map((a) => (
                   <option key={a.id} value={a.id}>
@@ -270,6 +290,7 @@ export function DesignPreview({
                 aria-label="Role preview"
                 value={role}
                 onChange={(e) => {
+                  if (!confirmUnsavedChanges()) return;
                   const r = e.target.value as PreviewRole;
                   setGalleryRole(r);
                   if (screen) router.push(previewRoute(roleHome[r]));
@@ -286,9 +307,10 @@ export function DesignPreview({
                 <select
                   aria-label="Player context"
                   value={parentScopeValid ? state.playerId : ""}
-                  onChange={(e) =>
-                    previewAdapter.save({ playerId: e.target.value })
-                  }
+                  onChange={(e) => {
+                    if (!confirmUnsavedChanges()) return;
+                    previewAdapter.save({ playerId: e.target.value });
+                  }}
                 >
                   {!parentScopeValid && (
                     <option value="">Choose a linked child</option>
@@ -309,14 +331,15 @@ export function DesignPreview({
               <select
                 aria-label="Design scenario"
                 value={scenario}
-                onChange={(e) =>
+                onChange={(e) => {
+                  if (!confirmUnsavedChanges()) return;
                   router.push(
                     previewRoute(
                       screenId === "gallery" ? roleHome[role] : screenId,
                       e.target.value as PreviewScenario,
                     ),
-                  )
-                }
+                  );
+                }}
               >
                 {previewScenarios.map((s) => (
                   <option key={s} value={s}>

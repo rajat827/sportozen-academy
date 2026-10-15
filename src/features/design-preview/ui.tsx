@@ -15,6 +15,7 @@ import {
   sessionViewContext,
 } from "./fixtures";
 import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
+import { selectedSession, sessionVenue } from "./preview-session-records";
 export { Button, Card, Badge };
 export function Go({
   to,
@@ -127,6 +128,16 @@ export function Context() {
       state.academyId,
       state.playerId,
     );
+  if (state.fields["session-context"]?.source === "calendar") {
+    const record = selectedSession(state);
+    return (
+      <p className="dp-note">
+        {record
+          ? `${p && record.rosterIds.includes(p.id) ? `${p.name} · ` : ""}${record.batch || record.title} · ${record.date} · ${record.allDay ? "All day" : `${record.start}–${record.end}`} · ${sessionVenue(state, record)} · ${record.rosterIds.length} recorded players`
+          : "Selected session unavailable; choose an authorised record in Calendar."}
+      </p>
+    );
+  }
   return (
     <p className="dp-note">
       {p.name} · Recorded age category {p.category} · {p.batch} · Maya Rao ·{" "}

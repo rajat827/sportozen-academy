@@ -1,6 +1,6 @@
 import type { RecordBase, SportRecord } from "./entities";
 import type { ReportViewModel } from "./report";
-import type { TrainingRecords } from "./training";
+import type { TrainingRecords, ParentScheduledSession } from "./training";
 import type {
   WeeklyPlan,
   MonthlySources,
@@ -8,13 +8,21 @@ import type {
 } from "./communication";
 export type AcademyRole = "OWNER" | "ADMIN" | "COACH" | "PARENT" | "SUPPORT";
 export interface AcademyConfiguration extends RecordBase {
+  configVersion?: number;
   name: string;
   contactEmail: string;
+  location?: string;
+  about?: string;
+  phone?: string;
+  website?: string;
   country: string;
   language: string;
   currency: string;
   timezone: string;
   dateLocale: string;
+  weekStartsOn?: 0 | 1;
+  dateFormat?: "DD_MMM_YYYY" | "MM_DD_YYYY" | "YYYY_MM_DD";
+  timeFormat?: "12_HOUR" | "24_HOUR";
   measurementSystem: "METRIC" | "IMPERIAL";
   brandAccent: string;
   logoData?: string;
@@ -35,9 +43,15 @@ export interface AcademyMembership extends RecordBase {
   expiresAt?: string;
 }
 export interface WorkspacePlayer extends RecordBase {
+  recordVersion?: number;
   name: string;
   sportIds: string[];
   squad: string;
+  squadId?: string;
+  ageCategory?: string;
+  birthDate?: string;
+  position?: string;
+  status?: "ACTIVE" | "TRIAL" | "INACTIVE";
   coachId: string;
 }
 export interface WorkspacePlan extends SportRecord {
@@ -101,6 +115,7 @@ export interface WorkspaceProgram extends SportRecord {
   branchId: string;
 }
 export interface WorkspaceUpdate extends SportRecord {
+  approvedAt?: string;
   recordVersion?: number;
   playerId: string;
   planId: string;
@@ -174,8 +189,16 @@ export interface WorkspaceRecords extends TrainingRecords {
 }
 export type WorkspaceKind = keyof WorkspaceRecords;
 export interface WorkspacePayload {
+  viewer?: { id: string; name: string };
   academy: AcademyConfiguration;
   membership: AcademyMembership;
+  parentSchedule?: ParentScheduledSession[];
+  guardians?: { playerId: string; userId: string; name: string }[];
+  subscription?: {
+    tier: string;
+    status: string;
+    modules: string[];
+  };
   records: { [K in WorkspaceKind]: WorkspaceRecords[K][] };
   members: {
     userId: string;

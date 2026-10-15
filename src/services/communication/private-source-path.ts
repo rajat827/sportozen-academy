@@ -5,5 +5,6 @@ export function privateSourcePath(
   type: "WEEKLY" | "MONTHLY",
 ) {
   const key = type === "WEEKLY" ? "weekly" : "report";
-  return `/workspace/${encodeURIComponent(academyId)}?player=${encodeURIComponent(playerId)}&${key}=${encodeURIComponent(sourceId)}`;
+  const section = type === "WEEKLY" ? "development" : "reports";
+  return `/workspace/${encodeURIComponent(academyId)}?section=${section}&player=${encodeURIComponent(playerId)}&${key}=${encodeURIComponent(sourceId)}#${key}-${encodeURIComponent(sourceId)}`;
 }

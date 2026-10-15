@@ -14,6 +14,10 @@ export interface FootballVenue extends TrainingRecord {
   name: string;
   branchId: string;
   location: string;
+  parentVenueId?: string;
+  exclusive?: boolean;
+  independentChildren?: boolean;
+  bufferMinutes?: number;
 }
 export interface SessionObjective {
   playerId: string;
@@ -40,6 +44,24 @@ export interface FootballSession extends TrainingRecord {
   roster: { playerId: string; name: string }[];
   agenda: { drill: WorkspaceDrill; duration: number; drillVersion: number }[];
   objectives: SessionObjective[];
+  sharedObjective?: { goal: string; cue: string; observe: string };
+  preparation?: string[];
+  copiedFromSessionId?: string;
+}
+/** Public schedule projection only; never a staff session/roster payload. */
+export interface ParentScheduledSession {
+  id: string;
+  childId: string;
+  squadId: string;
+  batchName: string;
+  theme: string;
+  startAt: string;
+  endAt: string;
+  startLocal: string;
+  endLocal: string;
+  timezone: string;
+  location: string;
+  status: "SCHEDULED" | "IN_PROGRESS";
 }
 export interface FootballAttendance extends TrainingRecord {
   sessionId: string;

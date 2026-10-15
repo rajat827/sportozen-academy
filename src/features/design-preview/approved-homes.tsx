@@ -44,6 +44,11 @@ import {
   type PreviewScenario,
 } from "./catalog";
 import "./approved-homes.css";
+import {
+  calendarContext,
+  parentScheduleSessions,
+  sessionVenue,
+} from "./preview-session-records";
 const nav = [
   ["Home", "coach-today", Home],
   ["Calendar", "sessions", CalendarDays],
@@ -95,7 +100,13 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
   const weekLabel = `${dateLabel.format(weekStart)} – ${dateLabel.format(weekEnd)} ${weekEnd.getUTCFullYear()}`;
   const weekly = playerWeeklyState(state),
     confirmed = ctx.playerIds.includes(p.id),
-    approved = weekly.published && confirmed;
+    approved = weekly.approved && weekly.published && confirmed;
+  const publishedSessions = parent ? parentScheduleSessions(state) : [];
+  const nextSession = publishedSessions.find(
+    (record) =>
+      record.date >= calendarContext(state).today &&
+      (record.status === "Scheduled" || record.status === "In progress"),
+  );
   const report = playerReportStatus(state),
     roster = state.players.filter((p) => ctx.playerIds.includes(p.id));
   const controls = (
@@ -371,7 +382,9 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
                 <div className="ar-week-footer">
                   <span>
                     <CalendarDays size={18} />
-                    {confirmed ? "2 sessions" : "No sessions"}
+                    {approved
+                      ? `${publishedSessions.length} sessions`
+                      : "Awaiting review"}
                     <small>this week</small>
                   </span>
                   <span>
@@ -410,13 +423,13 @@ export function ApprovedHomes({ parent }: { parent: boolean }) {
                 <div>
                   <h2>Next Session</h2>
                   <p>
-                    {confirmed
-                      ? `${ctx.first.label} · ${ctx.time}`
-                      : "No confirmed current-week session"}
+                    {nextSession
+                      ? `${new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", timeZone: "UTC" }).format(new Date(`${nextSession.date}T12:00:00Z`))} · ${nextSession.start}–${nextSession.end}`
+                      : "Schedule awaiting coach review"}
                   </p>
                   <p>
-                    {confirmed
-                      ? academy.venue
+                    {nextSession
+                      ? sessionVenue(state, nextSession)
                       : "Ask the coach for the schedule"}
                   </p>
                 </div>

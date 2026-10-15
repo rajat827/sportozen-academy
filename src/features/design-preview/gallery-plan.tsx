@@ -17,6 +17,10 @@ import { AdjustmentEditor } from "./planning-screens";
 import { PlayerFocusRows } from "./rows";
 import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
 import "./gallery-plan.css";
+import {
+  parentScheduleSessions,
+  sessionVenue,
+} from "./preview-session-records";
 export function GalleryWeeklyPlan({ parent = false }: { parent?: boolean }) {
   const state = usePreviewState(),
     ctx = weekPlanContext(state.fields, state.players),
@@ -50,26 +54,51 @@ export function GalleryWeeklyPlan({ parent = false }: { parent?: boolean }) {
         <Go to="conversation">Ask the coach</Go>
       </div>
     );
-  const sessions = [ctx.first, ctx.second];
+  const sessions = parent
+    ? parentScheduleSessions(state).map((record, index) => ({
+        key: record.id,
+        label: new Intl.DateTimeFormat("en-GB", {
+          day: "numeric",
+          month: "long",
+          timeZone: "UTC",
+        }).format(new Date(`${record.date}T12:00:00Z`)),
+        time: `${record.start}–${record.end}`,
+        venue: sessionVenue(state, record),
+        activity: previewDrills.find(
+          (drill) =>
+            drill.id === (record.agendaIds[index] ?? record.agendaIds[0]),
+        )?.name,
+      }))
+    : [ctx.first, ctx.second].map((date, index) => ({
+        key: date.label,
+        label: date.label,
+        time: ctx.time,
+        venue: academy.venue,
+        activity: drills[index]?.name,
+      }));
   const sessionsContent = (
     <div className="gw-sessions">
-      {sessions.map((date, i) => (
-        <article key={date.label}>
+      {sessions.map((date) => (
+        <article key={date.key}>
           <CalendarDays size={19} />
           <div>
             <strong>{date.label}</strong>
             <p>
-              {ctx.time} · {academy.venue}
+              {date.time} · {date.venue}
             </p>
-            <p>{drills[i]?.name ?? "Activity not yet selected"}</p>
+            <p>{date.activity ?? "Activity not yet selected"}</p>
             <Go to={parent ? "parent-schedule" : "session-summary"}>
               {parent ? "Session details" : "Open session"}
             </Go>
           </div>
         </article>
       ))}
+      {!sessions.length && (
+        <p>No approved current-week sessions are published for this child.</p>
+      )}
       <small>
-        {ctx.first.label} and {ctx.second.label} · {academy.timezone}
+        {sessions.map((session) => session.label).join(" and ")} ·{" "}
+        {academy.timezone}
       </small>
     </div>
   );

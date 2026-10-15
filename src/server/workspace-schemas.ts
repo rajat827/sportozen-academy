@@ -3,38 +3,27 @@ const text = z.string().trim().min(1).max(5000),
   id = z.string().min(1).max(100),
   date = z.iso.date(),
   short = z.string().trim().max(200);
-export const academySchema = z.object({
-  name: short.min(2),
-  contactEmail: z.email(),
-  country: z.string().length(2),
-  language: short.min(2),
-  currency: z.string().regex(/^[A-Z]{3}$/),
-  timezone: short.min(1),
-  dateLocale: short.min(2),
-  measurementSystem: z.enum(["METRIC", "IMPERIAL"]),
-  brandAccent: z.enum(["#008463", "#2364a1", "#6750a4"]),
-  logoData: z
-    .string()
-    .max(300000)
-    .refine(
-      (value) =>
-        !value ||
-        /^data:image\/png;base64,iVBORw0KGgo[A-Za-z0-9+/=]+$/.test(value),
-      "Use a small PNG logo.",
-    )
-    .optional(),
-  sportIds: z.tuple([z.literal("football")]).default(["football"]),
-  ageGroups: z.array(short).default([]),
-  reviewFrequency: short.default("Coach review after comparable sessions"),
-  modules: z
-    .array(z.enum(["development", "reports", "communication", "fees"]))
-    .default(["development", "reports", "communication"]),
-  demo: z.boolean().default(false),
-});
+export {
+  academySchema,
+  academyUpdateSchema,
+} from "@/domain/academy-configuration-schema";
 export const playerSchema = z.object({
+  expectedVersion: z.number().int().nonnegative().optional(),
+  placementReviewed: z.boolean().optional(),
   name: short.min(2),
   sportIds: z.tuple([z.literal("football")]).default(["football"]),
   squad: short,
+  squadId: id.or(z.literal("")).optional(),
+  ageCategory: z.string().trim().max(30).optional(),
+  birthDate: date
+    .or(z.literal(""))
+    .refine(
+      (value) => !value || value <= new Date().toISOString().slice(0, 10),
+      "Birth date cannot be in the future.",
+    )
+    .optional(),
+  position: short.optional(),
+  status: z.enum(["ACTIVE", "TRIAL", "INACTIVE"]).optional(),
   coachId: id,
 });
 export const planSchema = z.object({
@@ -89,7 +78,7 @@ export const drillSchema = z.object({
 export const updateSchema = z.object({
   playerId: id,
   sportId: z.literal("football").default("football"),
-  planId: id,
+  planId: id.or(z.literal("")),
   messageBody: text,
   sourceReportId: id.optional(),
   sourceWeeklyPlanId: id.optional(),

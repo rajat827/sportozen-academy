@@ -1,0 +1,9 @@
+Inspected at native 1536 x 1024.
+
+Football imagery and the greeting, hero/schedule, metrics, action and summary bands follow the approved composition.
+
+Actual assigned records give fewer sessions, activities and reports. Missing player photos use a person icon. Counts and progress are not invented.
+
+Noto replaces the unidentified reference font. Lower bands sit about 10-20 px lower; long recorded text changes wrapping.
+
+Visual approval is pending.

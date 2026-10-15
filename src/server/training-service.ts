@@ -17,6 +17,10 @@ import {
   resolveSessionTime,
   measurementText,
 } from "@/services/training-rules";
+import {
+  sessionConflicts,
+  venueHierarchyError,
+} from "@/services/session-scheduling";
 import { workspaceRepository as repo } from "./workspace-repository";
 import { inPeriod } from "@/services/communication/period-rules";
 import { atomic, database, audit } from "./database";
@@ -37,6 +41,8 @@ const envelope = z.object({
     "squad",
     "venue",
     "session",
+    "reschedule",
+    "copy",
     "objective",
     "status",
     "attendance",
@@ -94,6 +100,88 @@ function playerInSession(
   requirePlayer(ctx, playerId);
   if (!s.roster.some((p) => p.playerId === playerId))
     fail("Player is not in the historical session roster.");
+}
+function sessionTimes(startLocal: string, endLocal: string, timezone: string) {
+  let startAt: string, endAt: string;
+  try {
+    startAt = resolveSessionTime(startLocal, timezone);
+    endAt = resolveSessionTime(endLocal, timezone);
+  } catch (error) {
+    fail(error instanceof Error ? error.message : "Invalid session time.");
+  }
+  if (endAt <= startAt || Date.parse(endAt) - Date.parse(startAt) > 8 * 3600000)
+    fail("Session must end after starting, within eight hours.");
+  return { startAt, endAt };
+}
+function assertAssignments(ctx: WorkspaceAccess, session: FootballSession) {
+  const branch = visibleRecord(ctx, "branch", session.branchId);
+  if (session.timezone !== branch.timezone)
+    fail("Use the recorded branch time zone.");
+  if (
+    session.venueId &&
+    scoped(ctx, "venue", session.venueId).branchId !== session.branchId
+  )
+    fail("Venue must belong to this branch.");
+  if (
+    ctx.membership.role === "COACH" &&
+    !session.coachIds.includes(ctx.user.id)
+  )
+    fail("Assign yourself to the session.", 403);
+  for (const coachId of session.coachIds) {
+    const member = repo.membership(ctx.academy.id, coachId);
+    if (
+      !member ||
+      !staff.includes(member.role as (typeof staff)[number]) ||
+      (member.sportIds.length && !member.sportIds.includes("football"))
+    )
+      fail("Choose active academy football coaches.");
+    if (
+      member.role === "COACH" &&
+      session.roster.some(
+        (player) =>
+          repo.find(ctx.academy.id, "player", player.playerId)?.coachId !==
+          coachId,
+      )
+    )
+      fail(
+        "Every assigned coach must be authorised for every player in the session roster.",
+      );
+  }
+  session.roster.forEach((player) => requirePlayer(ctx, player.playerId));
+}
+function assertBooking(ctx: WorkspaceAccess, session: FootballSession) {
+  assertAssignments(ctx, session);
+  const resolved = sessionTimes(
+    session.startLocal,
+    session.endLocal,
+    session.timezone,
+  );
+  if (
+    Date.parse(resolved.startAt) !== Date.parse(session.startAt) ||
+    Date.parse(resolved.endAt) !== Date.parse(session.endAt)
+  )
+    fail(
+      "Saved session times are inconsistent. Review the dated schedule before confirming it.",
+    );
+  if (
+    session.agenda.reduce((sum, item) => sum + item.duration, 0) >
+    (Date.parse(session.endAt) - Date.parse(session.startAt)) / 60000
+  )
+    fail("Drill durations exceed the session length.");
+  const conflicts = sessionConflicts(
+    session,
+    repo.list(ctx.academy.id, "session"),
+    repo.list(ctx.academy.id, "venue"),
+  );
+  if (conflicts.length) {
+    const kinds = [...new Set(conflicts.map((conflict) => conflict.kind))].join(
+      ", ",
+    );
+    fail(
+      `Scheduling conflict: ${kinds} already booked for an overlapping time. Choose another time or configured space.`,
+      409,
+    );
+  }
 }
 function save<K extends TrainingKind>(
   ctx: WorkspaceAccess,
@@ -180,7 +268,7 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
       case "squad": {
         requireRole(ctx, ["OWNER", "ADMIN"]);
         const d = z
-          .object({ name: text, branchId: id, playerIds: z.array(id).min(1) })
+          .object({ name: text, branchId: id, playerIds: z.array(id) })
           .parse(command.data);
         visibleRecord(ctx, "branch", d.branchId);
         if (new Set(d.playerIds).size !== d.playerIds.length)
@@ -192,9 +280,22 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
       case "venue": {
         requireRole(ctx, ["OWNER", "ADMIN"]);
         const d = z
-          .object({ name: text, branchId: id, location: text })
+          .object({
+            name: text,
+            branchId: id,
+            location: text,
+            parentVenueId: id.optional(),
+            exclusive: z.boolean().default(true),
+            independentChildren: z.boolean().default(false),
+            bufferMinutes: z.number().int().min(0).max(120).default(0),
+          })
           .parse(command.data);
         visibleRecord(ctx, "branch", d.branchId);
+        const hierarchyError = venueHierarchyError(
+          { ...base, ...d, version: v, updatedAt: "", updatedBy: ctx.user.id },
+          repo.list(ctx.academy.id, "venue"),
+        );
+        if (hierarchyError) fail(hierarchyError);
         response = save(ctx, "venue", { ...base, ...d }, v);
         break;
       }
@@ -218,6 +319,17 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
                 }),
               )
               .min(1),
+            sharedObjective: z
+              .object({
+                goal: text,
+                cue: text,
+                observe: z.string().trim().max(1000).default(""),
+              })
+              .optional(),
+            preparation: z
+              .array(z.string().trim().min(1).max(1000))
+              .max(20)
+              .optional(),
           })
           .parse(command.data);
         const branch = visibleRecord(ctx, "branch", d.branchId),
@@ -317,6 +429,9 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
             agenda,
             roster,
             objectives: old?.objectives ?? [],
+            sharedObjective: d.sharedObjective ?? old?.sharedObjective,
+            preparation: d.preparation ?? old?.preparation,
+            copiedFromSessionId: old?.copiedFromSessionId,
             status: "DRAFT",
           },
           v,
@@ -337,6 +452,110 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
               },
               0,
             );
+        break;
+      }
+      case "copy": {
+        z.object({}).strict().parse(command.data);
+        const source = authorisedSession(ctx, recordId);
+        if (source.version !== v)
+          fail(
+            "A newer version exists. Reload before copying this session.",
+            409,
+          );
+        const copyId = randomUUID();
+        const roster = source.roster.map((player) => ({
+          playerId: player.playerId,
+          name: requirePlayer(ctx, player.playerId).name,
+        }));
+        response = save(
+          ctx,
+          "session",
+          {
+            id: copyId,
+            academyId: ctx.academy.id,
+            sportId: "football",
+            branchId: source.branchId,
+            squadId: source.squadId,
+            venueId: source.venueId,
+            location: source.location,
+            coachIds: [...source.coachIds],
+            timezone: source.timezone,
+            startLocal: "",
+            endLocal: "",
+            startAt: "",
+            endAt: "",
+            theme: source.theme,
+            status: "DRAFT",
+            roster,
+            agenda: structuredClone(source.agenda),
+            objectives: source.objectives.map((objective) => ({
+              ...objective,
+              playerName:
+                roster.find((player) => player.playerId === objective.playerId)
+                  ?.name ?? objective.playerName,
+            })),
+            sharedObjective: source.sharedObjective
+              ? { ...source.sharedObjective }
+              : undefined,
+            preparation: source.preparation
+              ? [...source.preparation]
+              : undefined,
+            copiedFromSessionId: source.id,
+          },
+          0,
+        );
+        for (const player of roster)
+          save(
+            ctx,
+            "attendance",
+            {
+              id: `${copyId}:${player.playerId}`,
+              academyId: ctx.academy.id,
+              sportId: "football",
+              sessionId: copyId,
+              playerId: player.playerId,
+              status: "UNMARKED",
+              correctionReason: "",
+            },
+            0,
+          );
+        break;
+      }
+      case "reschedule": {
+        const session = authorisedSession(ctx, recordId);
+        if (!["DRAFT", "SCHEDULED"].includes(session.status))
+          fail("Only draft or scheduled sessions can be rescheduled.", 409);
+        const d = z
+          .object({
+            startLocal: text,
+            endLocal: text,
+            timezone: text,
+            location: text,
+            venueId: id.optional(),
+            coachIds: z.array(id).min(1),
+            reason: z.string().trim().min(3).max(1000),
+          })
+          .parse(command.data);
+        const { reason, ...schedule } = d;
+        const next = {
+          ...session,
+          ...schedule,
+          ...sessionTimes(d.startLocal, d.endLocal, d.timezone),
+        };
+        assertAssignments(ctx, next);
+        if (next.status === "SCHEDULED") assertBooking(ctx, next);
+        else if (
+          next.agenda.reduce((sum, item) => sum + item.duration, 0) >
+          (Date.parse(next.endAt) - Date.parse(next.startAt)) / 60000
+        )
+          fail("Drill durations exceed the session length.");
+        response = save(ctx, "session", next, v);
+        audit(
+          ctx.academy.id,
+          ctx.user.id,
+          `Session rescheduled: ${reason}`,
+          session.id,
+        );
         break;
       }
       case "objective": {
@@ -407,6 +626,8 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
         };
         if (!allowed[s.status].includes(d.status))
           fail("Invalid session status transition.", 409);
+        if (d.status === "SCHEDULED")
+          assertBooking(ctx, { ...s, status: "SCHEDULED" });
         if (d.status === "CANCELLED" && !d.reason.trim())
           fail("Record a cancellation reason.");
         if (d.status === "COMPLETED") {

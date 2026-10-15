@@ -2,22 +2,23 @@
 import { useEffect } from "react";
 
 const checkedEvents = new WeakSet<Event>();
-const dirtyEditors = new Set<symbol>();
+const dirtyEditors = new Map<symbol, (() => void) | undefined>();
 export function confirmUnsavedChanges() {
-  return (
+  const leave =
     !dirtyEditors.size ||
     window.confirm(
       "You have unsaved changes. Stay to save them, or discard them and leave?",
-    )
-  );
+    );
+  if (leave) dirtyEditors.forEach((discard) => discard?.());
+  return leave;
 }
 
 /** Drafts stay in their editor on cancellation; no private draft enters URL/storage. */
-export function useUnsavedChanges(dirty: boolean) {
+export function useUnsavedChanges(dirty: boolean, onDiscard?: () => void) {
   useEffect(() => {
     if (!dirty) return;
     const editor = Symbol();
-    dirtyEditors.add(editor);
+    dirtyEditors.set(editor, onDiscard);
     const unload = (event: BeforeUnloadEvent) => event.preventDefault();
     const navigate = (event: MouseEvent) => {
       const target = event.target instanceof Element ? event.target : null;
@@ -26,14 +27,13 @@ export function useUnsavedChanges(dirty: boolean) {
       );
       if (!action || checkedEvents.has(event)) return;
       checkedEvents.add(event);
-      if (
-        !window.confirm(
-          "You have unsaved changes. Stay to save them, or discard them and leave?",
-        )
-      ) {
+      const leave = window.confirm(
+        "You have unsaved changes. Stay to save them, or discard them and leave?",
+      );
+      if (!leave) {
         event.preventDefault();
         event.stopPropagation();
-      }
+      } else dirtyEditors.forEach((discard) => discard?.());
     };
     window.addEventListener("beforeunload", unload);
     document.addEventListener("click", navigate, true);
@@ -42,5 +42,5 @@ export function useUnsavedChanges(dirty: boolean) {
       document.removeEventListener("click", navigate, true);
       dirtyEditors.delete(editor);
     };
-  }, [dirty]);
+  }, [dirty, onDiscard]);
 }

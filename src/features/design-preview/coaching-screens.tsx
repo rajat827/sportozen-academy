@@ -3,7 +3,10 @@ import type { ScreenProps as Props } from "./types";
 import { useState } from "react";
 import Link from "next/link";
 import { previewRoute } from "./catalog";
-import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
+import {
+  useUnsavedChanges,
+  confirmUnsavedChanges,
+} from "@/hooks/use-unsaved-changes";
 import { previewAdapter, usePreviewState } from "./adapter";
 import {
   previewDrills,
@@ -25,6 +28,21 @@ import {
 } from "./ui";
 import { SessionRows, AgendaRows, PlayerFocusRows } from "./rows";
 import { AdjustmentEditor } from "./planning-screens";
+import {
+  attendancePatch,
+  calendarCoaches,
+  saveSessionNotePatch,
+  saveSessionObservationPatch,
+  selectedSession,
+  sessionAccess,
+  sessionAttendance,
+  sessionNotes,
+  sessionObservation,
+  sessionObjectives,
+  sessionVenue,
+  type PreviewAttendanceStatus,
+  type PreviewSessionPatchResult,
+} from "./preview-session-records";
 export function HomeScreen({ screen: s }: Props) {
   const state = usePreviewState(),
     academy = resolvedAcademy(state.academyId, state.profiles),
@@ -341,7 +359,416 @@ export function DrillScreen({ screen: s }: Props) {
   );
 }
 
-export function SessionScreen({ screen: s, scenario }: Props) {
+export function SessionScreen(props: Props) {
+  const state = usePreviewState();
+  return state.fields["session-context"]?.source === "calendar" ? (
+    <CanonicalSessionScreen
+      key={`${state.fields["session-context"].id}:${state.playerId}`}
+      {...props}
+    />
+  ) : (
+    <LegacySessionScreen {...props} />
+  );
+}
+
+function CanonicalSessionScreen({ screen: s, scenario }: Props) {
+  const state = usePreviewState();
+  const record = selectedSession(state);
+  const access = record && sessionAccess(state, record);
+  const player =
+    record &&
+    state.players.find(
+      (item) =>
+        item.id === state.playerId && record.rosterIds.includes(item.id),
+    );
+  const savedObservation =
+    record && player ? sessionObservation(state, record, player.id) : undefined;
+  const savedNote = record ? sessionNotes(state, record) : "";
+  const [note, setNote] = useState(savedNote);
+  const [observation, setObservation] = useState(
+    savedObservation?.observation || "",
+  );
+  const [conditions, setConditions] = useState(
+    savedObservation?.conditions || "",
+  );
+  const [next, setNext] = useState(savedObservation?.nextStep || "");
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  useUnsavedChanges(
+    note !== savedNote ||
+      observation !== (savedObservation?.observation || "") ||
+      conditions !== (savedObservation?.conditions || "") ||
+      next !== (savedObservation?.nextStep || ""),
+  );
+  function persist(result: PreviewSessionPatchResult) {
+    setNotice("");
+    if (scenario === "failed-save") {
+      setError(
+        "Save failed in this preview scenario. Your entered draft remains available for retry.",
+      );
+      return false;
+    }
+    if (!result.ok) {
+      setError(result.errors.join(" "));
+      return false;
+    }
+    const saved = previewAdapter.saveConfirmed(result.patch!);
+    if (!saved.ok) {
+      setError(
+        saved.error || "Save failed. Your entered draft remains available.",
+      );
+      return false;
+    }
+    setError("");
+    setNotice(
+      "Saved in this session’s fictional records. Review and parent publication remain separate.",
+    );
+    return true;
+  }
+  if (!record)
+    return (
+      <Card>
+        <Head title="Selected session unavailable" />
+        <p>
+          This record is missing or inaccessible. Another player or session is
+          not selected.
+        </p>
+        <Go to="sessions">View Calendar</Go>
+      </Card>
+    );
+  if (!access?.canRoster)
+    return (
+      <Card>
+        <Head title="Staff session desk unavailable" />
+        <p>
+          Parent access does not include another player’s roster, staff notes or
+          attendance.
+        </p>
+        <Go to="parent-schedule">Approved family schedule</Go>
+      </Card>
+    );
+  const roster = record.rosterIds
+    .map((id) => state.players.find((item) => item.id === id))
+    .filter((item) => !!item);
+  const attendance = sessionAttendance(state, record);
+  const objectives = sessionObjectives(state, record);
+  const stage = s.id.includes("attendance")
+    ? "attendance"
+    : s.id.includes("observation")
+      ? "observation"
+      : s.id.includes("review")
+        ? "review"
+        : s.id.includes("next-step")
+          ? "observation"
+          : "agenda";
+  const date = record.date
+    ? new Intl.DateTimeFormat("en-GB", {
+        day: "numeric",
+        month: "long",
+        timeZone: "UTC",
+      }).format(new Date(`${record.date}T12:00:00Z`))
+    : "Date not confirmed";
+  return (
+    <>
+      <div className="dp-tabs">
+        {[
+          ["Before training", "session-agenda"],
+          ["Objectives", "session-objectives"],
+          ["Attendance", "session-attendance"],
+          ["Observation", "session-observation"],
+          ["Review", "session-review"],
+        ].map(([label, id]) => (
+          <Go to={id} key={id}>
+            {label}
+          </Go>
+        ))}
+      </div>
+      <div className="dp-grid">
+        <Card>
+          <Head
+            title={`${record.batch || record.title} · ${date}`}
+            note={`${record.allDay ? "All day" : record.start ? `${record.start}–${record.end}` : "Time not confirmed"} · ${record.timezone} · ${sessionVenue(state, record)}`}
+          >
+            <Badge>{record.status}</Badge>
+          </Head>
+          <p className="dp-note">
+            {calendarCoaches(state)
+              .filter((coach) => record.coachIds.includes(coach.id))
+              .map((coach) => coach.name)
+              .join(" · ")}{" "}
+            · {roster.length} recorded players
+          </p>
+          <Context />
+          {roster.length > 0 && (
+            <label className="dp-field">
+              Session player
+              <select
+                aria-label="Session player"
+                value={player?.id || ""}
+                onChange={(event) => {
+                  if (confirmUnsavedChanges())
+                    previewAdapter.save({ playerId: event.target.value });
+                }}
+              >
+                <option value="" disabled>
+                  Choose a recorded player
+                </option>
+                {roster.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+          {!roster.length && (
+            <p className="dp-note">
+              {record.rosterIds.length
+                ? "Player records in this roster are unavailable. No replacement player is selected."
+                : "No players are recorded in this session roster. Attendance and individual observations are not inferred from another session."}
+            </p>
+          )}
+          {stage === "attendance" ? (
+            <>
+              {roster.map((item) => (
+                <div className="dp-row" key={item.id}>
+                  <div className="dp-copy">
+                    <strong>{item.name}</strong>
+                    <p>
+                      {item.category} · {item.batch}
+                    </p>
+                  </div>
+                  {access.canAttendance ? (
+                    <Field
+                      label={`Attendance for ${item.name}`}
+                      value={attendance[item.id]}
+                      options={["Unmarked", "Present", "Absent", "Excused"]}
+                      onChange={(value) =>
+                        persist(
+                          attendancePatch(
+                            state,
+                            record.id,
+                            item.id,
+                            value as PreviewAttendanceStatus,
+                          ),
+                        )
+                      }
+                    />
+                  ) : (
+                    <Badge>{attendance[item.id]}</Badge>
+                  )}
+                </div>
+              ))}
+              <p className="dp-note">
+                Unmarked is not absent. These records belong only to this
+                session.
+              </p>
+            </>
+          ) : stage === "observation" ? (
+            player ? (
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  if (
+                    persist(
+                      saveSessionObservationPatch(state, record.id, player.id, {
+                        observation,
+                        conditions,
+                        nextStep: next,
+                      }),
+                    )
+                  ) {
+                    setObservation(observation.trim());
+                    setConditions(conditions.trim());
+                    setNext(next.trim());
+                  }
+                }}
+              >
+                <p className="dp-note">
+                  {player.name} ·{" "}
+                  {objectives[player.id] || "Following the shared session plan"}
+                </p>
+                <label className="dp-field">
+                  Coach observation
+                  <textarea
+                    aria-label="Coach observation"
+                    value={observation}
+                    readOnly={!access.canManage}
+                    onChange={(event) => setObservation(event.target.value)}
+                  />
+                </label>
+                <label className="dp-field">
+                  Recorded task conditions
+                  <input
+                    aria-label="Recorded task conditions"
+                    value={conditions}
+                    readOnly={!access.canManage}
+                    onChange={(event) => setConditions(event.target.value)}
+                  />
+                </label>
+                <label className="dp-field">
+                  Next development step
+                  <textarea
+                    aria-label="Next development step"
+                    value={next}
+                    readOnly={!access.canManage}
+                    onChange={(event) => setNext(event.target.value)}
+                  />
+                </label>
+                <Button
+                  type="submit"
+                  disabled={!access.canManage || !record.dateConfirmed}
+                >
+                  Save observation
+                </Button>
+                <p className="dp-note">
+                  Private draft only. Saving does not approve evidence or
+                  publish an update.
+                </p>
+              </form>
+            ) : (
+              <p className="dp-note">
+                Choose an available player from this session’s roster to record
+                an individual observation.
+              </p>
+            )
+          ) : stage === "review" ? (
+            <>
+              <div className="dp-focus">
+                <p className="dp-overline">
+                  Recorded observation for this session
+                </p>
+                <strong>
+                  {savedObservation?.observation || "Not recorded"}
+                </strong>
+                <p>
+                  {savedObservation?.conditions ||
+                    "Task conditions not recorded"}
+                </p>
+              </div>
+              <p className="dp-note">
+                {Object.entries(attendance)
+                  .map(
+                    ([id, status]) =>
+                      `${roster.find((item) => item.id === id)?.name || "Unavailable player"}: ${status}`,
+                  )
+                  .join(" · ") || "No recorded roster attendance."}
+              </p>
+              <p>
+                Review remains separate from this private draft. No report,
+                approval or parent message is generated here.
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="dp-focus">
+                <p className="dp-overline">Shared session focus</p>
+                <strong>{record.focus || "Not recorded"}</strong>
+                <p>{record.cue || "Coaching cue not recorded"}</p>
+              </div>
+              <div className="dp-agenda">
+                {record.agendaIds
+                  .map((id) => previewDrills.find((drill) => drill.id === id))
+                  .filter((drill) => !!drill)
+                  .map((drill) => (
+                    <div className="dp-row" key={drill.id}>
+                      <div className="dp-copy">
+                        <strong>{drill.name}</strong>
+                        <p>{drill.purpose}</p>
+                      </div>
+                      <Badge>{drill.minutes} min</Badge>
+                      <Link
+                        className="dp-link"
+                        href={previewRoute("drill-detail")}
+                        onClick={() =>
+                          previewAdapter.save({
+                            fields: {
+                              ...state.fields,
+                              "drill-context": { id: drill.id },
+                            },
+                          })
+                        }
+                      >
+                        Full drill details
+                      </Link>
+                    </div>
+                  ))}
+              </div>
+              {!record.agendaIds.length && (
+                <p className="dp-note">No activities recorded.</p>
+              )}
+              {s.id === "session-objectives" &&
+                player &&
+                access.canManage &&
+                record.planId ===
+                  `weekly:${state.academyId}:${weekPlanContext(state.fields, state.players).batch}:${weekPlanContext(state.fields, state.players).week}` && (
+                  <AdjustmentEditor />
+                )}
+              <div className="dp-actions">
+                <Go to="session-attendance">Attendance</Go>
+                <Go to="session-observation">Record observation</Go>
+              </div>
+            </>
+          )}
+          {error && (
+            <p className="dp-alert error" role="alert">
+              {error}
+            </p>
+          )}
+          {notice && (
+            <p className="dp-alert success" role="status">
+              {notice}
+            </p>
+          )}
+          <div className="dp-actions">
+            <Go to="sessions">View Calendar</Go>
+          </div>
+        </Card>
+        <Card>
+          <Head
+            title="Staff-only session note"
+            note="Private drafting follows the selected session, not another player’s record."
+          />
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (persist(saveSessionNotePatch(state, record.id, note)))
+                setNote(note.trim());
+            }}
+          >
+            <label className="dp-field">
+              Private session note
+              <textarea
+                aria-label="Private session note"
+                value={note}
+                readOnly={!access.canManage}
+                onChange={(event) => setNote(event.target.value)}
+              />
+            </label>
+            <Button type="submit" disabled={!access.canManage || !note.trim()}>
+              Save private note
+            </Button>
+          </form>
+          {!access.canManage && (
+            <p className="dp-note">This historical session is read-only.</p>
+          )}
+          <h3>Plan context</h3>
+          <p>
+            This session follows its recorded shared plan. Player adjustments
+            are optional.
+          </p>
+          <p>
+            {Object.values(record.adjustments).filter(Boolean).length}{" "}
+            individual adjustments recorded.
+          </p>
+          {player && <Go to="current-plan">Current player plan</Go>}
+        </Card>
+      </div>
+    </>
+  );
+}
+
+function LegacySessionScreen({ screen: s, scenario }: Props) {
   const state = usePreviewState(),
     p = state.players.find((p) => p.id === state.playerId)!,
     session = sessionViewContext(

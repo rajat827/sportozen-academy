@@ -6,6 +6,7 @@ export async function verifyWorkspaceRestart(
   playwright: Pick<typeof import("@playwright/test"), "request">,
   account: APIRequestContext,
   academyId: string,
+  afterStart?: (reader: APIRequestContext) => Promise<void>,
 ) {
   const filename = resolve(process.env.SPORTOZEN_DATABASE_PATH ?? "");
   const localPath = relative(resolve(".local"), filename);
@@ -87,11 +88,13 @@ export async function verifyWorkspaceRestart(
     expect(
       (await (await reader.get(`/api/workspaces/${academyId}`)).json()).records,
     ).toEqual(records);
+    await afterStart?.(reader);
     await stop();
     await start();
     expect(
       (await (await reader.get(`/api/workspaces/${academyId}`)).json()).records,
     ).toEqual(records);
+    await afterStart?.(reader);
   } finally {
     await reader.dispose();
     await stop();

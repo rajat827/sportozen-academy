@@ -1,0 +1,21 @@
+{
+  "reference": "docs\\reference\\approved-ui\\home-screen.png",
+  "referenceSha256": "12c77b9ddd8645e2f9e3884a682dd166a63edfb55d5af044c3f15d3b93ab8cd0",
+  "referenceSourceSize": [
+    1536,
+    1024
+  ],
+  "referenceCrop": null,
+  "referenceDisplaySize": [
+    1536,
+    1024
+  ],
+  "actual": "docs\\screenshots\\academy-portal\\coach-home-1536.png",
+  "actualSha256": "a3e3b543bc9f83a4b9bac12a2033f42ed9265a8ba41db919aa006764bfb1bb66",
+  "actualSize": [
+    1536,
+    1024
+  ],
+  "notes": "Inspected at native 1536 x 1024.\n\nFootball imagery and the greeting, hero/schedule, metrics, action and summary bands follow the approved composition.\n\nActual assigned records give fewer sessions, activities and reports. Missing player photos use a person icon. Counts and progress are not invented.\n\nNoto replaces the unidentified reference font. Lower bands sit about 10-20 px lower; long recorded text changes wrapping.\n\nVisual approval is pending.",
+  "status": "Inspected implementation evidence; awaiting user visual approval"
+}

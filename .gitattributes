@@ -1,0 +1,2 @@
+# Preserve reference and generated PDF bytes, including cross-reference offsets.
+*.pdf binary

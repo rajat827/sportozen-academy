@@ -57,6 +57,7 @@ describe("approved Home dashboard data boundaries", () => {
           start: "17:30",
           end: "18:30",
           time: "5:30 PM – 6:30 PM",
+          source: "calendar",
         },
       },
     });

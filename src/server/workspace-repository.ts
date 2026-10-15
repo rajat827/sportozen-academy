@@ -7,6 +7,7 @@ import type {
   WorkspaceRecords,
 } from "@/domain/workspace";
 import { database } from "./database";
+import { weeklySourceAffected } from "@/services/weekly-source-impact";
 export const workspaceRepository: WorkspaceRepository = {
   academy(id) {
     const row = database()
@@ -43,7 +44,7 @@ export const workspaceRepository: WorkspaceRepository = {
         (r) =>
           ({
             ...JSON.parse(String(r.body)),
-            ...(["plan", "report", "update", "weekly"].includes(kind)
+            ...(["player", "plan", "report", "update", "weekly"].includes(kind)
               ? { recordVersion: Number(r.version) }
               : {}),
           }) as WorkspaceRecords[K],
@@ -58,7 +59,7 @@ export const workspaceRepository: WorkspaceRepository = {
     return row
       ? ({
           ...JSON.parse(String(row.body)),
-          ...(["plan", "report", "update", "weekly"].includes(kind)
+          ...(["player", "plan", "report", "update", "weekly"].includes(kind)
             ? { recordVersion: Number(row.version) }
             : {}),
         } as WorkspaceRecords[K])
@@ -67,6 +68,10 @@ export const workspaceRepository: WorkspaceRepository = {
   save(academyId, kind, record) {
     if (record.academyId !== academyId)
       throw new Error("Record ownership mismatch");
+    const previous =
+      kind === "squad"
+        ? workspaceRepository.find(academyId, "squad", record.id)
+        : undefined;
     const sportId = "sportId" in record ? record.sportId : null,
       playerId =
         "playerId" in record
@@ -86,7 +91,7 @@ export const workspaceRepository: WorkspaceRepository = {
         playerId,
         JSON.stringify(record),
       );
-    if (kind === "session" || kind === "plan") {
+    if (kind === "session" || kind === "plan" || kind === "squad") {
       // Every writer uses this boundary. A schedule/objective/plan change must
       // invalidate queued notifications immediately, not wait for an open UI.
       const weekly = database()
@@ -96,13 +101,7 @@ export const workspaceRepository: WorkspaceRepository = {
         .all(academyId);
       for (const row of weekly) {
         const r = JSON.parse(String(row.body)) as WorkspaceRecords["weekly"];
-        if (
-          !(kind === "plan"
-            ? r.content.sourcePlanId === record.id
-            : r.content.sessions.some((s) => s.id === record.id) ||
-              ("squadId" in record && r.squadId === record.squadId))
-        )
-          continue;
+        if (!weeklySourceAffected(kind, record, r, previous)) continue;
         database()
           .prepare(
             "UPDATE delivery_jobs SET state='CANCELLED',reason='Training source changed; review required' WHERE academyId=? AND sourceId=? AND state='QUEUED'",
@@ -117,6 +116,7 @@ export const workspaceRepository: WorkspaceRepository = {
               JSON.stringify({
                 ...r,
                 status: "INVALIDATED",
+                version: r.version + 1,
                 snapshot: undefined,
                 approvedAt: undefined,
                 reviewerId: undefined,

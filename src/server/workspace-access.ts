@@ -121,6 +121,8 @@ export function visibleRecords<K extends WorkspaceKind>(
   kind: K,
 ): WorkspaceRecords[K][] {
   if (!moduleEnabled(ctx, kind)) return [];
+  if (kind === "fee" && ["COACH", "SUPPORT"].includes(ctx.membership.role))
+    return [];
   const { academy, membership, user } = ctx,
     restricted = membership.role === "PARENT" || membership.role === "SUPPORT";
   if (!restricted) {

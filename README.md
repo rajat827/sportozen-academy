@@ -2,7 +2,9 @@
 
 One team. A different development path for every player.
 
-A football-only Concept B product for multiple independent football academies. Authenticated workspaces support personalised player development, approved reports and private parent communication. No rankings. The separate fictional demonstration includes Stallions FC Academy owner, coach and parent experiences.
+A football academy portal for multiple independent customer academies. Authenticated Home, Players, Calendar, Training, Reports, Fees and Settings use academy-scoped persistent records, shared batch plans with optional personalisation, reviewed reports and private parent communication. No rankings. AI Video Analysis remains Coming soon.
+
+The integration lineage, approved-reference selection and retained external-service limitations are in [Academy portal integration](docs/ACADEMY_PORTAL_INTEGRATION.md). Actual browser captures and reference comparisons are indexed in [portal verification](docs/ACADEMY_PORTAL_QA.md). Visual approval remains with the user.
 
 ## Run locally
 
@@ -13,15 +15,15 @@ pnpm install
 pnpm dev
 ```
 
-Open http://127.0.0.1:3000 and choose the academy, coach or parent fictional demo. No sign-in is needed for this default preview. The role switcher lets you explore each demonstration experience.
+Open http://127.0.0.1:3000. The entry leads to `/workspace`; unauthenticated visitors sign in or register at `/sign-in`. Owners create an empty academy, then configure branding, branches/batches, staff invitations, players and guardian relationships. Existing memberships open the same academy records for their permitted roles.
 
-The separate authenticated training workspace remains available at `/workspace` for testing persistent academy-scoped records. Register a local test account at `/sign-in`; `/workspace` lists authorised academies and creates empty customer workspaces. Records and sessions persist in ignored `.local/workspaces.sqlite`. Use fictional records while validating this local foundation. Production deployment requirements are documented in `docs/SECURITY_AND_DEPLOYMENT.md`. Demo entry does not bypass customer authentication or expose existing academy records.
+Records and sessions persist in ignored `.local/workspaces.sqlite`, unless `SPORTOZEN_DATABASE_PATH` explicitly selects another file. Keep existing databases and secrets; additive migrations preserve prior records. Production deployment requirements are documented in `docs/SECURITY_AND_DEPLOYMENT.md`.
 
-The explicitly fictional demonstration remains at `/owner/dashboard`, `/coach/dashboard` and `/parent/home`. Its header role switch selects Owner (Anil), Coach (Rahul), Parent (Neha, linked to Aarav). That demonstration switch is not authentication.
+The earlier fictional demonstrations remain separately available in development at `/owner/dashboard`, `/coach/dashboard` and `/parent/home`. Their role switch is not authentication. They and the design gallery are unavailable in a normal production build; `SPORTOZEN_GALLERY_QA=1` explicitly enables them for isolated QA.
 
 ## Football frontend design review
 
-Open `/design-preview` for the separate football product review gallery. This prototype uses typed fictional academy/player fixtures and session-local state; its account, message, payment and administrative actions do not call customer APIs. The customer workspace remains independent. Reset fictional preview clears only the prototype session.
+In development, open `/design-preview` for the retained football product review gallery. This prototype uses typed fictional academy/player fixtures and session-local state; its account, message, payment and administrative actions do not call customer APIs. Customer routes use the authenticated portal. Reset fictional preview clears only the prototype session.
 
 The screen inventory, responsive captures, Figma capability status and future service contracts are documented in [screen map](docs/design/SCREEN_MAP.md), [work ledger](docs/design/WORK_LEDGER.md), [design system](docs/design/DESIGN_SYSTEM.md) and [backend handoff](docs/design/BACKEND_HANDOFF.md). Design awaits user approval. The Figma destination currently contains only an empty page because the authorised Starter account's MCP quota blocks authoring; it is not a completed editable review set.
 

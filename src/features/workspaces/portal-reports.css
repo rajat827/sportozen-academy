@@ -1,0 +1,224 @@
+.portal-reports-layout {
+  grid-template-columns: minmax(0, 1fr) 390px;
+  gap: 18px;
+}
+.portal-reports-layout .portal-page-heading {
+  flex-wrap: wrap;
+}
+.portal-reports-layout .portal-page-heading p {
+  font-size: 13px;
+}
+.portal-reports-layout .portal-stat {
+  gap: 11px;
+  padding: 15px;
+  min-height: 118px;
+}
+.portal-reports-layout .portal-stat p {
+  font-size: 11px;
+  margin-top: 4px;
+}
+.portal-reports-layout .portal-stat strong {
+  font-size: 22px;
+}
+.portal-reports-layout .portal-round {
+  width: 45px;
+  height: 45px;
+}
+.portal-reports-layout .portal-filters {
+  margin: 14px 0;
+  gap: 8px;
+}
+.portal-reports-layout .portal-filters select {
+  font-size: 11px;
+  flex: 1;
+}
+.portal-report-period {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #dce6ee;
+  border-radius: 8px;
+  padding: 0 9px;
+  background: #fff;
+}
+.portal-report-period input {
+  border: 0;
+  max-width: 145px;
+}
+.portal-reports-layout th,
+.portal-reports-layout td {
+  padding: 15px 12px;
+  font-size: 13px;
+}
+.portal-reports-layout .portal-initials {
+  height: 32px;
+  width: 32px;
+}
+.portal-report-detail {
+  padding: 18px;
+}
+.portal-report-detail .portal-detail-title h2 {
+  font-size: 20px;
+}
+.portal-report-detail .portal-detail-title > .portal-icon {
+  margin-left: auto;
+}
+.portal-report-detail .portal-detail-title > .portal-initials {
+  width: 60px;
+  height: 65px;
+  border-radius: 10px;
+}
+.portal-report-detail .portal-tabs {
+  justify-content: space-between;
+  gap: 0;
+}
+.portal-report-detail .portal-tabs button {
+  font-size: 12px;
+  padding: 8px 12px;
+}
+.portal-report-state {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #edf9f4;
+  border-radius: 9px;
+  padding: 17px 14px;
+  color: #00a477;
+}
+.portal-report-state strong {
+  display: block;
+  color: #153c54;
+  font-size: 13px;
+}
+.portal-report-state small {
+  display: block;
+  color: #3c5e7b;
+  font-size: 10px;
+  margin-top: 6px;
+}
+.portal-report-state > .portal-status {
+  margin-left: auto;
+  font-size: 10px;
+}
+.portal-report-answers > section {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  border-radius: 10px;
+  background: #fafbfd;
+  padding: 17px 12px;
+  margin-top: 14px;
+}
+.portal-report-answers h3 {
+  font-size: 14px;
+}
+.portal-report-answers p {
+  color: #254965;
+  font-size: 13px;
+  line-height: 1.7;
+  margin-top: 8px;
+}
+.portal-report-answers .portal-round {
+  width: 43px;
+  height: 43px;
+}
+.portal-report-skills {
+  padding: 20px 8px 15px;
+  border-bottom: 1px solid #e8eef3;
+}
+.portal-report-skills h3 {
+  font-size: 12px;
+}
+.portal-report-skills > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.portal-report-skills span {
+  background: #f0f4f8;
+  border-radius: 7px;
+  padding: 7px 10px;
+  font-size: 11px;
+}
+.portal-report-comments {
+  padding: 18px 8px 25px;
+  border-bottom: 1px solid #e8eef3;
+  margin-bottom: 17px;
+}
+.portal-report-comments h3 {
+  font-size: 12px;
+}
+.portal-report-comments p {
+  font-size: 12px;
+  line-height: 1.8;
+  margin-top: 8px;
+}
+.portal-report-detail > .portal-actions {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.portal-report-detail > .portal-actions .button {
+  font-size: 11px;
+  padding: 8px 10px;
+  min-height: 42px;
+}
+.portal-report-workflow {
+  width: min(960px, calc(100vw - 28px));
+}
+.portal-report-workflow .report-document {
+  max-width: 100%;
+}
+.portal-report-workflow .secure-report-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+@media (max-width: 1300px) {
+  .portal-reports-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .portal-report-detail {
+    max-width: none;
+  }
+  .portal-report-detail .portal-report-answers {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .portal-report-detail .portal-report-answers > section {
+    display: block;
+  }
+  .portal-report-detail .portal-round {
+    margin-bottom: 10px;
+  }
+  .portal-reports-layout .portal-stat-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (max-width: 767px) {
+  .portal-report-detail .portal-report-answers {
+    display: block;
+  }
+  .portal-report-detail .portal-report-answers > section {
+    display: flex;
+  }
+  .portal-reports-layout .portal-stat-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .portal-reports-layout .portal-stat {
+    min-height: 95px;
+  }
+  .portal-report-detail .portal-round {
+    margin: 0;
+  }
+  .portal-report-detail .portal-tabs button {
+    padding: 8px;
+  }
+  .portal-reports-layout .portal-filters > input {
+    flex-basis: 100%;
+  }
+  .portal-report-detail .portal-report-state {
+    gap: 9px;
+  }
+}

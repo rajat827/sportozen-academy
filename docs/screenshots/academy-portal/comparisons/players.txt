@@ -1,0 +1,9 @@
+Inspected at native 1536 x 1024.
+
+Directory, compact filters, four metrics and selected-player panel are real components. Status and Edit share the header row.
+
+Only three authorised QA players exist. Age, position and portraits are missing, so they remain explicit rather than copying reference identities.
+
+The long actual name and missing-field wording make the detail header taller. Noto metrics, smaller placeholder portrait and shorter history differ.
+
+Visual approval is pending.

@@ -16,6 +16,7 @@ import { operationalSports } from "@/config/sports/workspace-sports";
 import { reportTrainingSources } from "./training-service";
 import { assertMonthlyCurrent, weeklySource } from "./period-service";
 import { measurementText } from "@/services/training-rules";
+import { parentSchedule } from "./parent-schedule-service";
 import { workspaceRepository as repo } from "./workspace-repository";
 import { database, atomic, audit } from "./database";
 import { authenticatedUser, WorkspaceError } from "./auth";
@@ -31,6 +32,7 @@ import {
 } from "./workspace-access";
 import {
   academySchema,
+  academyUpdateSchema,
   playerSchema,
   planSchema,
   reportSchema,
@@ -64,6 +66,14 @@ function academyReleaseView(
 ): AcademyConfiguration {
   return {
     ...academy,
+    configVersion: academy.configVersion ?? 0,
+    location: academy.location ?? "",
+    about: academy.about ?? "",
+    phone: academy.phone ?? "",
+    website: academy.website ?? "",
+    weekStartsOn: academy.weekStartsOn ?? 1,
+    dateFormat: academy.dateFormat ?? "DD_MMM_YYYY",
+    timeFormat: academy.timeFormat ?? "12_HOUR",
     sportIds: academy.sportIds.filter((sport) => sport === "football"),
     legacyRecordsRestricted: academy.sportIds.some(
       (sport) => sport !== "football",
@@ -105,6 +115,7 @@ export async function createAcademy(headers: Headers, input: unknown) {
   const id = randomUUID();
   const academy: AcademyConfiguration = {
     ...value,
+    configVersion: 0,
     id,
     academyId: id,
     nutritionOptional: true,
@@ -132,6 +143,18 @@ export function workspace(ctx: WorkspaceAccess): WorkspacePayload {
   const records = Object.fromEntries(
     kinds.map((kind) => [kind, visibleRecords(ctx, kind)]),
   ) as WorkspacePayload["records"];
+  records.update = records.update.map((record) => {
+    if (record.approvalStatus !== "APPROVED") return record;
+    const approval = database()
+      .prepare(
+        "SELECT at FROM update_approval_history WHERE academyId=? AND updateId=? AND version=? ORDER BY at DESC LIMIT 1",
+      )
+      .get(ctx.academy.id, record.id, record.version);
+    return {
+      ...record,
+      approvedAt: approval ? String(approval.at) : undefined,
+    };
+  });
   const members = ["OWNER", "ADMIN", "COACH"].includes(ctx.membership.role)
     ? database()
         .prepare(
@@ -146,32 +169,105 @@ export function workspace(ctx: WorkspaceAccess): WorkspacePayload {
           name: String(r.name),
         }))
     : [];
+  const entitlement = ["OWNER", "ADMIN"].includes(ctx.membership.role)
+    ? database()
+        .prepare(
+          "SELECT tier,status,modules FROM platform_entitlements WHERE academyId=?",
+        )
+        .get(ctx.academy.id)
+    : undefined;
   return {
     academy: academyReleaseView(ctx.academy),
+    viewer: { id: ctx.user.id, name: ctx.user.name },
     membership: ctx.membership,
+    ...(ctx.membership.role === "PARENT"
+      ? { parentSchedule: parentSchedule(ctx) }
+      : {}),
     records,
     members,
+    ...(["OWNER", "ADMIN", "COACH"].includes(ctx.membership.role)
+      ? {
+          guardians: database()
+            .prepare(
+              'SELECT g.playerId,g.userId,u.name FROM guardian_relationships g JOIN "user" u ON u.id=g.userId JOIN academy_memberships m ON m.academyId=g.academyId AND m.userId=g.userId AND m.active=1 WHERE g.academyId=?',
+            )
+            .all(ctx.academy.id)
+            .filter((row) => records.player.some((p) => p.id === row.playerId))
+            .map((row) => ({
+              playerId: String(row.playerId),
+              userId: String(row.userId),
+              name: String(row.name),
+            })),
+        }
+      : {}),
+    ...(entitlement
+      ? {
+          subscription: {
+            tier: String(entitlement.tier),
+            status: String(entitlement.status),
+            modules: JSON.parse(String(entitlement.modules)) as string[],
+          },
+        }
+      : {}),
   };
 }
 export function updateAcademy(ctx: WorkspaceAccess, input: unknown) {
   requireRole(ctx, ["OWNER", "ADMIN"]);
-  const value = academySchema.parse(input);
-  region(value);
-  // Keep historical enrolments/configuration unchanged in storage, but never
-  // accept another sport from a customer request. No destructive migration.
-  const academy = {
-    ...ctx.academy,
-    ...value,
-    sportIds: [
-      "football",
-      ...ctx.academy.sportIds.filter((sport) => sport !== "football"),
-    ],
-  };
-  database()
-    .prepare("UPDATE academy_workspaces SET config=? WHERE id=?")
-    .run(JSON.stringify(academy), academy.id);
-  audit(academy.id, ctx.user.id, "Academy configuration updated");
-  return academyReleaseView(academy);
+  const { expectedVersion } = z
+    .object({ expectedVersion: z.number().int().nonnegative() })
+    .parse(input);
+  return atomic(() => {
+    const membership = repo.membership(ctx.academy.id, ctx.user.id);
+    if (!membership)
+      throw new WorkspaceError(403, "Membership is no longer active.");
+    requireRole({ ...ctx, membership }, ["OWNER", "ADMIN"]);
+    const row = database()
+      .prepare("SELECT config FROM academy_workspaces WHERE id=?")
+      .get(ctx.academy.id);
+    if (!row) throw new WorkspaceError(404, "Academy is unavailable.");
+    const previous = JSON.parse(String(row.config)) as AcademyConfiguration;
+    if ((previous.configVersion ?? 0) !== expectedVersion)
+      throw new WorkspaceError(
+        409,
+        "Academy configuration changed. Review the saved values before retrying your draft.",
+      );
+    const { expectedVersion: _expected, ...value } = academyUpdateSchema.parse({
+      ...previous,
+      sportIds: ["football"],
+      ...(typeof input === "object" && input !== null ? input : {}),
+    });
+    void _expected;
+    region(value);
+    // Keep historical enrolments/configuration; a default timezone change does
+    // not rewrite branches, sessions, resolved instants or report snapshots.
+    const academy: AcademyConfiguration = {
+      ...previous,
+      ...value,
+      id: ctx.academy.id,
+      academyId: ctx.academy.id,
+      configVersion: expectedVersion + 1,
+      sportIds: [
+        "football",
+        ...previous.sportIds.filter((sport) => sport !== "football"),
+      ],
+    };
+    const result = database()
+      .prepare("UPDATE academy_workspaces SET config=? WHERE id=? AND config=?")
+      .run(JSON.stringify(academy), ctx.academy.id, String(row.config));
+    if (result.changes !== 1)
+      throw new WorkspaceError(
+        409,
+        "Academy configuration changed. Review the saved values before retrying your draft.",
+      );
+    audit(ctx.academy.id, ctx.user.id, "Academy configuration updated");
+    const confirmed = repo.academy(ctx.academy.id);
+    if (!confirmed || confirmed.configVersion !== expectedVersion + 1)
+      throw new WorkspaceError(
+        500,
+        "The saved academy configuration could not be confirmed.",
+      );
+    return academyReleaseView(confirmed);
+  });
 }
 function coach(ctx: WorkspaceAccess, userId: string) {
   const m = repo.membership(ctx.academy.id, userId);
@@ -218,13 +314,47 @@ export function saveRecord(
     requireRole(ctx, [...staff]);
   switch (kind) {
     case "player": {
-      const value = playerSchema.parse(input);
+      const {
+        expectedVersion: _version,
+        placementReviewed,
+        ...value
+      } = playerSchema.parse(input);
+      void _version;
       value.sportIds.forEach((s) => requireSport(ctx, s));
       coach(ctx, value.coachId);
       const historical = repo.find(ctx.academy.id, "player", id);
+      if (historical) requirePlayer(ctx, id);
+      const nextSquadId = value.squadId ?? historical?.squadId ?? "";
+      const placementChanged =
+        nextSquadId !== (historical?.squadId ?? "") ||
+        (!!historical && value.squad !== historical.squad);
+      if (placementChanged) {
+        requireRole(ctx, ["OWNER", "ADMIN"]);
+        if (historical && !placementReviewed)
+          throw new WorkspaceError(
+            400,
+            "Review the training-batch placement before applying this change. Age category is independent.",
+          );
+      }
+      if (nextSquadId) {
+        const squad = visibleRecord(ctx, "squad", nextSquadId);
+        if (squad.sportId !== "football")
+          throw new WorkspaceError(
+            400,
+            "Choose a football batch in this academy.",
+          );
+        if (placementChanged && value.squad !== squad.name)
+          throw new WorkspaceError(
+            400,
+            "The selected training batch and batch label must match.",
+          );
+      }
       record = {
+        ...historical,
+        recordVersion: undefined,
         ...base,
         ...value,
+        status: value.status ?? historical?.status ?? "ACTIVE",
         sportIds: [
           "football",
           ...(historical?.sportIds.filter((sport) => sport !== "football") ??
@@ -317,9 +447,35 @@ export function saveRecord(
       const value = updateSchema.parse(input);
       requirePlayer(ctx, value.playerId);
       requireSport(ctx, value.sportId);
-      const p = visibleRecord(ctx, "plan", value.planId);
-      if (p.playerId !== value.playerId || p.sportId !== value.sportId)
-        throw new WorkspaceError(400, "Update plan does not match.");
+      const sourceReport = value.sourceReportId
+        ? repo.find(ctx.academy.id, "report", value.sourceReportId)
+        : undefined;
+      if (
+        value.sourceReportId &&
+        (!sourceReport ||
+          sourceReport.playerId !== value.playerId ||
+          sourceReport.sportId !== value.sportId ||
+          sourceReport.status !== "Approved" ||
+          !sourceReport.snapshot)
+      )
+        throw new WorkspaceError(
+          400,
+          "Choose the player's approved sport report.",
+        );
+      if (value.planId) {
+        const p = visibleRecord(ctx, "plan", value.planId);
+        if (p.playerId !== value.playerId || p.sportId !== value.sportId)
+          throw new WorkspaceError(400, "Update plan does not match.");
+      } else if (
+        !sourceReport?.monthlySources ||
+        sourceReport.planId ||
+        !["DEVELOPMENT", "REVIEWED_SESSION"].includes(value.type)
+      ) {
+        throw new WorkspaceError(
+          400,
+          "A development plan or an approved batch-only monthly report is required.",
+        );
+      }
       if (banned.test(value.messageBody))
         throw new WorkspaceError(
           400,
@@ -338,7 +494,7 @@ export function saveRecord(
           );
       }
       if (value.sourceReportId) {
-        const r = repo.find(ctx.academy.id, "report", value.sourceReportId);
+        const r = sourceReport;
         if (
           !r ||
           r.playerId !== value.playerId ||
@@ -470,10 +626,14 @@ export function saveRecord(
       throw new WorkspaceError(400, "Unsupported record kind.");
   }
   atomic(() => {
-    if (kind === "plan" || kind === "report") {
-      const expected = (kind === "plan" ? planSchema : reportSchema).parse(
-        input,
-      ).expectedVersion;
+    if (kind === "player" || kind === "plan" || kind === "report") {
+      const expected = (
+        kind === "player"
+          ? playerSchema
+          : kind === "plan"
+            ? planSchema
+            : reportSchema
+      ).parse(input).expectedVersion;
       const current = Number(
         database()
           .prepare(
@@ -481,11 +641,60 @@ export function saveRecord(
           )
           .get(ctx.academy.id, kind, record.id)?.version ?? 0,
       );
-      if (expected !== undefined && expected !== current)
+      if (
+        (kind === "player" && current > 0 && expected === undefined) ||
+        (expected !== undefined && expected !== current)
+      )
         throw new WorkspaceError(
           409,
           "Record changed. Reload and review your unsaved draft before retrying.",
         );
+    }
+    if (kind === "player") {
+      const membership = repo.membership(ctx.academy.id, ctx.user.id);
+      if (!membership)
+        throw new WorkspaceError(403, "Membership is no longer active.");
+      requireRole({ ...ctx, membership }, [...staff]);
+      const previous = repo.find(ctx.academy.id, "player", record.id);
+      const next = record as WorkspaceRecords["player"];
+      const currentContext = { ...ctx, membership };
+      requireSport(currentContext, "football");
+      if (previous) requirePlayer(currentContext, record.id);
+      coach(currentContext, next.coachId);
+      if (previous && next.squad !== previous.squad)
+        requireRole(currentContext, ["OWNER", "ADMIN"]);
+      if ((previous?.squadId ?? "") !== (next.squadId ?? "")) {
+        requireRole({ ...ctx, membership }, ["OWNER", "ADMIN"]);
+        for (const squadId of new Set(
+          [previous?.squadId, next.squadId].filter(
+            (value): value is string => !!value,
+          ),
+        )) {
+          const squad = repo.find(ctx.academy.id, "squad", squadId);
+          if (!squad)
+            throw new WorkspaceError(
+              409,
+              "The training batch changed. Review the current batch before retrying.",
+            );
+          const playerIds = squad.playerIds.filter(
+            (playerId) => playerId !== record.id,
+          );
+          if (squadId === next.squadId) playerIds.push(record.id);
+          repo.save(ctx.academy.id, "squad", {
+            ...squad,
+            playerIds,
+            version: squad.version + 1,
+            updatedAt: now(),
+            updatedBy: ctx.user.id,
+          });
+        }
+        audit(
+          ctx.academy.id,
+          ctx.user.id,
+          "Reviewed player training-batch placement; historical session rosters unchanged",
+          record.id,
+        );
+      }
     }
     repo.save(ctx.academy.id, kind, record);
     audit(
@@ -495,8 +704,11 @@ export function saveRecord(
       record.id,
     );
   });
-  return kind === "plan"
-    ? repo.find(ctx.academy.id, "plan", record.id)
+  return kind === "plan" || kind === "player"
+    ? {
+        ...repo.find(ctx.academy.id, kind, record.id)!,
+        ...(kind === "player" ? { sportIds: ["football"] } : {}),
+      }
     : "sportIds" in record
       ? { ...record, sportIds: ["football"] }
       : record;
@@ -511,8 +723,15 @@ export function approveReport(
   if (!verified)
     throw new WorkspaceError(400, "Verify the source records before approval.");
   const report = visibleRecord(ctx, "report", id),
-    plan = visibleRecord(ctx, "plan", report.planId),
+    plan = report.planId
+      ? visibleRecord(ctx, "plan", report.planId)
+      : undefined,
     player = requirePlayer(ctx, report.playerId);
+  if (!plan && !report.monthlySources)
+    throw new WorkspaceError(
+      400,
+      "A recorded development plan is required for non-monthly reports.",
+    );
   if (expectedVersion !== undefined && expectedVersion !== report.recordVersion)
     throw new WorkspaceError(
       409,
@@ -523,8 +742,13 @@ export function approveReport(
       409,
       "Edit and save a draft before approving a new report version.",
     );
-  planLinks(ctx, plan);
-  const assigned = plan.drillIds.map((id) =>
+  if (plan) planLinks(ctx, plan);
+  if (report.monthlySources && !report.nextStep.trim())
+    throw new WorkspaceError(
+      400,
+      "Record and save a next development step before approving this monthly report.",
+    );
+  const assigned = (plan?.drillIds ?? []).map((id) =>
     repo.find(ctx.academy.id, "drill", id)!,
   );
   const trainingSources = reportTrainingSources(ctx, report);
@@ -539,9 +763,13 @@ export function approveReport(
   assertMonthlyCurrent(ctx, report);
   const coachName = database()
     .prepare('SELECT name FROM "user" WHERE id=?')
-    .get(plan.coachId)?.name;
-  const { privateNote: _private, ...approvedPlan } = plan;
-  void _private;
+    .get(plan?.coachId ?? player.coachId)?.name;
+  let approvedPlan: WorkspaceReport["approvedPlan"];
+  if (plan) {
+    const { privateNote: _private, ...publicPlan } = plan;
+    void _private;
+    approvedPlan = publicPlan;
+  }
   const snapshot: ReportViewModel = {
     reportId: report.id,
     playerId: player.id,
@@ -557,13 +785,13 @@ export function approveReport(
     sport: operationalSports[report.sportId].name,
     squad: player.squad || undefined,
     coach: coachName ? String(coachName) : undefined,
-    focus: plan.focus,
-    reviewedReason: plan.reason,
+    focus: plan?.focus ?? report.monthlySources!.model.focus,
+    reviewedReason: plan?.reason,
     practised: trainingSources.length
       ? [...new Set(trainingSources.map((e) => e.drillName))].join("; ")
       : assigned.length
         ? assigned.map((d) => d.name).join("; ")
-        : plan.focus,
+        : (plan?.focus ?? report.monthlySources!.model.practised),
     activities: trainingSources.length
       ? trainingSources.map((e) => {
           const a = repo
@@ -598,8 +826,8 @@ export function approveReport(
           },
         ],
     nextStep: report.nextStep,
-    observationCriteria: plan.observe,
-    reviewDate: plan.reviewDate,
+    observationCriteria: plan?.observe,
+    reviewDate: plan?.reviewDate,
     note: report.closingNote,
   };
   const approved: WorkspaceReport = {
@@ -628,8 +856,9 @@ export function approveReport(
         "Report changed during approval. Review again.",
       );
     if (
+      plan &&
       repo.find(ctx.academy.id, "plan", plan.id)?.recordVersion !==
-      plan.recordVersion
+        plan.recordVersion
     )
       throw new WorkspaceError(
         409,
@@ -647,7 +876,7 @@ export function approveReport(
         ctx.academy.id,
         id,
         JSON.stringify(snapshot),
-        JSON.stringify(approvedPlan),
+        JSON.stringify(approvedPlan ?? null),
         ctx.user.id,
         now(),
       );
