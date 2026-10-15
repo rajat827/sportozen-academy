@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { confirmUnsavedChanges } from "@/hooks/use-unsaved-changes";
@@ -15,7 +16,9 @@ import { ParentPlans, PlayerPlanEditor } from "./plan-and-report";
 import { WeeklyPlans } from "./period-plans";
 import { WorkspaceMessages } from "./messages";
 import { DeliveryPanel } from "./communication-controls";
+import { BatchAnnouncements } from "./batch-announcements";
 import { ParentPractice } from "./practice";
+import { PortalTrialParentSummary } from "./portal-trials";
 import type { PortalSection, PortalNavigate } from "./portal-types";
 import { portalSourceAvailable } from "@/services/portal-source-selection";
 import "./portal.css";
@@ -40,6 +43,12 @@ export function AcademyPortal({ academyId }: { academyId: string }) {
   const w = useWorkspace(academyId),
     router = useRouter(),
     params = useSearchParams();
+  const [practiceFeedback, setPracticeFeedback] = useState<{
+    academyId: string;
+    userId: string;
+    playerId: string;
+    body: string;
+  } | null>(null);
   const onNavigate: PortalNavigate = (section, context = {}) => {
     const next = new URLSearchParams(params.toString());
     next.set("section", section);
@@ -100,6 +109,14 @@ export function AcademyPortal({ academyId }: { academyId: string }) {
         ? d.records.player[0]
         : undefined;
   const sessionId = params.get("session") ?? "";
+  const feedback =
+    parent &&
+    player &&
+    practiceFeedback?.academyId === academyId &&
+    practiceFeedback.userId === d.membership.userId &&
+    practiceFeedback.playerId === player.id
+      ? practiceFeedback.body
+      : "";
   const reportId = section === "reports" ? (params.get("report") ?? "") : "",
     weeklyId = section === "development" ? (params.get("weekly") ?? "") : "",
     messageReportId =
@@ -354,6 +371,13 @@ export function AcademyPortal({ academyId }: { academyId: string }) {
                 </div>
               </div>
               {playerSelect}
+              {parent && player && (
+                <PortalTrialParentSummary
+                  key={player.id}
+                  workspace={w}
+                  player={player}
+                />
+              )}
               {player ? (
                 <div className="portal-workflow">
                   {weeklyId ? (
@@ -395,6 +419,7 @@ export function AcademyPortal({ academyId }: { academyId: string }) {
                   <h1>{parent ? "Message Coach" : "Messages"}</h1>
                   <p>Private conversations within {d.academy.name}.</p>
                 </div>
+                {!parent && <BatchAnnouncements workspace={w} />}
               </div>
               {playerSelect}
               {player ? (
@@ -405,6 +430,17 @@ export function AcademyPortal({ academyId }: { academyId: string }) {
                     player={player}
                     sportId="football"
                     initialReportId={messageReportId}
+                    initialFeedback={feedback}
+                    onFeedbackSent={() =>
+                      setPracticeFeedback((current) =>
+                        current?.academyId === academyId &&
+                        current.userId === d.membership.userId &&
+                        current.playerId === player.id &&
+                        current.body === feedback
+                          ? null
+                          : current,
+                      )
+                    }
                   />
                   {!parent && (
                     <details>
@@ -438,7 +474,15 @@ export function AcademyPortal({ academyId }: { academyId: string }) {
                   key={player.id}
                   workspace={w}
                   player={player}
-                  onHelp={() => onNavigate("messages", { player: player.id })}
+                  onHelp={(body) => {
+                    setPracticeFeedback({
+                      academyId,
+                      userId: d.membership.userId,
+                      playerId: player.id,
+                      body,
+                    });
+                    onNavigate("messages", { player: player.id });
+                  }}
                 />
               )}
             </>

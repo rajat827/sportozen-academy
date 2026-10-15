@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import {
   test,
   expect,
@@ -35,7 +36,7 @@ test("one authenticated academy portal preserves real training, parent approval 
 }) => {
   test.setTimeout(600000);
   const origin = "http://127.0.0.1:3001",
-    shots = "docs/screenshots/academy-portal",
+    shots = evidencePath("docs/screenshots/academy-portal"),
     suffix = crypto.randomUUID();
   await mkdir(shots, { recursive: true });
   let registrations = 0;
@@ -576,7 +577,10 @@ test("one authenticated academy portal preserves real training, parent approval 
     .fill("Monthly football training");
   await planDialog.getByLabel("Amount (INR)", { exact: true }).fill("5000");
   await planDialog
-    .getByRole("button", { name: "Create fee plan", exact: true })
+    .getByLabel("Applicable start date", { exact: true })
+    .fill(monthStart);
+  await planDialog
+    .getByRole("button", { name: "Save Fee Plan", exact: true })
     .click();
   await expect(planDialog).toBeHidden();
   const feePlan: FinancePlan = (await finance()).plans[0];
@@ -1171,7 +1175,7 @@ test("batch-only monthly preparation approves and privately renders a PDF withou
   test.setTimeout(180000);
   const origin = "http://127.0.0.1:3001",
     suffix = crypto.randomUUID(),
-    shots = "docs/screenshots/academy-portal";
+    shots = evidencePath("docs/screenshots/academy-portal");
   const newAccount = async (name: string) => {
     const api = await playwright.request.newContext({
       baseURL: origin,

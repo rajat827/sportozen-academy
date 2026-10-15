@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect } from "@playwright/test";
 const routes = [
   "/owner/dashboard",
@@ -111,7 +112,7 @@ test("Phone communication controls and drawer work by touch", async ({
     .getByRole("heading", { name: "Communication centre", exact: true })
     .click();
   await page.screenshot({
-    path: "docs/screenshots/ux-simplification/qa-communication-phone.png",
+    path: evidencePath("docs/screenshots/ux-simplification/qa-communication-phone.png"),
     fullPage: true,
   });
 });

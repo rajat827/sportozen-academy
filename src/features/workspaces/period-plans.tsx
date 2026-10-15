@@ -179,6 +179,11 @@ function WeeklyReview({
       <p>{weeklyWording(c)}</p>
       {c.sessions.map((s) => (
         <p key={s.id}>
+          {s.theme && (
+            <>
+              <strong>{s.theme}</strong> ·{" "}
+            </>
+          )}
           {new Date(s.startAt).toLocaleString("en-GB", {
             timeZone: s.timezone,
           })}{" "}

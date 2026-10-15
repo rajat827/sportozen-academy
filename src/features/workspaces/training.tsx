@@ -1,14 +1,22 @@
 "use client";
 import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { Card, Button, Badge } from "@/components/ui/primitives";
 import type { useWorkspace } from "@/hooks/use-workspace";
 import type { FootballSession, FootballEvidence } from "@/domain/training";
-import { measurementText, comparableEvidence } from "@/services/training-rules";
+import {
+  measurementText,
+  comparableEvidence,
+  sessionDraftInput,
+} from "@/services/training-rules";
+import "./session-editor.css";
+import { SessionLocationSearch } from "./session-location-search";
+import { sessionThemes } from "@/services/session-themes";
 type Controller = ReturnType<typeof useWorkspace>;
 export function useTraining(w: Controller) {
   const pending = useRef(new Map<string, string>()),
-    [notice, setNotice] = useState("");
+    notice = w.trainingNotice,
+    setNotice = w.setTrainingNotice;
   async function submit(
     action: string,
     data: unknown,
@@ -276,7 +284,13 @@ export function SessionEditor({
     ),
     [venueId, setVenue] = useState(initial?.venueId ?? ""),
     [location, setLocation] = useState(initial?.location ?? ""),
+    [placeConfirmation, setPlaceConfirmation] = useState<string | undefined>(),
     [theme, setTheme] = useState(initial?.theme ?? ""),
+    [customTheme, setCustomTheme] = useState(
+      Boolean(
+        initial?.theme && !sessionThemes(d.academy).includes(initial.theme),
+      ),
+    ),
     [start, setStart] = useState(initial?.startLocal ?? ""),
     [end, setEnd] = useState(initial?.endLocal ?? ""),
     [coaches, setCoaches] = useState<string[]>(
@@ -298,10 +312,28 @@ export function SessionEditor({
     [preparation, setPreparation] = useState(
       initial?.preparation?.join("\n") ?? "",
     );
+  const errorId = useId();
+  const form = useRef<HTMLFormElement>(null);
+  const submitting = useRef(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  function fieldError(field: string) {
+    return errors[field] ? (
+      <small id={`${errorId}-${field}`} className="session-field-error">
+        {errors[field]}
+      </small>
+    ) : null;
+  }
+  function fieldState(field: string) {
+    return {
+      "aria-invalid": Boolean(errors[field]),
+      "aria-describedby": errors[field] ? `${errorId}-${field}` : undefined,
+    };
+  }
   const content = JSON.stringify({
     squadId,
     venueId,
     location,
+    placeConfirmation,
     theme,
     start,
     end,
@@ -320,34 +352,74 @@ export function SessionEditor({
     <Card>
       <h2>Schedule football session</h2>
       <form
+        ref={form}
         className="form-stack"
+        noValidate
         onSubmit={async (e) => {
           e.preventDefault();
-          const saved = await submit(
-            "session",
-            {
-              squadId,
-              branchId: branch?.id,
-              venueId: venueId || undefined,
-              location,
-              coachIds: coaches,
-              timezone: branch?.timezone,
-              startLocal: start,
-              endLocal: end,
-              theme,
-              agenda,
-              sharedObjective:
-                sharedGoal.trim() && sharedCue.trim()
-                  ? { goal: sharedGoal, cue: sharedCue, observe: sharedObserve }
-                  : undefined,
-              preparation: preparation
-                .split("\n")
-                .map((line) => line.trim())
-                .filter(Boolean),
-            },
-            initial?.id,
-            initial?.version ?? 0,
-          );
+          if (submitting.current || w.busy) return;
+          const candidate = {
+            squadId,
+            branchId: branch?.id,
+            venueId: venueId || undefined,
+            location,
+            placeConfirmation,
+            coachIds: coaches,
+            timezone: branch?.timezone,
+            startLocal: start,
+            endLocal: end,
+            theme,
+            agenda,
+            sharedObjective:
+              sharedGoal.trim() || sharedCue.trim() || sharedObserve.trim()
+                ? { goal: sharedGoal, cue: sharedCue, observe: sharedObserve }
+                : undefined,
+            preparation: preparation
+              .split("\n")
+              .map((line) => line.trim())
+              .filter(Boolean),
+          };
+          const parsed = sessionDraftInput.safeParse(candidate);
+          const nextErrors: Record<string, string> = {};
+          if (!parsed.success) {
+            for (const issue of parsed.error.issues) {
+              const field =
+                issue.path[0] === "sharedObjective"
+                  ? issue.path[1] === "cue"
+                    ? "sharedCue"
+                    : issue.path[1] === "observe"
+                      ? "sharedObserve"
+                      : "sharedGoal"
+                  : issue.path[0] === "branchId" || issue.path[0] === "timezone"
+                    ? "squadId"
+                    : String(issue.path[0]);
+              nextErrors[field] ??=
+                field === "squadId"
+                  ? "Choose an authorised session squad."
+                  : issue.message;
+            }
+          }
+          setErrors(nextErrors);
+          if (Object.keys(nextErrors).length) {
+            requestAnimationFrame(() =>
+              form.current
+                ?.querySelector<HTMLElement>('[aria-invalid="true"]')
+                ?.focus(),
+            );
+            return;
+          }
+          submitting.current = true;
+          let saved: Awaited<ReturnType<Submit>>;
+          try {
+            saved = await submit(
+              "session",
+              parsed.success ? parsed.data : candidate,
+              initial?.id,
+              initial?.version ?? 0,
+            );
+          } finally {
+            submitting.current = false;
+          }
           if (saved) {
             setSavedContent(
               JSON.stringify({
@@ -355,6 +427,7 @@ export function SessionEditor({
                 venueId,
                 location,
                 theme: "",
+                placeConfirmation,
                 start,
                 end,
                 coaches,
@@ -370,14 +443,22 @@ export function SessionEditor({
           }
         }}
       >
+        {Object.keys(errors).length > 0 && (
+          <p role="alert" className="session-field-error">
+            Check the labelled session fields. Your draft has not been saved.
+          </p>
+        )}
         <label>
           Session squad
           <select
+            {...fieldState("squadId")}
+            aria-label="Session squad"
             required
             value={squadId}
             onChange={(e) => {
               setSquad(e.target.value);
               setVenue("");
+              setPlaceConfirmation(undefined);
             }}
           >
             <option value="">Select authorised squad</option>
@@ -387,13 +468,16 @@ export function SessionEditor({
               </option>
             ))}
           </select>
+          {fieldError("squadId")}
         </label>
         <label>
           Session venue
           <select
+            aria-label="Session venue"
             value={venueId}
             onChange={(e) => {
               setVenue(e.target.value);
+              setPlaceConfirmation(undefined);
               setLocation(
                 d.records.venue.find((v) => v.id === e.target.value)
                   ?.location ?? "",
@@ -413,18 +497,69 @@ export function SessionEditor({
         <label>
           Training location
           <input
+            {...fieldState("location")}
+            aria-label="Training location"
             required
             value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            onChange={(e) => {
+              setLocation(e.target.value);
+              setPlaceConfirmation(undefined);
+            }}
           />
+          {fieldError("location")}
+          {fieldError("placeConfirmation")}
+        </label>
+        <SessionLocationSearch
+          key={squadId}
+          academyId={d.academy.id}
+          squadId={squadId}
+          operationalLocation={location}
+          onSelect={(place) => {
+            setVenue("");
+            setPlaceConfirmation(place.confirmation);
+          }}
+        />
+        {placeConfirmation && (
+          <p role="status">
+            Map selection confirmed. The saved training location remains the
+            academy text entered above.
+          </p>
+        )}
+        <label>
+          Session theme options
+          <select
+            aria-label="Session theme options"
+            value={customTheme ? "__custom" : theme}
+            onChange={(event) => {
+              const custom = event.target.value === "__custom";
+              setCustomTheme(custom);
+              setTheme(custom ? "" : event.target.value);
+            }}
+          >
+            <option value="">Choose a football theme</option>
+            {sessionThemes(d.academy).map((name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
+            <option value="__custom">Custom Theme</option>
+          </select>
         </label>
         <label>
           Session theme
           <input
+            {...fieldState("theme")}
+            aria-label="Session theme"
             required
             value={theme}
-            onChange={(e) => setTheme(e.target.value)}
+            onChange={(e) => {
+              setTheme(e.target.value);
+              setCustomTheme(
+                !sessionThemes(d.academy).includes(e.target.value),
+              );
+            }}
           />
+          {fieldError("theme")}
         </label>
         <p>
           Time zone: {branch?.timezone ?? "Select squad"}. Invalid or ambiguous
@@ -433,22 +568,31 @@ export function SessionEditor({
         <label>
           Session start
           <input
+            {...fieldState("startLocal")}
+            aria-label="Session start"
             type="datetime-local"
             required
             value={start}
             onChange={(e) => setStart(e.target.value)}
           />
+          {fieldError("startLocal")}
         </label>
         <label>
           Session end
           <input
+            {...fieldState("endLocal")}
+            aria-label="Session end"
             type="datetime-local"
             required
             value={end}
             onChange={(e) => setEnd(e.target.value)}
           />
+          {fieldError("endLocal")}
         </label>
-        <fieldset>
+        <fieldset
+          {...fieldState("coachIds")}
+          tabIndex={errors.coachIds ? -1 : undefined}
+        >
           <legend>Assigned session coaches</legend>
           {d.members
             .filter(
@@ -470,9 +614,15 @@ export function SessionEditor({
                 {m.name}
               </label>
             ))}
+          {fieldError("coachIds")}
         </fieldset>
         <fieldset>
           <legend>Ordered session drills</legend>
+          <p>
+            Optional for a draft. Add the shared activities when the plan is
+            ready.
+          </p>
+          {fieldError("agenda")}
           {agenda.map((a, i) => (
             <div key={`${a.drillId}-${i}`} className="training-row">
               <p>
@@ -509,6 +659,7 @@ export function SessionEditor({
           <label>
             Add agenda drill
             <select
+              aria-label="Add agenda drill"
               value=""
               onChange={(e) =>
                 e.target.value &&
@@ -534,41 +685,51 @@ export function SessionEditor({
           <label>
             Shared development focus
             <input
+              {...fieldState("sharedGoal")}
+              aria-label="Shared development focus"
               value={sharedGoal}
               required={Boolean(sharedCue)}
               onChange={(event) => setSharedGoal(event.target.value)}
             />
+            {fieldError("sharedGoal")}
           </label>
           <label>
             Shared coaching cue
             <input
+              {...fieldState("sharedCue")}
+              aria-label="Shared coaching cue"
               value={sharedCue}
               required={Boolean(sharedGoal)}
               onChange={(event) => setSharedCue(event.target.value)}
             />
+            {fieldError("sharedCue")}
           </label>
           <label>
             Optional shared observation criteria
             <input
+              {...fieldState("sharedObserve")}
+              aria-label="Optional shared observation criteria"
               value={sharedObserve}
               onChange={(event) => setSharedObserve(event.target.value)}
             />
+            {fieldError("sharedObserve")}
           </label>
           <label>
             Preparation · one item per line
             <textarea
+              {...fieldState("preparation")}
+              aria-label="Preparation · one item per line"
               value={preparation}
               onChange={(event) => setPreparation(event.target.value)}
             />
+            {fieldError("preparation")}
           </label>
           <p>
             Every player follows this plan. Personal goals are optional;
             existing goals can be reused in the session desk.
           </p>
         </fieldset>
-        <Button disabled={w.busy || !branch || !agenda.length}>
-          Save session draft
-        </Button>
+        <Button disabled={w.busy}>Save session draft</Button>
       </form>
     </Card>
   );

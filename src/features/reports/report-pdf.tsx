@@ -246,28 +246,37 @@ export function ReportPdf({
           ))}
         </View>
         <View style={s.section}>
-          <Text style={s.title} minPresenceAhead={50}>
-            {labels.observed.toLocaleUpperCase()}
-          </Text>
           {m.evidence.length ? (
             m.evidence.map((e, i) => (
-              <View key={i} style={s.evidence} wrap={e.text.length > 900}>
-                {e.headline && (
-                  <>
-                    <Text style={s.count}>{e.headline}</Text>
-                    <Text style={s.small}>introductory attempts</Text>
-                  </>
+              <View key={i} wrap={e.text.length > 900}>
+                {i === 0 && (
+                  <Text style={s.title} minPresenceAhead={50}>
+                    {labels.observed.toLocaleUpperCase()}
+                  </Text>
                 )}
-                {e.label && <Text style={s.label}>{e.label}</Text>}
-                <Text>{e.text}</Text>
-                <Text style={s.small}>
-                  {labels.source}: {e.source}
-                  {e.reference ? ` | Reference: ${e.reference}` : ""}
-                </Text>
+                <View style={s.evidence} wrap={e.text.length > 900}>
+                  {e.headline && (
+                    <>
+                      <Text style={s.count}>{e.headline}</Text>
+                      <Text style={s.small}>introductory attempts</Text>
+                    </>
+                  )}
+                  {e.label && <Text style={s.label}>{e.label}</Text>}
+                  <Text>{e.text}</Text>
+                  <Text style={s.small}>
+                    {labels.source}: {e.source}
+                    {e.reference ? ` | Reference: ${e.reference}` : ""}
+                  </Text>
+                </View>
               </View>
             ))
           ) : (
-            <Text>Reviewed evidence is awaiting confirmation.</Text>
+            <>
+              <Text style={s.title} minPresenceAhead={50}>
+                {labels.observed.toLocaleUpperCase()}
+              </Text>
+              <Text>Reviewed evidence is awaiting confirmation.</Text>
+            </>
           )}
         </View>
         <View

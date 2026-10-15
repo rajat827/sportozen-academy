@@ -1,0 +1,470 @@
+{
+  "home-1536.png": {
+    "sha256": "fc81f71cf935aec655ad0dbe0a34301138af25a769e93865f55473dbad753c00",
+    "pixels": [
+      1536,
+      1114
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Football hero, schedule, four metrics and supporting grid fit. Full page is 1114 px; honest data states, with no visible control collision."
+    ]
+  },
+  "home-1440.png": {
+    "sha256": "a456b8c8260b01e4342580fbe1a9869a48cf955f9eec311d4bdfb8081ff40c72",
+    "pixels": [
+      1440,
+      1114
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Football hero, schedule, four metrics and supporting grid fit. Full page is 1114 px; honest data states, with no visible control collision."
+    ]
+  },
+  "home-768.png": {
+    "sha256": "34fcbd507da21351c49f32ab0f5a88dfa8e87acd399e04a4145367b594ceee55",
+    "pixels": [
+      768,
+      1720
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Hero/schedule share the upper row; metrics and lower cards wrap. Date wraps but remains readable."
+    ]
+  },
+  "home-390.png": {
+    "sha256": "cb875888e3e1b8f0f525de0a133434c023fb188b1256bd19d47b96f4600e6942",
+    "pixels": [
+      390,
+      2516
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Cards stack and metrics retain two columns. Football image and primary action remain visible; text wraps without overlap."
+    ]
+  },
+  "home-320.png": {
+    "sha256": "ad943b7d293aa372dd1c2e9363735e0afcf683c21777b1e7696d12a9b14ac913",
+    "pixels": [
+      320,
+      2716
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Cards stack and metrics retain two columns. Football image and primary action remain visible; text wraps without overlap."
+    ]
+  },
+  "players-1536.png": {
+    "sha256": "6ccd9837f08e5f304f02a4894890e9093db143f8abd013368db7581cf5101733",
+    "pixels": [
+      1536,
+      1304
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Ten directory rows and selected-player panel remain readable. Missing portraits/attributes are explicit; real Trial controls extend the page."
+    ]
+  },
+  "players-1440.png": {
+    "sha256": "2f25f115eb960756ff6dab61010fbc34153f6a1b4819c8e80f372acbe4d70e02",
+    "pixels": [
+      1440,
+      1304
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Ten directory rows and selected-player panel remain readable. Missing portraits/attributes are explicit; real Trial controls extend the page."
+    ]
+  },
+  "players-768.png": {
+    "sha256": "bd9083d98e6b3a2dc3ff9700079af70409b2bd0ea03ef41c3ace8672e79454d0",
+    "pixels": [
+      768,
+      2466
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Selected profile follows a locally scrollable directory. Extra table columns lie outside the initial horizontal view."
+    ]
+  },
+  "players-390.png": {
+    "sha256": "650c80eccd7224dc7957dfce359369ee93db3618b0401fe37342e0662cd65e89",
+    "pixels": [
+      390,
+      2608
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Filters/metrics wrap. Directory pans locally. Corrected selected-player heading reserves close-control space and wraps without overlap at 320 px."
+    ]
+  },
+  "players-320.png": {
+    "sha256": "e342a59dc06f74daf330eb083be007084e9c6c2d4d7bc1fa9d18981d933a0918",
+    "pixels": [
+      320,
+      2787
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Filters/metrics wrap. Directory pans locally. Corrected selected-player heading reserves close-control space and wraps without overlap at 320 px."
+    ]
+  },
+  "calendar-1536.png": {
+    "sha256": "817e5d5dc99ad3b85cd743e365b7bcfb8301787a3afe49f3c3656c32ab0c4e5b",
+    "pixels": [
+      1536,
+      1024
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Week grid and selected-session panel remain adjacent. Six consecutive Tuesday sessions use short event cards."
+    ]
+  },
+  "calendar-1440.png": {
+    "sha256": "fe26a78468a1bfda816a4b36e7b6c986c49775466a5f6b2f37b6f062866d378f",
+    "pixels": [
+      1440,
+      1024
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Week grid and selected-session panel remain adjacent. Six consecutive Tuesday sessions use short event cards."
+    ]
+  },
+  "calendar-768.png": {
+    "sha256": "3bb7c21cfaeb59105e374ed760a053b5e16eeae0de82a2aed1b92f6381a9863c",
+    "pixels": [
+      768,
+      1024
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Selected-session modal intentionally overlays a dimmed calendar. Close, primary action, reschedule and tabs are visible."
+    ]
+  },
+  "calendar-390.png": {
+    "sha256": "0af49e53b0401f052684c7a5a3bb06651b2e33811089e61d84a30a6921a9b067",
+    "pixels": [
+      390,
+      1132
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Selected-session modal has readable date, venue, actions and wrapped details. Full-page PNG also includes underlying grid below the initial viewport; it is not closed-grid evidence."
+    ]
+  },
+  "calendar-320.png": {
+    "sha256": "d4098b452040f63215dcf34916e32468dd6771a03a8aab9cd15d8383068363a5",
+    "pixels": [
+      320,
+      1132
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Selected-session modal has readable date, venue, actions and wrapped details. Full-page PNG also includes underlying grid below the initial viewport; it is not closed-grid evidence."
+    ]
+  },
+  "training-1536.png": {
+    "sha256": "fe97b256e2621f956dc48ec54a65a1cd2f95ef858f06aae24ac01fef686134ef",
+    "pixels": [
+      1536,
+      1215
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Session list, selected plan and resources/actions retain three columns. Authentic drill wording wraps without control overlap."
+    ]
+  },
+  "training-1440.png": {
+    "sha256": "b9f0e6445a58c1dfee552f94a9c15a017c18155c5295e0a1eec705e0233b7b46",
+    "pixels": [
+      1440,
+      1291
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Session list, selected plan and resources/actions retain three columns. Authentic drill wording wraps without control overlap."
+    ]
+  },
+  "training-768.png": {
+    "sha256": "ab4930a4d7705b316093aa9695039b785c9de4d379973b0bfbd7723be735dc31",
+    "pixels": [
+      768,
+      2200
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Corrected layout stacks the bounded session list above a full-width plan. Drill prose is readable rather than narrow word strips."
+    ]
+  },
+  "training-390.png": {
+    "sha256": "8f1a7756fb5e1b09a96adac6b1f0f60274108e198fb502abd07107f30574e5d6",
+    "pixels": [
+      390,
+      2584
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Corrected native filters wrap and show option identity rather than only chevrons. At 320 px option text can abbreviate; accessible labels remain complete."
+    ]
+  },
+  "training-320.png": {
+    "sha256": "d207c08513b6fc58ef90d00547eb4e1d48f882c4507b45299be6b4bdfc7038b4",
+    "pixels": [
+      320,
+      2707
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Corrected native filters wrap and show option identity rather than only chevrons. At 320 px option text can abbreviate; accessible labels remain complete."
+    ]
+  },
+  "reports-1536.png": {
+    "sha256": "007f534322ac4ab9411bad90b920ce149359d48ca688802211ee9bfd0935dcf3",
+    "pixels": [
+      1536,
+      1236
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Corrected eight-row pagination and labelled compact excerpts keep full page to 1236 px. Complete wording remains separately available. Neutral capture removes sticky-sidebar offset."
+    ]
+  },
+  "reports-1440.png": {
+    "sha256": "999b88011205d899b2bfa4d8157aeeef5c877cb966d23ec7ee7ee9d4af044dcb",
+    "pixels": [
+      1440,
+      1236
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Corrected eight-row pagination and labelled compact excerpts keep full page to 1236 px. Complete wording remains separately available. Neutral capture removes sticky-sidebar offset."
+    ]
+  },
+  "reports-768.png": {
+    "sha256": "206cd95ff9ae7008cf7c9256e9f773eae98d8e531c87fd13a0778c53cdd500ee",
+    "pixels": [
+      768,
+      2285
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Corrected paginated table precedes selected preview; its narrative cards now stack at full width."
+    ]
+  },
+  "reports-390.png": {
+    "sha256": "509e8732894d684cfb74b1655b9bc74f8b1af5c8cb100fa44816716b8043bd24",
+    "pixels": [
+      390,
+      2663
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Eight-row table pans locally. Selected report follows with bounded excerpts, readable cards and full-preview access."
+    ]
+  },
+  "reports-320.png": {
+    "sha256": "0e231d5542c30c13d6e36d1e3900805f0bfc821382dbf61deaee34a2587da143",
+    "pixels": [
+      320,
+      2814
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Eight-row table pans locally. Selected report follows with bounded excerpts, readable cards and full-preview access."
+    ]
+  },
+  "fees-1536.png": {
+    "sha256": "cfac651607ac86234565057b766fc9b16b0555d4bc9ba144675bac3960c6d62c",
+    "pixels": [
+      1536,
+      1024
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Truthful empty state: zero verified/billed totals, unrecorded collection rate and no selected account. Populated account is separately documented."
+    ]
+  },
+  "fees-1440.png": {
+    "sha256": "d456128971435c8400f989372fa5e9857329b574c1bcb49b00da3c41d5713cd9",
+    "pixels": [
+      1440,
+      1024
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Truthful empty state: zero verified/billed totals, unrecorded collection rate and no selected account. Populated account is separately documented."
+    ]
+  },
+  "fees-768.png": {
+    "sha256": "eb0509bd0bdf97b47fe583e052b7dd1d661f5845a5a652b35c02e138d0ceb8ac",
+    "pixels": [
+      768,
+      1024
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Four summary cards fit with wrapped support labels. Tabs/table can pan locally; empty-state text is readable."
+    ]
+  },
+  "fees-390.png": {
+    "sha256": "5815e7775f973e8fd6f6d46b3ccbc48a908b13c5fdf1128956fdbb256268d6ea",
+    "pixels": [
+      390,
+      1102
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Metrics use two columns at 390 px and one at 320 px. Currency values stay whole. Filters wrap; tabs/table pan locally."
+    ]
+  },
+  "fees-320.png": {
+    "sha256": "66f8113ac0792af478595720b3a64883cf7a731fd07694e01c990ad42c687a71",
+    "pixels": [
+      320,
+      1290
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Metrics use two columns at 390 px and one at 320 px. Currency values stay whole. Filters wrap; tabs/table pan locally."
+    ]
+  },
+  "settings-1536.png": {
+    "sha256": "c81aea0778c01cfdd4cdf4a956b392187cffe2b923239b2a6ec630d87e98ff55",
+    "pixels": [
+      1536,
+      1047
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Profile/contact/settings/venues and side cards retain reference hierarchy. BF fallback and unavailable billing/delete actions are explicit."
+    ]
+  },
+  "settings-1440.png": {
+    "sha256": "2f031ea32ae346b573b7d3c7761efae5c984f214a5090b4be5d70b1819232327",
+    "pixels": [
+      1440,
+      1047
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Profile/contact/settings/venues and side cards retain reference hierarchy. BF fallback and unavailable billing/delete actions are explicit."
+    ]
+  },
+  "settings-768.png": {
+    "sha256": "24d989aa01894253b57c9c39513dda1fc92a5c4fd3cdb5b7d64a26912f8af409",
+    "pixels": [
+      768,
+      1756
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "9150",
+    "findings": [
+      "Forms/side cards reflow. Some native field values clip within controls, while visible labels remain readable. Venue table pans locally."
+    ]
+  },
+  "settings-390.png": {
+    "sha256": "96eeb1d6b4f6964f43accb3ca039387493e8e9bfbb2f097104891940b7f77e7c",
+    "pixels": [
+      390,
+      2713
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Fields stack with visible labels and Save. Tabs/venue table pan locally. No visible collision; long form remains scrollable."
+    ]
+  },
+  "settings-320.png": {
+    "sha256": "16062059ed626e4ce08dd1b839fc688c66309a467cfef29e84a426b6707817bc",
+    "pixels": [
+      320,
+      2820
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Fields stack with visible labels and Save. Tabs/venue table pan locally. No visible collision; long form remains scrollable."
+    ]
+  },
+  "parent-home-390.png": {
+    "sha256": "5886b2d4e42b50c45304479e22908b7fc05b182e0845f2a55226ce2d87ecde42",
+    "pixels": [
+      390,
+      844
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Academy/child context, weekly approval-pending card, approved coach observation, actual next session, shortcuts and four-item bottom navigation remain compact. No visible control overlap."
+    ]
+  },
+  "parent-home-320.png": {
+    "sha256": "8697d7e1f961c2d636c339ef6e790293247cea465a512bd44fef80c514b63a6d",
+    "pixels": [
+      320,
+      844
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Academy/child context, weekly approval-pending card, approved coach observation, actual next session, shortcuts and four-item bottom navigation remain compact. No visible control overlap."
+    ]
+  },
+  "parent-reports-390.png": {
+    "sha256": "34a720fcf5fa985edeb99e232b8b650278c1d5eef31cc5fe5a46814b1287f863",
+    "pixels": [
+      390,
+      8146
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Private full-report view preserves long approved text. It is intentionally lengthy; it is not the compact staff preview or one of the seven desktop reference panels."
+    ]
+  },
+  "parent-reports-320.png": {
+    "sha256": "8ac260678f6bb465d509ceb7c4b29657ec5b0dfd6be1be0886b535f4f73fa53b",
+    "pixels": [
+      320,
+      10235
+    ],
+    "inspection_status": "inspected",
+    "capture_run": "62367",
+    "findings": [
+      "Private full-report view preserves long approved text. It is intentionally lengthy; it is not the compact staff preview or one of the seven desktop reference panels."
+    ]
+  }
+}

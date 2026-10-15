@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect, type APIRequestContext } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
@@ -102,7 +103,7 @@ test("authenticated Settings confirms actual records, retains failed drafts and 
   await expect(
     page.getByRole("button", { name: "Delete Academy", exact: true }),
   ).toBeDisabled();
-  const evidence = "docs/screenshots/portal-integration/settings";
+  const evidence = evidencePath("docs/screenshots/portal-integration/settings");
   await mkdir(evidence, { recursive: true });
   const metrics: unknown[] = [];
   for (const width of [1536, 1440, 1024, 768, 390, 320]) {

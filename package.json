@@ -11,6 +11,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "qa:bharat:seed": "node --conditions=react-server --import tsx scripts/qa-bharat-simulation.ts",
+    "qa:bharat:verify": "playwright test --config playwright.bharat.config.ts",
     "communication:worker": "node --conditions=react-server --import tsx scripts/communication-worker.ts"
   },
   "dependencies": {

@@ -1,0 +1,274 @@
+{
+  "branch": "codex/academy-final-fixes-and-qa",
+  "baseCommit": "1913a1d07caedfdfe07709bd81e0cde6eae951d1",
+  "productSourceFrozen": true,
+  "externalDeliveryEnabled": false,
+  "googlePaidRequestsEnabled": false,
+  "checks": [
+    {
+      "command": "pnpm lint",
+      "result": "PASS",
+      "exitCode": 0,
+      "session": 53513
+    },
+    {
+      "command": "pnpm typecheck",
+      "result": "PASS",
+      "exitCode": 0,
+      "session": 53513
+    },
+    {
+      "command": "pnpm test",
+      "result": "PASS",
+      "exitCode": 0,
+      "tests": 246,
+      "files": 27,
+      "durationSeconds": 11.42,
+      "session": 53513
+    },
+    {
+      "command": "pnpm build",
+      "result": "PASS",
+      "exitCode": 0,
+      "session": 20818,
+      "output": ".next-final-qa",
+      "database": "isolated .local/e2e-build-final-20261015.sqlite",
+      "warning": "Inherited dynamic SQLite filesystem tracing warning"
+    },
+    {
+      "command": "pnpm qa:bharat:seed",
+      "result": "PASS",
+      "exitCode": 0,
+      "session": 97066,
+      "players": 60,
+      "batches": 6,
+      "guardianAccounts": 60,
+      "completedSessions": 54,
+      "upcomingSessions": 6,
+      "attendance": 600,
+      "evidence": 504,
+      "approvedMonthlyReports": 120
+    },
+    {
+      "command": "focused four new authenticated browser cases, first run",
+      "result": "FAIL",
+      "exitCode": 1,
+      "session": 26224,
+      "failed": 3,
+      "interrupted": 1,
+      "causes": [
+        "Announcement content below own backdrop",
+        "Session success notice lost on navigation",
+        "Fee test aborted an already-handled route (test fixture ordering)"
+      ]
+    },
+    {
+      "command": "rebuilt focused four new authenticated browser cases, second run",
+      "result": "FAIL",
+      "exitCode": 1,
+      "session": 26509,
+      "passed": 3,
+      "failed": 1,
+      "passedFeatures": [
+        "Session Draft",
+        "Fee Plan Save",
+        "Batch Announcements"
+      ],
+      "cause": "Trial privacy-denial test expected403; existing authenticated API intentionally returned generic404 for an inaccessible child. Corrected to the privacy-preserving contract."
+    },
+    {
+      "command": "authenticated Trial lifecycle/source/privacy retest",
+      "result": "PASS",
+      "exitCode": 0,
+      "session": 79521,
+      "passed": 1,
+      "durationSeconds": 45.2,
+      "explicitInvoices": 1,
+      "payments": 0
+    },
+    {
+      "command": "pnpm qa:bharat:verify",
+      "result": "PASS",
+      "exitCode": 0,
+      "session": 62367,
+      "passed": 1,
+      "durationMinutes": 3.2,
+      "pdfExports": 120,
+      "mainScreenCaptures": 35,
+      "parentCaptures": 4,
+      "consoleErrors": 0,
+      "externalRequests": 0
+    },
+    {
+      "command": "scripts/verify-bharat-pdfs.py",
+      "result": "PASS",
+      "exitCode": 0,
+      "session": 60381,
+      "reports": 120,
+      "pages": 350
+    },
+    {
+      "command": "pnpm test:e2e, first complete final branch run",
+      "result": "FAIL",
+      "exitCode": 1,
+      "session": 68046,
+      "passed": 51,
+      "failed": 7,
+      "tests": 58,
+      "durationMinutes": 15.8,
+      "causes": [
+        "Six stale preview test assumptions: exact approved copy/title, scoped alert, explicit second unsaved confirmation",
+        "Legacy training browser flow assumed removed global player picker and inline session form; port to actual native customer controls without removing service/security assertions"
+      ]
+    },
+    {
+      "command": "pnpm test:e2e, final retest",
+      "result": "PASS",
+      "session": 64258,
+      "expectedTests": 59,
+      "exitCode": 0,
+      "passed": 59,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "durationSeconds": 981.26625,
+      "evidence": "final-e2e-summary.json"
+    },
+    {
+      "command": "native training portal full retained regression",
+      "result": "PASS",
+      "exitCode": 0,
+      "session": 37488,
+      "passed": 1,
+      "durationMinutes": 1.4
+    },
+    {
+      "command": "Bharat verification first harness run",
+      "result": "FAIL",
+      "exitCode": 1,
+      "session": 98911,
+      "cause": "Unavailable pdftotext executable in harness; changed to available bundled pdfplumber Python runtime"
+    },
+    {
+      "command": "Bharat verification second run",
+      "result": "FAIL",
+      "exitCode": 1,
+      "session": 10960,
+      "durationMinutes": 2.9,
+      "cause": "Actual Reports month filter used timezone-labelled display string instead of canonical reporting period; 0 versus expected60",
+      "pdfExportsBeforeUIFailure": 120
+    },
+    {
+      "command": "actual four representative PDFs, twelve pages inspected",
+      "result": "FAIL",
+      "cause": "U8-05 August evidence heading orphaned before first card; renderer flow correction required"
+    },
+    {
+      "command": "rebuilt Bharat source/PDF/roles/month-filter and captures",
+      "result": "FAIL",
+      "exitCode": 1,
+      "session": 1651,
+      "durationMinutes": 5.2,
+      "pdfSourcePrivacyExports": 120,
+      "septemberApprovedRows": 60,
+      "finalChildExactReportOpened": true,
+      "cause": "Capture harness tried navigation behind Calendar intentional mobile Session details modal; adapted to assert selected modal context instead"
+    },
+    {
+      "command": "Bharat verification with selected Calendar mobile context",
+      "result": "FAIL",
+      "exitCode": 1,
+      "session": 14327,
+      "durationMinutes": 5.0,
+      "pdfSourcePrivacyExports": 120,
+      "septemberApprovedRows": 60,
+      "mainScreenCaptures": 35,
+      "cause": "Parent Home correctly uses first-name child greeting; test expected full synthetic name. Corrected exact approved greeting plus selected child URL/privacy guards"
+    },
+    {
+      "command": "actual four representative PDFs, final rendered inspection",
+      "result": "PASS",
+      "pdfs": 4,
+      "pagesInspected": 12,
+      "evidence": "bharat/pdf-visual-inspection.json"
+    },
+    {
+      "command": "compare all33 pre-existing tracked file hashes to original safety patch",
+      "result": "PASS",
+      "files": 33,
+      "includes": "32 football-only captures plus original next-env gallery type imports",
+      "preservedCommunicationCaptureSha256": "0B90FB1B895A7BF0201A1493D602D285618EB649BF7C9B07BE445BCB865F0F66"
+    },
+    {
+      "command": "capture-only neutral scroll/focus pass, first attempt",
+      "result": "STOPPED",
+      "session": 89120,
+      "cause": "Unbounded capture-helper image readiness wait; stopped owned process. No product assertion failed."
+    },
+    {
+      "command": "capture-only bounded neutral scroll/focus retry",
+      "result": "FAIL",
+      "exitCode": 1,
+      "session": 9150,
+      "cause": "Helper awaited a lazy logo in the CSS-hidden mobile sidebar.",
+      "verifiedDesktopTabletCaptures": 21,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "externalRequests": 0,
+      "blockedMutations": 0,
+      "resolution": "Keep these 21 neutral captures and 18 unchanged successful62367 mobile/Parent captures with explicit source/hash provenance. Correct helper to inspect rendered images for future use. No further browser retry; no product change."
+    },
+    {
+      "command": "final capture-helper scoped ESLint and full TypeScript check",
+      "result": "PASS",
+      "exitCode": 0,
+      "session": 36507
+    },
+    {
+      "command": "native screenshot hash inventory",
+      "result": "PASS",
+      "screenshots": 39,
+      "evidence": "bharat/screenshot-manifest.json",
+      "scope": "21 refreshed desktop/tablet captures plus18 original verified mobile/Parent captures; same final product build20818."
+    },
+    {
+      "command": "seven-screen comparison image inspection",
+      "result": "PASS",
+      "screens": 7,
+      "evidence": "comparisons/README.md",
+      "scope": "Evidence inspected and remaining differences recorded. User visual approval remains pending."
+    }
+  ],
+  "investigations": [
+    {
+      "result": "FIXED_AND_BROWSER_RETESTED",
+      "feature": "Session Draft",
+      "cause": "Optional zero-drill agenda disabled Save and failed the server minimum."
+    },
+    {
+      "result": "FIXED_AND_BROWSER_RETESTED",
+      "feature": "Fee Plan Save",
+      "cause": "Dialog portal lacked the primary background token; mobile footer could be below the viewport."
+    },
+    {
+      "result": "FIXED_AND_UNIT_TESTED",
+      "feature": "Trial invoice composition",
+      "cause": "Invoice and enrolment link needed one transaction to avoid a partial financial record."
+    },
+    {
+      "result": "FIXED_AND_UNIT_TESTED",
+      "feature": "Maps data persistence",
+      "cause": "Provider POI text must remain transient; persist verified Place ID and independent academy location only."
+    },
+    {
+      "result": "FIXTURE_CORRECTED",
+      "feature": "Bharat seed attempts a/b",
+      "cause": "Application rejected unsupported drill and plan focus labels; configuration values used in fresh isolated attempt c."
+    },
+    {
+      "result": "STOPPED",
+      "feature": "First build",
+      "cause": "Stopped the owned default-sandbox compile before the Maps policy fix; final isolated escalated build passed."
+    }
+  ]
+}

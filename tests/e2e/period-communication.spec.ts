@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import type { WorkspacePayload } from "../../src/domain/workspace";
@@ -10,7 +11,7 @@ test("weekly plans and monthly reports extend authorised workspaces across three
   test.setTimeout(480000);
   const origin = "http://127.0.0.1:3001",
     suffix = crypto.randomUUID(),
-    shots = "docs/screenshots/weekly-monthly/portal";
+    shots = evidencePath("docs/screenshots/weekly-monthly/portal");
   mkdirSync(shots, { recursive: true });
   async function account(name: string) {
     const api = await playwright.request.newContext({

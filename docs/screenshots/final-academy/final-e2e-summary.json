@@ -1,0 +1,490 @@
+{
+  "command": "pnpm test:e2e --reporter=list,json",
+  "session": 64258,
+  "buildSession": 20818,
+  "status": "PASS",
+  "stats": {
+    "startTime": "2026-10-15T17:29:26.068Z",
+    "duration": 981266.25,
+    "expected": 59,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "errors": [],
+  "cases": [
+    {
+      "file": "academy-portal.spec.ts",
+      "line": 33,
+      "title": "one authenticated academy portal preserves real training, parent approval and verified finance across roles and restart",
+      "status": "passed",
+      "durationMs": 89250,
+      "attempts": 1
+    },
+    {
+      "file": "academy-portal.spec.ts",
+      "line": 1171,
+      "title": "batch-only monthly preparation approves and privately renders a PDF without manufacturing an individual plan",
+      "status": "passed",
+      "durationMs": 15765,
+      "attempts": 1
+    },
+    {
+      "file": "approved-visual.spec.ts",
+      "line": 5,
+      "title": "approved-reference screens preserve controls, context and narrow usability",
+      "status": "passed",
+      "durationMs": 5550,
+      "attempts": 1
+    },
+    {
+      "file": "batch-announcements.spec.ts",
+      "line": 8,
+      "title": "actual batch announcements preview deduplicated guardians, require approval and retain provider blockers across responsive reloads",
+      "status": "passed",
+      "durationMs": 15537,
+      "attempts": 1
+    },
+    {
+      "file": "calendar-ui.spec.ts",
+      "line": 95,
+      "title": "Calendar captures the approved composition at six widths without clipping or inventing rosters",
+      "status": "passed",
+      "durationMs": 8368,
+      "attempts": 1
+    },
+    {
+      "file": "calendar-ui.spec.ts",
+      "line": 253,
+      "title": "Calendar views, date navigation and combined filters retain their meaning",
+      "status": "passed",
+      "durationMs": 2019,
+      "attempts": 1
+    },
+    {
+      "file": "calendar-ui.spec.ts",
+      "line": 347,
+      "title": "three simultaneous sessions expand separately and open only their own empty session desks",
+      "status": "passed",
+      "durationMs": 5017,
+      "attempts": 1
+    },
+    {
+      "file": "calendar-ui.spec.ts",
+      "line": 428,
+      "title": "session copy, conflicting reschedule, failed persistence and confirmed cancellation keep outcomes separate",
+      "status": "passed",
+      "durationMs": 5646,
+      "attempts": 1
+    },
+    {
+      "file": "calendar-ui.spec.ts",
+      "line": 677,
+      "title": "mobile details contain keyboard focus, restore it and protect unsaved private notes",
+      "status": "passed",
+      "durationMs": 2719,
+      "attempts": 1
+    },
+    {
+      "file": "calendar-ui.spec.ts",
+      "line": 749,
+      "title": "Home, Players, player profile and Parent Home remain usable and captured without business API calls",
+      "status": "passed",
+      "durationMs": 5700,
+      "attempts": 1
+    },
+    {
+      "file": "communication.spec.ts",
+      "line": 3,
+      "title": "Communication stays internal through verification, rejection, approval and manual copy",
+      "status": "passed",
+      "durationMs": 4241,
+      "attempts": 1
+    },
+    {
+      "file": "design-preview.spec.ts",
+      "line": 9,
+      "title": "player drafts, group reset, batch dates and subscription scenarios",
+      "status": "passed",
+      "durationMs": 2526,
+      "attempts": 1
+    },
+    {
+      "file": "design-preview.spec.ts",
+      "line": 65,
+      "title": "complete design inventory at 1440px",
+      "status": "passed",
+      "durationMs": 51759,
+      "attempts": 1
+    },
+    {
+      "file": "design-preview.spec.ts",
+      "line": 65,
+      "title": "complete design inventory at 390px",
+      "status": "passed",
+      "durationMs": 62936,
+      "attempts": 1
+    },
+    {
+      "file": "design-preview.spec.ts",
+      "line": 117,
+      "title": "preview workflows retain context, deliberate approvals and safe payment scenarios",
+      "status": "passed",
+      "durationMs": 13569,
+      "attempts": 1
+    },
+    {
+      "file": "design-preview.spec.ts",
+      "line": 301,
+      "title": "mobile drawers, retained failed edits and parent-context guards",
+      "status": "passed",
+      "durationMs": 5072,
+      "attempts": 1
+    },
+    {
+      "file": "design-preview.spec.ts",
+      "line": 369,
+      "title": "narrow/intermediate layouts, shared states and long/limited PDFs",
+      "status": "passed",
+      "durationMs": 25448,
+      "attempts": 1
+    },
+    {
+      "file": "evidence.spec.ts",
+      "line": 3,
+      "title": "Demo video really plays, pauses, seeks and persists bookmarks and review notes",
+      "status": "passed",
+      "durationMs": 4825,
+      "attempts": 1
+    },
+    {
+      "file": "fee-plan-save.spec.ts",
+      "line": 10,
+      "title": "QA-15 visible Fee Plan Save validates, retains failed drafts and persists across mobile editing and a fresh login",
+      "status": "passed",
+      "durationMs": 7499,
+      "attempts": 1
+    },
+    {
+      "file": "fee-plan-save.spec.ts",
+      "line": 306,
+      "title": "a new invoice uses its selected fee-plan currency while another currency account stays selected",
+      "status": "passed",
+      "durationMs": 13307,
+      "attempts": 1
+    },
+    {
+      "file": "gallery-flows.spec.ts",
+      "line": 3,
+      "title": "player and report row links open the chosen child",
+      "status": "passed",
+      "durationMs": 1025,
+      "attempts": 1
+    },
+    {
+      "file": "gallery-flows.spec.ts",
+      "line": 39,
+      "title": "drill links retain the selected drill instructions and cue",
+      "status": "passed",
+      "durationMs": 794,
+      "attempts": 1
+    },
+    {
+      "file": "gallery-flows.spec.ts",
+      "line": 62,
+      "title": "parent practice waits for both current approval and publication",
+      "status": "passed",
+      "durationMs": 3365,
+      "attempts": 1
+    },
+    {
+      "file": "gallery-layout.spec.ts",
+      "line": 2,
+      "title": "weekly plan keeps intermediate and narrow layout within the viewport",
+      "status": "passed",
+      "durationMs": 2077,
+      "attempts": 1
+    },
+    {
+      "file": "gallery-prototype.spec.ts",
+      "line": 5,
+      "title": "gallery opens every working route and captures responsive component screens",
+      "status": "passed",
+      "durationMs": 57664,
+      "attempts": 1
+    },
+    {
+      "file": "gallery-prototype.spec.ts",
+      "line": 67,
+      "title": "weekly preview separates changes, review and publication and keeps local evidence scoped",
+      "status": "passed",
+      "durationMs": 2415,
+      "attempts": 1
+    },
+    {
+      "file": "home-ui.spec.ts",
+      "line": 39,
+      "title": "approved Home dashboard keeps its composition and captures six responsive viewports",
+      "status": "passed",
+      "durationMs": 9337,
+      "attempts": 1
+    },
+    {
+      "file": "home-ui.spec.ts",
+      "line": 163,
+      "title": "Home preview tools contain keyboard focus and leave product utilities closed",
+      "status": "passed",
+      "durationMs": 3376,
+      "attempts": 1
+    },
+    {
+      "file": "home-ui.spec.ts",
+      "line": 200,
+      "title": "Home actions preserve academy, player and review context without executing operations",
+      "status": "passed",
+      "durationMs": 7578,
+      "attempts": 1
+    },
+    {
+      "file": "home-ui.spec.ts",
+      "line": 285,
+      "title": "Home uses honest loading, empty and failure states within its approved shell",
+      "status": "passed",
+      "durationMs": 6329,
+      "attempts": 1
+    },
+    {
+      "file": "home-ui.spec.ts",
+      "line": 353,
+      "title": "Home summary values agree with recorded data and do not invent unread or current-month reports",
+      "status": "passed",
+      "durationMs": 3790,
+      "attempts": 1
+    },
+    {
+      "file": "home-ui.spec.ts",
+      "line": 439,
+      "title": "Home opens the second scheduled date and keeps a genuine no-session day honest",
+      "status": "passed",
+      "durationMs": 3900,
+      "attempts": 1
+    },
+    {
+      "file": "locked-ui.spec.ts",
+      "line": 35,
+      "title": "locked home compositions load real fonts and assets at five review viewports",
+      "status": "passed",
+      "durationMs": 6542,
+      "attempts": 1
+    },
+    {
+      "file": "locked-ui.spec.ts",
+      "line": 186,
+      "title": "preview tools stay outside the mobile composition and return keyboard focus",
+      "status": "passed",
+      "durationMs": 7237,
+      "attempts": 1
+    },
+    {
+      "file": "locked-ui.spec.ts",
+      "line": 225,
+      "title": "home branding and linked-child context survive review controls without expanding parent scope",
+      "status": "passed",
+      "durationMs": 3577,
+      "attempts": 1
+    },
+    {
+      "file": "locked-ui.spec.ts",
+      "line": 297,
+      "title": "home navigation preserves session and player workflows and approval stays separate from publication",
+      "status": "passed",
+      "durationMs": 5615,
+      "attempts": 1
+    },
+    {
+      "file": "mobile.spec.ts",
+      "line": 43,
+      "title": "All supported routes fit 320px without runtime errors",
+      "status": "passed",
+      "durationMs": 14492,
+      "attempts": 1
+    },
+    {
+      "file": "mobile.spec.ts",
+      "line": 43,
+      "title": "All supported routes fit 390px without runtime errors",
+      "status": "passed",
+      "durationMs": 16437,
+      "attempts": 1
+    },
+    {
+      "file": "mobile.spec.ts",
+      "line": 43,
+      "title": "All supported routes fit 768px without runtime errors",
+      "status": "passed",
+      "durationMs": 19089,
+      "attempts": 1
+    },
+    {
+      "file": "mobile.spec.ts",
+      "line": 79,
+      "title": "Phone communication controls and drawer work by touch",
+      "status": "passed",
+      "durationMs": 1264,
+      "attempts": 1
+    },
+    {
+      "file": "operations.spec.ts",
+      "line": 2,
+      "title": "New player has an editable plan, fee references and internal message approval",
+      "status": "passed",
+      "durationMs": 4336,
+      "attempts": 1
+    },
+    {
+      "file": "operations.spec.ts",
+      "line": 74,
+      "title": "Supported route inventory renders without browser errors",
+      "status": "passed",
+      "durationMs": 13690,
+      "attempts": 1
+    },
+    {
+      "file": "period-communication.spec.ts",
+      "line": 7,
+      "title": "weekly plans and monthly reports extend authorised workspaces across three regions",
+      "status": "passed",
+      "durationMs": 32557,
+      "attempts": 1
+    },
+    {
+      "file": "portal-onboarding.spec.ts",
+      "line": 4,
+      "title": "actual onboarding keeps typed categories and waits for a staged PNG before one confirmed create",
+      "status": "passed",
+      "durationMs": 4048,
+      "attempts": 1
+    },
+    {
+      "file": "portal-scheduling.spec.ts",
+      "line": 23,
+      "title": "real Calendar and Training controls preserve session identity, shared plans, conflicts and dated outcomes",
+      "status": "passed",
+      "durationMs": 55047,
+      "attempts": 1
+    },
+    {
+      "file": "portal-settings.spec.ts",
+      "line": 5,
+      "title": "authenticated Settings confirms actual records, retains failed drafts and preserves academy scope",
+      "status": "passed",
+      "durationMs": 11586,
+      "attempts": 1
+    },
+    {
+      "file": "reports.spec.ts",
+      "line": 5,
+      "title": "Approved report downloads, remains unchanged and respects parent privacy",
+      "status": "passed",
+      "durationMs": 13984,
+      "attempts": 1
+    },
+    {
+      "file": "reports.spec.ts",
+      "line": 77,
+      "title": "Failed PDF generation offers a working retry",
+      "status": "passed",
+      "durationMs": 5770,
+      "attempts": 1
+    },
+    {
+      "file": "reports.spec.ts",
+      "line": 93,
+      "title": "Long recorded names and observations paginate without truncation",
+      "status": "passed",
+      "durationMs": 8432,
+      "attempts": 1
+    },
+    {
+      "file": "session-draft-save.spec.ts",
+      "line": 13,
+      "title": "coach saves a minimum session draft, keeps failed edits, and reopens the same record after a new login",
+      "status": "passed",
+      "durationMs": 19756,
+      "attempts": 1
+    },
+    {
+      "file": "training.spec.ts",
+      "line": 17,
+      "title": "authenticated coach runs sessions, reviews evidence and communicates privately with the linked parent",
+      "status": "passed",
+      "durationMs": 89554,
+      "attempts": 1
+    },
+    {
+      "file": "trial-enrolment.spec.ts",
+      "line": 16,
+      "title": "QA-13/QA-14 authenticated trials preserve identity, approval, parent privacy and explicit manual fees",
+      "status": "passed",
+      "durationMs": 38759,
+      "attempts": 1
+    },
+    {
+      "file": "ux-simplification.spec.ts",
+      "line": 4,
+      "title": "demo storage failure retains objective, observation and session drafts",
+      "status": "passed",
+      "durationMs": 3844,
+      "attempts": 1
+    },
+    {
+      "file": "ux-simplification.spec.ts",
+      "line": 50,
+      "title": "demo objectives, modal navigation and parent-supported practice stay usable",
+      "status": "passed",
+      "durationMs": 9470,
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "line": 3,
+      "title": "Owner filters directory, opens Aarav and edits academy settings",
+      "status": "passed",
+      "durationMs": 2896,
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "line": 34,
+      "title": "Coach changes goal, builds draft, personalises, marks attendance and reviews evidence",
+      "status": "passed",
+      "durationMs": 7212,
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "line": 97,
+      "title": "Demo role switch, parent privacy and mobile navigation",
+      "status": "passed",
+      "durationMs": 1731,
+      "attempts": 1
+    },
+    {
+      "file": "workflows.spec.ts",
+      "line": 126,
+      "title": "Required screenshots and responsive overflow checks",
+      "status": "passed",
+      "durationMs": 23664,
+      "attempts": 1
+    },
+    {
+      "file": "workspaces.spec.ts",
+      "line": 8,
+      "title": "authenticated football academies isolate regional plans, approved parent reports and conversations",
+      "status": "passed",
+      "durationMs": 90056,
+      "attempts": 1
+    }
+  ],
+  "rawIgnoredResultSha256": "c144eacc31de9e64ffe4c29627b1d8f4156cadee0f779c21ee311fcf3f61c5ed"
+}

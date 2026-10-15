@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect } from "@playwright/test";
 test("Demo video really plays, pauses, seeks and persists bookmarks and review notes", async ({
   page,
@@ -49,12 +50,12 @@ test("Demo video really plays, pauses, seeks and persists bookmarks and review n
     .poll(() => video.evaluate((e: HTMLVideoElement) => e.paused))
     .toBe(false);
   await page.screenshot({
-    path: "docs/screenshots/evidence-video-desktop.png",
+    path: evidencePath("docs/screenshots/evidence-video-desktop.png"),
     fullPage: true,
   });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({
-    path: "docs/screenshots/evidence-video-mobile.png",
+    path: evidencePath("docs/screenshots/evidence-video-mobile.png"),
     fullPage: true,
   });
   expect(

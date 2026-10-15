@@ -34,6 +34,8 @@ export interface FootballSession extends TrainingRecord {
   venueId?: string;
   location: string;
   coachIds: string[];
+  /** Verified selection only; manual locations have no invented Places identity. */
+  googlePlaceId?: string;
   timezone: string;
   startLocal: string;
   endLocal: string;

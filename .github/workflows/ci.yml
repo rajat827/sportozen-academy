@@ -8,7 +8,18 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # The full serial authenticated suite alone takes about 16 minutes locally.
+    # Include installation, build and artifact upload without relaxing assertions.
+    timeout-minutes: 30
+    env:
+      SPORTOZEN_QA_BUILD: "1"
+      SPORTOZEN_GALLERY_QA: "1"
+      SPORTOZEN_FINAL_QA: "1"
+      SPORTOZEN_HOME_UI_QA: "1"
+      SPORTOZEN_E2E_EVIDENCE_ROOT: docs/screenshots/final-academy/regression
+      SPORTOZEN_GOOGLE_PLACES_ENABLED: "0"
+      SPORTOZEN_WHATSAPP_SEND_ENABLED: "false"
+      SPORTOZEN_WHATSAPP_LIVE_ENABLED: "false"
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

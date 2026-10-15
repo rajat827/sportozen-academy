@@ -121,6 +121,41 @@
 .portal-report-answers .portal-round {
   width: 43px;
   height: 43px;
+  flex-shrink: 0;
+}
+.portal-report-answers > section > div {
+  min-width: 0;
+}
+.portal-report-excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.portal-report-excerpt-label {
+  font-size: 11px;
+  margin: 9px 0 0;
+}
+.portal-report-pagination {
+  flex-wrap: wrap;
+}
+.portal-report-counts {
+  display: grid;
+  gap: 3px;
+}
+.portal-report-counts small {
+  color: #58718d;
+  font-size: 11px;
+}
+.portal-report-pagination .portal-actions {
+  flex-wrap: nowrap;
+  gap: 4px;
+  margin: 0;
+}
+.portal-report-pagination .portal-actions > span {
+  white-space: nowrap;
+  font-size: 12px;
 }
 .portal-report-skills {
   padding: 20px 8px 15px;
@@ -140,6 +175,8 @@
   border-radius: 7px;
   padding: 7px 10px;
   font-size: 11px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 .portal-report-comments {
   padding: 18px 8px 25px;
@@ -196,13 +233,18 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 1000px) {
   .portal-report-detail .portal-report-answers {
     display: block;
   }
   .portal-report-detail .portal-report-answers > section {
     display: flex;
   }
+  .portal-report-detail .portal-round {
+    margin: 0;
+  }
+}
+@media (max-width: 767px) {
   .portal-reports-layout .portal-stat-grid {
     grid-template-columns: 1fr 1fr;
   }

@@ -248,10 +248,13 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
             squadId: z.string(),
             week: z.iso.date(),
             correctionOf: z.string().optional(),
+            playerIds: z.array(z.string()).min(1).optional(),
           })
           .parse(command.data);
         const squad = visibleRecord(ctx, "squad", d.squadId),
           period = periodFor(d.week, ctx.academy.timezone, "WEEKLY");
+        if (d.playerIds?.some((id) => !squad.playerIds.includes(id)))
+          fail("Weekly preview players must belong to the selected batch.");
         if (command.action === "weeklyCorrection" && !d.correctionOf)
           fail("Select the issued plan to correct.");
         const correction = d.correctionOf
@@ -267,6 +270,7 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
         const remainingFrom = correction ? new Date().toISOString() : undefined;
         result = squad.playerIds
           .filter((p) => !correction || p === correction.playerId)
+          .filter((p) => !d.playerIds || d.playerIds.includes(p))
           .map((playerId) => {
             const player = requirePlayer(ctx, playerId);
             const existing = repo
@@ -335,6 +339,11 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
                 plan?.observe ||
                 "the planned batch activities; individual observation criteria are not recorded",
               homePractice: plan?.homePractice ?? "",
+              preparation: [
+                ...new Set(
+                  sessions.flatMap((session) => session.preparation ?? []),
+                ),
+              ],
               sessions: sessions.map((s) => ({
                 id: s.id,
                 version: s.version,
@@ -342,6 +351,7 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
                 endAt: s.endAt,
                 timezone: s.timezone,
                 location: s.location,
+                theme: s.theme,
               })),
               activities: drills
                 .filter(

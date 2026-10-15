@@ -212,6 +212,13 @@
   }
 }
 @media (max-width: 767px) {
+  .portal-player-detail > .portal-detail-title {
+    padding-right: 44px;
+  }
+  .portal-player-detail > .portal-detail-title > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
   .portal-players-layout .portal-stat-grid {
     grid-template-columns: 1fr 1fr;
   }

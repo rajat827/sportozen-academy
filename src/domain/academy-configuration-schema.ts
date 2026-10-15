@@ -35,6 +35,19 @@ export const academySchema = z.object({
   weekStartsOn: z.union([z.literal(0), z.literal(1)]).optional(),
   dateFormat: z.enum(["DD_MMM_YYYY", "MM_DD_YYYY", "YYYY_MM_DD"]).optional(),
   timeFormat: z.enum(["12_HOUR", "24_HOUR"]).optional(),
+  sessionThemes: z
+    .array(
+      z.string().trim().min(1, "Enter each theme on its own line.").max(200),
+    )
+    .min(1)
+    .max(30)
+    .refine(
+      (values) =>
+        new Set(values.map((value) => value.toLocaleLowerCase())).size ===
+        values.length,
+      "Remove duplicate session themes.",
+    )
+    .optional(),
   measurementSystem: z.enum(["METRIC", "IMPERIAL"]),
   brandAccent: z.enum(["#008463", "#2364a1", "#6750a4"]),
   logoData: z

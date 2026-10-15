@@ -16,6 +16,7 @@ import {
   evidenceInput,
   resolveSessionTime,
   measurementText,
+  sessionDraftInput,
 } from "@/services/training-rules";
 import {
   sessionConflicts,
@@ -25,6 +26,7 @@ import { workspaceRepository as repo } from "./workspace-repository";
 import { inPeriod } from "@/services/communication/period-rules";
 import { atomic, database, audit } from "./database";
 import { WorkspaceError } from "./auth";
+import { verifyPlaceConfirmation } from "./google-places";
 import {
   requireRole,
   requireModule,
@@ -300,38 +302,9 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
         break;
       }
       case "session": {
-        const d = z
-          .object({
-            branchId: id,
-            squadId: id,
-            venueId: id.optional(),
-            location: text,
-            coachIds: z.array(id).min(1),
-            timezone: text,
-            startLocal: text,
-            endLocal: text,
-            theme: text,
-            agenda: z
-              .array(
-                z.object({
-                  drillId: id,
-                  duration: z.number().int().positive().max(180),
-                }),
-              )
-              .min(1),
-            sharedObjective: z
-              .object({
-                goal: text,
-                cue: text,
-                observe: z.string().trim().max(1000).default(""),
-              })
-              .optional(),
-            preparation: z
-              .array(z.string().trim().min(1).max(1000))
-              .max(20)
-              .optional(),
-          })
-          .parse(command.data);
+        const { placeConfirmation, ...d } = sessionDraftInput.parse(
+          command.data,
+        );
         const branch = visibleRecord(ctx, "branch", d.branchId),
           squad = scoped(ctx, "squad", d.squadId);
         if (squad.branchId !== branch.id) fail("Squad and branch must match.");
@@ -371,6 +344,15 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
         )
           fail("Drill durations exceed the session length.");
         const old = command.id ? authorisedSession(ctx, recordId) : undefined;
+        const googlePlaceId = placeConfirmation
+          ? verifyPlaceConfirmation(
+              placeConfirmation,
+              { academyId: ctx.academy.id, userId: ctx.user.id },
+              d.location,
+            )
+          : old?.location === d.location
+            ? old.googlePlaceId
+            : undefined;
         if (old && old.status !== "DRAFT")
           fail(
             "Only draft sessions can change their schedule and agenda.",
@@ -426,6 +408,7 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
             ...d,
             startAt,
             endAt,
+            googlePlaceId,
             agenda,
             roster,
             objectives: old?.objectives ?? [],

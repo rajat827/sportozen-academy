@@ -129,6 +129,37 @@ function SenderSettings({
             onChange={(e) => set("weeklyTime", e.target.value)}
           />
         </label>
+        <label className="check-row">
+          <input
+            type="checkbox"
+            checked={draft.weeklyDraftEnabled ?? false}
+            onChange={(event) =>
+              set("weeklyDraftEnabled", event.target.checked)
+            }
+          />
+          Prepare weekly drafts automatically — ordinary coach approval is still
+          required
+        </label>
+        <label>
+          Weekly draft preparation lead days before Monday
+          <input
+            type="number"
+            min="0"
+            max="6"
+            value={draft.weeklyDraftLeadDays ?? 2}
+            onChange={(event) =>
+              set("weeklyDraftLeadDays", Number(event.target.value))
+            }
+          />
+        </label>
+        <label>
+          Weekly draft preparation time
+          <input
+            type="time"
+            value={draft.weeklyDraftTime ?? "09:00"}
+            onChange={(event) => set("weeklyDraftTime", event.target.value)}
+          />
+        </label>
         <label>
           Monthly draft generation day
           <input
@@ -174,6 +205,7 @@ function SenderSettings({
             "credentialRef",
             "weeklyTemplate",
             "monthlyTemplate",
+            "announcementTemplate",
           ] as const
         ).map((key) => (
           <label key={key}>
@@ -184,10 +216,12 @@ function SenderSettings({
                 credentialRef: "Server credential reference",
                 weeklyTemplate: "Provider weekly template name",
                 monthlyTemplate: "Provider monthly template name",
+                announcementTemplate:
+                  "Provider operational announcement template name (optional)",
               }[key]
             }
             <input
-              value={draft[key]}
+              value={draft[key] ?? ""}
               onChange={(e) => set(key, e.target.value)}
             />
           </label>
@@ -243,7 +277,8 @@ function GuardianSettings({
       !!initial?.consentAt && !initial?.optedOutAt,
     ),
     [weekly, setWeekly] = useState(initial?.weekly ?? false),
-    [monthly, setMonthly] = useState(initial?.monthly ?? false);
+    [monthly, setMonthly] = useState(initial?.monthly ?? false),
+    [operational, setOperational] = useState(initial?.operational ?? false);
   const old = data.contacts.find((c) => c.guardianId === guardian);
   function select(id: string) {
     setGuardian(id);
@@ -255,6 +290,7 @@ function GuardianSettings({
     setOptedIn(!!c?.consentAt && !c.optedOutAt);
     setWeekly(c?.weekly ?? false);
     setMonthly(c?.monthly ?? false);
+    setOperational(c?.operational ?? false);
   }
   if (!parent && !admin) return null;
   return (
@@ -292,6 +328,7 @@ function GuardianSettings({
               optedIn,
               weekly,
               monthly,
+              operational,
             },
           });
         }}
@@ -374,6 +411,14 @@ function GuardianSettings({
             onChange={(e) => setMonthly(e.target.checked)}
           />
           Monthly report notifications
+        </label>
+        <label className="check-row">
+          <input
+            type="checkbox"
+            checked={operational}
+            onChange={(event) => setOperational(event.target.checked)}
+          />
+          Operational batch announcements
         </label>
         <Button disabled={w.busy}>Save contact and preferences</Button>
       </form>

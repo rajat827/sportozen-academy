@@ -86,9 +86,11 @@ for (const width of [1440, 390])
                 ? "Hi Neha"
                 : screen.id === "player-profile"
                   ? "Aarav Shah"
-                  : screen.id === "weekly-plan"
-                    ? "Weekly Plan"
-                    : screen.title,
+                  : screen.id === "sessions"
+                    ? "Calendar"
+                    : screen.id === "weekly-plan"
+                      ? "Weekly Plan"
+                      : screen.title,
           exact: true,
         }),
       ).toBeVisible();
@@ -337,9 +339,21 @@ test("mobile drawers, retained failed edits and parent-context guards", async ({
   page.once("dialog", (d) => d.dismiss());
   await page.locator(".dp-gallery-link").click();
   await expect(page).toHaveURL(/academy-profile/);
-  await page
+  const scenarioConfirmation = page.waitForEvent("dialog");
+  const switchScenario = page
     .getByLabel("Design scenario", { exact: true })
     .selectOption("default");
+  const confirm = await scenarioConfirmation;
+  expect(confirm.type()).toBe("confirm");
+  expect(confirm.message()).toContain("unsaved changes");
+  await confirm.accept();
+  await switchScenario;
+  await expect(page.getByLabel("Design scenario", { exact: true })).toHaveValue(
+    "default",
+  );
+  await expect(page.getByLabel("Academy name", { exact: true })).toHaveValue(
+    "Retained review draft",
+  );
   await page.getByRole("button", { name: "Save draft", exact: true }).click();
   await expect(
     page.getByText("Fictional draft saved.", { exact: true }),

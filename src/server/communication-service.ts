@@ -32,6 +32,7 @@ import {
 } from "./workspace-access";
 import { atomic, database, audit } from "./database";
 import { WorkspaceError } from "./auth";
+import { announcementDispatchCheck } from "./batch-announcement-service";
 export function defaults(
   academyId: string,
   timezone: string,
@@ -45,6 +46,10 @@ export function defaults(
     weeklyDay: 0,
     weeklyTime: "18:00",
     weeklyLeadDays: 1,
+    weeklyDraftEnabled: false,
+    weeklyDraftLeadDays: 2,
+    weeklyDraftTime: "09:00",
+    announcementTemplate: "",
     monthlyDraftDay: 1,
     monthlyDay: 3,
     monthlyTime: "18:00",
@@ -70,6 +75,13 @@ const settingsSchema = z.object({
   weeklyDay: z.number().int().min(0).max(6),
   weeklyTime: time,
   weeklyLeadDays: z.number().int().min(0).max(6),
+  weeklyDraftEnabled: z.boolean().default(false),
+  weeklyDraftLeadDays: z.number().int().min(0).max(6).default(2),
+  weeklyDraftTime: time.default("09:00"),
+  announcementTemplate: z
+    .string()
+    .regex(/^[a-z0-9_]*$/)
+    .default(""),
   monthlyDraftDay: z.number().int().min(1).max(28),
   monthlyDay: z.number().int().min(1).max(28),
   monthlyTime: time,
@@ -442,6 +454,36 @@ export async function communicationAction(
           400,
           "Use distinct weekly and monthly provider templates.",
         );
+      if (
+        d.announcementTemplate &&
+        [d.weeklyTemplate, d.monthlyTemplate].includes(d.announcementTemplate)
+      )
+        throw new WorkspaceError(
+          400,
+          "Use a distinct operational announcement template.",
+        );
+      if (d.weeklyDraftEnabled) {
+        const sample = "2027-01-11";
+        const send = scheduleTimes(
+          {
+            ...d,
+            academyId: ctx.academy.id,
+            version: 0,
+            connection: "Not configured",
+          },
+          "WEEKLY",
+          sample,
+        ).dueAt;
+        const prepare = resolveSessionTime(
+          `${shiftDate(sample, -d.weeklyDraftLeadDays)}T${d.weeklyDraftTime}`,
+          d.timezone,
+        );
+        if (prepare > send)
+          throw new WorkspaceError(
+            400,
+            "Weekly draft preparation must precede the notification schedule. Increase preparation lead days or move notification later.",
+          );
+      }
       const old = comm.settings(ctx.academy.id);
       if ((old?.version ?? 0) !== expectedVersion)
         throw new WorkspaceError(409, "Settings changed. Reload.");
@@ -465,11 +507,14 @@ export async function communicationAction(
           "credentialRef",
           "weeklyTemplate",
           "monthlyTemplate",
+          "announcementTemplate",
           "language",
           "mode",
-        ].every(
-          (k) =>
-            old[k as keyof CommunicationSettings] === d[k as keyof typeof d],
+        ].every((k) =>
+          k === "announcementTemplate"
+            ? (old.announcementTemplate ?? "") ===
+              (d.announcementTemplate ?? "")
+            : old[k as keyof CommunicationSettings] === d[k as keyof typeof d],
         );
       const s: CommunicationSettings = {
         ...d,
@@ -500,6 +545,7 @@ export async function communicationAction(
           consentReference: z.string().trim().max(1000),
           weekly: z.boolean(),
           monthly: z.boolean(),
+          operational: z.boolean().optional(),
           verified: z.boolean().default(false),
           optedIn: z.boolean().default(false),
         })
@@ -536,6 +582,7 @@ export async function communicationAction(
         version: d.expectedVersion + 1,
         weekly: d.weekly,
         monthly: d.monthly,
+        operational: d.operational ?? old?.operational ?? false,
         verificationReference: d.verificationReference,
         consentReference: d.consentReference,
         verifiedAt: d.verified
@@ -848,6 +895,7 @@ export function dispatchCheck(job: DeliveryJob, now: Date) {
       409,
       "Notification source module or communication entitlement is unavailable.",
     );
+  if (job.type === "ANNOUNCEMENT") return announcementDispatchCheck(job, now);
   if (!player?.sportIds.includes("football"))
     throw new WorkspaceError(409, "Player no longer eligible.");
   const contact = contactEligible(

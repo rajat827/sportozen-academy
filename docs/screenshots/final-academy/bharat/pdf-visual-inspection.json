@@ -1,0 +1,115 @@
+{
+  "status": "PASS",
+  "renderedBy": "Poppler pdftoppm,110dpi",
+  "representativePdfs": 4,
+  "pagesInspected": 12,
+  "coverage": [
+    "normal reviewed evidence, both months",
+    "long30-paragraph closing note, all five pages",
+    "limited reviewed evidence, both months",
+    "corrected first-card heading flow"
+  ],
+  "checks": [
+    {
+      "pdf": "U8-01-2026-08.pdf",
+      "sha256": "13e798455b39aad6d88e90d4ca73160c8d164b3fd9269f5925bf0f2783489d79",
+      "pagesInspected": 3,
+      "rendered": [
+        {
+          "page": 1,
+          "file": "pdf-rendered/U8-01-2026-08-1.png",
+          "sha256": "fa05119255d2c00f8a568e383fdae78dddafb255ef99da22731c00db58c85094",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        },
+        {
+          "page": 2,
+          "file": "pdf-rendered/U8-01-2026-08-2.png",
+          "sha256": "5af035243b60578f16a660388e82b39ba0cbc95467025ae85b2e82da5601d1e9",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        },
+        {
+          "page": 3,
+          "file": "pdf-rendered/U8-01-2026-08-3.png",
+          "sha256": "6837ae14c30df0ea2ba03d6090936955dbac9955eca9dadd504faeee1b99dfbc",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        }
+      ]
+    },
+    {
+      "pdf": "U8-01-2026-09.pdf",
+      "sha256": "fae3454a3b1de0b5f32d1d0bfe25bf8ff9c74576a2bf3b1b3030fbc5040f03a1",
+      "pagesInspected": 5,
+      "rendered": [
+        {
+          "page": 1,
+          "file": "pdf-rendered/U8-01-2026-09-1.png",
+          "sha256": "92442705334a14500b6117a835b46712b3824b85b3ddbf90896eb8dfb6b4e4af",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        },
+        {
+          "page": 2,
+          "file": "pdf-rendered/U8-01-2026-09-2.png",
+          "sha256": "099b4bb2cec6ef623ff6ae669a1d3a4d215684f908ec479e248849d95d3d96c5",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        },
+        {
+          "page": 3,
+          "file": "pdf-rendered/U8-01-2026-09-3.png",
+          "sha256": "f270f0d0c5a0e7873623780bf5268e9e2ee0bb64a3be6c973e8e055f1088aa67",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        },
+        {
+          "page": 4,
+          "file": "pdf-rendered/U8-01-2026-09-4.png",
+          "sha256": "28e2a2cf2d9d114458a2154e51ccbd0ecf724690688b88adfdf9443f0dcaae9e",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        },
+        {
+          "page": 5,
+          "file": "pdf-rendered/U8-01-2026-09-5.png",
+          "sha256": "ea92598aa46e9d94e706386ae428e47610542eede5e23ec40c03b34cd4573566",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        }
+      ]
+    },
+    {
+      "pdf": "U8-05-2026-08.pdf",
+      "sha256": "7dddd22f28b80aad83707a74a7d88f73674b1354fcb3c25f2671c584657b7c5d",
+      "pagesInspected": 2,
+      "rendered": [
+        {
+          "page": 1,
+          "file": "pdf-rendered/U8-05-2026-08-1.png",
+          "sha256": "d11f44c889106a492e0424997639d90d1fcc8bbf4a5c267c4006d1ab0ddf31fc",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        },
+        {
+          "page": 2,
+          "file": "pdf-rendered/U8-05-2026-08-2.png",
+          "sha256": "56665df8f41f22d927d0795548378fec04b8aff1de3fbf2c098dd7e4459a85c9",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        }
+      ]
+    },
+    {
+      "pdf": "U8-05-2026-09.pdf",
+      "sha256": "8bbc6a8ac9b094379c0ff92795600b11b2a484cdd1f3b0e0e3292147c3591465",
+      "pagesInspected": 2,
+      "rendered": [
+        {
+          "page": 1,
+          "file": "pdf-rendered/U8-05-2026-09-1.png",
+          "sha256": "4a3ae199cf5f15742983504c24a4490b7d05e51d5979a1b727e7b4d640c21d49",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        },
+        {
+          "page": 2,
+          "file": "pdf-rendered/U8-05-2026-09-2.png",
+          "sha256": "a20a0486d08260958fae57d19ea1baffecc4c6ff6ee39b88d738ff3304c303cc",
+          "inspection": "PASS: readable body, clear header/footer, no clipping or overlapping text"
+        }
+      ]
+    }
+  ],
+  "visualDesignApproval": "User review remains separate"
+}

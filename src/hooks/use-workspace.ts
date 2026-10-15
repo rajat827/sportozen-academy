@@ -24,6 +24,10 @@ export function useWorkspace(academyId: string) {
   const pending = useRef(false);
   const [data, setData] = useState<WorkspacePayload | null>(null),
     [error, setError] = useState(""),
+    [trainingFeedback, setTrainingFeedback] = useState<{
+      academyId: string;
+      notice: string;
+    } | null>(null),
     [busy, setBusy] = useState(false);
   const reload = useCallback(
     async (signal?: AbortSignal) => {
@@ -91,6 +95,10 @@ export function useWorkspace(academyId: string) {
   return {
     data: data?.academy.id === academyId ? data : null,
     error,
+    trainingNotice:
+      trainingFeedback?.academyId === academyId ? trainingFeedback.notice : "",
+    setTrainingNotice: (notice: string) =>
+      setTrainingFeedback({ academyId, notice }),
     busy,
     reload,
     save: <T>(kind: WorkspaceKind, body: unknown, id?: string) =>

@@ -1,0 +1,39 @@
+{
+  "reference": "docs/reference/approved-ui/settings-screen.png",
+  "reference_sha256": "b53cc6aae078701ee7b5b6ce8165c7c99fe646d9d77475601871c51d23f07a7d",
+  "reference_pixels": [
+    1536,
+    1024
+  ],
+  "actual": "docs/screenshots/final-academy/bharat/settings-1536.png",
+  "actual_sha256": "c81aea0778c01cfdd4cdf4a956b392187cffe2b923239b2a6ec630d87e98ff55",
+  "actual_pixels": [
+    1536,
+    1047
+  ],
+  "comparison": "docs/screenshots/final-academy/comparisons/settings-1536-comparison.png",
+  "comparison_sha256": "3c6de244119195cb0b3d441f238e4c0f72e9fe0110663856cf64d25d197e1ad3",
+  "comparison_pixels": [
+    3904,
+    1291
+  ],
+  "optional_top_viewport_comparison": null,
+  "inspection": {
+    "inspection_status": "inspected",
+    "reference_sha256": "b53cc6aae078701ee7b5b6ce8165c7c99fe646d9d77475601871c51d23f07a7d",
+    "actual_sha256": "c81aea0778c01cfdd4cdf4a956b392187cffe2b923239b2a6ec630d87e98ff55",
+    "context_differences": [
+      "Actual academy name, supplied location, six age groups and synthetic email replace Riverside examples. About, phone and website remain empty because values were not supplied.",
+      "The actual LOCAL FOUNDATION subscription is active. Unavailable subscription billing and academy deletion are explicitly disabled rather than presented as working live services."
+    ],
+    "visual_differences": [
+      "The profile/contact/settings/venues stack and logo/plan/danger side column closely follow the reference proportions. The full actual page is 1047 px high versus 1024 px.",
+      "BF fallback initials replace the reference crest. The actual plan lists four supported capabilities rather than the six reference marketing items.",
+      "Support text is smaller. Additional regional settings are collapsed behind an explicit disclosure; venue content uses the single supplied training location."
+    ],
+    "limitations": [
+      "Logo upload treatment cannot be compared with a custom academy crest until one is supplied. Empty optional fields reflect the actual saved academy record."
+    ]
+  },
+  "review_status": "Awaiting user visual approval; no approval inferred."
+}

@@ -1,0 +1,137 @@
+{
+  "test": "QA-15",
+  "academyId": "54fd4c76-19bf-41d0-83e3-c7831818224c",
+  "planId": "e8b78a72-64d5-49b8-9ba3-c8fc974a2c9c",
+  "metrics": [
+    {
+      "width": 1536,
+      "height": 1024,
+      "bounds": {
+        "x": 772,
+        "y": 847.8203125,
+        "width": 260,
+        "height": 44
+      },
+      "styles": {
+        "background": "rgb(0, 153, 109)",
+        "color": "rgb(255, 255, 255)"
+      },
+      "saveVisibleAfterFieldScroll": true,
+      "focusSpace": {
+        "left": 6,
+        "right": 6,
+        "required": 6
+      },
+      "receivesPointer": true
+    },
+    {
+      "width": 1440,
+      "height": 1024,
+      "bounds": {
+        "x": 724,
+        "y": 847.8203125,
+        "width": 260,
+        "height": 44
+      },
+      "styles": {
+        "background": "rgb(0, 153, 109)",
+        "color": "rgb(255, 255, 255)"
+      },
+      "saveVisibleAfterFieldScroll": true,
+      "focusSpace": {
+        "left": 6,
+        "right": 6,
+        "required": 6
+      },
+      "receivesPointer": true
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "bounds": {
+        "x": 388,
+        "y": 847.8203125,
+        "width": 260,
+        "height": 44
+      },
+      "styles": {
+        "background": "rgb(0, 153, 109)",
+        "color": "rgb(255, 255, 255)"
+      },
+      "saveVisibleAfterFieldScroll": true,
+      "focusSpace": {
+        "left": 6,
+        "right": 6,
+        "required": 6
+      },
+      "receivesPointer": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "bounds": {
+        "x": 199,
+        "y": 766,
+        "width": 162,
+        "height": 44
+      },
+      "styles": {
+        "background": "rgb(0, 153, 109)",
+        "color": "rgb(255, 255, 255)"
+      },
+      "saveVisibleAfterFieldScroll": true,
+      "focusSpace": {
+        "left": 6,
+        "right": 6,
+        "required": 6
+      },
+      "receivesPointer": true
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "bounds": {
+        "x": 164,
+        "y": 490,
+        "width": 127,
+        "height": 44
+      },
+      "styles": {
+        "background": "rgb(0, 153, 109)",
+        "color": "rgb(255, 255, 255)"
+      },
+      "saveVisibleAfterFieldScroll": true,
+      "focusSpace": {
+        "left": 6,
+        "right": 6,
+        "required": 6
+      },
+      "receivesPointer": true
+    },
+    {
+      "width": 390,
+      "height": 350,
+      "bounds": {
+        "x": 199,
+        "y": 272,
+        "width": 162,
+        "height": 44
+      },
+      "styles": {
+        "background": "rgb(0, 153, 109)",
+        "color": "rgb(255, 255, 255)"
+      },
+      "saveVisibleAfterFieldScroll": true,
+      "focusSpace": {
+        "left": 6,
+        "right": 6,
+        "required": 6
+      },
+      "receivesPointer": true
+    }
+  ],
+  "savePosts": 1,
+  "persistedAfterFreshLogin": true,
+  "invoices": 0,
+  "payments": 0
+}

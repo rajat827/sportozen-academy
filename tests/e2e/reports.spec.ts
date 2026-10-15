@@ -1,6 +1,7 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
-const folder = "docs/screenshots/reports";
+const folder = evidencePath("docs/screenshots/reports");
 test("Approved report downloads, remains unchanged and respects parent privacy", async ({
   page,
 }) => {

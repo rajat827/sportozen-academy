@@ -61,6 +61,7 @@ import {
 import {
   weeklyTemplateBody,
   monthlyTemplateBody,
+  templateParameters,
 } from "@/services/communication/whatsapp-templates";
 import {
   periodFor,
@@ -541,6 +542,85 @@ describe("weekly approval and monthly source extension", () => {
     expect(comm.jobs("a")[0].state).toBe("CANCELLED");
     expect(repo.find("a", "weekly", r.id)?.status).toBe("INVALIDATED");
     expect(() => notificationContent("a", "WEEKLY", r.id)).toThrow();
+  });
+  it("includes recorded schedule, venue and preparation in weekly wording without requiring a personal plan", () => {
+    database()
+      .prepare(
+        "DELETE FROM workspace_records WHERE academyId='a' AND kind='plan'",
+      )
+      .run();
+    repo.save("a", "session", {
+      ...session,
+      objectives: [],
+      sharedObjective: {
+        goal: "Shared receiving",
+        cue: "Look first",
+        observe: "First touch",
+      },
+      preparation: ["Bring water"],
+    });
+    const r = weekly();
+    expect(r.content.personalFocus).toBe("Following the batch plan");
+    expect(r.content.preparation).toEqual(["Bring water"]);
+    const output = templateParameters(
+      "WEEKLY",
+      academy.name,
+      r.content.period.key,
+      "https://example.test/private",
+      r.content,
+    );
+    expect(output.rendered).toContain("05 Jan, 17:00");
+    expect(output.rendered).toContain("Recorded pitch");
+    expect(output.rendered).toContain("Bring water");
+    expect(output.rendered).not.toContain("SECRET STAFF NOTE");
+  });
+  it("automatically prepares only missing weekly drafts at the configured time without approving or overwriting saved review", () => {
+    const s = settings();
+    comm.saveSettings({
+      ...s,
+      weeklyDraftEnabled: true,
+      weeklyDraftLeadDays: 2,
+      weeklyDraftTime: "09:00",
+    });
+    database()
+      .prepare(
+        "UPDATE academy_memberships SET role='OWNER' WHERE userId='coach'",
+      )
+      .run();
+    prepareSchedules(new Date("2027-01-01T14:00:00.000Z"));
+    expect(repo.list("a", "weekly")).toEqual([]);
+    prepareSchedules(new Date("2027-01-02T04:00:00.000Z"));
+    const first = repo.list("a", "weekly");
+    expect(first).toHaveLength(2);
+    expect(first.every((record) => record.status === "DRAFT")).toBe(true);
+    expect(comm.jobs("a")).toEqual([]);
+    const original = first[0];
+    periodAction(
+      { ...ctx, membership: { ...ctx.membership, role: "OWNER" } },
+      {
+        requestId: randomUUID(),
+        action: "weeklyEdit",
+        id: original.id,
+        expectedVersion: original.recordVersion,
+        data: {
+          personalFocus: "Human reviewed draft wording",
+          observe: "Recorded first touch",
+          homePractice: "",
+        },
+      },
+    );
+    const revised = repo.find("a", "weekly", original.id)!;
+    prepareSchedules(new Date("2027-01-03T04:00:00.000Z"));
+    expect(repo.find("a", "weekly", original.id)).toEqual(revised);
+    expect(repo.list("a", "weekly")).toHaveLength(2);
+  });
+  it("cancels queued weekly content after session cancellation rather than sending an outdated schedule", () => {
+    const { r } = queued();
+    repo.save("a", "session", { ...session, status: "CANCELLED", version: 2 });
+    expect(comm.jobs("a")[0].state).toBe("CANCELLED");
+    expect(() => notificationContent("a", "WEEKLY", r.id)).toThrow(
+      /stale|unapproved/,
+    );
   });
   it("preserves issued plans and requires an explicit correction with fresh individual review", () => {
     const r = weekly();

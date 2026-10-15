@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 test.use({ actionTimeout: 15000 });
@@ -5,7 +6,7 @@ test("approved-reference screens preserve controls, context and narrow usability
   page,
 }) => {
   test.setTimeout(120000);
-  const folder = "docs/screenshots/home-ui/regressions";
+  const folder = evidencePath("docs/screenshots/home-ui/regressions");
   await mkdir(folder, { recursive: true });
   const errors: string[] = [],
     calls: string[] = [];
@@ -69,10 +70,17 @@ test("approved-reference screens preserve controls, context and narrow usability
       await page
         .getByLabel("Player context", { exact: true })
         .selectOption("leo");
-      await expect(page.locator("main")).toContainText(
-        "No confirmed current-week session",
+      await expect(page.locator(".ar-next")).toContainText(
+        "Schedule awaiting coach review",
+      );
+      await expect(page.locator(".ar-next")).not.toContainText("20 October");
+      await expect(page.locator(".ar-week-card")).toContainText(
+        "Your plan is awaiting coach review",
       );
       await expect(page.locator(".ar-update")).toContainText("Not recorded");
+      await expect(page.locator(".ar-update")).not.toContainText(
+        "The paired receiving task used a wider gate",
+      );
       await page
         .getByLabel("Player context", { exact: true })
         .selectOption("aarav");

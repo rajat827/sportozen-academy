@@ -2,6 +2,77 @@ import { z } from "zod";
 import type { FootballEvidence } from "@/domain/training";
 const id = z.string().min(1).max(100),
   text = z.string().trim().min(1).max(2000);
+/** Planning is optional while a dated session is a draft. */
+export const sessionDraftInput = z
+  .object({
+    branchId: id,
+    squadId: id.min(1, "Choose an authorised session squad."),
+    venueId: id.optional(),
+    location: z.string().trim().min(1, "Enter a training location.").max(2000),
+    placeConfirmation: z.string().max(16000).optional(),
+    coachIds: z.array(id).min(1, "Assign at least one session coach."),
+    timezone: text,
+    startLocal: z.string().min(1, "Enter the session start date and time."),
+    endLocal: z.string().min(1, "Enter the session end date and time."),
+    theme: z
+      .string()
+      .trim()
+      .min(1, "Enter a session theme.")
+      .max(2000, "Keep the theme within 2,000 characters."),
+    agenda: z
+      .array(
+        z.object({
+          drillId: id,
+          duration: z.number().int().positive().max(180),
+        }),
+      )
+      .default([]),
+    sharedObjective: z
+      .object({
+        goal: text,
+        cue: text,
+        observe: z.string().trim().max(1000).default(""),
+      })
+      .optional(),
+    preparation: z.array(z.string().trim().min(1).max(1000)).max(20).optional(),
+  })
+  .superRefine((value, context) => {
+    const resolved: Record<string, string> = {};
+    for (const field of ["startLocal", "endLocal"] as const) {
+      if (!value[field]) continue;
+      try {
+        resolved[field] = resolveSessionTime(value[field], value.timezone);
+      } catch (error) {
+        context.addIssue({
+          code: "custom",
+          path: [field],
+          message:
+            error instanceof Error
+              ? error.message
+              : "Enter a valid session date and time.",
+        });
+      }
+    }
+    if (resolved.startLocal && resolved.endLocal) {
+      const duration =
+        (Date.parse(resolved.endLocal) - Date.parse(resolved.startLocal)) /
+        60000;
+      if (duration <= 0 || duration > 480)
+        context.addIssue({
+          code: "custom",
+          path: ["endLocal"],
+          message: "End the session after its start, within eight hours.",
+        });
+      else if (
+        value.agenda.reduce((sum, item) => sum + item.duration, 0) > duration
+      )
+        context.addIssue({
+          code: "custom",
+          path: ["agenda"],
+          message: "Drill durations exceed the session length.",
+        });
+    }
+  });
 export const evidenceInput = z
   .object({
     sessionId: id,

@@ -23,6 +23,7 @@ export interface AcademyConfiguration extends RecordBase {
   weekStartsOn?: 0 | 1;
   dateFormat?: "DD_MMM_YYYY" | "MM_DD_YYYY" | "YYYY_MM_DD";
   timeFormat?: "12_HOUR" | "24_HOUR";
+  sessionThemes?: string[];
   measurementSystem: "METRIC" | "IMPERIAL";
   brandAccent: string;
   logoData?: string;

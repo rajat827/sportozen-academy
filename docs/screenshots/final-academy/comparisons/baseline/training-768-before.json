@@ -1,0 +1,13 @@
+{
+  "image": "training-768-before.png",
+  "sha256": "548984c5742d2b873111e4a2004ab5c5e4a9e3dbb9105c338a65d81368ef7a1e",
+  "pixels": [
+    768,
+    2788
+  ],
+  "source": "docs/screenshots/final-academy/bharat/training-768.png",
+  "build": "22219",
+  "observed_issue": "At 768 px the sidebar and two-column session list/plan leave drill descriptions wrapping into very narrow, short lines.",
+  "correction": "Move the existing one-column layout and bounded scrollable session list breakpoint from 767 to 1023 px. Desktop 1440/1536 layout and existing mobile behaviour are unchanged.",
+  "verification": "Before image inspected. After image and rebuilt browser checks pending. No visual approval inferred."
+}

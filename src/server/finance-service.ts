@@ -243,340 +243,361 @@ export function financeAction(
   context: WorkspaceAccess,
   input: unknown,
 ): FinanceActionResult {
+  return atomic(() => financeActionInTransaction(context, input));
+}
+/** Compose with another academy operation inside its existing atomic transaction. */
+export function financeActionInTransaction(
+  context: WorkspaceAccess,
+  input: unknown,
+): FinanceActionResult {
   const command = commandSchema.parse(input);
   const digest = createHash("sha256")
     .update(JSON.stringify(command))
     .digest("hex");
-  return atomic(() => {
-    const ctx = current(context);
-    requireRole(ctx, ["OWNER", "ADMIN"]);
-    const prior = database()
-      .prepare(
-        "SELECT digest,response FROM academy_finance_submissions WHERE academyId=? AND userId=? AND requestId=?",
+  const ctx = current(context);
+  requireRole(ctx, ["OWNER", "ADMIN"]);
+  const prior = database()
+    .prepare(
+      "SELECT digest,response FROM academy_finance_submissions WHERE academyId=? AND userId=? AND requestId=?",
+    )
+    .get(ctx.academy.id, ctx.user.id, command.requestId);
+  if (prior) {
+    if (prior.digest !== digest)
+      fail("Submission key already used for different finance content.", 409);
+    const response = JSON.parse(String(prior.response)) as FinanceActionResult;
+    if ("playerId" in response) requirePlayer(ctx, response.playerId);
+    return response;
+  }
+  const recordId = randomUUID(),
+    at = new Date().toISOString();
+  const base = { id: recordId, academyId: ctx.academy.id };
+  let result: FinanceActionResult;
+  switch (command.action) {
+    case "plan": {
+      const data = z
+        .object({
+          name: text.max(200),
+          amountMinor: minor,
+          currency,
+          cadence: z.enum(["MONTHLY", "TERM", "ONE_TIME"]).optional(),
+          billingFrequency: z.enum(["MONTHLY", "TERM", "ONE_TIME"]).optional(),
+          applicableStartDate: date.optional(),
+          active: z.boolean(),
+        })
+        .parse(command.data);
+      const old = command.id
+        ? repo.find(ctx.academy.id, "plan", command.id)
+        : undefined;
+      if (command.id && !old) fail("Fee plan unavailable.", 404);
+      if (old) sameCurrency(old.currency, data.currency);
+      const billingFrequency = data.billingFrequency ?? data.cadence;
+      if (!billingFrequency) fail("Choose a billing frequency.");
+      if (
+        data.billingFrequency &&
+        data.cadence &&
+        data.billingFrequency !== data.cadence
       )
-      .get(ctx.academy.id, ctx.user.id, command.requestId);
-    if (prior) {
-      if (prior.digest !== digest)
-        fail("Submission key already used for different finance content.", 409);
-      const response = JSON.parse(
-        String(prior.response),
-      ) as FinanceActionResult;
-      if ("playerId" in response) requirePlayer(ctx, response.playerId);
-      return response;
+        fail("Billing frequency and legacy cadence must agree.");
+      if (data.billingFrequency && !data.applicableStartDate)
+        fail("Enter the applicable start date.");
+      if (old) requiredVersion(command.expectedVersion, old.version);
+      const plan: FinancePlan = {
+        ...base,
+        ...data,
+        cadence: billingFrequency,
+        billingFrequency,
+        applicableStartDate:
+          data.applicableStartDate ?? old?.applicableStartDate,
+        id: old?.id ?? recordId,
+        version: (old?.version ?? 0) + 1,
+        createdAt: old?.createdAt ?? at,
+        updatedAt: at,
+      };
+      result = repo.save(
+        ctx.academy.id,
+        "plan",
+        plan,
+        old?.version ?? 0,
+        ctx.user.id,
+      );
+      break;
     }
-    const recordId = randomUUID(),
-      at = new Date().toISOString();
-    const base = { id: recordId, academyId: ctx.academy.id };
-    let result: FinanceActionResult;
-    switch (command.action) {
-      case "plan": {
-        const data = z
-          .object({
-            name: text,
-            amountMinor: minor,
-            currency,
-            cadence: z.enum(["MONTHLY", "TERM", "ONE_TIME"]),
-            active: z.boolean(),
-          })
-          .parse(command.data);
-        const old = command.id
-          ? repo.find(ctx.academy.id, "plan", command.id)
-          : undefined;
-        if (command.id && !old) fail("Fee plan unavailable.", 404);
-        sameCurrency(old?.currency ?? ctx.academy.currency, data.currency);
-        if (old) requiredVersion(command.expectedVersion, old.version);
-        const plan: FinancePlan = {
+    case "invoice": {
+      const data = z
+        .object({
+          playerId: id,
+          planId: id.optional(),
+          label: text,
+          chargeMinor: minor,
+          currency,
+          periodStart: date,
+          periodEnd: date,
+          dueDate: date,
+        })
+        .parse(command.data);
+      const player = requirePlayer(ctx, data.playerId);
+      if (data.periodEnd < data.periodStart)
+        fail("Billing period end must follow its start.");
+      if (data.planId) {
+        const plan = repo.find(ctx.academy.id, "plan", data.planId);
+        if (!plan?.active) fail("Choose an active academy fee plan.");
+        if (
+          plan.applicableStartDate &&
+          data.periodStart < plan.applicableStartDate
+        )
+          fail(
+            "The billing period cannot begin before the fee plan's applicable start date.",
+          );
+        sameCurrency(plan.currency, data.currency);
+        if (plan.amountMinor !== data.chargeMinor)
+          fail(
+            "Issue the plan amount; record any approved adjustment separately.",
+          );
+      } else sameCurrency(ctx.academy.currency, data.currency);
+      if (
+        repo
+          .list(ctx.academy.id, "invoice")
+          .some(
+            (item) =>
+              item.playerId === data.playerId &&
+              item.periodStart === data.periodStart &&
+              item.periodEnd === data.periodEnd &&
+              item.label.toLowerCase() === data.label.toLowerCase(),
+          )
+      )
+        fail(
+          "An invoice for this player, label and billing period already exists.",
+          409,
+        );
+      sum([
+        ...repo
+          .list(ctx.academy.id, "invoice")
+          .filter((item) => item.currency === data.currency)
+          .map((item) => projected(item, today(ctx)).billedMinor),
+        data.chargeMinor,
+      ]);
+      result = repo.save(
+        ctx.academy.id,
+        "invoice",
+        {
           ...base,
           ...data,
-          id: old?.id ?? recordId,
-          version: (old?.version ?? 0) + 1,
-          createdAt: old?.createdAt ?? at,
-          updatedAt: at,
-        };
-        result = repo.save(
-          ctx.academy.id,
-          "plan",
-          plan,
-          old?.version ?? 0,
-          ctx.user.id,
-        );
-        break;
-      }
-      case "invoice": {
-        const data = z
-          .object({
-            playerId: id,
-            planId: id.optional(),
-            label: text,
-            chargeMinor: minor,
-            currency,
-            periodStart: date,
-            periodEnd: date,
-            dueDate: date,
-          })
-          .parse(command.data);
-        const player = requirePlayer(ctx, data.playerId);
-        if (data.periodEnd < data.periodStart)
-          fail("Billing period end must follow its start.");
-        if (data.planId) {
-          const plan = repo.find(ctx.academy.id, "plan", data.planId);
-          if (!plan?.active) fail("Choose an active academy fee plan.");
-          sameCurrency(plan.currency, data.currency);
-          if (plan.amountMinor !== data.chargeMinor)
-            fail(
-              "Issue the plan amount; record any approved adjustment separately.",
-            );
-        } else sameCurrency(ctx.academy.currency, data.currency);
-        if (
-          repo
-            .list(ctx.academy.id, "invoice")
-            .some(
-              (item) =>
-                item.playerId === data.playerId &&
-                item.periodStart === data.periodStart &&
-                item.periodEnd === data.periodEnd &&
-                item.label.toLowerCase() === data.label.toLowerCase(),
-            )
-        )
-          fail(
-            "An invoice for this player, label and billing period already exists.",
-            409,
-          );
-        sum([
-          ...repo
-            .list(ctx.academy.id, "invoice")
-            .filter((item) => item.currency === data.currency)
-            .map((item) => projected(item, today(ctx)).billedMinor),
-          data.chargeMinor,
-        ]);
-        result = repo.save(
-          ctx.academy.id,
-          "invoice",
-          {
-            ...base,
-            ...data,
-            number: `INV-${recordId.toUpperCase()}`,
-            version: 1,
-            createdAt: at,
-            issuedBy: ctx.user.id,
-            snapshot: {
-              academyName: ctx.academy.name,
-              contactEmail: ctx.academy.contactEmail,
-              logoData: ctx.academy.logoData,
-              playerName: player.name,
-            },
+          number: `INV-${recordId.toUpperCase()}`,
+          version: 1,
+          createdAt: at,
+          issuedBy: ctx.user.id,
+          snapshot: {
+            academyName: ctx.academy.name,
+            contactEmail: ctx.academy.contactEmail,
+            logoData: ctx.academy.logoData,
+            playerName: player.name,
           },
-          0,
-          ctx.user.id,
-        );
-        break;
-      }
-      case "reference": {
-        const data = z
-          .object({
-            invoiceId: id,
-            amountMinor: minor,
-            currency,
-            reference: z.string().trim().min(3).max(160),
-            method: z.enum(["BANK_TRANSFER", "UPI", "CASH", "OTHER"]),
-            paidOn: date,
-          })
-          .parse(command.data);
-        const invoice = invoiceFor(ctx, data.invoiceId);
-        sameCurrency(invoice.currency, data.currency);
-        if (data.paidOn > today(ctx))
-          fail("Payment date cannot be in the future.");
-        const balance = projected(invoice, today(ctx));
-        if (data.amountMinor > balance.outstandingMinor)
-          fail("Reference amount exceeds the outstanding balance.");
-        sum([balance.pendingReferenceMinor, data.amountMinor]);
-        if (
-          repo
-            .list(ctx.academy.id, "payment")
-            .some(
-              (item) =>
-                referenceKey(item.reference) === referenceKey(data.reference),
-            )
-        )
-          fail(
-            "This payment reference is already recorded in the academy.",
-            409,
-          );
-        result = repo.save(
-          ctx.academy.id,
-          "payment",
-          {
-            ...base,
-            ...data,
-            playerId: invoice.playerId,
-            status: "PENDING",
-            version: 1,
-            submittedAt: at,
-            submittedBy: ctx.user.id,
-          },
-          0,
-          ctx.user.id,
-        );
-        break;
-      }
-      case "verify":
-      case "reject": {
-        const data = z
-          .object({ reviewed: z.literal(true), note: text })
-          .parse(command.data);
-        const payment = command.id
-          ? repo.find(ctx.academy.id, "payment", command.id)
-          : undefined;
-        if (!payment) fail("Payment reference unavailable.", 404);
-        const invoice = invoiceFor(ctx, payment.invoiceId);
-        requiredVersion(command.expectedVersion, payment.version);
-        if (payment.status !== "PENDING")
-          fail("This reference already has a recorded decision.", 409);
-        if (
-          command.action === "verify" &&
-          payment.amountMinor > projected(invoice, today(ctx)).outstandingMinor
-        )
-          fail("Verification would exceed the current invoice balance.", 409);
-        result = repo.save(
-          ctx.academy.id,
-          "payment",
-          {
-            ...payment,
-            status: command.action === "verify" ? "VERIFIED" : "REJECTED",
-            version: payment.version + 1,
-            decisionAt: at,
-            decisionBy: ctx.user.id,
-            decisionNote: data.note,
-          },
-          payment.version,
-          ctx.user.id,
-        );
-        if (command.action === "verify") {
-          const receipt: FinanceReceipt = {
-            ...base,
-            playerId: invoice.playerId,
-            invoiceId: invoice.id,
-            paymentId: payment.id,
-            number: `RCT-${recordId.toUpperCase()}`,
-            amountMinor: payment.amountMinor,
-            currency: payment.currency,
-            reference: payment.reference,
-            method: payment.method,
-            paidOn: payment.paidOn,
-            verifiedAt: at,
-            snapshot: {
-              ...invoice.snapshot,
-              invoiceNumber: invoice.number,
-              invoiceLabel: invoice.label,
-              periodStart: invoice.periodStart,
-              periodEnd: invoice.periodEnd,
-            },
-          };
-          repo.save(ctx.academy.id, "receipt", receipt, 0, ctx.user.id);
-          saveInvoiceVersion(ctx, invoice);
-        }
-        break;
-      }
-      case "adjustment": {
-        const data = z
-          .object({
-            invoiceId: id,
-            direction: z.enum(["CREDIT", "DEBIT"]),
-            amountMinor: minor,
-            currency,
-            reason: text,
-            reviewed: z.literal(true),
-          })
-          .parse(command.data);
-        const invoice = invoiceFor(ctx, data.invoiceId);
-        sameCurrency(invoice.currency, data.currency);
-        requiredVersion(command.expectedVersion, invoice.version);
-        const balance = projected(invoice, today(ctx));
-        if (
-          data.direction === "CREDIT" &&
-          data.amountMinor > balance.outstandingMinor
-        )
-          fail("Credit cannot exceed the remaining invoice balance.");
-        sum([
-          balance.billedMinor,
-          data.direction === "CREDIT" ? -data.amountMinor : data.amountMinor,
-        ]);
-        sum([
-          ...repo
-            .list(ctx.academy.id, "invoice")
-            .filter((item) => item.currency === data.currency)
-            .map((item) => projected(item, today(ctx)).billedMinor),
-          data.direction === "CREDIT" ? -data.amountMinor : data.amountMinor,
-        ]);
-        const { reviewed: _reviewed, ...event } = data;
-        void _reviewed;
-        result = repo.save(
-          ctx.academy.id,
-          "adjustment",
-          {
-            ...base,
-            ...event,
-            playerId: invoice.playerId,
-            approvedAt: at,
-            approvedBy: ctx.user.id,
-          },
-          0,
-          ctx.user.id,
-        );
-        saveInvoiceVersion(ctx, invoice);
-        break;
-      }
-      case "reminder": {
-        const data = z
-          .object({ invoiceId: id, body: text })
-          .parse(command.data);
-        const invoice = invoiceFor(ctx, data.invoiceId);
-        if (projected(invoice, today(ctx)).outstandingMinor <= 0)
-          fail("A settled invoice does not need a payment reminder.");
-        const guardianIds = database()
-          .prepare(
-            "SELECT DISTINCT g.userId FROM guardian_relationships g JOIN academy_memberships m ON m.academyId=g.academyId AND m.userId=g.userId WHERE g.academyId=? AND g.playerId=? AND m.role='PARENT' AND m.active=1 AND (m.expiresAt IS NULL OR m.expiresAt>?)",
-          )
-          .all(ctx.academy.id, invoice.playerId, at)
-          .map((row) => String(row.userId));
-        if (!guardianIds.length)
-          fail("No current linked parent is available for an in-app reminder.");
-        result = repo.save(
-          ctx.academy.id,
-          "reminder",
-          {
-            ...base,
-            ...data,
-            playerId: invoice.playerId,
-            guardianIds,
-            createdAt: at,
-            createdBy: ctx.user.id,
-            inAppStatus: "PUBLISHED",
-            externalStatus: "NOT_SENT",
-          },
-          0,
-          ctx.user.id,
-        );
-        break;
-      }
+        },
+        0,
+        ctx.user.id,
+      );
+      break;
     }
-    audit(
+    case "reference": {
+      const data = z
+        .object({
+          invoiceId: id,
+          amountMinor: minor,
+          currency,
+          reference: z.string().trim().min(3).max(160),
+          method: z.enum(["BANK_TRANSFER", "UPI", "CASH", "OTHER"]),
+          paidOn: date,
+        })
+        .parse(command.data);
+      const invoice = invoiceFor(ctx, data.invoiceId);
+      sameCurrency(invoice.currency, data.currency);
+      if (data.paidOn > today(ctx))
+        fail("Payment date cannot be in the future.");
+      const balance = projected(invoice, today(ctx));
+      if (data.amountMinor > balance.outstandingMinor)
+        fail("Reference amount exceeds the outstanding balance.");
+      sum([balance.pendingReferenceMinor, data.amountMinor]);
+      if (
+        repo
+          .list(ctx.academy.id, "payment")
+          .some(
+            (item) =>
+              referenceKey(item.reference) === referenceKey(data.reference),
+          )
+      )
+        fail("This payment reference is already recorded in the academy.", 409);
+      result = repo.save(
+        ctx.academy.id,
+        "payment",
+        {
+          ...base,
+          ...data,
+          playerId: invoice.playerId,
+          status: "PENDING",
+          version: 1,
+          submittedAt: at,
+          submittedBy: ctx.user.id,
+        },
+        0,
+        ctx.user.id,
+      );
+      break;
+    }
+    case "verify":
+    case "reject": {
+      const data = z
+        .object({ reviewed: z.literal(true), note: text })
+        .parse(command.data);
+      const payment = command.id
+        ? repo.find(ctx.academy.id, "payment", command.id)
+        : undefined;
+      if (!payment) fail("Payment reference unavailable.", 404);
+      const invoice = invoiceFor(ctx, payment.invoiceId);
+      requiredVersion(command.expectedVersion, payment.version);
+      if (payment.status !== "PENDING")
+        fail("This reference already has a recorded decision.", 409);
+      if (
+        command.action === "verify" &&
+        payment.amountMinor > projected(invoice, today(ctx)).outstandingMinor
+      )
+        fail("Verification would exceed the current invoice balance.", 409);
+      result = repo.save(
+        ctx.academy.id,
+        "payment",
+        {
+          ...payment,
+          status: command.action === "verify" ? "VERIFIED" : "REJECTED",
+          version: payment.version + 1,
+          decisionAt: at,
+          decisionBy: ctx.user.id,
+          decisionNote: data.note,
+        },
+        payment.version,
+        ctx.user.id,
+      );
+      if (command.action === "verify") {
+        const receipt: FinanceReceipt = {
+          ...base,
+          playerId: invoice.playerId,
+          invoiceId: invoice.id,
+          paymentId: payment.id,
+          number: `RCT-${recordId.toUpperCase()}`,
+          amountMinor: payment.amountMinor,
+          currency: payment.currency,
+          reference: payment.reference,
+          method: payment.method,
+          paidOn: payment.paidOn,
+          verifiedAt: at,
+          snapshot: {
+            ...invoice.snapshot,
+            invoiceNumber: invoice.number,
+            invoiceLabel: invoice.label,
+            periodStart: invoice.periodStart,
+            periodEnd: invoice.periodEnd,
+          },
+        };
+        repo.save(ctx.academy.id, "receipt", receipt, 0, ctx.user.id);
+        saveInvoiceVersion(ctx, invoice);
+      }
+      break;
+    }
+    case "adjustment": {
+      const data = z
+        .object({
+          invoiceId: id,
+          direction: z.enum(["CREDIT", "DEBIT"]),
+          amountMinor: minor,
+          currency,
+          reason: text,
+          reviewed: z.literal(true),
+        })
+        .parse(command.data);
+      const invoice = invoiceFor(ctx, data.invoiceId);
+      sameCurrency(invoice.currency, data.currency);
+      requiredVersion(command.expectedVersion, invoice.version);
+      const balance = projected(invoice, today(ctx));
+      if (
+        data.direction === "CREDIT" &&
+        data.amountMinor > balance.outstandingMinor
+      )
+        fail("Credit cannot exceed the remaining invoice balance.");
+      sum([
+        balance.billedMinor,
+        data.direction === "CREDIT" ? -data.amountMinor : data.amountMinor,
+      ]);
+      sum([
+        ...repo
+          .list(ctx.academy.id, "invoice")
+          .filter((item) => item.currency === data.currency)
+          .map((item) => projected(item, today(ctx)).billedMinor),
+        data.direction === "CREDIT" ? -data.amountMinor : data.amountMinor,
+      ]);
+      const { reviewed: _reviewed, ...event } = data;
+      void _reviewed;
+      result = repo.save(
+        ctx.academy.id,
+        "adjustment",
+        {
+          ...base,
+          ...event,
+          playerId: invoice.playerId,
+          approvedAt: at,
+          approvedBy: ctx.user.id,
+        },
+        0,
+        ctx.user.id,
+      );
+      saveInvoiceVersion(ctx, invoice);
+      break;
+    }
+    case "reminder": {
+      const data = z.object({ invoiceId: id, body: text }).parse(command.data);
+      const invoice = invoiceFor(ctx, data.invoiceId);
+      if (projected(invoice, today(ctx)).outstandingMinor <= 0)
+        fail("A settled invoice does not need a payment reminder.");
+      const guardianIds = database()
+        .prepare(
+          "SELECT DISTINCT g.userId FROM guardian_relationships g JOIN academy_memberships m ON m.academyId=g.academyId AND m.userId=g.userId WHERE g.academyId=? AND g.playerId=? AND m.role='PARENT' AND m.active=1 AND (m.expiresAt IS NULL OR m.expiresAt>?)",
+        )
+        .all(ctx.academy.id, invoice.playerId, at)
+        .map((row) => String(row.userId));
+      if (!guardianIds.length)
+        fail("No current linked parent is available for an in-app reminder.");
+      result = repo.save(
+        ctx.academy.id,
+        "reminder",
+        {
+          ...base,
+          ...data,
+          playerId: invoice.playerId,
+          guardianIds,
+          createdAt: at,
+          createdBy: ctx.user.id,
+          inAppStatus: "PUBLISHED",
+          externalStatus: "NOT_SENT",
+        },
+        0,
+        ctx.user.id,
+      );
+      break;
+    }
+  }
+  audit(
+    ctx.academy.id,
+    ctx.user.id,
+    `Academy finance ${command.action}`,
+    result.id,
+  );
+  database()
+    .prepare(
+      "INSERT INTO academy_finance_submissions(academyId,userId,requestId,digest,response) VALUES(?,?,?,?,?)",
+    )
+    .run(
       ctx.academy.id,
       ctx.user.id,
-      `Academy finance ${command.action}`,
-      result.id,
+      command.requestId,
+      digest,
+      JSON.stringify(result),
     );
-    database()
-      .prepare(
-        "INSERT INTO academy_finance_submissions(academyId,userId,requestId,digest,response) VALUES(?,?,?,?,?)",
-      )
-      .run(
-        ctx.academy.id,
-        ctx.user.id,
-        command.requestId,
-        digest,
-        JSON.stringify(result),
-      );
-    return result;
-  });
+  return result;
 }

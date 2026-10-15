@@ -224,6 +224,144 @@ afterAll(() => {
 });
 
 describe("Persistent academy training finance", () => {
+  it("saves dated reusable plans idempotently without issuing invoices or charges", () => {
+    const submitted = command("plan", {
+      name: "Term football",
+      amountMinor: 123450,
+      currency: "GBP",
+      billingFrequency: "TERM",
+      applicableStartDate: "2026-11-01",
+      active: true,
+    });
+    const saved = financeAction(owner(), submitted) as FinancePlan;
+    expect(financeAction(owner(), submitted)).toEqual(saved);
+    expect(saved).toMatchObject({
+      billingFrequency: "TERM",
+      cadence: "TERM",
+      applicableStartDate: "2026-11-01",
+      currency: "GBP",
+    });
+    expect(financeView(owner()).plans).toHaveLength(1);
+    expect(financeView(owner()).invoices).toEqual([]);
+    expect(financeView(owner()).payments).toEqual([]);
+    const updated = financeAction(
+      owner(),
+      command(
+        "plan",
+        { ...saved, name: "Updated football" },
+        { id: saved.id, expectedVersion: saved.version },
+      ),
+    ) as FinancePlan;
+    expect(updated).toMatchObject({
+      id: saved.id,
+      version: 2,
+      name: "Updated football",
+      applicableStartDate: "2026-11-01",
+    });
+    expect(() =>
+      financeAction(
+        owner(),
+        command(
+          "plan",
+          { ...updated, currency: "INR" },
+          { id: saved.id, expectedVersion: updated.version },
+        ),
+      ),
+    ).toThrow(/Currency must match/);
+  });
+  it.each([
+    { amountMinor: 0 },
+    { amountMinor: -1 },
+    { amountMinor: 1.5 },
+    { currency: "ZZZ" },
+    { billingFrequency: "WEEKLY" },
+    { applicableStartDate: "2026-02-30" },
+    { applicableStartDate: "" },
+    { applicableStartDate: undefined },
+    { name: " " },
+    { cadence: "MONTHLY" },
+  ])(
+    "rejects invalid dated fee plan input without partial records: %j",
+    (invalid) => {
+      expect(() =>
+        financeAction(
+          owner(),
+          command("plan", {
+            name: "Term football",
+            amountMinor: 10000,
+            currency: "INR",
+            billingFrequency: "TERM",
+            applicableStartDate: "2026-11-01",
+            active: true,
+            ...invalid,
+          }),
+        ),
+      ).toThrow();
+      expect(financeView(owner()).plans).toEqual([]);
+      expect(financeView(owner()).invoices).toEqual([]);
+    },
+  );
+  it("preserves legacy cadence-only plans without inventing a historical start date", () => {
+    const saved = financeAction(
+      owner(),
+      command("plan", {
+        name: "Legacy",
+        amountMinor: 10000,
+        currency: "INR",
+        cadence: "MONTHLY",
+        active: true,
+      }),
+    ) as FinancePlan;
+    expect(saved.applicableStartDate).toBeUndefined();
+    const stored = { ...saved };
+    delete stored.billingFrequency;
+    database()
+      .prepare(
+        "UPDATE academy_finance_records SET body=? WHERE academyId=? AND kind='plan' AND id=?",
+      )
+      .run(JSON.stringify(stored), academy.id, saved.id);
+    expect(financeView(owner()).plans[0]).toEqual(stored);
+    const updated = financeAction(
+      owner(),
+      command(
+        "plan",
+        { ...stored, active: false },
+        { id: saved.id, expectedVersion: saved.version },
+      ),
+    ) as FinancePlan;
+    expect(updated.applicableStartDate).toBeUndefined();
+    expect(updated.billingFrequency).toBe("MONTHLY");
+  });
+  it("does not issue an invoice before a dated plan starts and does not rewrite issued invoices when a plan is edited", () => {
+    const plan = financeAction(
+      owner(),
+      command("plan", {
+        name: "October",
+        amountMinor: 10000,
+        currency: "INR",
+        billingFrequency: "MONTHLY",
+        applicableStartDate: "2026-10-01",
+        active: true,
+      }),
+    ) as FinancePlan;
+    expect(() =>
+      invoice("child-a", { planId: plan.id, periodStart: "2026-09-30" }),
+    ).toThrow(/applicable start date/);
+    const issued = invoice("child-a", { planId: plan.id });
+    financeAction(
+      owner(),
+      command(
+        "plan",
+        { ...plan, amountMinor: 20000 },
+        { id: plan.id, expectedVersion: plan.version },
+      ),
+    );
+    expect(financeView(owner()).invoices[0]).toMatchObject({
+      id: issued.id,
+      chargeMinor: 10000,
+      version: 1,
+    });
+  });
   it("starts empty and preserves legacy unclassified fees without inventing invoices or payments", () => {
     workspaceRepository.save(academy.id, "fee", {
       id: "legacy",

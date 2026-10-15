@@ -30,6 +30,7 @@ import {
   useUnsavedChanges,
 } from "@/hooks/use-unsaved-changes";
 import type { PortalController, PortalNavigate } from "./portal-types";
+import { PortalTrials } from "./portal-trials";
 
 function PlayerEditor({
   workspace: w,
@@ -864,6 +865,7 @@ export function PortalPlayers({
                     <p>No upcoming confirmed session recorded.</p>
                   )}
                 </section>
+                <PortalTrials key={player.id} workspace={w} player={player} />
               </>
             )}
             {tab === "Training" && (

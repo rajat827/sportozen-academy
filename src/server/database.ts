@@ -5,6 +5,9 @@ import { dirname, resolve } from "node:path";
 import { migrateFootballTraining } from "./migrations/002-football-training";
 import { migrateCommunications } from "./migrations/003-communications";
 import { migrateAcademyFinance } from "./migrations/004-academy-finance";
+import { migrateTrialEnrolments } from "./migrations/005-trial-enrolments";
+import { migrateBatchAnnouncements } from "./migrations/006-batch-announcements";
+import { migrateSessionPlaces } from "./migrations/007-session-places";
 const connections = globalThis as typeof globalThis & {
   sportozenDatabase?: DatabaseSync;
 };
@@ -31,6 +34,9 @@ export function database() {
   migrateFootballTraining(db);
   migrateCommunications(db);
   migrateAcademyFinance(db);
+  migrateTrialEnrolments(db);
+  migrateBatchAnnouncements(db);
+  migrateSessionPlaces(db);
   connections.sportozenDatabase = db;
   return db;
 }

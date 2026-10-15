@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence-path";
 import { test, expect, type APIRequestContext } from "@playwright/test";
 import { execFileSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -63,9 +64,9 @@ test("authenticated football academies isolate regional plans, approved parent r
     await expect(
       page.getByRole("group", { name: "Enabled sports" }),
     ).toHaveCount(0);
-    mkdirSync("docs/screenshots/football-only", { recursive: true });
+    mkdirSync(evidencePath("docs/screenshots/football-only"), { recursive: true });
     await page.screenshot({
-      path: `docs/screenshots/football-only/onboarding-${region.country}.png`,
+      path: evidencePath(`docs/screenshots/football-only/onboarding-${region.country}.png`),
       fullPage: true,
     });
     if (region.country === "IN") {
@@ -77,7 +78,7 @@ test("authenticated football academies isolate regional plans, approved parent r
           ),
         ).toBeTruthy();
         await page.screenshot({
-          path: `docs/screenshots/football-only/onboarding-${width}.png`,
+          path: evidencePath(`docs/screenshots/football-only/onboarding-${width}.png`),
           fullPage: true,
         });
       }
@@ -311,7 +312,7 @@ test("authenticated football academies isolate regional plans, approved parent r
           ),
         ).toBeTruthy();
         await page.screenshot({
-          path: `docs/screenshots/football-only/coach-plan-${width}.png`,
+          path: evidencePath(`docs/screenshots/football-only/coach-plan-${width}.png`),
           fullPage: true,
         });
       }
@@ -518,9 +519,9 @@ test("authenticated football academies isolate regional plans, approved parent r
   );
   expect(pdf.status(), await pdf.text()).toBe(200);
   expect(pdf.headers()["content-type"]).toContain("application/pdf");
-  mkdirSync("docs/screenshots/football-only", { recursive: true });
+  mkdirSync(evidencePath("docs/screenshots/football-only"), { recursive: true });
   writeFileSync(
-    "docs/screenshots/football-only/approved-parent-report.pdf",
+    evidencePath("docs/screenshots/football-only/approved-parent-report.pdf"),
     await pdf.body(),
   );
   expect(
@@ -644,7 +645,7 @@ test("authenticated football academies isolate regional plans, approved parent r
       ),
     ).toBeTruthy();
     await page.screenshot({
-      path: `docs/screenshots/football-only/parent-${width}.png`,
+      path: evidencePath(`docs/screenshots/football-only/parent-${width}.png`),
       fullPage: true,
     });
   }
@@ -652,7 +653,7 @@ test("authenticated football academies isolate regional plans, approved parent r
   await expect(page.getByText("STAFF ONLY SECRET")).toHaveCount(0);
   await page.getByRole("button", { name: "Messages", exact: true }).click();
   await page.screenshot({
-    path: "docs/screenshots/football-only/parent-inbox.png",
+    path: evidencePath("docs/screenshots/football-only/parent-inbox.png"),
     fullPage: true,
   });
   await page.getByRole("button", { name: /Home practice question/ }).click();
@@ -711,7 +712,7 @@ test("authenticated football academies isolate regional plans, approved parent r
   ).toBeVisible();
   await expect(page.getByText("PRIVATE STAFF NOTE")).toHaveCount(0);
   await page.screenshot({
-    path: "docs/screenshots/football-only/parent-thread.png",
+    path: evidencePath("docs/screenshots/football-only/parent-thread.png"),
     fullPage: true,
   });
   await page.getByRole("button", { name: "More", exact: true }).click();
@@ -722,7 +723,7 @@ test("authenticated football academies isolate regional plans, approved parent r
     }),
   ).toBeChecked();
   await page.screenshot({
-    path: "docs/screenshots/football-only/parent-preferences.png",
+    path: evidencePath("docs/screenshots/football-only/parent-preferences.png"),
     fullPage: true,
   });
   await browserContext.close();
@@ -864,12 +865,12 @@ test("authenticated football academies isolate regional plans, approved parent r
     ownerPage.getByRole("heading", { name: "Individual development plan" }),
   ).toBeVisible();
   await ownerPage.screenshot({
-    path: "docs/screenshots/football-only/football-plan.png",
+    path: evidencePath("docs/screenshots/football-only/football-plan.png"),
     fullPage: true,
   });
   await ownerPage.getByRole("button", { name: "Reports", exact: true }).click();
   await ownerPage.screenshot({
-    path: "docs/screenshots/football-only/approved-report.png",
+    path: evidencePath("docs/screenshots/football-only/approved-report.png"),
     fullPage: true,
   });
   await ownerPage.getByRole("button", { name: "More", exact: true }).click();
@@ -877,7 +878,7 @@ test("authenticated football academies isolate regional plans, approved parent r
     .getByRole("tab", { name: "Integrations", exact: true })
     .click();
   await ownerPage.screenshot({
-    path: "docs/screenshots/football-only/settings-not-connected.png",
+    path: evidencePath("docs/screenshots/football-only/settings-not-connected.png"),
     fullPage: true,
   });
   await ownerContext.close();
@@ -892,7 +893,7 @@ test("authenticated football academies isolate regional plans, approved parent r
   const platformPage = await platformContext.newPage();
   await platformPage.goto("/platform");
   await platformPage.screenshot({
-    path: "docs/screenshots/football-only/platform-metadata.png",
+    path: evidencePath("docs/screenshots/football-only/platform-metadata.png"),
     fullPage: true,
   });
   await platformContext.close();

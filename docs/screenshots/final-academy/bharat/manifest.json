@@ -1,0 +1,3840 @@
+{
+  "scenario": "Bharat Football Academy synthetic QA v1",
+  "fictional": true,
+  "academyId": "29dcb420-0c2e-42db-8f61-f4b16a921bae",
+  "location": {
+    "name": "Excelsior American School",
+    "address": null,
+    "coordinates": null,
+    "googlePlaceId": null
+  },
+  "clock": "Isolated service-process Date mock: setup31Jul2026, sessions at actual synthetic Aug/Sep dates, reviewed reports1Oct2026. No existing timestamp was rewritten.",
+  "months": [
+    "2026-08",
+    "2026-09"
+  ],
+  "totals": {
+    "players": 60,
+    "batches": 6,
+    "sessions": 60,
+    "completedSessions": 54,
+    "upcomingSessions": 6,
+    "attendance": 600,
+    "evidence": 504,
+    "reports": 120
+  },
+  "batches": [
+    {
+      "id": "46dd576d-50e1-4830-a1f5-ab914aa3fb11",
+      "age": 8,
+      "name": "Under-8",
+      "coachId": "8nYgWZAZCYijiywtiDO62kmvERnhQxzP",
+      "playerIds": [
+        "468fb198-d20a-5299-a1ab-bcfb949f51ef",
+        "d3a086cb-9354-5735-a6b7-11a3ecba84de",
+        "a1c9c4d1-04be-5913-a360-1930430ec190",
+        "f507224d-af90-5b41-a9ae-0026235640af",
+        "50b632b6-8d77-5a30-a8cb-03f7d54f79c7",
+        "62263bd8-40be-5d0c-ad84-c216a1cf6faa",
+        "7059c830-cb52-544d-ae24-8790231715cf",
+        "29f4a323-2279-5472-a53f-c40635727c16",
+        "5cadc7d4-a82b-5ca3-ab79-c83e0405f9e6",
+        "8a1f4a5e-207e-50da-aa4a-c77066a77556"
+      ]
+    },
+    {
+      "id": "95ce60a9-41d2-4afe-99f3-51f7e497fac2",
+      "age": 10,
+      "name": "Under-10",
+      "coachId": "L6irhl6YLdAceQNvz8aDNZr58UaRFY3S",
+      "playerIds": [
+        "8dc3bdd6-a615-5a9a-a703-4ab7f718c43d",
+        "1ad4df52-d7f6-5d55-a7b8-f0c531631415",
+        "669fa94b-1af4-52ed-a1e7-285d915b852d",
+        "2f2bc29e-4a50-52c8-a492-1966183374f8",
+        "5958da9a-6681-56ec-abca-e76d618b9e49",
+        "faad6c54-50b8-59ac-a006-f93cc978f551",
+        "4d6248ce-0d59-588b-ac59-607ef5758b24",
+        "ccae3e39-248d-54cc-a75a-d09376922f83",
+        "a1c66164-dd32-5ef9-acdb-9145ef6fc758",
+        "f201bd5c-65ab-5d74-ae7e-99ee0ed4d952"
+      ]
+    },
+    {
+      "id": "76fab2fa-bb32-40bc-865d-72a70c886e1d",
+      "age": 12,
+      "name": "Under-12",
+      "coachId": "OhF5UZVr1KTXFaoRhJFe8xDVWgKkz39D",
+      "playerIds": [
+        "a4210981-dd45-5593-a053-847447bcf6ed",
+        "8e769db6-ac78-58db-a4fc-37f15257dfba",
+        "765efab0-de2d-5f0b-a6c7-f57aeaf2cdb4",
+        "838ab72a-93c2-529a-a3b2-dc1ea31778ea",
+        "ca4bffcd-3405-562e-a34f-4b18f157fa8f",
+        "f821ca95-03c5-517f-aad0-babeed887ddb",
+        "007e564b-d6ca-54cc-a30d-0e6499ec491f",
+        "4896dff0-edf1-5652-a497-2d7684a31cf1",
+        "59fa4f3b-a3c8-5bbe-a8f9-9e577dc11553",
+        "09b5db66-8d9a-55d7-a002-141dd738f286"
+      ]
+    },
+    {
+      "id": "0a38001c-8fc7-46e8-9cc6-0d12f3c09bbe",
+      "age": 14,
+      "name": "Under-14",
+      "coachId": "PYNeZ98tnwFh6yYhYy6I93uEXTgvJgFT",
+      "playerIds": [
+        "4cac4781-01c1-5f17-a67d-f621c9c1c451",
+        "990d7c0c-782f-58fe-acee-27bc5b751f0b",
+        "3fa0c38b-7425-5adc-ae69-afb53dad7f62",
+        "fc758036-8ea8-5cfa-a0f7-affdce060a7d",
+        "522c1ed4-ef45-58bb-a5ca-a17047e59c41",
+        "9b982680-29a1-59cc-a708-fc0c114f9169",
+        "fd779fe5-24c9-5b96-a7b4-4c026b31c79e",
+        "be9677c1-46e2-5116-ab2a-dc9236fce948",
+        "9c9c47b9-3a87-507e-ac79-fa0f536676ea",
+        "7661e5b9-2d8e-5504-aa5f-6a649d9900a8"
+      ]
+    },
+    {
+      "id": "99914eb1-052c-44d1-a954-759278c257f2",
+      "age": 16,
+      "name": "Under-16",
+      "coachId": "ziCyHzekiLWcbIQZB1ZKlFSjNIpAIUhw",
+      "playerIds": [
+        "563b2765-1031-54eb-a7a5-3ad93fad652c",
+        "fd1c6163-b373-56f2-a724-65e6c4116c67",
+        "47864ba0-e84d-5d82-a70b-3b62456ead71",
+        "c35c9253-20d2-5d6e-a32e-112246b09492",
+        "00502dbf-d88f-5acf-a4e6-556a8a80f2d2",
+        "9b71276b-f8b2-5065-a7c2-61ca050d3e49",
+        "b1be58f8-4eae-53c4-af46-11c7e39bcc9b",
+        "ba2a93d6-b4aa-5c13-aaac-2e0406e809fd",
+        "88139cd6-595e-5f81-ae6a-0e37d881e005",
+        "2e539ff6-10f4-5154-a5aa-5bf008096285"
+      ]
+    },
+    {
+      "id": "02a58324-e958-4db4-9db3-74873b2cdffb",
+      "age": 18,
+      "name": "Under-18",
+      "coachId": "6ItPYrU1X3zAhqMgpx60tcQhfvM4Hj5I",
+      "playerIds": [
+        "ed63df94-cc41-57fb-a57c-27204faa68fa",
+        "9d2251d7-7361-5e05-aa34-77f397da79d1",
+        "f7af9c0f-95cb-51c7-ab22-5968271e0402",
+        "0a81ba7b-1115-5474-aa12-88c68a381a25",
+        "707716fd-f757-5838-a912-90a6c610781a",
+        "377ff9dc-ac8c-51e1-adbc-75701b450209",
+        "9d6b40e4-4c31-5a83-a40d-858dc730e1b9",
+        "d61cd2cc-3772-53eb-ad85-dd585c8ca3bd",
+        "973e241e-890a-577c-a6b9-bc58bb4818eb",
+        "1c57c3fc-5191-518c-aa72-806eb28e324a"
+      ]
+    }
+  ],
+  "players": [
+    {
+      "scenarioKey": "U8-01",
+      "id": "468fb198-d20a-5299-a1ab-bcfb949f51ef",
+      "name": "Aadi Fictional U8",
+      "batchId": "46dd576d-50e1-4830-a1f5-ab914aa3fb11",
+      "coachId": "8nYgWZAZCYijiywtiDO62kmvERnhQxzP",
+      "guardianId": "KLWz8gDib6FnLB8hSKqcfHNaSMSBZa44",
+      "outcome": "Comparable improvement",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "dac4df85-2621-44e1-a7c4-b7dc298f2e21",
+        "septemberEvidenceId": "07ad8629-d9ab-4469-a1da-6ffe3c88c941",
+        "text": "Comparable fictional records: August 4/6; September 5/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "9f154c0c-e0fa-4c84-a123-da97390de69d",
+          "sourceSessionIds": [
+            "e6d53e72-348b-465e-bb02-740eb9ac2d7a",
+            "e41497a6-01b9-4315-9589-115977a67763",
+            "ba9cc77e-2581-4fa7-bced-9fb019e2f12d",
+            "bcd235a5-c12b-466a-81ac-595bf87b8f4e",
+            "2bacf8cf-c9d7-4055-a85f-e37f306bd442"
+          ],
+          "evidenceIds": [
+            "1a600850-afed-45b1-8a3e-999d4cee2db8",
+            "7ec64c3d-7f72-476f-8fd9-e5dacdf695b1",
+            "aae05ba6-bec1-4e3e-a3ca-a711c6616706",
+            "a3e4fd79-e517-4032-aafc-05486967e827",
+            "dac4df85-2621-44e1-a7c4-b7dc298f2e21"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "82cd4882eb7d7ae2446f51bc65f56d7444ed511bac8ccf3c114de5c4218828a0"
+        },
+        {
+          "month": "2026-09",
+          "id": "a50650a2-474f-4338-aa43-5d1e9dad74ba",
+          "sourceSessionIds": [
+            "6c5bc3ef-d6c2-41a6-bf02-2bd0439dbc9e",
+            "566407b6-ecc5-4e95-aa93-fe1127a0ab31",
+            "02c1c74a-b56b-4c24-bdf2-286d47a11968",
+            "f9b3d716-e1fb-4e42-b3b5-03fac19018e9"
+          ],
+          "evidenceIds": [
+            "ec07bfc1-852f-4c9a-83f9-731687702375",
+            "01997f5f-629b-402a-b81b-a679565d68d7",
+            "5825946b-956b-4733-ab62-85303e26a8ba",
+            "07ad8629-d9ab-4469-a1da-6ffe3c88c941"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "f642807151166e6eb99a71458d22c3568f89cf67982af600fcfa8ff272d5e801"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U8-02",
+      "id": "d3a086cb-9354-5735-a6b7-11a3ecba84de",
+      "name": "Ishaan Fictional U8",
+      "batchId": "46dd576d-50e1-4830-a1f5-ab914aa3fb11",
+      "coachId": "8nYgWZAZCYijiywtiDO62kmvERnhQxzP",
+      "guardianId": "GYbhtWUXdaNhh790xyOOjh9sNotG2jz1",
+      "outcome": "Consistent observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "5ddfb01c-a9f8-47b1-a33e-1716af7096ae",
+        "septemberEvidenceId": "62cb1a0f-8b01-4cc7-a8d2-7300cc691988",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "b8ec651b-61a3-4a3e-8298-022aade4e10b",
+          "sourceSessionIds": [
+            "e6d53e72-348b-465e-bb02-740eb9ac2d7a",
+            "e41497a6-01b9-4315-9589-115977a67763",
+            "ba9cc77e-2581-4fa7-bced-9fb019e2f12d",
+            "bcd235a5-c12b-466a-81ac-595bf87b8f4e",
+            "2bacf8cf-c9d7-4055-a85f-e37f306bd442"
+          ],
+          "evidenceIds": [
+            "e3392daa-e85d-4dbf-9e47-e573e77857cb",
+            "b4379e48-1ae7-4b2b-ba52-6eba4a571f79",
+            "9a1533ea-0017-48ec-8eae-defd4ab3a985",
+            "bb6c4171-5664-4033-b76c-a1120dec9676",
+            "5ddfb01c-a9f8-47b1-a33e-1716af7096ae"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "50d7cccb9ce27d5e407da660f35f6fe4b8813a5d19abe053df35955ebd781b01"
+        },
+        {
+          "month": "2026-09",
+          "id": "b33fd59b-023e-486e-a541-98ffeeef2084",
+          "sourceSessionIds": [
+            "6c5bc3ef-d6c2-41a6-bf02-2bd0439dbc9e",
+            "566407b6-ecc5-4e95-aa93-fe1127a0ab31",
+            "02c1c74a-b56b-4c24-bdf2-286d47a11968",
+            "f9b3d716-e1fb-4e42-b3b5-03fac19018e9"
+          ],
+          "evidenceIds": [
+            "a5b3bc44-1f61-42de-aaba-dff1c30e3898",
+            "0c8db259-726d-42b1-bae6-8a215bb2e7f0",
+            "a44511cc-e3aa-47cc-b417-589d3d07e40b",
+            "62cb1a0f-8b01-4cc7-a8d2-7300cc691988"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "0a313d68d690cc1636acf32555863694ea057af36a2550bc43ea395320fdd959"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U8-03",
+      "id": "a1c9c4d1-04be-5913-a360-1930430ec190",
+      "name": "Kabir Fictional U8",
+      "batchId": "46dd576d-50e1-4830-a1f5-ab914aa3fb11",
+      "coachId": "8nYgWZAZCYijiywtiDO62kmvERnhQxzP",
+      "guardianId": "VPDsYyrJS4c9IrY9JHGY7vC6VMm04ZP9",
+      "outcome": "Mixed results",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "dd8b9131-950b-4b7d-a371-7ca97abd23e4",
+        "septemberEvidenceId": "404c44f6-9743-4f4f-80d4-5db109c34d21",
+        "text": "Comparable fictional records: August 4/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "499af9e1-0f46-40cd-8183-d77824c9e494",
+          "sourceSessionIds": [
+            "e6d53e72-348b-465e-bb02-740eb9ac2d7a",
+            "e41497a6-01b9-4315-9589-115977a67763",
+            "ba9cc77e-2581-4fa7-bced-9fb019e2f12d",
+            "bcd235a5-c12b-466a-81ac-595bf87b8f4e",
+            "2bacf8cf-c9d7-4055-a85f-e37f306bd442"
+          ],
+          "evidenceIds": [
+            "40dc06a9-131f-4f83-9b30-77fa37811ea7",
+            "7528ee61-2f75-4b75-8403-bb62809d1efa",
+            "64d6fa53-ce51-4507-839c-f5d1efc42f7c",
+            "78e809a0-d34d-46f4-8552-ab39f4d11167",
+            "dd8b9131-950b-4b7d-a371-7ca97abd23e4"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "dfbaa59cb34a5197d4bfe2a44a97ee9005b8e17b2613f5fbddcb38298a9b920d"
+        },
+        {
+          "month": "2026-09",
+          "id": "3c20338f-960c-4cce-9acb-c982b2418afb",
+          "sourceSessionIds": [
+            "6c5bc3ef-d6c2-41a6-bf02-2bd0439dbc9e",
+            "566407b6-ecc5-4e95-aa93-fe1127a0ab31",
+            "02c1c74a-b56b-4c24-bdf2-286d47a11968",
+            "f9b3d716-e1fb-4e42-b3b5-03fac19018e9"
+          ],
+          "evidenceIds": [
+            "66f80a79-006f-4928-a740-bee8e1901c44",
+            "8c282dc0-ae9f-4607-afe2-fd17c83e131b",
+            "94ed5a7a-9525-43d0-9ea1-92f660900944",
+            "404c44f6-9743-4f4f-80d4-5db109c34d21"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "3cbe5b073ce9b5010d2096a48391c61882b6716c6dfa692d07777598d0628ca2"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U8-04",
+      "id": "f507224d-af90-5b41-a9ae-0026235640af",
+      "name": "Vihaan Fictional U8",
+      "batchId": "46dd576d-50e1-4830-a1f5-ab914aa3fb11",
+      "coachId": "8nYgWZAZCYijiywtiDO62kmvERnhQxzP",
+      "guardianId": "dK5EjqiT6ucAFpq1hEPpRZlQuckZ61RB",
+      "outcome": "Missed sessions",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "3251cb8f-fc29-403d-91bc-d6ec40580cf7",
+        "septemberEvidenceId": "ced669b6-90c5-4f32-b50b-acedd4703ce1",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "0e5ec466-39b7-4032-bd4f-1922ed09056d",
+          "sourceSessionIds": [
+            "e6d53e72-348b-465e-bb02-740eb9ac2d7a",
+            "e41497a6-01b9-4315-9589-115977a67763",
+            "ba9cc77e-2581-4fa7-bced-9fb019e2f12d",
+            "bcd235a5-c12b-466a-81ac-595bf87b8f4e",
+            "2bacf8cf-c9d7-4055-a85f-e37f306bd442"
+          ],
+          "evidenceIds": [
+            "33a105aa-ce4e-49d7-b7e5-b0396d63d7e9",
+            "16612191-28a7-4dd9-8d8e-7ff3918ceb0a",
+            "3251cb8f-fc29-403d-91bc-d6ec40580cf7"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 2,
+            "excused": 0
+          },
+          "snapshotHash": "04b21f534a70c777209ee616531e920e60a8cdcc053b889959024ac1f7883d8a"
+        },
+        {
+          "month": "2026-09",
+          "id": "c561dbf3-1481-449e-b96f-3c216b82445a",
+          "sourceSessionIds": [
+            "6c5bc3ef-d6c2-41a6-bf02-2bd0439dbc9e",
+            "566407b6-ecc5-4e95-aa93-fe1127a0ab31",
+            "02c1c74a-b56b-4c24-bdf2-286d47a11968",
+            "f9b3d716-e1fb-4e42-b3b5-03fac19018e9"
+          ],
+          "evidenceIds": [
+            "0b5d6ebd-7525-4a0a-b2d1-242ebcdcbc4b",
+            "7de335bd-8ee9-4030-b369-dbccf4c5b0b1",
+            "ced669b6-90c5-4f32-b50b-acedd4703ce1"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 1,
+            "excused": 0
+          },
+          "snapshotHash": "fd8385bd9a1ff5feda6700092cf722ab9a47df6cb0692c3a25a8eef10667f7c3"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U8-05",
+      "id": "50b632b6-8d77-5a30-a8cb-03f7d54f79c7",
+      "name": "Arjun Fictional U8",
+      "batchId": "46dd576d-50e1-4830-a1f5-ab914aa3fb11",
+      "coachId": "8nYgWZAZCYijiywtiDO62kmvERnhQxzP",
+      "guardianId": "maYrGBiogpyaIogF9H22FS9EQQKgOZEZ",
+      "outcome": "Limited reviewed evidence",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "5c02929c-fd12-441d-9943-d82519a8dfae",
+        "septemberEvidenceId": "82a35a69-b9f8-4723-81c4-f1e6707b37d8",
+        "text": "Comparable fictional records: August 3/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "ba823f39-99bb-48a2-b8b0-92f9b9f231cb",
+          "sourceSessionIds": [
+            "e6d53e72-348b-465e-bb02-740eb9ac2d7a",
+            "e41497a6-01b9-4315-9589-115977a67763",
+            "ba9cc77e-2581-4fa7-bced-9fb019e2f12d",
+            "bcd235a5-c12b-466a-81ac-595bf87b8f4e",
+            "2bacf8cf-c9d7-4055-a85f-e37f306bd442"
+          ],
+          "evidenceIds": [
+            "5c02929c-fd12-441d-9943-d82519a8dfae"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "16c0c37b0e3f7552a9b56f0149654ef42d667409e497c770e8b4718d673ded63"
+        },
+        {
+          "month": "2026-09",
+          "id": "81c349ba-42b0-42d7-a148-ed900d7f7d73",
+          "sourceSessionIds": [
+            "6c5bc3ef-d6c2-41a6-bf02-2bd0439dbc9e",
+            "566407b6-ecc5-4e95-aa93-fe1127a0ab31",
+            "02c1c74a-b56b-4c24-bdf2-286d47a11968",
+            "f9b3d716-e1fb-4e42-b3b5-03fac19018e9"
+          ],
+          "evidenceIds": [
+            "82a35a69-b9f8-4723-81c4-f1e6707b37d8"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "6ca558404e2fdaa44bd0e0f2a2582345f8fff9c9614aabff1646402f14652376"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U8-06",
+      "id": "62263bd8-40be-5d0c-ad84-c216a1cf6faa",
+      "name": "Reyansh Fictional U8",
+      "batchId": "46dd576d-50e1-4830-a1f5-ab914aa3fb11",
+      "coachId": "8nYgWZAZCYijiywtiDO62kmvERnhQxzP",
+      "guardianId": "6n7Wg6FBvaCrsa4mWRmYjuWSKgk3Fzm9",
+      "outcome": "Continued focus",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "35d91bea-8351-41cb-82e9-df3537039363",
+        "septemberEvidenceId": "0414b9ea-30f9-4fb0-8b70-e06f174c1577",
+        "text": "Comparable fictional records: August 2/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "9b6e2564-cb6a-4c01-8c6f-fe462a65c3fa",
+          "sourceSessionIds": [
+            "e6d53e72-348b-465e-bb02-740eb9ac2d7a",
+            "e41497a6-01b9-4315-9589-115977a67763",
+            "ba9cc77e-2581-4fa7-bced-9fb019e2f12d",
+            "bcd235a5-c12b-466a-81ac-595bf87b8f4e",
+            "2bacf8cf-c9d7-4055-a85f-e37f306bd442"
+          ],
+          "evidenceIds": [
+            "a65af786-c51f-45c5-b963-27c05704d6c9",
+            "b28dc227-5c3e-4ce0-8db9-b51dd6b5c5a5",
+            "9d0cd41f-c4fc-4d57-a92a-34cbca38c03d",
+            "f4548cb0-8e3d-43c1-adee-a4cca380e63a",
+            "35d91bea-8351-41cb-82e9-df3537039363"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "6bfce7728a4bd2cad261779ed5b1a35aa5ed71b902149e33f35f933f1bebf4f9"
+        },
+        {
+          "month": "2026-09",
+          "id": "576e6cd2-cb37-4474-a2af-cfacfa5c902b",
+          "sourceSessionIds": [
+            "6c5bc3ef-d6c2-41a6-bf02-2bd0439dbc9e",
+            "566407b6-ecc5-4e95-aa93-fe1127a0ab31",
+            "02c1c74a-b56b-4c24-bdf2-286d47a11968",
+            "f9b3d716-e1fb-4e42-b3b5-03fac19018e9"
+          ],
+          "evidenceIds": [
+            "83daf80c-a899-4e2c-9626-72e8c3c8e2ef",
+            "38539d70-d2a2-461d-b92d-cebecf10a555",
+            "12f15003-013c-4152-bd32-f610d7236da3",
+            "0414b9ea-30f9-4fb0-8b70-e06f174c1577"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "ae1ad3299dd4b22aeed1f6cc5e8f760e91d684d2fd988eb985ac03107cece2f5"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U8-07",
+      "id": "7059c830-cb52-544d-ae24-8790231715cf",
+      "name": "Neel Fictional U8",
+      "batchId": "46dd576d-50e1-4830-a1f5-ab914aa3fb11",
+      "coachId": "8nYgWZAZCYijiywtiDO62kmvERnhQxzP",
+      "guardianId": "1SAEFbCvH3mdDy1Bj6dryb4ICqHS1hYO",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "b95d9dc3-d7f5-4c99-b974-3db64739673a",
+        "septemberEvidenceId": "b0a5d705-89c4-4666-b537-68b2fd6900cf",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "027af973-fbb7-4f8c-a3b3-acc4b8639dc1",
+          "sourceSessionIds": [
+            "e6d53e72-348b-465e-bb02-740eb9ac2d7a",
+            "e41497a6-01b9-4315-9589-115977a67763",
+            "ba9cc77e-2581-4fa7-bced-9fb019e2f12d",
+            "bcd235a5-c12b-466a-81ac-595bf87b8f4e",
+            "2bacf8cf-c9d7-4055-a85f-e37f306bd442"
+          ],
+          "evidenceIds": [
+            "448d2f2d-5367-451a-85ce-673ece4e693e",
+            "576ff714-36e0-4103-a401-6b652a7176ef",
+            "af4508ce-2ce2-469c-9fa7-d320005fa28a",
+            "f19a37c2-d0bf-44d7-94b6-1fec90445c25",
+            "b95d9dc3-d7f5-4c99-b974-3db64739673a"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "460e36cbcb63fcd309f4bc26fc129a1088107c7757f1ad3fdb60211f8bc8d685"
+        },
+        {
+          "month": "2026-09",
+          "id": "647abfac-e86f-47d9-8a82-d5e797bc606f",
+          "sourceSessionIds": [
+            "6c5bc3ef-d6c2-41a6-bf02-2bd0439dbc9e",
+            "566407b6-ecc5-4e95-aa93-fe1127a0ab31",
+            "02c1c74a-b56b-4c24-bdf2-286d47a11968",
+            "f9b3d716-e1fb-4e42-b3b5-03fac19018e9"
+          ],
+          "evidenceIds": [
+            "2739e4bf-4174-4b7a-b176-2a31faf533c4",
+            "92d5fe97-a360-446e-8f53-4fb2b2a5f022",
+            "98d0888e-b85a-4fa7-b0c9-33c29e4f0f11",
+            "b0a5d705-89c4-4666-b537-68b2fd6900cf"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "925d3bc60fd3dea0bf263b077f82c5cc0453deeefa4628b07a9c36f2f935f968"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U8-08",
+      "id": "29f4a323-2279-5472-a53f-c40635727c16",
+      "name": "Dev Fictional U8",
+      "batchId": "46dd576d-50e1-4830-a1f5-ab914aa3fb11",
+      "coachId": "8nYgWZAZCYijiywtiDO62kmvERnhQxzP",
+      "guardianId": "UxrOFTj05ZP2wecioHINhJTD6rBG6019",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "b62347c6-0dc5-487f-8b91-3d693e100028",
+        "septemberEvidenceId": "a48d4bb3-7ab8-4458-ad97-6f7018a72704",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "8dddda0b-028d-4303-87d5-d167a346ab49",
+          "sourceSessionIds": [
+            "e6d53e72-348b-465e-bb02-740eb9ac2d7a",
+            "e41497a6-01b9-4315-9589-115977a67763",
+            "ba9cc77e-2581-4fa7-bced-9fb019e2f12d",
+            "bcd235a5-c12b-466a-81ac-595bf87b8f4e",
+            "2bacf8cf-c9d7-4055-a85f-e37f306bd442"
+          ],
+          "evidenceIds": [
+            "47c90484-3a1b-4852-8fc0-05a617b04e41",
+            "e624adf7-b9eb-4546-8d1f-25c024a1fcca",
+            "6b4ddb6d-d0af-47e8-93dd-fcc7bfd0342c",
+            "b19e2cc6-43ea-4cac-b3be-72b5032e15af",
+            "b62347c6-0dc5-487f-8b91-3d693e100028"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "faca85fc7b3add54dc796fd1f6430f4e2b7e0547829594eccdd6284448c26969"
+        },
+        {
+          "month": "2026-09",
+          "id": "15b2b28a-13ac-4f4b-ab5e-7c340db6ce93",
+          "sourceSessionIds": [
+            "6c5bc3ef-d6c2-41a6-bf02-2bd0439dbc9e",
+            "566407b6-ecc5-4e95-aa93-fe1127a0ab31",
+            "02c1c74a-b56b-4c24-bdf2-286d47a11968",
+            "f9b3d716-e1fb-4e42-b3b5-03fac19018e9"
+          ],
+          "evidenceIds": [
+            "1df8800c-da79-4fa3-8cc9-ce89d3b405e5",
+            "5adf2d26-7b3c-498c-83da-dafa4af3626c",
+            "55f16969-e65d-46c2-aaa0-be8b3d9e8a5e",
+            "a48d4bb3-7ab8-4458-ad97-6f7018a72704"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "aa7d2bce391a48c8d64a1fe53874dc92e19bc48a69fa2d2f4f4d68bf817f8e78"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U8-09",
+      "id": "5cadc7d4-a82b-5ca3-ab79-c83e0405f9e6",
+      "name": "Rohan Fictional U8",
+      "batchId": "46dd576d-50e1-4830-a1f5-ab914aa3fb11",
+      "coachId": "8nYgWZAZCYijiywtiDO62kmvERnhQxzP",
+      "guardianId": "DM7Le2420HRhxH1N0o9CVzykGHbJMsRD",
+      "outcome": "Excused sessions and regular observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "0a18d131-4ac6-46be-a0d7-b37797ecc825",
+        "septemberEvidenceId": "53a8fac9-396f-4ee6-88d1-5f4e13e68cdf",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "a0582b12-da72-476c-9e79-84cc5afdb506",
+          "sourceSessionIds": [
+            "e6d53e72-348b-465e-bb02-740eb9ac2d7a",
+            "e41497a6-01b9-4315-9589-115977a67763",
+            "ba9cc77e-2581-4fa7-bced-9fb019e2f12d",
+            "bcd235a5-c12b-466a-81ac-595bf87b8f4e",
+            "2bacf8cf-c9d7-4055-a85f-e37f306bd442"
+          ],
+          "evidenceIds": [
+            "34b705ca-5ffe-43c6-a2f2-ffa8b937e420",
+            "8d0f8f76-99a9-4c46-acd5-d4e0817fb472",
+            "0a18d131-4ac6-46be-a0d7-b37797ecc825"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 2
+          },
+          "snapshotHash": "d59ac306fe8c633d25dceac3c53ac5bec1213555ce69adfbc3c24c021d0ead91"
+        },
+        {
+          "month": "2026-09",
+          "id": "b835155e-ade6-4c0f-b760-facc88fbed84",
+          "sourceSessionIds": [
+            "6c5bc3ef-d6c2-41a6-bf02-2bd0439dbc9e",
+            "566407b6-ecc5-4e95-aa93-fe1127a0ab31",
+            "02c1c74a-b56b-4c24-bdf2-286d47a11968",
+            "f9b3d716-e1fb-4e42-b3b5-03fac19018e9"
+          ],
+          "evidenceIds": [
+            "6084ac80-daf4-4723-8383-08bdf197acff",
+            "7ffad630-d13a-42c6-8dd4-ef671529c065",
+            "53a8fac9-396f-4ee6-88d1-5f4e13e68cdf"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 1
+          },
+          "snapshotHash": "d72b2cd5d94e10b4f5122abc19ab4715f07930c23d44f8cb3be5ca69ee902669"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U8-10",
+      "id": "8a1f4a5e-207e-50da-aa4a-c77066a77556",
+      "name": "Ayan Fictional U8",
+      "batchId": "46dd576d-50e1-4830-a1f5-ab914aa3fb11",
+      "coachId": "8nYgWZAZCYijiywtiDO62kmvERnhQxzP",
+      "guardianId": "YMZeYtJVvxljc7fLcWY1tBt5ayobIkes",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "d53ca1ca-b0dd-4cdb-a2cf-75ecc565f711",
+        "septemberEvidenceId": "08f28031-3b82-487e-93e1-080e3633c77a",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "1a0b1a0a-8933-4703-bc57-1bb9fc2c4dcb",
+          "sourceSessionIds": [
+            "e6d53e72-348b-465e-bb02-740eb9ac2d7a",
+            "e41497a6-01b9-4315-9589-115977a67763",
+            "ba9cc77e-2581-4fa7-bced-9fb019e2f12d",
+            "bcd235a5-c12b-466a-81ac-595bf87b8f4e",
+            "2bacf8cf-c9d7-4055-a85f-e37f306bd442"
+          ],
+          "evidenceIds": [
+            "67141954-810a-4fef-8c2e-f66e862dc137",
+            "ebfe3834-2cbd-4585-bf16-da14b4d8a9c3",
+            "34bbc7b1-88ac-49d0-98be-269c66f0ab71",
+            "cdf1555a-f3d6-4bcf-b530-7a86ed1c5eec",
+            "d53ca1ca-b0dd-4cdb-a2cf-75ecc565f711"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "ea655a03da8cc883e9fb683be0b846456168a1764895de03589d430824c7e6ce"
+        },
+        {
+          "month": "2026-09",
+          "id": "35cc67e8-fc4f-4e1a-b1b6-d07cad7094c3",
+          "sourceSessionIds": [
+            "6c5bc3ef-d6c2-41a6-bf02-2bd0439dbc9e",
+            "566407b6-ecc5-4e95-aa93-fe1127a0ab31",
+            "02c1c74a-b56b-4c24-bdf2-286d47a11968",
+            "f9b3d716-e1fb-4e42-b3b5-03fac19018e9"
+          ],
+          "evidenceIds": [
+            "462836cb-9e2c-49db-adc5-b394800b50e1",
+            "f66c6728-76c5-4c79-a8aa-e7d4535a610e",
+            "6d0d512e-1dff-4ff4-ae1a-3a41a47c09b6",
+            "08f28031-3b82-487e-93e1-080e3633c77a"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "670286c4b0699a7e214a0e2f783bcd6d5ecb42e85043523f4f860dcbcc06b04e"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U10-01",
+      "id": "8dc3bdd6-a615-5a9a-a703-4ab7f718c43d",
+      "name": "Aadi Fictional U10",
+      "batchId": "95ce60a9-41d2-4afe-99f3-51f7e497fac2",
+      "coachId": "L6irhl6YLdAceQNvz8aDNZr58UaRFY3S",
+      "guardianId": "XV5yXcLtXmpb9X65iP9ZD50eBs1z2zQu",
+      "outcome": "Comparable improvement",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "32bd54de-a0f7-4dbd-8c52-7d406230ccf2",
+        "septemberEvidenceId": "94fada63-b4e1-4c9b-872c-a166ce6bac0a",
+        "text": "Comparable fictional records: August 4/6; September 5/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "e0b6cd5f-9938-4ccc-8331-4299046385af",
+          "sourceSessionIds": [
+            "263d2771-81d8-43a8-9540-622a8d0228be",
+            "5054d44a-d054-4da8-ac9b-d204e562552a",
+            "7f5818e4-4258-455b-96e5-cbf7d38c3d2a",
+            "a4e88506-ae57-45b0-b756-fa94ac3f6d42",
+            "37aada9c-20d9-4a92-813c-070bb62e05b5"
+          ],
+          "evidenceIds": [
+            "bb0d4295-98c1-4d75-8223-e87c36f16484",
+            "ec5110c7-e8b0-4c6d-8fb8-26105e6f9c13",
+            "fb5c1982-f4ba-4c06-9264-ade65a8a5ffd",
+            "554185c0-21b7-4785-a36e-543a37626578",
+            "32bd54de-a0f7-4dbd-8c52-7d406230ccf2"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "961b67ac35b162efa4d8140e1e89260b1046bc42623c260e9ff7857cbf9e0f70"
+        },
+        {
+          "month": "2026-09",
+          "id": "5f93f6cc-cac2-4993-a186-9600bd7c3b87",
+          "sourceSessionIds": [
+            "19264879-9c0d-4091-a209-0f6ef11191e4",
+            "f38d8128-3431-4d7e-84d9-517c2eadf076",
+            "4416433f-6928-42b5-bea8-4a7dfc263b0c",
+            "f0b6f782-d6dd-4235-963e-4bc1efceb5db"
+          ],
+          "evidenceIds": [
+            "6c8ab833-b5ef-4998-b02e-d6d92b5f30da",
+            "b5d11e0e-57c9-4032-a1cb-05ae32d01913",
+            "d98f85ad-9819-43b2-a041-26ca7704946c",
+            "94fada63-b4e1-4c9b-872c-a166ce6bac0a"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "9e624fa3eb9a4d8a2185049533573fcdea70b3a7c1de2a5021280206e5f90438"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U10-02",
+      "id": "1ad4df52-d7f6-5d55-a7b8-f0c531631415",
+      "name": "Ishaan Fictional U10",
+      "batchId": "95ce60a9-41d2-4afe-99f3-51f7e497fac2",
+      "coachId": "L6irhl6YLdAceQNvz8aDNZr58UaRFY3S",
+      "guardianId": "TBHpXF88Sl5A6ZvNQt2FbNmdcGR6WpN5",
+      "outcome": "Consistent observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "f5cf623c-39fb-45bd-9df5-aa866324e467",
+        "septemberEvidenceId": "8e222eb1-c041-4eba-b178-857d1f25f59d",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "0b3c5910-cc70-4c6f-81d5-87517e22fcf9",
+          "sourceSessionIds": [
+            "263d2771-81d8-43a8-9540-622a8d0228be",
+            "5054d44a-d054-4da8-ac9b-d204e562552a",
+            "7f5818e4-4258-455b-96e5-cbf7d38c3d2a",
+            "a4e88506-ae57-45b0-b756-fa94ac3f6d42",
+            "37aada9c-20d9-4a92-813c-070bb62e05b5"
+          ],
+          "evidenceIds": [
+            "c9255bf4-9fee-4509-9a88-4ecd53e94843",
+            "c7d13f7d-9ea8-4ffd-8327-20ccbeb608a3",
+            "2ca2997f-881b-4404-bb71-ed9c02a6c0bd",
+            "601674d6-5149-4658-905a-1bfce70cea4d",
+            "f5cf623c-39fb-45bd-9df5-aa866324e467"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "f0f634acab1c41fbbd7090f82c6d36665f27c267b13570d9e0de62eb3f952e0f"
+        },
+        {
+          "month": "2026-09",
+          "id": "e038e4fc-dee5-4c5a-9227-09580776dc3f",
+          "sourceSessionIds": [
+            "19264879-9c0d-4091-a209-0f6ef11191e4",
+            "f38d8128-3431-4d7e-84d9-517c2eadf076",
+            "4416433f-6928-42b5-bea8-4a7dfc263b0c",
+            "f0b6f782-d6dd-4235-963e-4bc1efceb5db"
+          ],
+          "evidenceIds": [
+            "76f05b7b-869c-409b-a892-748f07acee29",
+            "5f808f24-a9e4-4634-af43-852f55c2d904",
+            "14366a3d-dc73-4895-9f59-0fc36cbdba94",
+            "8e222eb1-c041-4eba-b178-857d1f25f59d"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "100dfea5b000a5408fd3961f7a70aaaabb0b466f44cff9d0aa69130461d2424a"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U10-03",
+      "id": "669fa94b-1af4-52ed-a1e7-285d915b852d",
+      "name": "Kabir Fictional U10",
+      "batchId": "95ce60a9-41d2-4afe-99f3-51f7e497fac2",
+      "coachId": "L6irhl6YLdAceQNvz8aDNZr58UaRFY3S",
+      "guardianId": "PyWSdrqbCNCtmLxlEQaGE7E383vsmxEI",
+      "outcome": "Mixed results",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "abcf23be-2230-4066-b358-dc252355b806",
+        "septemberEvidenceId": "985a8107-17ca-404c-8182-6c204b3e56fb",
+        "text": "Comparable fictional records: August 4/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "3eb9f17a-862d-4ac6-8bd9-ceb18bc92604",
+          "sourceSessionIds": [
+            "263d2771-81d8-43a8-9540-622a8d0228be",
+            "5054d44a-d054-4da8-ac9b-d204e562552a",
+            "7f5818e4-4258-455b-96e5-cbf7d38c3d2a",
+            "a4e88506-ae57-45b0-b756-fa94ac3f6d42",
+            "37aada9c-20d9-4a92-813c-070bb62e05b5"
+          ],
+          "evidenceIds": [
+            "ebd05a4c-3d9c-4c13-baaa-ca1046aeb82b",
+            "51353691-a53f-41b7-aca0-d07f0e38e4ee",
+            "49ae1183-a1ca-4720-9354-5fe154156694",
+            "bf2cfb6c-7c66-4e54-9d89-f5c11359fb17",
+            "abcf23be-2230-4066-b358-dc252355b806"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "74a3b5f3a44f8cca9a008d17b12765f4e8c740fa23309b7af803da6fcacbaea2"
+        },
+        {
+          "month": "2026-09",
+          "id": "451c419b-d44c-4492-b22d-632a5bf15ca1",
+          "sourceSessionIds": [
+            "19264879-9c0d-4091-a209-0f6ef11191e4",
+            "f38d8128-3431-4d7e-84d9-517c2eadf076",
+            "4416433f-6928-42b5-bea8-4a7dfc263b0c",
+            "f0b6f782-d6dd-4235-963e-4bc1efceb5db"
+          ],
+          "evidenceIds": [
+            "6d291707-4085-4844-a50a-5ef653d9cd27",
+            "e127bde2-1339-496c-86fa-6bcefbc90b2c",
+            "ad80d845-235c-4151-96c6-a9c6afb4ddad",
+            "985a8107-17ca-404c-8182-6c204b3e56fb"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "df720a868c50f2c877b9733b631aa316dd66f68127628a78645ba7c4dee15ee5"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U10-04",
+      "id": "2f2bc29e-4a50-52c8-a492-1966183374f8",
+      "name": "Vihaan Fictional U10",
+      "batchId": "95ce60a9-41d2-4afe-99f3-51f7e497fac2",
+      "coachId": "L6irhl6YLdAceQNvz8aDNZr58UaRFY3S",
+      "guardianId": "tNZsS97WTlioQS8b1j4SjJfFX663uEym",
+      "outcome": "Missed sessions",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "13503183-2cef-4a09-87ad-2f65b73fbfa5",
+        "septemberEvidenceId": "06050091-d3d8-431e-83fb-6146d2984abc",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "811ecdc6-2e74-4949-9ba1-d68aed3334ac",
+          "sourceSessionIds": [
+            "263d2771-81d8-43a8-9540-622a8d0228be",
+            "5054d44a-d054-4da8-ac9b-d204e562552a",
+            "7f5818e4-4258-455b-96e5-cbf7d38c3d2a",
+            "a4e88506-ae57-45b0-b756-fa94ac3f6d42",
+            "37aada9c-20d9-4a92-813c-070bb62e05b5"
+          ],
+          "evidenceIds": [
+            "cb62e761-1872-478d-98b0-39929a35c4f0",
+            "5f089d94-d113-49dd-ac32-2e47acb4ecb8",
+            "13503183-2cef-4a09-87ad-2f65b73fbfa5"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 2,
+            "excused": 0
+          },
+          "snapshotHash": "3fb4f83a1bb2e7b293156d212aac89bfe1c3434ae33c196374ebbb59658b45c2"
+        },
+        {
+          "month": "2026-09",
+          "id": "8bade002-212f-4d11-a9b9-5ee5c87f5f9d",
+          "sourceSessionIds": [
+            "19264879-9c0d-4091-a209-0f6ef11191e4",
+            "f38d8128-3431-4d7e-84d9-517c2eadf076",
+            "4416433f-6928-42b5-bea8-4a7dfc263b0c",
+            "f0b6f782-d6dd-4235-963e-4bc1efceb5db"
+          ],
+          "evidenceIds": [
+            "c9cb6e81-90ca-46be-8e00-569fe0c5097e",
+            "37d3d271-47ff-4704-92fa-792e93d7a6bc",
+            "06050091-d3d8-431e-83fb-6146d2984abc"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 1,
+            "excused": 0
+          },
+          "snapshotHash": "94f2a56606a865b38e1f278a7d42ee9c49bcc1554b3b106ef0a5ae578b2ebab9"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U10-05",
+      "id": "5958da9a-6681-56ec-abca-e76d618b9e49",
+      "name": "Arjun Fictional U10",
+      "batchId": "95ce60a9-41d2-4afe-99f3-51f7e497fac2",
+      "coachId": "L6irhl6YLdAceQNvz8aDNZr58UaRFY3S",
+      "guardianId": "VYAYrFqCIfdA1kRTALI2mt1IJhQyn4Oy",
+      "outcome": "Limited reviewed evidence",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "448ab4f5-e9c8-4d1e-be0d-7e9259b979ba",
+        "septemberEvidenceId": "de13577d-b95a-4c2c-983b-a9608e2c2be8",
+        "text": "Comparable fictional records: August 3/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "6c229b0c-3221-49e8-83b7-e4b8cfc16d0f",
+          "sourceSessionIds": [
+            "263d2771-81d8-43a8-9540-622a8d0228be",
+            "5054d44a-d054-4da8-ac9b-d204e562552a",
+            "7f5818e4-4258-455b-96e5-cbf7d38c3d2a",
+            "a4e88506-ae57-45b0-b756-fa94ac3f6d42",
+            "37aada9c-20d9-4a92-813c-070bb62e05b5"
+          ],
+          "evidenceIds": [
+            "448ab4f5-e9c8-4d1e-be0d-7e9259b979ba"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "509a8f30713a6bf7b27ddfa2756de830c87b67bced117fce9717d07e04580709"
+        },
+        {
+          "month": "2026-09",
+          "id": "f8383f14-a2b5-4668-a6bc-cd4c39ce17a9",
+          "sourceSessionIds": [
+            "19264879-9c0d-4091-a209-0f6ef11191e4",
+            "f38d8128-3431-4d7e-84d9-517c2eadf076",
+            "4416433f-6928-42b5-bea8-4a7dfc263b0c",
+            "f0b6f782-d6dd-4235-963e-4bc1efceb5db"
+          ],
+          "evidenceIds": [
+            "de13577d-b95a-4c2c-983b-a9608e2c2be8"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "a4443f5d82ea635d47a6048118327b7130bc9650100cccf79f48b9b67fb73141"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U10-06",
+      "id": "faad6c54-50b8-59ac-a006-f93cc978f551",
+      "name": "Reyansh Fictional U10",
+      "batchId": "95ce60a9-41d2-4afe-99f3-51f7e497fac2",
+      "coachId": "L6irhl6YLdAceQNvz8aDNZr58UaRFY3S",
+      "guardianId": "snCiF4K0rJTdTL8ANX1HHmHzKuerumz2",
+      "outcome": "Continued focus",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "cc1bf629-55e3-4b8b-b32b-430395c71bdb",
+        "septemberEvidenceId": "486f930b-728a-49fb-af3b-35462474b298",
+        "text": "Comparable fictional records: August 2/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "91c9e4d7-e7d4-41d7-9d5c-1b2fc6b743a0",
+          "sourceSessionIds": [
+            "263d2771-81d8-43a8-9540-622a8d0228be",
+            "5054d44a-d054-4da8-ac9b-d204e562552a",
+            "7f5818e4-4258-455b-96e5-cbf7d38c3d2a",
+            "a4e88506-ae57-45b0-b756-fa94ac3f6d42",
+            "37aada9c-20d9-4a92-813c-070bb62e05b5"
+          ],
+          "evidenceIds": [
+            "8487fb61-f1c5-47ab-a865-efb9384e65bf",
+            "5d2f715c-a67c-4797-b1e4-80c7b89b9abd",
+            "6a3f7396-e9bc-44cc-a335-d51eaaa43c64",
+            "6bdd6e68-5a20-47fe-9dba-518090782d74",
+            "cc1bf629-55e3-4b8b-b32b-430395c71bdb"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "ec192ab323d60b8d2e03fc3b47170d83182e2871ed0e3866dc24f7801b5551ee"
+        },
+        {
+          "month": "2026-09",
+          "id": "95a9489b-c773-4bdf-ac3e-33eccfda5ade",
+          "sourceSessionIds": [
+            "19264879-9c0d-4091-a209-0f6ef11191e4",
+            "f38d8128-3431-4d7e-84d9-517c2eadf076",
+            "4416433f-6928-42b5-bea8-4a7dfc263b0c",
+            "f0b6f782-d6dd-4235-963e-4bc1efceb5db"
+          ],
+          "evidenceIds": [
+            "24a3ee96-647f-4588-8fd6-4c93c5fb9b88",
+            "b89684f7-c56d-4414-9d63-2130f0ee5fbf",
+            "bc3d34f2-105e-421f-a373-15694721e34e",
+            "486f930b-728a-49fb-af3b-35462474b298"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "a0618aefdec266b756fc10b3035bebe607aeb44be4a96bcb81da4e90b3a1b03a"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U10-07",
+      "id": "4d6248ce-0d59-588b-ac59-607ef5758b24",
+      "name": "Neel Fictional U10",
+      "batchId": "95ce60a9-41d2-4afe-99f3-51f7e497fac2",
+      "coachId": "L6irhl6YLdAceQNvz8aDNZr58UaRFY3S",
+      "guardianId": "yOYPxsItK9VO9MtX6Pc4fmnacZ7P2EPg",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "6fd4efcd-1634-4039-b4c5-28f110b2d07a",
+        "septemberEvidenceId": "7497c2d4-0751-4c9a-88fb-5fc4b658e333",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "b53e3930-5403-4be8-933d-b27f5ae47a16",
+          "sourceSessionIds": [
+            "263d2771-81d8-43a8-9540-622a8d0228be",
+            "5054d44a-d054-4da8-ac9b-d204e562552a",
+            "7f5818e4-4258-455b-96e5-cbf7d38c3d2a",
+            "a4e88506-ae57-45b0-b756-fa94ac3f6d42",
+            "37aada9c-20d9-4a92-813c-070bb62e05b5"
+          ],
+          "evidenceIds": [
+            "3b7bf90b-ed5a-4c32-9fec-8c5c26c2d4c0",
+            "fc308e99-1e2a-47d6-9577-6fbed4df9d2d",
+            "6020c4c8-3423-44a8-ace1-053bb6805dc5",
+            "0a93f8a3-5fec-4815-82c0-2102373ec008",
+            "6fd4efcd-1634-4039-b4c5-28f110b2d07a"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "cf6a9f55064986828d96873f0f1b3e0c98b3cc39b205df8cdcc1f33a4c79e5fd"
+        },
+        {
+          "month": "2026-09",
+          "id": "2387227f-5e61-4bfe-b6dc-b84b17a85275",
+          "sourceSessionIds": [
+            "19264879-9c0d-4091-a209-0f6ef11191e4",
+            "f38d8128-3431-4d7e-84d9-517c2eadf076",
+            "4416433f-6928-42b5-bea8-4a7dfc263b0c",
+            "f0b6f782-d6dd-4235-963e-4bc1efceb5db"
+          ],
+          "evidenceIds": [
+            "8767a0a7-0c1d-4052-8374-7e926ffbaa93",
+            "1d862847-68dc-4423-a1d6-15d4b1415c77",
+            "8aef17e7-ce2b-403b-b2c7-de5ae931f502",
+            "7497c2d4-0751-4c9a-88fb-5fc4b658e333"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "b6df905fc59519582e2414172b9926e74b08ee6c7aa02a99e44459840faf79fa"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U10-08",
+      "id": "ccae3e39-248d-54cc-a75a-d09376922f83",
+      "name": "Dev Fictional U10",
+      "batchId": "95ce60a9-41d2-4afe-99f3-51f7e497fac2",
+      "coachId": "L6irhl6YLdAceQNvz8aDNZr58UaRFY3S",
+      "guardianId": "I0hrRL9S1EE3wMhqqurJyM6GOtM6vOpU",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "e3c5808a-cc87-4863-8384-3afdfbbcab61",
+        "septemberEvidenceId": "1f62d866-d271-4cb7-82e1-7b390f089018",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "894fd6e7-4fbf-428d-be4c-61abe3b0d605",
+          "sourceSessionIds": [
+            "263d2771-81d8-43a8-9540-622a8d0228be",
+            "5054d44a-d054-4da8-ac9b-d204e562552a",
+            "7f5818e4-4258-455b-96e5-cbf7d38c3d2a",
+            "a4e88506-ae57-45b0-b756-fa94ac3f6d42",
+            "37aada9c-20d9-4a92-813c-070bb62e05b5"
+          ],
+          "evidenceIds": [
+            "51828be6-c09d-47d3-85f9-2bbfe7e2efa6",
+            "25ecfdb4-688e-4261-8a8d-b9c5fcab8085",
+            "977b996f-67ec-43e8-a22d-59ba932cd1bc",
+            "be6f3fba-f165-43a7-b62b-b5394cef6029",
+            "e3c5808a-cc87-4863-8384-3afdfbbcab61"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "4300bfa4af97f2fded72702d3d8b65266ad6e785ccec02c9ec1ee8c7816c6346"
+        },
+        {
+          "month": "2026-09",
+          "id": "eddd965b-db5c-4751-855d-fe0d09102706",
+          "sourceSessionIds": [
+            "19264879-9c0d-4091-a209-0f6ef11191e4",
+            "f38d8128-3431-4d7e-84d9-517c2eadf076",
+            "4416433f-6928-42b5-bea8-4a7dfc263b0c",
+            "f0b6f782-d6dd-4235-963e-4bc1efceb5db"
+          ],
+          "evidenceIds": [
+            "b4b4001d-84da-4755-87ad-92fc347560eb",
+            "7671e4ea-7329-4aff-af42-6e178fa2d329",
+            "397d3212-0e04-4435-a274-378e2e673166",
+            "1f62d866-d271-4cb7-82e1-7b390f089018"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "21b3e92b0ea8b8a591d2ccd17227689ab233cefa780da1756e1d7e3f47b03fab"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U10-09",
+      "id": "a1c66164-dd32-5ef9-acdb-9145ef6fc758",
+      "name": "Rohan Fictional U10",
+      "batchId": "95ce60a9-41d2-4afe-99f3-51f7e497fac2",
+      "coachId": "L6irhl6YLdAceQNvz8aDNZr58UaRFY3S",
+      "guardianId": "MyJaNcwnCaePzTD0xs6CuXC1yxuV0WS9",
+      "outcome": "Excused sessions and regular observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "9ad6d51f-c487-4690-9e40-01de112646af",
+        "septemberEvidenceId": "cea3f144-2ebf-4b4e-9b9c-5c0ecfb48086",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "2ea6856d-5ac6-4fd2-957e-a1af70ea8aef",
+          "sourceSessionIds": [
+            "263d2771-81d8-43a8-9540-622a8d0228be",
+            "5054d44a-d054-4da8-ac9b-d204e562552a",
+            "7f5818e4-4258-455b-96e5-cbf7d38c3d2a",
+            "a4e88506-ae57-45b0-b756-fa94ac3f6d42",
+            "37aada9c-20d9-4a92-813c-070bb62e05b5"
+          ],
+          "evidenceIds": [
+            "e1b9bab3-7659-4b41-88ff-1efcc25811d9",
+            "941f81db-45be-4b43-96b1-ea3e1e2a8ec8",
+            "9ad6d51f-c487-4690-9e40-01de112646af"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 2
+          },
+          "snapshotHash": "66db8b74836f946328cf07ff903862b703df1c270a62005799ecd26c095c2997"
+        },
+        {
+          "month": "2026-09",
+          "id": "750e1289-3937-4470-a1d1-98c37a0c383e",
+          "sourceSessionIds": [
+            "19264879-9c0d-4091-a209-0f6ef11191e4",
+            "f38d8128-3431-4d7e-84d9-517c2eadf076",
+            "4416433f-6928-42b5-bea8-4a7dfc263b0c",
+            "f0b6f782-d6dd-4235-963e-4bc1efceb5db"
+          ],
+          "evidenceIds": [
+            "be5beb5e-0189-472e-904e-70de977d4116",
+            "63893eba-1ea9-44da-b86f-d488d6f69bde",
+            "cea3f144-2ebf-4b4e-9b9c-5c0ecfb48086"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 1
+          },
+          "snapshotHash": "1aacb069eabf586e765af71d0a6b27c1eaac0caf5dc318918e4bf5a8bdd1a1ac"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U10-10",
+      "id": "f201bd5c-65ab-5d74-ae7e-99ee0ed4d952",
+      "name": "Ayan Fictional U10",
+      "batchId": "95ce60a9-41d2-4afe-99f3-51f7e497fac2",
+      "coachId": "L6irhl6YLdAceQNvz8aDNZr58UaRFY3S",
+      "guardianId": "APTob1xKBtXEnVEJd6iNMVwTPFUpBtC7",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "988ba44a-e4d1-42a7-9176-021f6d5ce8b9",
+        "septemberEvidenceId": "51b00b83-8272-4c6b-bfb5-31963f733cc0",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "e0fa7888-4eaa-41a9-ab1f-6a0e0fd59fda",
+          "sourceSessionIds": [
+            "263d2771-81d8-43a8-9540-622a8d0228be",
+            "5054d44a-d054-4da8-ac9b-d204e562552a",
+            "7f5818e4-4258-455b-96e5-cbf7d38c3d2a",
+            "a4e88506-ae57-45b0-b756-fa94ac3f6d42",
+            "37aada9c-20d9-4a92-813c-070bb62e05b5"
+          ],
+          "evidenceIds": [
+            "3f6c2945-6de2-4a5d-b092-c47b0f4c2044",
+            "85faca57-72b7-4f4a-8114-0bc898175f64",
+            "be1a29b8-64bd-43eb-8e6f-965c1eb3dbd1",
+            "03c09b9f-0d1c-40e0-a607-335fcbfed2bd",
+            "988ba44a-e4d1-42a7-9176-021f6d5ce8b9"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "320d94481f1ca4c03d6a6fb5e72fef05eaf3fadee7d411f62ef04f21bbb194a0"
+        },
+        {
+          "month": "2026-09",
+          "id": "6eddf958-c1b8-496b-a861-7ab0690da3c6",
+          "sourceSessionIds": [
+            "19264879-9c0d-4091-a209-0f6ef11191e4",
+            "f38d8128-3431-4d7e-84d9-517c2eadf076",
+            "4416433f-6928-42b5-bea8-4a7dfc263b0c",
+            "f0b6f782-d6dd-4235-963e-4bc1efceb5db"
+          ],
+          "evidenceIds": [
+            "12ad015c-ce89-4ad0-9a3d-0c3d9c078315",
+            "7346ba4b-159a-435c-9c51-d635c40bbf09",
+            "1e89903b-aeb4-40c8-85b3-cd81aeb6baef",
+            "51b00b83-8272-4c6b-bfb5-31963f733cc0"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "70116089294625e74ffc65ea302c4040649b9d82fdb1906a631878131ca7d9f3"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U12-01",
+      "id": "a4210981-dd45-5593-a053-847447bcf6ed",
+      "name": "Aadi Fictional U12",
+      "batchId": "76fab2fa-bb32-40bc-865d-72a70c886e1d",
+      "coachId": "OhF5UZVr1KTXFaoRhJFe8xDVWgKkz39D",
+      "guardianId": "rD9Quge5iweI75TiqKM1QQszBMUGBpwv",
+      "outcome": "Comparable improvement",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "e9226157-4337-4b6b-aca8-3fba3dd94efb",
+        "septemberEvidenceId": "a4987021-2211-4af9-a7c8-531615e6a532",
+        "text": "Comparable fictional records: August 4/6; September 5/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "28b517f6-cead-462c-ace5-b5ba27fae847",
+          "sourceSessionIds": [
+            "b24115ce-7497-4f5f-bbe8-6ba86055828b",
+            "958e9369-4e78-44c0-8285-d2ea31cd5525",
+            "ac88a4f9-2b37-483d-a4c6-76a0a1e547ac",
+            "766dc486-6bcc-4d17-9e33-91d202c7052a",
+            "3b59ed63-9bd7-45e6-a2da-f005c1b098cf"
+          ],
+          "evidenceIds": [
+            "15c476fd-afa7-4d33-bae3-b8de7f555025",
+            "88070cf3-a178-45d3-9c10-ec6daef5f08c",
+            "1a060f85-6de1-4c64-bcf1-d7afa4e96f92",
+            "51bf204d-0fb5-4038-8731-7f3efff609b5",
+            "e9226157-4337-4b6b-aca8-3fba3dd94efb"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "31ba5f83ff24e08ee6fb6f26001311a5d5f8a90ee10a34b1a4c517db93c4b5cd"
+        },
+        {
+          "month": "2026-09",
+          "id": "fd9430cd-f638-459a-ae7f-e12e367b9098",
+          "sourceSessionIds": [
+            "64aa7af8-0aca-4394-9f33-04b0313b9df8",
+            "12d08b32-79a0-4575-acef-e339e36f3832",
+            "e8f4b1df-5682-4d55-9a96-9299f3232fbe",
+            "d28393da-451e-4dd9-81ff-f08c7db6d4f3"
+          ],
+          "evidenceIds": [
+            "ddfbb343-a733-476c-9566-5dd395ecc669",
+            "e248f89c-0d98-49e8-85b2-6fda7122846f",
+            "6af11ef8-9b8f-4814-903b-d83a6b8c6697",
+            "a4987021-2211-4af9-a7c8-531615e6a532"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "0f51129b54cabb5ae55f29417e7962f5c0c4b172eb52fb5448092dfd7439e802"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U12-02",
+      "id": "8e769db6-ac78-58db-a4fc-37f15257dfba",
+      "name": "Ishaan Fictional U12",
+      "batchId": "76fab2fa-bb32-40bc-865d-72a70c886e1d",
+      "coachId": "OhF5UZVr1KTXFaoRhJFe8xDVWgKkz39D",
+      "guardianId": "G3nJZOBflrPlluJl9N4XTKEPqapOgZJw",
+      "outcome": "Consistent observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "007271c8-66d5-4fb8-8d7a-cd5e2d362fd9",
+        "septemberEvidenceId": "86212151-cf9f-45ca-8c85-6036d1b212a0",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "4572156e-8045-4b0b-9b30-8ece4e912498",
+          "sourceSessionIds": [
+            "b24115ce-7497-4f5f-bbe8-6ba86055828b",
+            "958e9369-4e78-44c0-8285-d2ea31cd5525",
+            "ac88a4f9-2b37-483d-a4c6-76a0a1e547ac",
+            "766dc486-6bcc-4d17-9e33-91d202c7052a",
+            "3b59ed63-9bd7-45e6-a2da-f005c1b098cf"
+          ],
+          "evidenceIds": [
+            "aaf851d3-da05-4d0a-8e05-660a0e5cae6a",
+            "f9292137-0883-4c39-9ac9-fbc9a09df65a",
+            "345888a2-afe9-4bbb-9b41-33f4158ae661",
+            "63743310-2fe4-43ef-817b-81a2f1966f80",
+            "007271c8-66d5-4fb8-8d7a-cd5e2d362fd9"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "bdf5b17136a46f573f8f0b05cb591f759d61a818af3ca26f6cddde8e7d7cef0d"
+        },
+        {
+          "month": "2026-09",
+          "id": "886008d4-2070-4117-827c-81dc20d0348e",
+          "sourceSessionIds": [
+            "64aa7af8-0aca-4394-9f33-04b0313b9df8",
+            "12d08b32-79a0-4575-acef-e339e36f3832",
+            "e8f4b1df-5682-4d55-9a96-9299f3232fbe",
+            "d28393da-451e-4dd9-81ff-f08c7db6d4f3"
+          ],
+          "evidenceIds": [
+            "a58bc62a-2966-4309-a060-06ae00806d69",
+            "69609dfb-77a5-4a53-9ab0-bde7a65062ac",
+            "a6b93f70-7a88-478b-96a3-e717a54da4fb",
+            "86212151-cf9f-45ca-8c85-6036d1b212a0"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "758fa765118a08f8e7c5ad60505d1a4dc3ca12b23ccf9b88ab76c68781a94337"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U12-03",
+      "id": "765efab0-de2d-5f0b-a6c7-f57aeaf2cdb4",
+      "name": "Kabir Fictional U12",
+      "batchId": "76fab2fa-bb32-40bc-865d-72a70c886e1d",
+      "coachId": "OhF5UZVr1KTXFaoRhJFe8xDVWgKkz39D",
+      "guardianId": "JNztKF5RWkpiYxCwzGwCFQWDI9IJczGH",
+      "outcome": "Mixed results",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "3acb8943-f7a9-4f62-9dc2-a6e070fa29f5",
+        "septemberEvidenceId": "9169b744-f3aa-4569-9e21-d4ced3d575e8",
+        "text": "Comparable fictional records: August 4/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "d1b24ab2-5f0a-42dc-b7c1-19bc3ead8f10",
+          "sourceSessionIds": [
+            "b24115ce-7497-4f5f-bbe8-6ba86055828b",
+            "958e9369-4e78-44c0-8285-d2ea31cd5525",
+            "ac88a4f9-2b37-483d-a4c6-76a0a1e547ac",
+            "766dc486-6bcc-4d17-9e33-91d202c7052a",
+            "3b59ed63-9bd7-45e6-a2da-f005c1b098cf"
+          ],
+          "evidenceIds": [
+            "347cc9f6-a075-4c90-8dfc-89b9f41c2209",
+            "5ebc4a85-568d-459e-bafe-5e947d666fc5",
+            "2ec132a9-4e1f-442b-a8b2-e963189bbf38",
+            "2fd86611-91f8-4b82-9303-3a57a09c1582",
+            "3acb8943-f7a9-4f62-9dc2-a6e070fa29f5"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "6339cb3721bfc4e3630c66e6be8d14ecc45d043835337c4b63483c2882f02f3c"
+        },
+        {
+          "month": "2026-09",
+          "id": "6440efc0-cf31-4f38-9371-4b1f4141779b",
+          "sourceSessionIds": [
+            "64aa7af8-0aca-4394-9f33-04b0313b9df8",
+            "12d08b32-79a0-4575-acef-e339e36f3832",
+            "e8f4b1df-5682-4d55-9a96-9299f3232fbe",
+            "d28393da-451e-4dd9-81ff-f08c7db6d4f3"
+          ],
+          "evidenceIds": [
+            "e50acaf2-44c4-4c5e-9f22-4ddc6a1ae953",
+            "2fb99e9b-6d4f-4e9d-a363-1b0e9d3eba3b",
+            "5a9fc112-b357-4ff2-91df-e6088ac93e2a",
+            "9169b744-f3aa-4569-9e21-d4ced3d575e8"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "839b2f317394d811c2d9efca88bdc538a699645cdc6eb0fab415c1195909bc24"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U12-04",
+      "id": "838ab72a-93c2-529a-a3b2-dc1ea31778ea",
+      "name": "Vihaan Fictional U12",
+      "batchId": "76fab2fa-bb32-40bc-865d-72a70c886e1d",
+      "coachId": "OhF5UZVr1KTXFaoRhJFe8xDVWgKkz39D",
+      "guardianId": "nLQBMC4hD8ua5znPPGVGoKNcILZVEHfi",
+      "outcome": "Missed sessions",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "3ace3108-ede9-457b-ae3d-a5d95b4ce6be",
+        "septemberEvidenceId": "ebfe16ab-8ca1-42b7-b3de-85bb5f92ace3",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "515ad1eb-626f-4744-8937-29e09bbb9df0",
+          "sourceSessionIds": [
+            "b24115ce-7497-4f5f-bbe8-6ba86055828b",
+            "958e9369-4e78-44c0-8285-d2ea31cd5525",
+            "ac88a4f9-2b37-483d-a4c6-76a0a1e547ac",
+            "766dc486-6bcc-4d17-9e33-91d202c7052a",
+            "3b59ed63-9bd7-45e6-a2da-f005c1b098cf"
+          ],
+          "evidenceIds": [
+            "535293a7-84b7-4662-bf83-4849eeb972a7",
+            "70e8bb1b-1b9a-4546-8221-6e2ab92c3f5c",
+            "3ace3108-ede9-457b-ae3d-a5d95b4ce6be"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 2,
+            "excused": 0
+          },
+          "snapshotHash": "2616aff9e841716a1afd40152cbbd899f563080aec90b686c0c325d972f3d5a2"
+        },
+        {
+          "month": "2026-09",
+          "id": "f1acdd79-3b94-4d2c-90a2-d2683651e842",
+          "sourceSessionIds": [
+            "64aa7af8-0aca-4394-9f33-04b0313b9df8",
+            "12d08b32-79a0-4575-acef-e339e36f3832",
+            "e8f4b1df-5682-4d55-9a96-9299f3232fbe",
+            "d28393da-451e-4dd9-81ff-f08c7db6d4f3"
+          ],
+          "evidenceIds": [
+            "f7c6f7f0-eef1-4b62-a0c2-addce0f2ff10",
+            "7c1565db-b88c-4b0d-80e7-6076d493179a",
+            "ebfe16ab-8ca1-42b7-b3de-85bb5f92ace3"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 1,
+            "excused": 0
+          },
+          "snapshotHash": "b18ecb37d4a8197e4831fcaf61b52c5da34b2e5f530b2eee7bbc3597a4cbd315"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U12-05",
+      "id": "ca4bffcd-3405-562e-a34f-4b18f157fa8f",
+      "name": "Arjun Fictional U12",
+      "batchId": "76fab2fa-bb32-40bc-865d-72a70c886e1d",
+      "coachId": "OhF5UZVr1KTXFaoRhJFe8xDVWgKkz39D",
+      "guardianId": "r4RLI2yvcFhmFgqgZcTUd2632zbGljKR",
+      "outcome": "Limited reviewed evidence",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "bb02c7da-1c60-4e03-bc8e-bbbc1507b4f5",
+        "septemberEvidenceId": "fc994723-a3cb-483a-8c3b-260e3746bb3b",
+        "text": "Comparable fictional records: August 3/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "74eb52f7-5b78-4c6a-9058-f2912aa3d22f",
+          "sourceSessionIds": [
+            "b24115ce-7497-4f5f-bbe8-6ba86055828b",
+            "958e9369-4e78-44c0-8285-d2ea31cd5525",
+            "ac88a4f9-2b37-483d-a4c6-76a0a1e547ac",
+            "766dc486-6bcc-4d17-9e33-91d202c7052a",
+            "3b59ed63-9bd7-45e6-a2da-f005c1b098cf"
+          ],
+          "evidenceIds": [
+            "bb02c7da-1c60-4e03-bc8e-bbbc1507b4f5"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "d0ec89db390f37127586678414a5454b0930c97c2ff2cdfb4825a5d4c73eb202"
+        },
+        {
+          "month": "2026-09",
+          "id": "89191a5b-8516-42c4-8627-27339f3aaf94",
+          "sourceSessionIds": [
+            "64aa7af8-0aca-4394-9f33-04b0313b9df8",
+            "12d08b32-79a0-4575-acef-e339e36f3832",
+            "e8f4b1df-5682-4d55-9a96-9299f3232fbe",
+            "d28393da-451e-4dd9-81ff-f08c7db6d4f3"
+          ],
+          "evidenceIds": [
+            "fc994723-a3cb-483a-8c3b-260e3746bb3b"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "645b98b09fc6b835efdd9ecc93ab32bade42ca36771159d07a90533c63d6ec4c"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U12-06",
+      "id": "f821ca95-03c5-517f-aad0-babeed887ddb",
+      "name": "Reyansh Fictional U12",
+      "batchId": "76fab2fa-bb32-40bc-865d-72a70c886e1d",
+      "coachId": "OhF5UZVr1KTXFaoRhJFe8xDVWgKkz39D",
+      "guardianId": "KBqRigvZQs3iHmXyLUwWHmhtOY8X1GOL",
+      "outcome": "Continued focus",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "2d955922-1877-48ac-98a1-c3ec0f5fb212",
+        "septemberEvidenceId": "ced89fcd-6621-4372-bb1c-1c806cb90c94",
+        "text": "Comparable fictional records: August 2/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "5811d409-b59e-4d47-8aa5-276c94e4549d",
+          "sourceSessionIds": [
+            "b24115ce-7497-4f5f-bbe8-6ba86055828b",
+            "958e9369-4e78-44c0-8285-d2ea31cd5525",
+            "ac88a4f9-2b37-483d-a4c6-76a0a1e547ac",
+            "766dc486-6bcc-4d17-9e33-91d202c7052a",
+            "3b59ed63-9bd7-45e6-a2da-f005c1b098cf"
+          ],
+          "evidenceIds": [
+            "14e252d1-abbf-4996-ad45-d336f5d0f300",
+            "9c562628-e093-4789-8a95-791d47e3a7fa",
+            "05cd1c73-13a0-4389-a06d-377243020c2d",
+            "4ad678bd-6c99-4cee-9cb5-b80937c9aca9",
+            "2d955922-1877-48ac-98a1-c3ec0f5fb212"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "a198fc97e4b562d51c4450a3309c43486709aa508ec662b9a72973695625bf14"
+        },
+        {
+          "month": "2026-09",
+          "id": "008fcee6-9386-43ff-a269-a1495260a60c",
+          "sourceSessionIds": [
+            "64aa7af8-0aca-4394-9f33-04b0313b9df8",
+            "12d08b32-79a0-4575-acef-e339e36f3832",
+            "e8f4b1df-5682-4d55-9a96-9299f3232fbe",
+            "d28393da-451e-4dd9-81ff-f08c7db6d4f3"
+          ],
+          "evidenceIds": [
+            "abda3a50-f036-4916-aa74-772f17528834",
+            "0121131c-5ba1-4062-9831-be438c248967",
+            "528b8303-9a14-4282-bb1f-b1809df80cc3",
+            "ced89fcd-6621-4372-bb1c-1c806cb90c94"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "42aeac33876e3523238300d7bdd892e90b6a0566e0ba12a548595aaa9a8055c9"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U12-07",
+      "id": "007e564b-d6ca-54cc-a30d-0e6499ec491f",
+      "name": "Neel Fictional U12",
+      "batchId": "76fab2fa-bb32-40bc-865d-72a70c886e1d",
+      "coachId": "OhF5UZVr1KTXFaoRhJFe8xDVWgKkz39D",
+      "guardianId": "vAU0to7Gv1CDRDEx6Prd4LaZ1w8nf2JK",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "f86a692f-a965-452e-8d90-9b11689007d5",
+        "septemberEvidenceId": "dca232b5-798a-44f4-bf49-e56f8eb1f3d1",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "77de2020-b03e-417a-a67c-07b9c16f3522",
+          "sourceSessionIds": [
+            "b24115ce-7497-4f5f-bbe8-6ba86055828b",
+            "958e9369-4e78-44c0-8285-d2ea31cd5525",
+            "ac88a4f9-2b37-483d-a4c6-76a0a1e547ac",
+            "766dc486-6bcc-4d17-9e33-91d202c7052a",
+            "3b59ed63-9bd7-45e6-a2da-f005c1b098cf"
+          ],
+          "evidenceIds": [
+            "76729b6b-2241-4daa-ad4e-6f11fab1d6b8",
+            "b0beda3b-afc6-4acf-8d69-ce6ab0b31a5d",
+            "ad8bd610-be58-4fcf-b6ef-98678a5130ce",
+            "cbd9253f-945a-4447-af8e-7e14804ee2a4",
+            "f86a692f-a965-452e-8d90-9b11689007d5"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "31201a0ee337f955b6e2670527f342baffe7f1e02740f5cb22519477320afb12"
+        },
+        {
+          "month": "2026-09",
+          "id": "574b01b7-a234-4f59-9372-5e227b4d0122",
+          "sourceSessionIds": [
+            "64aa7af8-0aca-4394-9f33-04b0313b9df8",
+            "12d08b32-79a0-4575-acef-e339e36f3832",
+            "e8f4b1df-5682-4d55-9a96-9299f3232fbe",
+            "d28393da-451e-4dd9-81ff-f08c7db6d4f3"
+          ],
+          "evidenceIds": [
+            "20e238f6-397c-448a-9b5f-7c21014b9d26",
+            "f9e8afc9-ba81-4cf5-b970-adb81739c47c",
+            "f549c1d2-fb85-4ea2-996c-f63653994910",
+            "dca232b5-798a-44f4-bf49-e56f8eb1f3d1"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "9f3aecff047652903967af8cbc1120f95b03eb3ddbdfbee63228730924ddcd1d"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U12-08",
+      "id": "4896dff0-edf1-5652-a497-2d7684a31cf1",
+      "name": "Dev Fictional U12",
+      "batchId": "76fab2fa-bb32-40bc-865d-72a70c886e1d",
+      "coachId": "OhF5UZVr1KTXFaoRhJFe8xDVWgKkz39D",
+      "guardianId": "tGFRnnoeR6FKzdr641QnfV8vYhtfLwbU",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "28a8a6bc-691d-4e46-ac75-44a4a630734c",
+        "septemberEvidenceId": "0a1f5288-e9b0-4260-b919-282b8ac775ef",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "507d86ac-bcaa-4860-a89c-450cc1a53de1",
+          "sourceSessionIds": [
+            "b24115ce-7497-4f5f-bbe8-6ba86055828b",
+            "958e9369-4e78-44c0-8285-d2ea31cd5525",
+            "ac88a4f9-2b37-483d-a4c6-76a0a1e547ac",
+            "766dc486-6bcc-4d17-9e33-91d202c7052a",
+            "3b59ed63-9bd7-45e6-a2da-f005c1b098cf"
+          ],
+          "evidenceIds": [
+            "9706be55-8953-42c1-bdb6-b75522951a34",
+            "933b18b5-f5f9-4ad6-ad0d-9601a02584ba",
+            "7ed4d7d0-8002-481f-8825-31c31b9f589d",
+            "606760ac-bd15-4633-8ef5-2ed49dc0c4a0",
+            "28a8a6bc-691d-4e46-ac75-44a4a630734c"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "b349a3c1922ebab41d1388f587cdcc2f7dd835b2dcc1cc90b8093f1e6beced29"
+        },
+        {
+          "month": "2026-09",
+          "id": "44019dec-b4a0-4fbb-8b25-6a05f3f639b4",
+          "sourceSessionIds": [
+            "64aa7af8-0aca-4394-9f33-04b0313b9df8",
+            "12d08b32-79a0-4575-acef-e339e36f3832",
+            "e8f4b1df-5682-4d55-9a96-9299f3232fbe",
+            "d28393da-451e-4dd9-81ff-f08c7db6d4f3"
+          ],
+          "evidenceIds": [
+            "61f875fd-1873-4329-a0bf-58438bee7590",
+            "c9361203-8547-403a-b12d-449b2ed833fb",
+            "b5dddba8-4aa0-4059-b6c8-6c069d0b0868",
+            "0a1f5288-e9b0-4260-b919-282b8ac775ef"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "6d38038d1612923e08be0ce84942f35cd2d6b3d6551a969870afa1fd8938504b"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U12-09",
+      "id": "59fa4f3b-a3c8-5bbe-a8f9-9e577dc11553",
+      "name": "Rohan Fictional U12",
+      "batchId": "76fab2fa-bb32-40bc-865d-72a70c886e1d",
+      "coachId": "OhF5UZVr1KTXFaoRhJFe8xDVWgKkz39D",
+      "guardianId": "ncyg7RPWXbMaFTAXqtqavuRQLSP5Pmpg",
+      "outcome": "Excused sessions and regular observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "ba079b4e-9616-42a7-a99a-fa916c9ea095",
+        "septemberEvidenceId": "df92c2be-26d9-46df-bcf1-b592d6b1b32e",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "6e271150-a610-48d5-92bf-a9255e692d83",
+          "sourceSessionIds": [
+            "b24115ce-7497-4f5f-bbe8-6ba86055828b",
+            "958e9369-4e78-44c0-8285-d2ea31cd5525",
+            "ac88a4f9-2b37-483d-a4c6-76a0a1e547ac",
+            "766dc486-6bcc-4d17-9e33-91d202c7052a",
+            "3b59ed63-9bd7-45e6-a2da-f005c1b098cf"
+          ],
+          "evidenceIds": [
+            "f6ae9f4d-28a5-4fbc-9c46-58ef0beaa931",
+            "2fcf5871-a078-4bcf-b941-498b145408de",
+            "ba079b4e-9616-42a7-a99a-fa916c9ea095"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 2
+          },
+          "snapshotHash": "09af9bfea8bcac3d60c50edfc93fbe94d8460131a2305e14af9d7622463a1a75"
+        },
+        {
+          "month": "2026-09",
+          "id": "08178f38-84dd-480a-8b10-c59b8ae47e34",
+          "sourceSessionIds": [
+            "64aa7af8-0aca-4394-9f33-04b0313b9df8",
+            "12d08b32-79a0-4575-acef-e339e36f3832",
+            "e8f4b1df-5682-4d55-9a96-9299f3232fbe",
+            "d28393da-451e-4dd9-81ff-f08c7db6d4f3"
+          ],
+          "evidenceIds": [
+            "eeb0e275-0732-4f17-b638-4439e2c3e682",
+            "8e70769b-f4f4-4ca2-b42b-6ac196bb457b",
+            "df92c2be-26d9-46df-bcf1-b592d6b1b32e"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 1
+          },
+          "snapshotHash": "3012af9734bd09002abe49d5a7a9f61be23997ff3b0357b81e4f4798b4d590c1"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U12-10",
+      "id": "09b5db66-8d9a-55d7-a002-141dd738f286",
+      "name": "Ayan Fictional U12",
+      "batchId": "76fab2fa-bb32-40bc-865d-72a70c886e1d",
+      "coachId": "OhF5UZVr1KTXFaoRhJFe8xDVWgKkz39D",
+      "guardianId": "dNUx0XsTQ5i9uNluZtGnEowRK1cJLC72",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "987a056e-24ac-41a7-8098-5988a3258237",
+        "septemberEvidenceId": "c1e31c4b-1169-4d69-9287-faf492c53bc8",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "7dbae57f-268d-4adf-b85d-7e5c3e7dc429",
+          "sourceSessionIds": [
+            "b24115ce-7497-4f5f-bbe8-6ba86055828b",
+            "958e9369-4e78-44c0-8285-d2ea31cd5525",
+            "ac88a4f9-2b37-483d-a4c6-76a0a1e547ac",
+            "766dc486-6bcc-4d17-9e33-91d202c7052a",
+            "3b59ed63-9bd7-45e6-a2da-f005c1b098cf"
+          ],
+          "evidenceIds": [
+            "d9511f28-5f43-4da2-b5ae-b6b90823d004",
+            "dc75ad2c-6273-43bf-974b-58ddd36c604c",
+            "09c18410-23e8-48b9-871b-7afef1369220",
+            "2340c9fe-799e-4d2f-8dfa-79ebdb66469e",
+            "987a056e-24ac-41a7-8098-5988a3258237"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "85f490c409782cc27cd904abe33505a36c51a372daab8e9fb94ca47079ed8026"
+        },
+        {
+          "month": "2026-09",
+          "id": "a38da837-4608-41a7-8657-7f665e58e4f6",
+          "sourceSessionIds": [
+            "64aa7af8-0aca-4394-9f33-04b0313b9df8",
+            "12d08b32-79a0-4575-acef-e339e36f3832",
+            "e8f4b1df-5682-4d55-9a96-9299f3232fbe",
+            "d28393da-451e-4dd9-81ff-f08c7db6d4f3"
+          ],
+          "evidenceIds": [
+            "64b93351-eb89-4772-8a86-c3d8c234a9c2",
+            "9f292b1b-b56a-4d59-a8b9-322060d94384",
+            "c03ec379-c825-469b-b0a1-c8d1d5963230",
+            "c1e31c4b-1169-4d69-9287-faf492c53bc8"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "b4765b953cbafa9a2c1ce53b698080f3850fcb679149e7bafe2aab55a9725697"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U14-01",
+      "id": "4cac4781-01c1-5f17-a67d-f621c9c1c451",
+      "name": "Aadi Fictional U14",
+      "batchId": "0a38001c-8fc7-46e8-9cc6-0d12f3c09bbe",
+      "coachId": "PYNeZ98tnwFh6yYhYy6I93uEXTgvJgFT",
+      "guardianId": "Rk1qYgSrRXvpKDgYjjPIQq0fkiEqawuc",
+      "outcome": "Comparable improvement",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "e74731d4-7fb5-4187-a06e-96cc0f08e37b",
+        "septemberEvidenceId": "13f184d5-1c37-4d78-92a1-9d25e187d771",
+        "text": "Comparable fictional records: August 4/6; September 5/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "3bd76dfa-a742-450b-9d9f-c007f0f7fab1",
+          "sourceSessionIds": [
+            "f3c55fb2-f503-4c24-89c7-99175b6e7edf",
+            "1528410e-ff85-4596-9bd3-ef5abdaf765f",
+            "3da8c825-bb11-4b39-8845-7860069e031d",
+            "bbca7fbe-513d-4cca-b6d3-e00119110cf4",
+            "0b62289f-8c83-4006-aa72-1e2e041785f0"
+          ],
+          "evidenceIds": [
+            "474d9874-492b-46db-a30d-78e2dee1cd2d",
+            "b18f1f7a-97ed-47b6-8e66-0dbbeba7cc6b",
+            "dff63180-06cd-4fa9-85ef-f632915ae123",
+            "e8006109-36f6-4b00-916a-1aca86131c38",
+            "e74731d4-7fb5-4187-a06e-96cc0f08e37b"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "d2d4afe59982eb433c2a7ce62f3fe9e75170c153fcde12a5d689bd066650c5cd"
+        },
+        {
+          "month": "2026-09",
+          "id": "cd75eb34-00dc-4b64-ab08-9fb19d341a92",
+          "sourceSessionIds": [
+            "77c12969-98df-41c7-b5b7-269c8a3aec1f",
+            "c66575f4-ce9d-436b-8371-b1a0415b1716",
+            "3d132c7d-7a97-4126-abd2-b06f11cd6000",
+            "e8adeae1-3ced-46b8-be6e-77d3066a0445"
+          ],
+          "evidenceIds": [
+            "acc2f4f8-a7bf-4ef4-a11c-eae13a46f135",
+            "f86859ec-614c-4963-b710-32a5244bdbe0",
+            "73f27497-ef01-48a0-808b-92807e0b9d6f",
+            "13f184d5-1c37-4d78-92a1-9d25e187d771"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "3edafa93ec66aa79fe6266917d071b724a950f885db7867b13ca5514fd8cd643"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U14-02",
+      "id": "990d7c0c-782f-58fe-acee-27bc5b751f0b",
+      "name": "Ishaan Fictional U14",
+      "batchId": "0a38001c-8fc7-46e8-9cc6-0d12f3c09bbe",
+      "coachId": "PYNeZ98tnwFh6yYhYy6I93uEXTgvJgFT",
+      "guardianId": "wmIzi1c0ILEGxPSEErbtEOZUEpiTWx8k",
+      "outcome": "Consistent observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "8515faef-04de-42fd-b69d-f0d6c275c1f8",
+        "septemberEvidenceId": "bb4470bb-a698-4e2f-9aa8-6f2c8b2ec68f",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "1b5dd21b-921f-4925-aa5e-de1780979287",
+          "sourceSessionIds": [
+            "f3c55fb2-f503-4c24-89c7-99175b6e7edf",
+            "1528410e-ff85-4596-9bd3-ef5abdaf765f",
+            "3da8c825-bb11-4b39-8845-7860069e031d",
+            "bbca7fbe-513d-4cca-b6d3-e00119110cf4",
+            "0b62289f-8c83-4006-aa72-1e2e041785f0"
+          ],
+          "evidenceIds": [
+            "9d82e0c7-467f-4b66-a115-9d396e63c2e5",
+            "fa64461a-3495-4f4e-855d-375456df85b6",
+            "55d65d16-0714-4637-9536-c190d6804c0c",
+            "48e38af3-728e-46f9-883e-7bfeae1f83aa",
+            "8515faef-04de-42fd-b69d-f0d6c275c1f8"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "f93038165ad0bd5c2d0e8acda9808d853a33911f6713d80a853a59ad6ce3852a"
+        },
+        {
+          "month": "2026-09",
+          "id": "5ad514c3-230f-4907-a3e0-058500c9e291",
+          "sourceSessionIds": [
+            "77c12969-98df-41c7-b5b7-269c8a3aec1f",
+            "c66575f4-ce9d-436b-8371-b1a0415b1716",
+            "3d132c7d-7a97-4126-abd2-b06f11cd6000",
+            "e8adeae1-3ced-46b8-be6e-77d3066a0445"
+          ],
+          "evidenceIds": [
+            "b9c4b87b-ae93-497b-888a-7b7c0978caf8",
+            "4d03be83-0a84-414d-bddf-c0fde80e2f46",
+            "8cd30ede-9e33-4a1d-8300-8d8be703dce2",
+            "bb4470bb-a698-4e2f-9aa8-6f2c8b2ec68f"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "7a091c48c5c17cc60f1c21b100671d215467287a99a24ba6273d23dec25455ba"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U14-03",
+      "id": "3fa0c38b-7425-5adc-ae69-afb53dad7f62",
+      "name": "Kabir Fictional U14",
+      "batchId": "0a38001c-8fc7-46e8-9cc6-0d12f3c09bbe",
+      "coachId": "PYNeZ98tnwFh6yYhYy6I93uEXTgvJgFT",
+      "guardianId": "rBVz5aFZ57LV7PK0woEWrsXg5HjS1DU1",
+      "outcome": "Mixed results",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "e3aeab6f-6daf-4493-8a84-89deb251cb38",
+        "septemberEvidenceId": "b8cbf2fb-e9c2-49aa-9054-320a0c80587c",
+        "text": "Comparable fictional records: August 4/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "a57d1357-fa4a-4043-aeef-412f5182bba4",
+          "sourceSessionIds": [
+            "f3c55fb2-f503-4c24-89c7-99175b6e7edf",
+            "1528410e-ff85-4596-9bd3-ef5abdaf765f",
+            "3da8c825-bb11-4b39-8845-7860069e031d",
+            "bbca7fbe-513d-4cca-b6d3-e00119110cf4",
+            "0b62289f-8c83-4006-aa72-1e2e041785f0"
+          ],
+          "evidenceIds": [
+            "56e82750-539d-4074-8cab-f974a5fae5a7",
+            "753ac5da-dccc-4999-9861-45b6b4d9b101",
+            "9d89a06c-3d90-4ced-8bed-f057da392944",
+            "7d449d1b-9410-47c9-93fa-ffd78b71b3f1",
+            "e3aeab6f-6daf-4493-8a84-89deb251cb38"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "23e9a770f4e01d79c0ba50b260b4fdbcc745405a8f9ec5bcd1993936aa2c8c57"
+        },
+        {
+          "month": "2026-09",
+          "id": "6f5bf008-eaa5-478c-a92e-61c7c89670e2",
+          "sourceSessionIds": [
+            "77c12969-98df-41c7-b5b7-269c8a3aec1f",
+            "c66575f4-ce9d-436b-8371-b1a0415b1716",
+            "3d132c7d-7a97-4126-abd2-b06f11cd6000",
+            "e8adeae1-3ced-46b8-be6e-77d3066a0445"
+          ],
+          "evidenceIds": [
+            "d55d227c-a675-4220-b108-0522eb4e8ad6",
+            "28f2b5ca-c482-4dae-bb9f-03da62a8b4d2",
+            "4a68aa24-75c4-4abb-8018-15f758c8884c",
+            "b8cbf2fb-e9c2-49aa-9054-320a0c80587c"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "f270c3eccf2158f58bf5ab7401cb93b624776519b9e1928e6af580c682d70bf7"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U14-04",
+      "id": "fc758036-8ea8-5cfa-a0f7-affdce060a7d",
+      "name": "Vihaan Fictional U14",
+      "batchId": "0a38001c-8fc7-46e8-9cc6-0d12f3c09bbe",
+      "coachId": "PYNeZ98tnwFh6yYhYy6I93uEXTgvJgFT",
+      "guardianId": "UYqElFKH01HKLTWxhHTxWJ022ReUgHPC",
+      "outcome": "Missed sessions",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "3bc7b8f7-a3ef-410a-8c63-643099d44341",
+        "septemberEvidenceId": "dcc1138e-48ac-4c01-84ca-a131fffe3b93",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "edfdbc39-9217-4cfa-bb31-b4dffdc08117",
+          "sourceSessionIds": [
+            "f3c55fb2-f503-4c24-89c7-99175b6e7edf",
+            "1528410e-ff85-4596-9bd3-ef5abdaf765f",
+            "3da8c825-bb11-4b39-8845-7860069e031d",
+            "bbca7fbe-513d-4cca-b6d3-e00119110cf4",
+            "0b62289f-8c83-4006-aa72-1e2e041785f0"
+          ],
+          "evidenceIds": [
+            "0e3166a8-de68-4768-9c56-3c1aeff0dbe9",
+            "d1876f93-03b7-400d-92d8-bc1305bbfdbe",
+            "3bc7b8f7-a3ef-410a-8c63-643099d44341"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 2,
+            "excused": 0
+          },
+          "snapshotHash": "1357baa0e0bb5190231acf5f7733a3bb252f684cf1b47a8c88ca1e40427f2551"
+        },
+        {
+          "month": "2026-09",
+          "id": "419e362f-d8c4-422e-8911-a3080ff13598",
+          "sourceSessionIds": [
+            "77c12969-98df-41c7-b5b7-269c8a3aec1f",
+            "c66575f4-ce9d-436b-8371-b1a0415b1716",
+            "3d132c7d-7a97-4126-abd2-b06f11cd6000",
+            "e8adeae1-3ced-46b8-be6e-77d3066a0445"
+          ],
+          "evidenceIds": [
+            "56abd77b-42f5-4f89-94cd-8864dff30811",
+            "8f85ebea-2abf-4f2a-84b0-a0c742f84cdf",
+            "dcc1138e-48ac-4c01-84ca-a131fffe3b93"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 1,
+            "excused": 0
+          },
+          "snapshotHash": "7c3b51d5558733be6a703348b8e1db3e12cdf929620670849f985a15e92786e0"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U14-05",
+      "id": "522c1ed4-ef45-58bb-a5ca-a17047e59c41",
+      "name": "Arjun Fictional U14",
+      "batchId": "0a38001c-8fc7-46e8-9cc6-0d12f3c09bbe",
+      "coachId": "PYNeZ98tnwFh6yYhYy6I93uEXTgvJgFT",
+      "guardianId": "p1cSZCIiYcIYgDqmYHZgBjW9oStgYWm3",
+      "outcome": "Limited reviewed evidence",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "bbb40322-d34f-45c6-ade5-9f9aad254379",
+        "septemberEvidenceId": "882b2890-7038-444c-97aa-dc5109f44fd7",
+        "text": "Comparable fictional records: August 3/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "57083f61-04fd-41c3-a8fd-48be217fab94",
+          "sourceSessionIds": [
+            "f3c55fb2-f503-4c24-89c7-99175b6e7edf",
+            "1528410e-ff85-4596-9bd3-ef5abdaf765f",
+            "3da8c825-bb11-4b39-8845-7860069e031d",
+            "bbca7fbe-513d-4cca-b6d3-e00119110cf4",
+            "0b62289f-8c83-4006-aa72-1e2e041785f0"
+          ],
+          "evidenceIds": [
+            "bbb40322-d34f-45c6-ade5-9f9aad254379"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "15b9fb5d383ad2296cdc9d80f1e6f3821ea1fb3b89cbe09e30a03aa03ddca35d"
+        },
+        {
+          "month": "2026-09",
+          "id": "d1afce5e-49f5-4643-8a5e-af39e7bd9ede",
+          "sourceSessionIds": [
+            "77c12969-98df-41c7-b5b7-269c8a3aec1f",
+            "c66575f4-ce9d-436b-8371-b1a0415b1716",
+            "3d132c7d-7a97-4126-abd2-b06f11cd6000",
+            "e8adeae1-3ced-46b8-be6e-77d3066a0445"
+          ],
+          "evidenceIds": [
+            "882b2890-7038-444c-97aa-dc5109f44fd7"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "9af5b50dba9f7f300e424c5bc597141a0636d5f3f66bf03ff8fc3aaa9a0c4b72"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U14-06",
+      "id": "9b982680-29a1-59cc-a708-fc0c114f9169",
+      "name": "Reyansh Fictional U14",
+      "batchId": "0a38001c-8fc7-46e8-9cc6-0d12f3c09bbe",
+      "coachId": "PYNeZ98tnwFh6yYhYy6I93uEXTgvJgFT",
+      "guardianId": "mIKV4QlOor07OafYUBheNOmBetXH35P0",
+      "outcome": "Continued focus",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "eca00f54-d525-4b38-b3ea-4098cc3ec116",
+        "septemberEvidenceId": "b2f3677d-a105-4983-966f-1a9ad0e62316",
+        "text": "Comparable fictional records: August 2/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "053ef9b9-b686-48b1-ab44-f34b50911e2e",
+          "sourceSessionIds": [
+            "f3c55fb2-f503-4c24-89c7-99175b6e7edf",
+            "1528410e-ff85-4596-9bd3-ef5abdaf765f",
+            "3da8c825-bb11-4b39-8845-7860069e031d",
+            "bbca7fbe-513d-4cca-b6d3-e00119110cf4",
+            "0b62289f-8c83-4006-aa72-1e2e041785f0"
+          ],
+          "evidenceIds": [
+            "cddf29d8-4a98-4453-8801-57ba2429d6ae",
+            "0373a3cf-02c1-4f5b-bc43-98b6257cf498",
+            "0b0ebdea-03f5-4468-a8bd-bde51c6b3130",
+            "fb0cbb9c-4840-45ea-8fa9-7354fab650eb",
+            "eca00f54-d525-4b38-b3ea-4098cc3ec116"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "45b69726dde87f23b43ed904ee460e095321c2372f1324076532877b721c0b70"
+        },
+        {
+          "month": "2026-09",
+          "id": "6889c65a-8e90-4a57-85c9-36b8adbee631",
+          "sourceSessionIds": [
+            "77c12969-98df-41c7-b5b7-269c8a3aec1f",
+            "c66575f4-ce9d-436b-8371-b1a0415b1716",
+            "3d132c7d-7a97-4126-abd2-b06f11cd6000",
+            "e8adeae1-3ced-46b8-be6e-77d3066a0445"
+          ],
+          "evidenceIds": [
+            "5993116b-951f-40d2-8091-9408f3431759",
+            "3f87f485-932c-469e-ba6a-01e9891f5fd6",
+            "27c653a7-1134-4af3-82b1-d9f6751ab45c",
+            "b2f3677d-a105-4983-966f-1a9ad0e62316"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "ffe107e7432d73e26d5aa82c3ff7335c628c7ace0f07a66c2e23ed67a776aaff"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U14-07",
+      "id": "fd779fe5-24c9-5b96-a7b4-4c026b31c79e",
+      "name": "Neel Fictional U14",
+      "batchId": "0a38001c-8fc7-46e8-9cc6-0d12f3c09bbe",
+      "coachId": "PYNeZ98tnwFh6yYhYy6I93uEXTgvJgFT",
+      "guardianId": "VSZIpTqVQRO8soSvxXLtDFjvKoHrn7YT",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "35a180f7-a286-421c-91d2-94b435050e66",
+        "septemberEvidenceId": "0e3afd96-44f1-4888-96ec-3a85b6bc283d",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "b5246264-96ed-44c6-a11b-714a6cf7224c",
+          "sourceSessionIds": [
+            "f3c55fb2-f503-4c24-89c7-99175b6e7edf",
+            "1528410e-ff85-4596-9bd3-ef5abdaf765f",
+            "3da8c825-bb11-4b39-8845-7860069e031d",
+            "bbca7fbe-513d-4cca-b6d3-e00119110cf4",
+            "0b62289f-8c83-4006-aa72-1e2e041785f0"
+          ],
+          "evidenceIds": [
+            "869583ea-50ce-4853-875f-651930b3d6b9",
+            "7270ca2e-cd97-4e6e-810b-deee5f03274a",
+            "0ebc4441-7290-4f50-8381-e6d8563a4d12",
+            "b452d8c5-cbbf-46f2-89c8-5b1c970558a2",
+            "35a180f7-a286-421c-91d2-94b435050e66"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "5851b2a6bce1da1046682c55f7315a6a3e1e70b916de6ff81914ccbc1286a42c"
+        },
+        {
+          "month": "2026-09",
+          "id": "d2ef32cb-0c8f-436b-9b80-8edf17ee0b0c",
+          "sourceSessionIds": [
+            "77c12969-98df-41c7-b5b7-269c8a3aec1f",
+            "c66575f4-ce9d-436b-8371-b1a0415b1716",
+            "3d132c7d-7a97-4126-abd2-b06f11cd6000",
+            "e8adeae1-3ced-46b8-be6e-77d3066a0445"
+          ],
+          "evidenceIds": [
+            "4da3332b-4834-4368-ad33-aac91d91d58b",
+            "9a11093c-8f8a-489e-ad4a-c75fc579db1f",
+            "1b2d8fc6-564a-4da7-8e6e-26b5077400b5",
+            "0e3afd96-44f1-4888-96ec-3a85b6bc283d"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "8855c90f2fb4a5de143eabcbb6e53bc04c1e8f86912a477bf0609234ab13a13a"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U14-08",
+      "id": "be9677c1-46e2-5116-ab2a-dc9236fce948",
+      "name": "Dev Fictional U14",
+      "batchId": "0a38001c-8fc7-46e8-9cc6-0d12f3c09bbe",
+      "coachId": "PYNeZ98tnwFh6yYhYy6I93uEXTgvJgFT",
+      "guardianId": "2ILFX4A280STbA0xZtA6BkKznhLgEZi8",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "0e019cf1-649b-4fc8-b1aa-0c16547562f9",
+        "septemberEvidenceId": "313805c3-f135-497f-938f-06b309d84eae",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "fd6293ea-f183-40ee-aed2-f1aaa50ad75b",
+          "sourceSessionIds": [
+            "f3c55fb2-f503-4c24-89c7-99175b6e7edf",
+            "1528410e-ff85-4596-9bd3-ef5abdaf765f",
+            "3da8c825-bb11-4b39-8845-7860069e031d",
+            "bbca7fbe-513d-4cca-b6d3-e00119110cf4",
+            "0b62289f-8c83-4006-aa72-1e2e041785f0"
+          ],
+          "evidenceIds": [
+            "00f034f6-e791-4026-81a7-f57687ec9e0f",
+            "5c22c284-e5ba-445a-9c8e-c604d44ae180",
+            "f035f89f-f7a2-4d04-87c8-ad5d3c24ec86",
+            "86070c4c-42ed-4b32-9a99-c87888a35695",
+            "0e019cf1-649b-4fc8-b1aa-0c16547562f9"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "74bedfea1d63b34610dc86951aac60faa44531441daf891c77332a101f9cf665"
+        },
+        {
+          "month": "2026-09",
+          "id": "23f6f367-d196-4beb-a051-979f7ed9b1bb",
+          "sourceSessionIds": [
+            "77c12969-98df-41c7-b5b7-269c8a3aec1f",
+            "c66575f4-ce9d-436b-8371-b1a0415b1716",
+            "3d132c7d-7a97-4126-abd2-b06f11cd6000",
+            "e8adeae1-3ced-46b8-be6e-77d3066a0445"
+          ],
+          "evidenceIds": [
+            "5520a8ea-c72f-4fc4-b9a7-24ba6c742f31",
+            "4900df77-4d8c-4a72-ab5e-b7b51291cc9a",
+            "67ae9bf3-ffd7-4d6b-a777-c8063a7356b3",
+            "313805c3-f135-497f-938f-06b309d84eae"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "3b8a3921bdb5f1b38dd0a1304d21209dc9aab8376799ce5bb97598d46b37b488"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U14-09",
+      "id": "9c9c47b9-3a87-507e-ac79-fa0f536676ea",
+      "name": "Rohan Fictional U14",
+      "batchId": "0a38001c-8fc7-46e8-9cc6-0d12f3c09bbe",
+      "coachId": "PYNeZ98tnwFh6yYhYy6I93uEXTgvJgFT",
+      "guardianId": "aTWGeDZxXjTNGkCvaLXp0lhEqHtoXVLc",
+      "outcome": "Excused sessions and regular observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "635e2c04-687d-433b-827c-5fde43826886",
+        "septemberEvidenceId": "777fb6f9-3c5f-4ea5-a272-5a657c52b2fe",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "0ae6c23a-fc80-4b22-b174-392e3e706691",
+          "sourceSessionIds": [
+            "f3c55fb2-f503-4c24-89c7-99175b6e7edf",
+            "1528410e-ff85-4596-9bd3-ef5abdaf765f",
+            "3da8c825-bb11-4b39-8845-7860069e031d",
+            "bbca7fbe-513d-4cca-b6d3-e00119110cf4",
+            "0b62289f-8c83-4006-aa72-1e2e041785f0"
+          ],
+          "evidenceIds": [
+            "58e07ac0-fd6e-4129-81c8-8b3b9f67218a",
+            "a4a2eef8-135d-4fd4-9040-45bafd069e4b",
+            "635e2c04-687d-433b-827c-5fde43826886"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 2
+          },
+          "snapshotHash": "dff4d42c907ce9ad9cad3074743f55d2388592efb5675d7ee6afd12880c7e321"
+        },
+        {
+          "month": "2026-09",
+          "id": "73826a1c-e7d4-4fc6-9d7a-5265fdd3a538",
+          "sourceSessionIds": [
+            "77c12969-98df-41c7-b5b7-269c8a3aec1f",
+            "c66575f4-ce9d-436b-8371-b1a0415b1716",
+            "3d132c7d-7a97-4126-abd2-b06f11cd6000",
+            "e8adeae1-3ced-46b8-be6e-77d3066a0445"
+          ],
+          "evidenceIds": [
+            "5b20dd2c-b2f9-483c-a1a3-19ad1f1a03f5",
+            "4e45c76f-91e1-46c2-840f-cc04a3c0da83",
+            "777fb6f9-3c5f-4ea5-a272-5a657c52b2fe"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 1
+          },
+          "snapshotHash": "5066fdacf4738fed65ffe3d22e926d25bdc2706ed435bad0a94ce59ef5962291"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U14-10",
+      "id": "7661e5b9-2d8e-5504-aa5f-6a649d9900a8",
+      "name": "Ayan Fictional U14",
+      "batchId": "0a38001c-8fc7-46e8-9cc6-0d12f3c09bbe",
+      "coachId": "PYNeZ98tnwFh6yYhYy6I93uEXTgvJgFT",
+      "guardianId": "tq3LMaguWuP8m2tkvkEgVTAKfu4fnCSg",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "abf0e6f9-dc5e-4b08-8e2f-190b96030a2a",
+        "septemberEvidenceId": "ef0ffd6a-ebdd-4d0a-a027-1474dc8e9377",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "941c74a1-5373-4c67-ac1d-fe3553876afd",
+          "sourceSessionIds": [
+            "f3c55fb2-f503-4c24-89c7-99175b6e7edf",
+            "1528410e-ff85-4596-9bd3-ef5abdaf765f",
+            "3da8c825-bb11-4b39-8845-7860069e031d",
+            "bbca7fbe-513d-4cca-b6d3-e00119110cf4",
+            "0b62289f-8c83-4006-aa72-1e2e041785f0"
+          ],
+          "evidenceIds": [
+            "8270b19c-83b8-42a1-85e9-0a985b558441",
+            "b493124d-60c3-4b22-8742-0477446f3c7a",
+            "d72cdcca-8932-4690-9a99-379c64c4b086",
+            "a7f63aa5-bc54-4156-a614-fb6117853bc2",
+            "abf0e6f9-dc5e-4b08-8e2f-190b96030a2a"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "251a18c3830ba356bfc660f4af48df6c659863f4a3724389648f51f602434b9c"
+        },
+        {
+          "month": "2026-09",
+          "id": "2ad3ebcd-3eb0-4564-ba57-efa8d9d31975",
+          "sourceSessionIds": [
+            "77c12969-98df-41c7-b5b7-269c8a3aec1f",
+            "c66575f4-ce9d-436b-8371-b1a0415b1716",
+            "3d132c7d-7a97-4126-abd2-b06f11cd6000",
+            "e8adeae1-3ced-46b8-be6e-77d3066a0445"
+          ],
+          "evidenceIds": [
+            "b6a1f8e1-61c1-4045-9c01-a246a68d4ac8",
+            "1f8a7d55-251b-4e41-88a6-44494ca989c2",
+            "f3ffac27-f083-4cde-a01c-2b1ce2a69e76",
+            "ef0ffd6a-ebdd-4d0a-a027-1474dc8e9377"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "6a408012477a59c363ef5e95bf3111eec2eaee22c52d4b53a2e160442227e79c"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U16-01",
+      "id": "563b2765-1031-54eb-a7a5-3ad93fad652c",
+      "name": "Aadi Fictional U16",
+      "batchId": "99914eb1-052c-44d1-a954-759278c257f2",
+      "coachId": "ziCyHzekiLWcbIQZB1ZKlFSjNIpAIUhw",
+      "guardianId": "afGnAYaoTiEQmcoyh5h8q5JbiaIAaivi",
+      "outcome": "Comparable improvement",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "bb340f09-50f3-4711-9dcf-d96242f89109",
+        "septemberEvidenceId": "200f9ac6-faf7-4130-890e-28c342c5caf1",
+        "text": "Comparable fictional records: August 4/6; September 5/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "2ec79029-8122-4045-a991-f834b41e883f",
+          "sourceSessionIds": [
+            "7bcf7ffa-07a9-48cc-a400-6de51f4c4749",
+            "a3a158ce-cf7a-4cc1-9e59-a644ae8d29e5",
+            "da4a62d9-a1f8-43f5-a0e1-7279701297db",
+            "25280294-29e1-4441-a13b-fd72b1929920",
+            "51dafe95-f858-4602-bedb-53fe54f312ba"
+          ],
+          "evidenceIds": [
+            "86ac5e3a-505e-4541-bc32-94e29183fb65",
+            "47c6fa8d-3dbe-497d-bef9-39a261df2224",
+            "68305576-53a0-499e-be2f-e0253948c6c6",
+            "1a9758ef-5954-4586-92fc-082ca883e915",
+            "bb340f09-50f3-4711-9dcf-d96242f89109"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "827295dbe3817a307eccde6653014d1c4c07149cfd7106dcc7aade041d45912f"
+        },
+        {
+          "month": "2026-09",
+          "id": "451624b7-c9a0-456f-bf2e-8233c6bcef75",
+          "sourceSessionIds": [
+            "1cba08e5-63b6-4f9b-b341-4b8e25c25650",
+            "69692d55-498d-4c62-b0e0-efeca0f77619",
+            "b70f1e2d-debe-4316-ae0e-f1eda817aabd",
+            "04100a6d-edd7-4ecc-8460-8ac4ee4c99c6"
+          ],
+          "evidenceIds": [
+            "f20dc83a-17bf-4569-8726-4de8b5e411e7",
+            "c972d912-e6d2-432f-98e0-a7817267d7a5",
+            "d2155faf-af0f-4baa-9de1-ab7372c96221",
+            "200f9ac6-faf7-4130-890e-28c342c5caf1"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "a5bb0337e5265db1ade30732f734c0cac4f9cb14ee22328d9d94f19289fb618d"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U16-02",
+      "id": "fd1c6163-b373-56f2-a724-65e6c4116c67",
+      "name": "Ishaan Fictional U16",
+      "batchId": "99914eb1-052c-44d1-a954-759278c257f2",
+      "coachId": "ziCyHzekiLWcbIQZB1ZKlFSjNIpAIUhw",
+      "guardianId": "Cs3Ef6N2LzYhTjrpOKO3IrDUP7ovPxPK",
+      "outcome": "Consistent observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "a0b05784-379b-4cec-926d-3c11829226aa",
+        "septemberEvidenceId": "9708cdd4-cf0e-4032-a7f3-f48d1914d51a",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "cf383bc3-3335-450e-a8dd-314bc2405bee",
+          "sourceSessionIds": [
+            "7bcf7ffa-07a9-48cc-a400-6de51f4c4749",
+            "a3a158ce-cf7a-4cc1-9e59-a644ae8d29e5",
+            "da4a62d9-a1f8-43f5-a0e1-7279701297db",
+            "25280294-29e1-4441-a13b-fd72b1929920",
+            "51dafe95-f858-4602-bedb-53fe54f312ba"
+          ],
+          "evidenceIds": [
+            "72841063-0fe3-4626-852b-87d362bc34d0",
+            "e1c12f33-7b29-49f4-9aca-09923900bf5a",
+            "276d9877-f7bf-44aa-a3ea-0616784dd7a4",
+            "6c9eca12-fffa-4eea-9ad1-bd49ef35b5fd",
+            "a0b05784-379b-4cec-926d-3c11829226aa"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "f9ea1370c4526328379a5166be5b73c7582c3929c85a8ae179a6b90b3c0f7656"
+        },
+        {
+          "month": "2026-09",
+          "id": "3a5879ca-76ab-4035-b4f2-a2606f66abd8",
+          "sourceSessionIds": [
+            "1cba08e5-63b6-4f9b-b341-4b8e25c25650",
+            "69692d55-498d-4c62-b0e0-efeca0f77619",
+            "b70f1e2d-debe-4316-ae0e-f1eda817aabd",
+            "04100a6d-edd7-4ecc-8460-8ac4ee4c99c6"
+          ],
+          "evidenceIds": [
+            "66c7724d-82b6-44fb-9585-37e7127786bf",
+            "3bf42de8-3f81-4eaa-974c-0527572cab1b",
+            "2bee3a9f-7d35-4b87-8fd5-44ccbf84ffbc",
+            "9708cdd4-cf0e-4032-a7f3-f48d1914d51a"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "f45e9c78ab7bb5f30d56d22efa3eedffe91bba6c6de6aaae85bd2179ddb0cea2"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U16-03",
+      "id": "47864ba0-e84d-5d82-a70b-3b62456ead71",
+      "name": "Kabir Fictional U16",
+      "batchId": "99914eb1-052c-44d1-a954-759278c257f2",
+      "coachId": "ziCyHzekiLWcbIQZB1ZKlFSjNIpAIUhw",
+      "guardianId": "qHHf95tM6drojnaiFXJ9ovas0DMEgHHD",
+      "outcome": "Mixed results",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "d8568602-4459-46c6-9d8b-75f74984775e",
+        "septemberEvidenceId": "7cacfba6-417c-4f39-a561-5fa7fc6298e9",
+        "text": "Comparable fictional records: August 4/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "8ee572e5-dae3-4d4b-9bc5-e55f0098d670",
+          "sourceSessionIds": [
+            "7bcf7ffa-07a9-48cc-a400-6de51f4c4749",
+            "a3a158ce-cf7a-4cc1-9e59-a644ae8d29e5",
+            "da4a62d9-a1f8-43f5-a0e1-7279701297db",
+            "25280294-29e1-4441-a13b-fd72b1929920",
+            "51dafe95-f858-4602-bedb-53fe54f312ba"
+          ],
+          "evidenceIds": [
+            "89903cc3-7581-41d4-a1a4-d513ee9c1452",
+            "ffc90a36-3659-41dd-8abd-c7bd82982902",
+            "099a5c64-2750-4f9f-b1a9-03254ce41402",
+            "16d78156-de47-48f5-a861-b450b0a6ed11",
+            "d8568602-4459-46c6-9d8b-75f74984775e"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "99eecbb2edac426de9a5ae0161c147615dfb6434a04eceeadc862bc258c1b80a"
+        },
+        {
+          "month": "2026-09",
+          "id": "ed238225-2edc-481a-b3ac-0bf86889188b",
+          "sourceSessionIds": [
+            "1cba08e5-63b6-4f9b-b341-4b8e25c25650",
+            "69692d55-498d-4c62-b0e0-efeca0f77619",
+            "b70f1e2d-debe-4316-ae0e-f1eda817aabd",
+            "04100a6d-edd7-4ecc-8460-8ac4ee4c99c6"
+          ],
+          "evidenceIds": [
+            "c7a3439e-dbda-480f-8437-64a189c8bb4a",
+            "398c5712-8b76-4895-b419-3df168015b51",
+            "383742f5-1083-45d7-8fdf-5bdbdf300029",
+            "7cacfba6-417c-4f39-a561-5fa7fc6298e9"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "df77f351567a3caabfc6af73e29d17b5d89b4d3a2576f1e86f81588dca6865f0"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U16-04",
+      "id": "c35c9253-20d2-5d6e-a32e-112246b09492",
+      "name": "Vihaan Fictional U16",
+      "batchId": "99914eb1-052c-44d1-a954-759278c257f2",
+      "coachId": "ziCyHzekiLWcbIQZB1ZKlFSjNIpAIUhw",
+      "guardianId": "aGfdMoH3yuNA51ky3D42FpJ1IXuyKw5I",
+      "outcome": "Missed sessions",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "7175795b-fb33-4853-bc4a-eae8eef33099",
+        "septemberEvidenceId": "76fe4345-d7cc-4ac1-ae8a-80be84b17d27",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "379d96eb-ac57-4ff8-8642-ef37f24c67d6",
+          "sourceSessionIds": [
+            "7bcf7ffa-07a9-48cc-a400-6de51f4c4749",
+            "a3a158ce-cf7a-4cc1-9e59-a644ae8d29e5",
+            "da4a62d9-a1f8-43f5-a0e1-7279701297db",
+            "25280294-29e1-4441-a13b-fd72b1929920",
+            "51dafe95-f858-4602-bedb-53fe54f312ba"
+          ],
+          "evidenceIds": [
+            "221ff290-f94b-4d1e-82af-ceb06d270c09",
+            "a8bac63d-32bc-4662-b71b-8f1d97798cd7",
+            "7175795b-fb33-4853-bc4a-eae8eef33099"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 2,
+            "excused": 0
+          },
+          "snapshotHash": "66e1d5c0edabf157de9cd50e2208625cf7f1205689f857c77eef15f1a6d53572"
+        },
+        {
+          "month": "2026-09",
+          "id": "7f5b9d9c-9f8d-45e0-9d43-0298e7df3253",
+          "sourceSessionIds": [
+            "1cba08e5-63b6-4f9b-b341-4b8e25c25650",
+            "69692d55-498d-4c62-b0e0-efeca0f77619",
+            "b70f1e2d-debe-4316-ae0e-f1eda817aabd",
+            "04100a6d-edd7-4ecc-8460-8ac4ee4c99c6"
+          ],
+          "evidenceIds": [
+            "7560e05f-e8e6-40c1-9c95-d3702104cb3c",
+            "64de3782-2e0e-43b2-a9d1-229bb7ffda7f",
+            "76fe4345-d7cc-4ac1-ae8a-80be84b17d27"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 1,
+            "excused": 0
+          },
+          "snapshotHash": "af9918c3eec00e378789b39695e93cebc4da16bedcb81cc41423e5491eda176a"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U16-05",
+      "id": "00502dbf-d88f-5acf-a4e6-556a8a80f2d2",
+      "name": "Arjun Fictional U16",
+      "batchId": "99914eb1-052c-44d1-a954-759278c257f2",
+      "coachId": "ziCyHzekiLWcbIQZB1ZKlFSjNIpAIUhw",
+      "guardianId": "oPs65eI7K1LXBeYQWR7djWKIUX2I22bz",
+      "outcome": "Limited reviewed evidence",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "20791423-93d5-4488-9b28-fb5a3f15bfe5",
+        "septemberEvidenceId": "12b195b5-2b82-408c-9c61-af9af9d4dbad",
+        "text": "Comparable fictional records: August 3/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "467bed18-b62d-4d15-871a-44e5f27e619e",
+          "sourceSessionIds": [
+            "7bcf7ffa-07a9-48cc-a400-6de51f4c4749",
+            "a3a158ce-cf7a-4cc1-9e59-a644ae8d29e5",
+            "da4a62d9-a1f8-43f5-a0e1-7279701297db",
+            "25280294-29e1-4441-a13b-fd72b1929920",
+            "51dafe95-f858-4602-bedb-53fe54f312ba"
+          ],
+          "evidenceIds": [
+            "20791423-93d5-4488-9b28-fb5a3f15bfe5"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "eeb7dd2901ec15cf2b61ca6ef505f9bb035e08a23f39719654abf84a53698c62"
+        },
+        {
+          "month": "2026-09",
+          "id": "02526438-5e0e-465b-9741-3d450e397567",
+          "sourceSessionIds": [
+            "1cba08e5-63b6-4f9b-b341-4b8e25c25650",
+            "69692d55-498d-4c62-b0e0-efeca0f77619",
+            "b70f1e2d-debe-4316-ae0e-f1eda817aabd",
+            "04100a6d-edd7-4ecc-8460-8ac4ee4c99c6"
+          ],
+          "evidenceIds": [
+            "12b195b5-2b82-408c-9c61-af9af9d4dbad"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "6433b8afab426e8a186d1a7bce4af45b0aab3927e1dfa8a18b43fd8626526bb1"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U16-06",
+      "id": "9b71276b-f8b2-5065-a7c2-61ca050d3e49",
+      "name": "Reyansh Fictional U16",
+      "batchId": "99914eb1-052c-44d1-a954-759278c257f2",
+      "coachId": "ziCyHzekiLWcbIQZB1ZKlFSjNIpAIUhw",
+      "guardianId": "SJLvWNv47OwxZWIzQWHb3Ud00FRgj3Eq",
+      "outcome": "Continued focus",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "a9a66010-d6f4-4fb8-9aeb-00453db9e20a",
+        "septemberEvidenceId": "53494ff2-e075-4298-8421-84253a3e09cf",
+        "text": "Comparable fictional records: August 2/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "69ef3e22-e8e4-4d37-86aa-47d719837998",
+          "sourceSessionIds": [
+            "7bcf7ffa-07a9-48cc-a400-6de51f4c4749",
+            "a3a158ce-cf7a-4cc1-9e59-a644ae8d29e5",
+            "da4a62d9-a1f8-43f5-a0e1-7279701297db",
+            "25280294-29e1-4441-a13b-fd72b1929920",
+            "51dafe95-f858-4602-bedb-53fe54f312ba"
+          ],
+          "evidenceIds": [
+            "32b0da18-3785-49a7-8d22-0461b8303bb0",
+            "77cc6b25-ca75-4a71-9e29-106daddd80da",
+            "1ae104ff-b2c6-461f-9b84-160604827d2f",
+            "ae3396d6-6cd4-498a-ac45-a12d267cbc32",
+            "a9a66010-d6f4-4fb8-9aeb-00453db9e20a"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "f66f88cc6c7439a618e6f45be2fc77039f9b4d5ec72f9418583965957aa7aabb"
+        },
+        {
+          "month": "2026-09",
+          "id": "6d402c25-84c7-4785-a88e-1aea26d73bfb",
+          "sourceSessionIds": [
+            "1cba08e5-63b6-4f9b-b341-4b8e25c25650",
+            "69692d55-498d-4c62-b0e0-efeca0f77619",
+            "b70f1e2d-debe-4316-ae0e-f1eda817aabd",
+            "04100a6d-edd7-4ecc-8460-8ac4ee4c99c6"
+          ],
+          "evidenceIds": [
+            "bf2ef454-2277-48d6-8631-30685e5c38cd",
+            "db94fef2-ff74-4abc-9fac-5de6b08afd15",
+            "58d8924e-70b2-49fe-93a0-f9f7b53e929f",
+            "53494ff2-e075-4298-8421-84253a3e09cf"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "5d6d4cdfd694432b6e8679087f1584c2213abc583f9795936423ecc682ee3444"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U16-07",
+      "id": "b1be58f8-4eae-53c4-af46-11c7e39bcc9b",
+      "name": "Neel Fictional U16",
+      "batchId": "99914eb1-052c-44d1-a954-759278c257f2",
+      "coachId": "ziCyHzekiLWcbIQZB1ZKlFSjNIpAIUhw",
+      "guardianId": "UlVITnUdmkXUPQTfYtcdn1CrTYZdg7Zj",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "2f588a8f-47b1-4a17-8df0-675b5db28d0b",
+        "septemberEvidenceId": "0d9ad16d-08ad-4b5a-84ad-71b888c8b3fa",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "6af6e79a-7560-47b0-a66f-ab43d8966b95",
+          "sourceSessionIds": [
+            "7bcf7ffa-07a9-48cc-a400-6de51f4c4749",
+            "a3a158ce-cf7a-4cc1-9e59-a644ae8d29e5",
+            "da4a62d9-a1f8-43f5-a0e1-7279701297db",
+            "25280294-29e1-4441-a13b-fd72b1929920",
+            "51dafe95-f858-4602-bedb-53fe54f312ba"
+          ],
+          "evidenceIds": [
+            "8a2bde9f-64e5-4c9a-8f35-4fcbd7a1429f",
+            "71b6658c-e179-4872-826d-327e5ce842bb",
+            "0f0f1ab2-4d14-49ec-9a99-c3271dc8c154",
+            "0dfdfc5a-9027-43b4-a61a-97d627cf6d0d",
+            "2f588a8f-47b1-4a17-8df0-675b5db28d0b"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "13d6c75997cc0226553d6105c94baf22d6bc33ff64401bdce0d95c16f07be458"
+        },
+        {
+          "month": "2026-09",
+          "id": "2bba15eb-f5d5-471a-8058-3e1d97ae2702",
+          "sourceSessionIds": [
+            "1cba08e5-63b6-4f9b-b341-4b8e25c25650",
+            "69692d55-498d-4c62-b0e0-efeca0f77619",
+            "b70f1e2d-debe-4316-ae0e-f1eda817aabd",
+            "04100a6d-edd7-4ecc-8460-8ac4ee4c99c6"
+          ],
+          "evidenceIds": [
+            "e4abf6d2-1348-4539-ab45-c5c2e5163518",
+            "a7743699-6d21-4d51-82a9-4d655d9d31ef",
+            "bb00d79b-dad1-4327-bd6a-87c15a3e6191",
+            "0d9ad16d-08ad-4b5a-84ad-71b888c8b3fa"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "3eacdd264bd95e50bc2ba2127a8306555a3da6c0f33825e780853f1c7347ea1e"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U16-08",
+      "id": "ba2a93d6-b4aa-5c13-aaac-2e0406e809fd",
+      "name": "Dev Fictional U16",
+      "batchId": "99914eb1-052c-44d1-a954-759278c257f2",
+      "coachId": "ziCyHzekiLWcbIQZB1ZKlFSjNIpAIUhw",
+      "guardianId": "wAJ0qe2xyoKyVX5Qeu13ZNHx8g2XwUAp",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "45934372-f0df-47c8-a874-0838fdaaee16",
+        "septemberEvidenceId": "e8d1dace-b463-42c7-97e2-6f6c1b209241",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "6e48313f-a4f0-4663-9479-99dad29c3234",
+          "sourceSessionIds": [
+            "7bcf7ffa-07a9-48cc-a400-6de51f4c4749",
+            "a3a158ce-cf7a-4cc1-9e59-a644ae8d29e5",
+            "da4a62d9-a1f8-43f5-a0e1-7279701297db",
+            "25280294-29e1-4441-a13b-fd72b1929920",
+            "51dafe95-f858-4602-bedb-53fe54f312ba"
+          ],
+          "evidenceIds": [
+            "3558f588-9879-4da7-91a6-f5a0f7c76e86",
+            "4a07f271-4d8d-461c-9929-a6a1863bc086",
+            "bb84c2ff-de4d-4af0-9015-3127041a363c",
+            "6c19792c-a438-42db-b579-33f629c4da42",
+            "45934372-f0df-47c8-a874-0838fdaaee16"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "0194c1a5a9ca0b954300ee972b2cf54aa5e9cc0e6f8701cb794866e3c837a7f4"
+        },
+        {
+          "month": "2026-09",
+          "id": "ebde50c1-537b-439e-8a20-6eaf6b35a3e9",
+          "sourceSessionIds": [
+            "1cba08e5-63b6-4f9b-b341-4b8e25c25650",
+            "69692d55-498d-4c62-b0e0-efeca0f77619",
+            "b70f1e2d-debe-4316-ae0e-f1eda817aabd",
+            "04100a6d-edd7-4ecc-8460-8ac4ee4c99c6"
+          ],
+          "evidenceIds": [
+            "fb7d63a4-8e16-487c-baf5-72eb4f3396a8",
+            "3642d241-c116-4820-a045-7294f839cb3d",
+            "f2ac1e37-d7d8-49d8-9463-1d863d8dbb0e",
+            "e8d1dace-b463-42c7-97e2-6f6c1b209241"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "0ec0ffaec7532007acb5099bdbe57bbe26251efeded5e92e7436a692aa34e8e0"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U16-09",
+      "id": "88139cd6-595e-5f81-ae6a-0e37d881e005",
+      "name": "Rohan Fictional U16",
+      "batchId": "99914eb1-052c-44d1-a954-759278c257f2",
+      "coachId": "ziCyHzekiLWcbIQZB1ZKlFSjNIpAIUhw",
+      "guardianId": "fuc0NCVHsjajZ5370T3kOSY04thGlW86",
+      "outcome": "Excused sessions and regular observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "8db15460-3f53-4122-91c9-d8dbc2ead834",
+        "septemberEvidenceId": "f1c5c32b-e702-4005-a355-76791c53485c",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "8ded7689-ca9a-4217-9411-42ebe2271f81",
+          "sourceSessionIds": [
+            "7bcf7ffa-07a9-48cc-a400-6de51f4c4749",
+            "a3a158ce-cf7a-4cc1-9e59-a644ae8d29e5",
+            "da4a62d9-a1f8-43f5-a0e1-7279701297db",
+            "25280294-29e1-4441-a13b-fd72b1929920",
+            "51dafe95-f858-4602-bedb-53fe54f312ba"
+          ],
+          "evidenceIds": [
+            "e96013f9-7c50-4769-a08a-d6da0622ea2f",
+            "d4631ea7-beff-4b90-a4ef-d1a4c89139e7",
+            "8db15460-3f53-4122-91c9-d8dbc2ead834"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 2
+          },
+          "snapshotHash": "ad7f5686549e0ed93033bad16fe9b4ace47c43d309fb550dd9d27c2a39ab2cf1"
+        },
+        {
+          "month": "2026-09",
+          "id": "cd3fe109-2f46-416d-a0f2-ad45a37d3507",
+          "sourceSessionIds": [
+            "1cba08e5-63b6-4f9b-b341-4b8e25c25650",
+            "69692d55-498d-4c62-b0e0-efeca0f77619",
+            "b70f1e2d-debe-4316-ae0e-f1eda817aabd",
+            "04100a6d-edd7-4ecc-8460-8ac4ee4c99c6"
+          ],
+          "evidenceIds": [
+            "9cf725a7-12a1-4923-a9a3-7681c7256a6d",
+            "aae2efe0-f689-4ab6-9559-e3be5471c8e3",
+            "f1c5c32b-e702-4005-a355-76791c53485c"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 1
+          },
+          "snapshotHash": "1595282d626490f8562fb29f1a35f8d92ed7157ab9d437639a61f9372a0dd61d"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U16-10",
+      "id": "2e539ff6-10f4-5154-a5aa-5bf008096285",
+      "name": "Ayan Fictional U16",
+      "batchId": "99914eb1-052c-44d1-a954-759278c257f2",
+      "coachId": "ziCyHzekiLWcbIQZB1ZKlFSjNIpAIUhw",
+      "guardianId": "biluNiiwKwkRhKO3RxYdmKei5MNmK24P",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "e3f18522-25a3-457d-a96f-125e840e3347",
+        "septemberEvidenceId": "a12255c2-d995-4ae5-a34a-35dc5d93a410",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "aaa642a0-8b16-474d-80a9-f283864b23f2",
+          "sourceSessionIds": [
+            "7bcf7ffa-07a9-48cc-a400-6de51f4c4749",
+            "a3a158ce-cf7a-4cc1-9e59-a644ae8d29e5",
+            "da4a62d9-a1f8-43f5-a0e1-7279701297db",
+            "25280294-29e1-4441-a13b-fd72b1929920",
+            "51dafe95-f858-4602-bedb-53fe54f312ba"
+          ],
+          "evidenceIds": [
+            "1bd794f7-e8f2-41ae-adb7-fee3dca79ecb",
+            "0e70008f-5893-4f25-b68a-d56edf70f960",
+            "e9b82676-f3bf-4517-9773-6183e0b16b52",
+            "147ea95e-bb82-4bd5-86e3-574cf005a325",
+            "e3f18522-25a3-457d-a96f-125e840e3347"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "5837a88bd4b29879e115838dd4e53f112d5e529d238dcf4db2f94ae9144db63a"
+        },
+        {
+          "month": "2026-09",
+          "id": "88bb97d7-3595-461c-883c-3c3306b448ae",
+          "sourceSessionIds": [
+            "1cba08e5-63b6-4f9b-b341-4b8e25c25650",
+            "69692d55-498d-4c62-b0e0-efeca0f77619",
+            "b70f1e2d-debe-4316-ae0e-f1eda817aabd",
+            "04100a6d-edd7-4ecc-8460-8ac4ee4c99c6"
+          ],
+          "evidenceIds": [
+            "c269ebff-f93c-43c5-8eb3-e3725f1b340a",
+            "6187d749-6e4f-4c98-83aa-ea5566f546cd",
+            "82b84c0e-79ec-4338-bd32-f00fd1d95f74",
+            "a12255c2-d995-4ae5-a34a-35dc5d93a410"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "f61325a186d0c1f2bd0bb61046e5a59291bd793b0ae976150c409ddd6e3c4af1"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U18-01",
+      "id": "ed63df94-cc41-57fb-a57c-27204faa68fa",
+      "name": "Aadi Fictional U18",
+      "batchId": "02a58324-e958-4db4-9db3-74873b2cdffb",
+      "coachId": "6ItPYrU1X3zAhqMgpx60tcQhfvM4Hj5I",
+      "guardianId": "SO1k9QHpneSsFfdgfIjE9c1wf37ZGPM7",
+      "outcome": "Comparable improvement",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "dca28452-77b4-440d-91bf-8b14792f00e0",
+        "septemberEvidenceId": "b0af7f16-1a60-4e97-b7b8-8f1ba388b2ec",
+        "text": "Comparable fictional records: August 4/6; September 5/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "b8204497-55d4-4f2b-9779-0a302876a42e",
+          "sourceSessionIds": [
+            "df774e82-6baf-4dcb-a595-4c1e69b3755f",
+            "38681d35-0f1a-4f00-b19e-9644d5178146",
+            "7b813990-d2b9-4c46-ac6f-6e349c84f888",
+            "1a64f763-12b0-4958-ae4c-62a272eb4e72",
+            "7095f5fd-6d6e-442a-93ff-bb6f6873a262"
+          ],
+          "evidenceIds": [
+            "b45703fa-b6d7-4de7-a5c6-858adbabc8f0",
+            "c4593514-133e-48a5-8e9f-d9269aae83fe",
+            "f36b2318-4129-426b-9a0e-a6b410f8272b",
+            "c411a206-2525-4a40-9c18-8b909572eafb",
+            "dca28452-77b4-440d-91bf-8b14792f00e0"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "8a3f4084882d0d22250540bd4db61c78213227878c22ed29529b5243d9ddf588"
+        },
+        {
+          "month": "2026-09",
+          "id": "57362e3f-145b-4688-99a2-31e8983b22b4",
+          "sourceSessionIds": [
+            "5965a779-86ec-4231-bed7-7a04f2aa915f",
+            "2e9ac25e-0c22-440a-afe1-4f3e410467dd",
+            "805fe565-a352-47bb-85f1-360951256c54",
+            "8d5c9b30-3c38-4009-8ef0-9e7694bf9dae"
+          ],
+          "evidenceIds": [
+            "e3ce6f10-4fdd-40e2-867d-070f3d1442ae",
+            "203d6385-16fd-4b50-9342-251a956131f5",
+            "500fe66c-2486-4a3d-910d-604a1afd6c64",
+            "b0af7f16-1a60-4e97-b7b8-8f1ba388b2ec"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "7238c1d1959d958c3d9b3e899b82ae991146a8ae1b19b9d0db198c17fab839f9"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U18-02",
+      "id": "9d2251d7-7361-5e05-aa34-77f397da79d1",
+      "name": "Ishaan Fictional U18",
+      "batchId": "02a58324-e958-4db4-9db3-74873b2cdffb",
+      "coachId": "6ItPYrU1X3zAhqMgpx60tcQhfvM4Hj5I",
+      "guardianId": "C4Uxo77v0CUScqsbVHGz1verIkQKfnmk",
+      "outcome": "Consistent observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "d1c2b442-53c2-42ec-a316-cb90db21be93",
+        "septemberEvidenceId": "e99c1416-9209-473c-bec7-15f390a39e57",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "290d7cb8-a1a5-461e-acfd-cb43982d7033",
+          "sourceSessionIds": [
+            "df774e82-6baf-4dcb-a595-4c1e69b3755f",
+            "38681d35-0f1a-4f00-b19e-9644d5178146",
+            "7b813990-d2b9-4c46-ac6f-6e349c84f888",
+            "1a64f763-12b0-4958-ae4c-62a272eb4e72",
+            "7095f5fd-6d6e-442a-93ff-bb6f6873a262"
+          ],
+          "evidenceIds": [
+            "f9b365a0-b55a-4baf-951f-7eb5c3fed42d",
+            "dd84f9f9-fa7a-411b-aa06-9631d914c327",
+            "c95988e7-cef0-4e68-bd49-a6eb051507de",
+            "78957396-a14e-4935-9938-d75577739287",
+            "d1c2b442-53c2-42ec-a316-cb90db21be93"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "3dfed73818a3b44cdceb4010da05d6630a3e61d1da907167241214a031d1fe05"
+        },
+        {
+          "month": "2026-09",
+          "id": "23fc6365-d1e1-4807-b074-6de2cd687b6d",
+          "sourceSessionIds": [
+            "5965a779-86ec-4231-bed7-7a04f2aa915f",
+            "2e9ac25e-0c22-440a-afe1-4f3e410467dd",
+            "805fe565-a352-47bb-85f1-360951256c54",
+            "8d5c9b30-3c38-4009-8ef0-9e7694bf9dae"
+          ],
+          "evidenceIds": [
+            "f399afc0-90d2-4af3-a30c-1a74a991192c",
+            "e4526555-9b80-498c-885f-b715ebb09cb9",
+            "fc49c2a2-ff8b-4a89-8ec9-a81344c7fb5b",
+            "e99c1416-9209-473c-bec7-15f390a39e57"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "bb0329ca40b3e07232cf1b9a2cea0c6bb079e34f3dd7b5ab3ad13e3ad1a0fc8c"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U18-03",
+      "id": "f7af9c0f-95cb-51c7-ab22-5968271e0402",
+      "name": "Kabir Fictional U18",
+      "batchId": "02a58324-e958-4db4-9db3-74873b2cdffb",
+      "coachId": "6ItPYrU1X3zAhqMgpx60tcQhfvM4Hj5I",
+      "guardianId": "UgnPpYS2v5ShfOiucLPC7OtbOfHU66EZ",
+      "outcome": "Mixed results",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "a3d8ab26-b630-4f4b-b972-035e985737f6",
+        "septemberEvidenceId": "d4922135-3fe5-4342-8944-4e52ee111b94",
+        "text": "Comparable fictional records: August 4/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "1ec94c95-e8bf-457f-bcb7-68a123867196",
+          "sourceSessionIds": [
+            "df774e82-6baf-4dcb-a595-4c1e69b3755f",
+            "38681d35-0f1a-4f00-b19e-9644d5178146",
+            "7b813990-d2b9-4c46-ac6f-6e349c84f888",
+            "1a64f763-12b0-4958-ae4c-62a272eb4e72",
+            "7095f5fd-6d6e-442a-93ff-bb6f6873a262"
+          ],
+          "evidenceIds": [
+            "3bf59804-920e-4d84-aff3-d53f79ca9532",
+            "a6ab6c15-c611-4cf4-a8c8-fc1a4f56f133",
+            "2ab888c3-0847-44d4-b3cf-f1ba50ca2ea2",
+            "fc6cac40-9ef3-4879-aaf8-5e3a7a59d512",
+            "a3d8ab26-b630-4f4b-b972-035e985737f6"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "d071b526a3cb7fc18df64311ed201bad2dd94b420edabb172ebb1b7ec0596446"
+        },
+        {
+          "month": "2026-09",
+          "id": "25c5e7c7-6881-4164-9dc3-316b03c5c6aa",
+          "sourceSessionIds": [
+            "5965a779-86ec-4231-bed7-7a04f2aa915f",
+            "2e9ac25e-0c22-440a-afe1-4f3e410467dd",
+            "805fe565-a352-47bb-85f1-360951256c54",
+            "8d5c9b30-3c38-4009-8ef0-9e7694bf9dae"
+          ],
+          "evidenceIds": [
+            "60cd807e-c9a9-4249-9bb0-5f80f76b22af",
+            "d905f76c-0bd2-40f4-9f0d-935249ce67d8",
+            "3c53198e-b884-4cf8-88c3-22d7302c3c93",
+            "d4922135-3fe5-4342-8944-4e52ee111b94"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "edbce700580fe40ceda0418823c3466c2492c309976735db83d9d1d720cee462"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U18-04",
+      "id": "0a81ba7b-1115-5474-aa12-88c68a381a25",
+      "name": "Vihaan Fictional U18",
+      "batchId": "02a58324-e958-4db4-9db3-74873b2cdffb",
+      "coachId": "6ItPYrU1X3zAhqMgpx60tcQhfvM4Hj5I",
+      "guardianId": "RtFZodbQs6XZvlsnK0VDDy10ja2haW2N",
+      "outcome": "Missed sessions",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "2e619584-fa2d-4c7f-b8c6-cc418f1ce411",
+        "septemberEvidenceId": "42992a6f-f3ff-4ba0-bad6-62cd4eac2e0d",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "71650c92-8a76-4a07-91bb-968b3c0d19fe",
+          "sourceSessionIds": [
+            "df774e82-6baf-4dcb-a595-4c1e69b3755f",
+            "38681d35-0f1a-4f00-b19e-9644d5178146",
+            "7b813990-d2b9-4c46-ac6f-6e349c84f888",
+            "1a64f763-12b0-4958-ae4c-62a272eb4e72",
+            "7095f5fd-6d6e-442a-93ff-bb6f6873a262"
+          ],
+          "evidenceIds": [
+            "02680ad3-c42e-4811-99fe-1041a1b67866",
+            "e1acd1ae-1028-49b6-a882-142de2696ea1",
+            "2e619584-fa2d-4c7f-b8c6-cc418f1ce411"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 2,
+            "excused": 0
+          },
+          "snapshotHash": "4afb4820d3629f543e695a7d65c46e9056aec4223fe5be13ba9479c10ee88af9"
+        },
+        {
+          "month": "2026-09",
+          "id": "bf63e337-c18d-4d9b-91ab-ca5c90ed3580",
+          "sourceSessionIds": [
+            "5965a779-86ec-4231-bed7-7a04f2aa915f",
+            "2e9ac25e-0c22-440a-afe1-4f3e410467dd",
+            "805fe565-a352-47bb-85f1-360951256c54",
+            "8d5c9b30-3c38-4009-8ef0-9e7694bf9dae"
+          ],
+          "evidenceIds": [
+            "40919b33-9ca1-4fa7-ba2e-4fb5c2782b8f",
+            "3e5e8014-a8a8-403d-b0d2-bb6b738f13cd",
+            "42992a6f-f3ff-4ba0-bad6-62cd4eac2e0d"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 1,
+            "excused": 0
+          },
+          "snapshotHash": "061664e957e58e2d50c33cb55aff2023aeb7e804c0d00362dd51a2bf729bbe07"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U18-05",
+      "id": "707716fd-f757-5838-a912-90a6c610781a",
+      "name": "Arjun Fictional U18",
+      "batchId": "02a58324-e958-4db4-9db3-74873b2cdffb",
+      "coachId": "6ItPYrU1X3zAhqMgpx60tcQhfvM4Hj5I",
+      "guardianId": "ZflmnWUHO7IogG44yBywKmh71WoI8nKo",
+      "outcome": "Limited reviewed evidence",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "97249039-a0ab-45e2-be09-0f2efc06a6db",
+        "septemberEvidenceId": "d1cf9a8e-385a-44d7-bd51-05cc8c908344",
+        "text": "Comparable fictional records: August 3/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "f0eaee61-522b-47f7-84d0-cc29facd0fe0",
+          "sourceSessionIds": [
+            "df774e82-6baf-4dcb-a595-4c1e69b3755f",
+            "38681d35-0f1a-4f00-b19e-9644d5178146",
+            "7b813990-d2b9-4c46-ac6f-6e349c84f888",
+            "1a64f763-12b0-4958-ae4c-62a272eb4e72",
+            "7095f5fd-6d6e-442a-93ff-bb6f6873a262"
+          ],
+          "evidenceIds": [
+            "97249039-a0ab-45e2-be09-0f2efc06a6db"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "e48afd4a95b71236606b4c3eeed1efe4820feef88342b44e67264de7ece33f66"
+        },
+        {
+          "month": "2026-09",
+          "id": "dc9a1207-e4f2-4213-a8d7-aeebc6a1f862",
+          "sourceSessionIds": [
+            "5965a779-86ec-4231-bed7-7a04f2aa915f",
+            "2e9ac25e-0c22-440a-afe1-4f3e410467dd",
+            "805fe565-a352-47bb-85f1-360951256c54",
+            "8d5c9b30-3c38-4009-8ef0-9e7694bf9dae"
+          ],
+          "evidenceIds": [
+            "d1cf9a8e-385a-44d7-bd51-05cc8c908344"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "3991b848fe82b099c6a203267be086e24d9ca0e4057488a955fd9188d1739907"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U18-06",
+      "id": "377ff9dc-ac8c-51e1-adbc-75701b450209",
+      "name": "Reyansh Fictional U18",
+      "batchId": "02a58324-e958-4db4-9db3-74873b2cdffb",
+      "coachId": "6ItPYrU1X3zAhqMgpx60tcQhfvM4Hj5I",
+      "guardianId": "ctYRfVpyFUBHBqvJLrtG67fTpak2KccM",
+      "outcome": "Continued focus",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "8405b75e-8af9-4943-8a5f-17e9608f9e30",
+        "septemberEvidenceId": "b78bdd3d-5ced-4b51-a779-adb6fc12c690",
+        "text": "Comparable fictional records: August 2/6; September 2/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "bfc07a7e-6e07-4e21-ae3b-9a3f6284e471",
+          "sourceSessionIds": [
+            "df774e82-6baf-4dcb-a595-4c1e69b3755f",
+            "38681d35-0f1a-4f00-b19e-9644d5178146",
+            "7b813990-d2b9-4c46-ac6f-6e349c84f888",
+            "1a64f763-12b0-4958-ae4c-62a272eb4e72",
+            "7095f5fd-6d6e-442a-93ff-bb6f6873a262"
+          ],
+          "evidenceIds": [
+            "61bb6447-9f0a-47dc-bbe0-5c8756b5e78e",
+            "a385962e-0ca0-4da8-989d-afffd9e57700",
+            "49e25236-964e-49e9-b010-b020cbb42fe3",
+            "61d68c06-1a65-46db-b051-109caecf165d",
+            "8405b75e-8af9-4943-8a5f-17e9608f9e30"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "04b56c1ee32b292894b6e402152f75aa3a5ce427a3514e5cf98e49c022e344d9"
+        },
+        {
+          "month": "2026-09",
+          "id": "f3604c22-643f-4631-a01b-f3ab8f13a81e",
+          "sourceSessionIds": [
+            "5965a779-86ec-4231-bed7-7a04f2aa915f",
+            "2e9ac25e-0c22-440a-afe1-4f3e410467dd",
+            "805fe565-a352-47bb-85f1-360951256c54",
+            "8d5c9b30-3c38-4009-8ef0-9e7694bf9dae"
+          ],
+          "evidenceIds": [
+            "0ed0d675-bfd9-44e0-bbf7-e6f1c05a2013",
+            "c9b9c8d0-abe0-49ae-8b16-4d320ed45cde",
+            "63845eac-1c9c-4dc0-abbf-c8fb38e96884",
+            "b78bdd3d-5ced-4b51-a779-adb6fc12c690"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "7beac5a91cc75013f3abfa3c8e030fb78d92cf87cf72696560b1786f826970bd"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U18-07",
+      "id": "9d6b40e4-4c31-5a83-a40d-858dc730e1b9",
+      "name": "Neel Fictional U18",
+      "batchId": "02a58324-e958-4db4-9db3-74873b2cdffb",
+      "coachId": "6ItPYrU1X3zAhqMgpx60tcQhfvM4Hj5I",
+      "guardianId": "bGxuHHSS6oiqKIHWDIhnAj6Tp3KTTSlR",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "f95db5be-272f-4c93-9c0c-59898f575b2d",
+        "septemberEvidenceId": "9497fa0c-cf0d-4f29-9eae-aa77cea0a17d",
+        "text": "Comparable fictional records: August 3/6; September 3/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "edcb020f-3b2c-4b2b-b029-8993f1fb7397",
+          "sourceSessionIds": [
+            "df774e82-6baf-4dcb-a595-4c1e69b3755f",
+            "38681d35-0f1a-4f00-b19e-9644d5178146",
+            "7b813990-d2b9-4c46-ac6f-6e349c84f888",
+            "1a64f763-12b0-4958-ae4c-62a272eb4e72",
+            "7095f5fd-6d6e-442a-93ff-bb6f6873a262"
+          ],
+          "evidenceIds": [
+            "4b4e8096-582e-4c7e-8c6b-b990095de9b8",
+            "8a1f1af8-3bc1-4918-bf7a-7c5d1dc50296",
+            "aea1d3e2-9aa0-4f00-9ba2-f8ad9398f582",
+            "7636dfbb-4c14-4c36-9ebf-49b8fd0ae78a",
+            "f95db5be-272f-4c93-9c0c-59898f575b2d"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "3cfd2bfd3c8c06a9084851689754e0a79303b17413fdd58c02f1c09438f8df2e"
+        },
+        {
+          "month": "2026-09",
+          "id": "c59a9522-792c-4691-8f38-06cba00be0ba",
+          "sourceSessionIds": [
+            "5965a779-86ec-4231-bed7-7a04f2aa915f",
+            "2e9ac25e-0c22-440a-afe1-4f3e410467dd",
+            "805fe565-a352-47bb-85f1-360951256c54",
+            "8d5c9b30-3c38-4009-8ef0-9e7694bf9dae"
+          ],
+          "evidenceIds": [
+            "733edd1b-209b-4298-8a2a-c769d810831e",
+            "34c536f1-348c-4590-a140-491dd66512cd",
+            "0ce2ca3c-27fe-46a1-9cc4-52c1a7120400",
+            "9497fa0c-cf0d-4f29-9eae-aa77cea0a17d"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "d887322e303c40014d3bc45a01bbd2494a41463a4bb3bb0361a4e066ae36b5aa"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U18-08",
+      "id": "d61cd2cc-3772-53eb-ad85-dd585c8ca3bd",
+      "name": "Dev Fictional U18",
+      "batchId": "02a58324-e958-4db4-9db3-74873b2cdffb",
+      "coachId": "6ItPYrU1X3zAhqMgpx60tcQhfvM4Hj5I",
+      "guardianId": "iLzjJmCMlYvk2oqiuPJ4OjO4t8npz6dY",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "b6ebcf35-1c55-43f3-9774-2e3669e401a6",
+        "septemberEvidenceId": "58d146c3-c1a9-44dd-b081-9caedead8da1",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "d023f853-5abc-4c77-b644-7e6d551003af",
+          "sourceSessionIds": [
+            "df774e82-6baf-4dcb-a595-4c1e69b3755f",
+            "38681d35-0f1a-4f00-b19e-9644d5178146",
+            "7b813990-d2b9-4c46-ac6f-6e349c84f888",
+            "1a64f763-12b0-4958-ae4c-62a272eb4e72",
+            "7095f5fd-6d6e-442a-93ff-bb6f6873a262"
+          ],
+          "evidenceIds": [
+            "664276fc-db4f-4166-971d-46084f1b8954",
+            "2d17993d-8dcb-41a9-867e-83b65e8c625d",
+            "f2d24b91-9f78-4f70-a46f-094e1997db60",
+            "1309ecac-9dae-4639-9bf3-0706d24b12b0",
+            "b6ebcf35-1c55-43f3-9774-2e3669e401a6"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "c4260a57563e79597b7709cedad1dbcea64868d803dd2b1658fa06ec543ce9e7"
+        },
+        {
+          "month": "2026-09",
+          "id": "cef47b93-1afc-4273-b01a-7bdcf4b2d194",
+          "sourceSessionIds": [
+            "5965a779-86ec-4231-bed7-7a04f2aa915f",
+            "2e9ac25e-0c22-440a-afe1-4f3e410467dd",
+            "805fe565-a352-47bb-85f1-360951256c54",
+            "8d5c9b30-3c38-4009-8ef0-9e7694bf9dae"
+          ],
+          "evidenceIds": [
+            "1a3810a2-a938-4bd3-a588-6e5c827f7155",
+            "24a808bf-5238-4d43-934b-6ce1bf38860c",
+            "d320601f-de0e-44e1-88e6-84f42730b751",
+            "58d146c3-c1a9-44dd-b081-9caedead8da1"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "f2d82462580788c075ccc9f20d8adc83151defb1697b3493b740703defde9f7f"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U18-09",
+      "id": "973e241e-890a-577c-a6b9-bc58bb4818eb",
+      "name": "Rohan Fictional U18",
+      "batchId": "02a58324-e958-4db4-9db3-74873b2cdffb",
+      "coachId": "6ItPYrU1X3zAhqMgpx60tcQhfvM4Hj5I",
+      "guardianId": "4tyOGvnd7TsDzHXO5oBlZcNFSlYmj65N",
+      "outcome": "Excused sessions and regular observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "866d6ccc-ad15-4f79-bfc7-5823ce58900c",
+        "septemberEvidenceId": "ed532454-a66a-4822-b283-443e2b917861",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "6fbf5041-3953-4d68-8925-11ac629340fd",
+          "sourceSessionIds": [
+            "df774e82-6baf-4dcb-a595-4c1e69b3755f",
+            "38681d35-0f1a-4f00-b19e-9644d5178146",
+            "7b813990-d2b9-4c46-ac6f-6e349c84f888",
+            "1a64f763-12b0-4958-ae4c-62a272eb4e72",
+            "7095f5fd-6d6e-442a-93ff-bb6f6873a262"
+          ],
+          "evidenceIds": [
+            "18fe4390-8bb2-48bd-9afe-5e9c3851ae79",
+            "08377981-8ec6-4ec4-a0a8-b9009769cc86",
+            "866d6ccc-ad15-4f79-bfc7-5823ce58900c"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 2
+          },
+          "snapshotHash": "75a1ada03ec81cb7822c06a7be44b5ad295501d2cd24be59825a924a8c232e15"
+        },
+        {
+          "month": "2026-09",
+          "id": "178ff340-76bc-4e0d-b270-d61b7d64db58",
+          "sourceSessionIds": [
+            "5965a779-86ec-4231-bed7-7a04f2aa915f",
+            "2e9ac25e-0c22-440a-afe1-4f3e410467dd",
+            "805fe565-a352-47bb-85f1-360951256c54",
+            "8d5c9b30-3c38-4009-8ef0-9e7694bf9dae"
+          ],
+          "evidenceIds": [
+            "9f947d13-e356-4a1f-9708-f5819dc1c7e3",
+            "f5060c47-bfd1-4e07-a264-88ba7cac1db6",
+            "ed532454-a66a-4822-b283-443e2b917861"
+          ],
+          "attendance": {
+            "present": 3,
+            "absent": 0,
+            "excused": 1
+          },
+          "snapshotHash": "f17b0d11e9e8c0ae04d83128354c06efce826c3dcfaf4befa17d197dce0d22d9"
+        }
+      ]
+    },
+    {
+      "scenarioKey": "U18-10",
+      "id": "1c57c3fc-5191-518c-aa72-806eb28e324a",
+      "name": "Ayan Fictional U18",
+      "batchId": "02a58324-e958-4db4-9db3-74873b2cdffb",
+      "coachId": "6ItPYrU1X3zAhqMgpx60tcQhfvM4Hj5I",
+      "guardianId": "8MHMAsSMyH3rTanmnaau41DcW7LMbmJp",
+      "outcome": "Regular batch observations",
+      "comparison": {
+        "compatible": true,
+        "augustEvidenceId": "46614a86-ab98-433d-87a4-f776f8667753",
+        "septemberEvidenceId": "3f92db31-1b83-412a-b2d1-45003d2b928b",
+        "text": "Comparable fictional records: August 4/6; September 4/6. Same child, drill version, conditions, method and unit. This describes these attempts only; no talent score or general improvement percentage is inferred."
+      },
+      "reports": [
+        {
+          "month": "2026-08",
+          "id": "5acad727-1313-47db-8d55-2a69987a96ec",
+          "sourceSessionIds": [
+            "df774e82-6baf-4dcb-a595-4c1e69b3755f",
+            "38681d35-0f1a-4f00-b19e-9644d5178146",
+            "7b813990-d2b9-4c46-ac6f-6e349c84f888",
+            "1a64f763-12b0-4958-ae4c-62a272eb4e72",
+            "7095f5fd-6d6e-442a-93ff-bb6f6873a262"
+          ],
+          "evidenceIds": [
+            "ff57c58f-3697-45fb-927e-ea63a0692839",
+            "d87a36aa-5f9b-43eb-8cc7-ffec5731aa2a",
+            "2d461b6c-5af9-4d3e-bb78-79ba85b5fa7b",
+            "c4d561cc-de36-49e1-8467-357b868c0ea3",
+            "46614a86-ab98-433d-87a4-f776f8667753"
+          ],
+          "attendance": {
+            "present": 5,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "7eea47cac682e4fe2065692099ea13bb316e2c93c80dddcf57acaeafd13b701e"
+        },
+        {
+          "month": "2026-09",
+          "id": "0dbeabc1-2c7d-4a90-8c70-ffa034ecc290",
+          "sourceSessionIds": [
+            "5965a779-86ec-4231-bed7-7a04f2aa915f",
+            "2e9ac25e-0c22-440a-afe1-4f3e410467dd",
+            "805fe565-a352-47bb-85f1-360951256c54",
+            "8d5c9b30-3c38-4009-8ef0-9e7694bf9dae"
+          ],
+          "evidenceIds": [
+            "6ef6010f-77c8-4636-8863-e2b7f4d55aee",
+            "36daeb14-eb1a-49e2-9f08-069330fcadd0",
+            "f0e44068-a2bf-42a1-858a-88189fc66d2a",
+            "3f92db31-1b83-412a-b2d1-45003d2b928b"
+          ],
+          "attendance": {
+            "present": 4,
+            "absent": 0,
+            "excused": 0
+          },
+          "snapshotHash": "c597a496476a6ab3e47b5e6831de0042e0228cc041af68fa56b13009201f05f6"
+        }
+      ]
+    }
+  ]
+}

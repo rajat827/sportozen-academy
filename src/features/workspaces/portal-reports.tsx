@@ -13,8 +13,16 @@ import {
   Pencil,
   Send,
   CalendarDays,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { currentPlayerPlan, playerBatch } from "@/services/portal-records";
+import { reportMatchesPeriod } from "@/services/report-period-filter";
+import {
+  REPORT_PAGE_SIZE,
+  reportListPage,
+  reportPreviewExcerpt,
+} from "@/services/report-list-preview";
 import { MonthlyReports } from "./period-plans";
 import { ReportEditor, SecureReportDownload } from "./plan-and-report";
 import { ReportPreview } from "@/features/reports/report-preview";
@@ -42,6 +50,15 @@ export function PortalReports({
     [period, setPeriod] = useState(""),
     [batch, setBatch] = useState(""),
     [status, setStatus] = useState(""),
+    [page, setPage] = useState(
+      () =>
+        Math.floor(
+          Math.max(
+            0,
+            d.records.player.findIndex((p) => p.id === playerId),
+          ) / REPORT_PAGE_SIZE,
+        ) + 1,
+    ),
     [editor, setEditor] = useState(false),
     [preview, setPreview] = useState(false);
   const player = playerId
@@ -50,7 +67,7 @@ export function PortalReports({
   const reports = d.records.report
     .filter(
       (r) =>
-        (!period || r.period === period) &&
+        reportMatchesPeriod(r, period) &&
         (!status || r.status === status) &&
         (tab !== "Parent Reports" || r.status === "Approved"),
     )
@@ -65,6 +82,11 @@ export function PortalReports({
       (!search || p.name.toLowerCase().includes(search.toLowerCase())) &&
       (!batch || playerBatch(d, p) === batch),
   );
+  const listing = reportListPage(rows, page),
+    listedPlayers = new Set(rows.map((p) => p.id)),
+    matchingCount = reports.filter((report) =>
+      listedPlayers.has(report.playerId),
+    ).length;
   const plan = player && currentPlayerPlan(d, player.id),
     snapshot = selectedReport?.snapshot;
   usePrivateSourceAnchor(
@@ -122,7 +144,10 @@ export function PortalReports({
                 <button
                   className={tab === t ? "active" : ""}
                   key={t}
-                  onClick={() => setTab(t)}
+                  onClick={() => {
+                    setTab(t);
+                    setPage(1);
+                  }}
                 >
                   {t}
                 </button>
@@ -174,7 +199,10 @@ export function PortalReports({
             <select
               aria-label="Report batch filter"
               value={batch}
-              onChange={(e) => setBatch(e.target.value)}
+              onChange={(e) => {
+                setBatch(e.target.value);
+                setPage(1);
+              }}
             >
               <option value="">All Batches</option>
               {[...new Set(d.records.player.map((p) => playerBatch(d, p)))].map(
@@ -188,7 +216,10 @@ export function PortalReports({
             <select
               aria-label="Report status filter"
               value={status}
-              onChange={(e) => setStatus(e.target.value)}
+              onChange={(e) => {
+                setStatus(e.target.value);
+                setPage(1);
+              }}
             >
               <option value="">All Report States</option>
               <option>Approved</option>
@@ -201,14 +232,20 @@ export function PortalReports({
                 type="month"
                 aria-label="Reporting period filter"
                 value={period}
-                onChange={(e) => setPeriod(e.target.value)}
+                onChange={(e) => {
+                  setPeriod(e.target.value);
+                  setPage(1);
+                }}
               />
             </label>
             <input
               aria-label="Search report players"
               placeholder="Search players…"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
             />
           </div>
           {tab === "Batch Reports" ? (
@@ -231,6 +268,7 @@ export function PortalReports({
                       onClick={() => {
                         setBatch(s.name);
                         setTab("Player Reports");
+                        setPage(1);
                       }}
                     >
                       View batch player reports
@@ -270,7 +308,7 @@ export function PortalReports({
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map((p) => {
+                  {listing.items.map((p) => {
                     const report = reports.find((r) => r.playerId === p.id),
                       observations = d.records.evidence.filter(
                         (e) => e.playerId === p.id && e.status === "REVIEWED",
@@ -342,12 +380,39 @@ export function PortalReports({
                   </p>
                 </div>
               )}
-              <div className="portal-table-footer">
-                <span>
-                  {rows.length} authorised players · {reports.length} matching
-                  reports
+              <div className="portal-table-footer portal-report-pagination">
+                <span className="portal-report-counts">
+                  <span>
+                    {listing.first}–{listing.last} of {rows.length} players
+                  </span>
+                  <small>
+                    {rows.length} authorised players · {matchingCount} matching
+                    reports
+                  </small>
                 </span>
-                <span>Private academy records</span>
+                <nav className="portal-actions" aria-label="Report pages">
+                  <button
+                    className="portal-icon"
+                    type="button"
+                    aria-label="Previous report page"
+                    disabled={listing.page === 1}
+                    onClick={() => setPage(listing.page - 1)}
+                  >
+                    <ChevronLeft size={17} />
+                  </button>
+                  <span aria-live="polite">
+                    Page {listing.page} of {listing.totalPages}
+                  </span>
+                  <button
+                    className="portal-icon"
+                    type="button"
+                    aria-label="Next report page"
+                    disabled={listing.page === listing.totalPages}
+                    onClick={() => setPage(listing.page + 1)}
+                  >
+                    <ChevronRight size={17} />
+                  </button>
+                </nav>
               </div>
             </div>
           )}
@@ -389,6 +454,7 @@ export function PortalReports({
                 <button
                   onClick={() => {
                     setTab("Progress Overview");
+                    setPage(1);
                   }}
                 >
                   Progress
@@ -397,6 +463,7 @@ export function PortalReports({
                   onClick={() => {
                     setStatus("");
                     setPeriod("");
+                    setPage(1);
                   }}
                 >
                   All Reports
@@ -420,6 +487,10 @@ export function PortalReports({
                       {selectedReport.status}
                     </span>
                   </div>
+                  <p className="portal-report-excerpt-label">
+                    Preview excerpts · open the full report below for complete
+                    wording.
+                  </p>
                   <div className="portal-report-answers">
                     <section>
                       <span className="portal-round">
@@ -427,11 +498,13 @@ export function PortalReports({
                       </span>
                       <div>
                         <h3>What was practised?</h3>
-                        <p>
-                          {snapshot?.practised ??
-                            selectedReport.monthlySources?.model.practised ??
-                            plan?.focus ??
-                            "Recorded practice has not been assembled for this report."}
+                        <p className="portal-report-excerpt">
+                          {reportPreviewExcerpt(
+                            snapshot?.practised ??
+                              selectedReport.monthlySources?.model.practised ??
+                              plan?.focus ??
+                              "Recorded practice has not been assembled for this report.",
+                          )}
                         </p>
                       </div>
                     </section>
@@ -441,12 +514,16 @@ export function PortalReports({
                       </span>
                       <div>
                         <h3>What does reviewed evidence show?</h3>
-                        <p>
-                          {snapshot
-                            ? snapshot.evidence.map((e) => e.text).join(" ") ||
-                              "Further coach review is needed."
-                            : selectedReport.observation ||
-                              "Further coach review is needed. No individual observation has been recorded."}
+                        <p className="portal-report-excerpt">
+                          {reportPreviewExcerpt(
+                            snapshot
+                              ? snapshot.evidence
+                                  .map((e) => e.text)
+                                  .join(" ") ||
+                                  "Further coach review is needed."
+                              : selectedReport.observation ||
+                                  "Further coach review is needed. No individual observation has been recorded.",
+                          )}
                         </p>
                       </div>
                     </section>
@@ -456,9 +533,11 @@ export function PortalReports({
                       </span>
                       <div>
                         <h3>What comes next?</h3>
-                        <p>
-                          {(snapshot?.nextStep ?? selectedReport.nextStep) ||
-                            "Coach to record a specific next step."}
+                        <p className="portal-report-excerpt">
+                          {reportPreviewExcerpt(
+                            (snapshot?.nextStep ?? selectedReport.nextStep) ||
+                              "Coach to record a specific next step.",
+                          )}
                         </p>
                       </div>
                     </section>
@@ -467,23 +546,38 @@ export function PortalReports({
                     <h3>Skills Focus</h3>
                     <div>
                       {(snapshot?.activities ?? []).length ? (
-                        snapshot!.activities.map((a) => (
-                          <span key={a.name}>{a.name}</span>
-                        ))
+                        snapshot!.activities
+                          .slice(0, 3)
+                          .map((a) => (
+                            <span key={a.name}>
+                              {reportPreviewExcerpt(a.name, 60)}
+                            </span>
+                          ))
                       ) : (
                         <span>
-                          {snapshot?.focus ??
-                            plan?.focus ??
-                            "Shared batch focus"}
+                          {reportPreviewExcerpt(
+                            snapshot?.focus ??
+                              plan?.focus ??
+                              "Shared batch focus",
+                            80,
+                          )}
                         </span>
                       )}
                     </div>
+                    {(snapshot?.activities.length ?? 0) > 3 && (
+                      <small>
+                        {snapshot!.activities.length - 3} more activities in the
+                        full report.
+                      </small>
+                    )}
                   </section>
                   <section className="portal-report-comments">
                     <h3>Coach Comments</h3>
-                    <p>
-                      {(snapshot?.note ?? selectedReport.closingNote) ||
-                        "No closing comment recorded."}
+                    <p className="portal-report-excerpt">
+                      {reportPreviewExcerpt(
+                        (snapshot?.note ?? selectedReport.closingNote) ||
+                          "No closing comment recorded.",
+                      )}
                     </p>
                   </section>
                   <div className="portal-actions">
@@ -638,10 +732,44 @@ export function PortalReports({
             {snapshot ? (
               <ReportPreview model={snapshot} />
             ) : (
-              <p>
-                The report is not approved. Review the draft before exporting an
-                approved snapshot.
-              </p>
+              <>
+                <p>
+                  The report is not approved. Review the draft before exporting
+                  an approved snapshot.
+                </p>
+                {selectedReport && (
+                  <div className="portal-workflow">
+                    <section>
+                      <h3>Recorded practice</h3>
+                      <p>
+                        {selectedReport.monthlySources?.model.practised ??
+                          plan?.focus ??
+                          "Recorded practice has not been assembled for this report."}
+                      </p>
+                    </section>
+                    <section>
+                      <h3>Recorded observation</h3>
+                      <p>
+                        {selectedReport.observation ||
+                          "No individual observation recorded."}
+                      </p>
+                    </section>
+                    <section>
+                      <h3>Recorded next step</h3>
+                      <p>
+                        {selectedReport.nextStep || "No next step recorded."}
+                      </p>
+                    </section>
+                    <section>
+                      <h3>Recorded coach comment</h3>
+                      <p>
+                        {selectedReport.closingNote ||
+                          "No closing comment recorded."}
+                      </p>
+                    </section>
+                  </div>
+                )}
+              </>
             )}
           </Dialog.Content>
         </Dialog.Portal>
