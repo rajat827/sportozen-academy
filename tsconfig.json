@@ -33,7 +33,9 @@
     ".next-gallery-qa/types/**/*.ts",
     ".next-gallery-qa/dev/types/**/*.ts",
     ".next-final-qa/types/**/*.ts",
-    ".next-final-qa/dev/types/**/*.ts"
+    ".next-final-qa/dev/types/**/*.ts",
+    ".next-professional-reports-qa/types/**/*.ts",
+    ".next-professional-reports-qa/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

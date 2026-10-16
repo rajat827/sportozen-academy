@@ -52,7 +52,7 @@ export interface MonthlySources {
   evidenceIds: string[];
   model: Pick<
     ReportViewModel,
-    "focus" | "practised" | "activities" | "evidence"
+    "focus" | "practised" | "activities" | "evidence" | "presentationData"
   >;
 }
 export type DeliveryState =

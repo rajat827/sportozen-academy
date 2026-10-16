@@ -24,6 +24,20 @@ export async function GET(
         readFile(join(process.cwd(), "public/fonts/NotoSans-Regular.ttf")),
         readFile(join(process.cwd(), "public/fonts/NotoSans-Bold.ttf")),
       ]),
+      Object.fromEntries(
+        await Promise.all(
+          [
+            "movement-warm-up",
+            "close-control",
+            "passing-pairs",
+            "small-sided-game",
+            "generic-football",
+          ].map(async (name) => [
+            name,
+            `data:image/png;base64,${(await readFile(join(process.cwd(), "public/report-activities", `${name}.png`))).toString("base64")}`,
+          ]),
+        ),
+      ),
     );
     audit(
       academyId,

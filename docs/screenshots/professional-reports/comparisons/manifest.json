@@ -1,0 +1,365 @@
+{
+  "created_at": "2026-10-16T08:54:02.330090+00:00",
+  "status": "Inspected comparisons; awaiting user visual approval.",
+  "boards": {
+    "management-1536": {
+      "file": "docs/screenshots/professional-reports/comparisons/management-1536.png",
+      "kind": "approved-reference/browser",
+      "inputs": {
+        "reference": "docs/screenshots/professional-reports/approved-reference.png",
+        "actual": "docs/screenshots/professional-reports/after/reports-1536.png"
+      },
+      "input_sha256": {
+        "reference": "a9d6dd3eec7d2abceb0150d6899570c8a8fb9e3df77254fc660558d095c4f0c2",
+        "actual": "25e5c1178d1b6100f85cd4b2880f5b7ad9aa0ef9f1a10363e3ce3bf9e712f8dc"
+      },
+      "reference_crop": [
+        0,
+        0,
+        831,
+        1086
+      ],
+      "panels": [
+        {
+          "label": "Approved management reference",
+          "source_pixels": [
+            831,
+            1086
+          ],
+          "display_pixels": [
+            780,
+            1019
+          ],
+          "proportional_scale": 0.9386281588447654,
+          "actual_cropped": false
+        },
+        {
+          "label": "Actual browser implementation - 1536px",
+          "source_pixels": [
+            1536,
+            2101
+          ],
+          "display_pixels": [
+            780,
+            1067
+          ],
+          "proportional_scale": 0.5078125,
+          "actual_cropped": false
+        }
+      ],
+      "before_pdf_pages": null,
+      "actual_pdf_pages": null,
+      "inspection": {
+        "inspection_status": "inspected",
+        "input_sha256": {
+          "reference": "a9d6dd3eec7d2abceb0150d6899570c8a8fb9e3df77254fc660558d095c4f0c2",
+          "actual": "25e5c1178d1b6100f85cd4b2880f5b7ad9aa0ef9f1a10363e3ce3bf9e712f8dc"
+        },
+        "observed_differences": [
+          "The real report follows the reference section order, but existing desktop navigation and directory widths are retained. The detail report occupies a larger share of the workspace than in the narrow reference crop.",
+          "Native month selection, More report tools, explicit private PDF and Send to Parent controls differ from the reference compact icon treatment. Existing navigation and working actions remain in context.",
+          "Attendance/source explanations and a text measurement list add vertical space. The complete actual page is shown rather than cropped to the reference height.",
+          "The original static illustrations use different poses and flatter shapes; they remain consistent blue-kit football scenes with full feet and balls visible."
+        ],
+        "data_context_differences": [
+          "This is Synthetic Bharat Owner, Aadi Fictional U8 and Synthetic U8 Coach, not the reference Coach Rahul/Rahul Mehta. The saved missing player photo and academy crest use initials/text fallbacks.",
+          "The actual card shows a saved next-review date of 30 September 2026. It does not invent the reference historical Reviewed on 30 August label or the example enjoyment quote."
+        ],
+        "limitations": [
+          "Noto Sans is a substitution. The retained More menu and AI Video Analysis Coming soon reflect the existing portal navigation, not new reference controls.",
+          "The reference crop is 831px wide; the actual full-width browser capture is scaled proportionally for this analytical board. User visual approval is still required."
+        ],
+        "refresh_check": "Professional rerun10824: actual browser PNG bytes and all seven rerendered PDF-page pixels are identical to the previously opened/inspected versions. New PDF export byte hashes verified and rebound; factual visual notes remain unchanged."
+      },
+      "output_sha256": "8c39db95007cd3f3fc7d2a801b91470743b0f1beb767053d2515eb590ee354d5"
+    },
+    "management-1440": {
+      "file": "docs/screenshots/professional-reports/comparisons/management-1440.png",
+      "kind": "approved-reference/browser",
+      "inputs": {
+        "reference": "docs/screenshots/professional-reports/approved-reference.png",
+        "actual": "docs/screenshots/professional-reports/after/reports-1440.png"
+      },
+      "input_sha256": {
+        "reference": "a9d6dd3eec7d2abceb0150d6899570c8a8fb9e3df77254fc660558d095c4f0c2",
+        "actual": "ac6da1a515268faaaf7409e3c023eaad82aa9f24625d477069b094f1f265ebc0"
+      },
+      "reference_crop": [
+        0,
+        0,
+        831,
+        1086
+      ],
+      "panels": [
+        {
+          "label": "Approved management reference",
+          "source_pixels": [
+            831,
+            1086
+          ],
+          "display_pixels": [
+            780,
+            1019
+          ],
+          "proportional_scale": 0.9386281588447654,
+          "actual_cropped": false
+        },
+        {
+          "label": "Actual browser implementation - 1440px",
+          "source_pixels": [
+            1440,
+            2124
+          ],
+          "display_pixels": [
+            780,
+            1150
+          ],
+          "proportional_scale": 0.5416666666666666,
+          "actual_cropped": false
+        }
+      ],
+      "before_pdf_pages": null,
+      "actual_pdf_pages": null,
+      "inspection": {
+        "inspection_status": "inspected",
+        "input_sha256": {
+          "reference": "a9d6dd3eec7d2abceb0150d6899570c8a8fb9e3df77254fc660558d095c4f0c2",
+          "actual": "ac6da1a515268faaaf7409e3c023eaad82aa9f24625d477069b094f1f265ebc0"
+        },
+        "observed_differences": [
+          "The real report follows the reference section order, but existing desktop navigation and directory widths are retained. The detail report occupies a larger share of the workspace than in the narrow reference crop.",
+          "Native month selection, More report tools, explicit private PDF and Send to Parent controls differ from the reference compact icon treatment. Existing navigation and working actions remain in context.",
+          "Attendance/source explanations and a text measurement list add vertical space. The complete actual page is shown rather than cropped to the reference height.",
+          "The original static illustrations use different poses and flatter shapes; they remain consistent blue-kit football scenes with full feet and balls visible."
+        ],
+        "data_context_differences": [
+          "This is Synthetic Bharat Owner, Aadi Fictional U8 and Synthetic U8 Coach, not the reference Coach Rahul/Rahul Mehta. The saved missing player photo and academy crest use initials/text fallbacks.",
+          "The actual card shows a saved next-review date of 30 September 2026. It does not invent the reference historical Reviewed on 30 August label or the example enjoyment quote."
+        ],
+        "limitations": [
+          "Noto Sans is a substitution. The retained More menu and AI Video Analysis Coming soon reflect the existing portal navigation, not new reference controls.",
+          "The reference crop is 831px wide; the actual full-width browser capture is scaled proportionally for this analytical board. User visual approval is still required."
+        ],
+        "refresh_check": "Professional rerun10824: actual browser PNG bytes and all seven rerendered PDF-page pixels are identical to the previously opened/inspected versions. New PDF export byte hashes verified and rebound; factual visual notes remain unchanged."
+      },
+      "output_sha256": "b5b1cf9fd8e3f289b7393fcfc5adc97d0b124fe66ddcc8330b9ba115c5e43129"
+    },
+    "report-aadi-august": {
+      "file": "docs/screenshots/professional-reports/comparisons/report-aadi-august.png",
+      "kind": "approved-reference/actual-PDF",
+      "inputs": {
+        "reference": "docs/screenshots/professional-reports/approved-reference.png",
+        "actual": "docs/screenshots/professional-reports/after/U8-01-2026-08-1.png",
+        "actual_pdf": "docs/screenshots/professional-reports/after/U8-01-2026-08.pdf"
+      },
+      "input_sha256": {
+        "reference": "a9d6dd3eec7d2abceb0150d6899570c8a8fb9e3df77254fc660558d095c4f0c2",
+        "actual": "26a5dd902aa68ad728c0ea788b21cbf6a6a4bfd957a9b9b56bdf471a0b1acf58",
+        "actual_pdf": "19655b91d32fb8a9ef67682fb56cd1ba5a6d13c9f9a0149742599a7d064cbb3f"
+      },
+      "reference_crop": [
+        842,
+        18,
+        1440,
+        1086
+      ],
+      "panels": [
+        {
+          "label": "Approved report reference panel",
+          "source_pixels": [
+            598,
+            1068
+          ],
+          "display_pixels": [
+            780,
+            1393
+          ],
+          "proportional_scale": 1.3043478260869565,
+          "actual_cropped": false
+        },
+        {
+          "label": "Actual endpoint PDF - full A4 page 1 of 1",
+          "source_pixels": [
+            910,
+            1287
+          ],
+          "display_pixels": [
+            780,
+            1103
+          ],
+          "proportional_scale": 0.8571428571428571,
+          "actual_cropped": false
+        }
+      ],
+      "before_pdf_pages": null,
+      "actual_pdf_pages": 1,
+      "inspection": {
+        "inspection_status": "inspected",
+        "input_sha256": {
+          "reference": "a9d6dd3eec7d2abceb0150d6899570c8a8fb9e3df77254fc660558d095c4f0c2",
+          "actual": "26a5dd902aa68ad728c0ea788b21cbf6a6a4bfd957a9b9b56bdf471a0b1acf58",
+          "actual_pdf": "19655b91d32fb8a9ef67682fb56cd1ba5a6d13c9f9a0149742599a7d064cbb3f"
+        },
+        "observed_differences": [
+          "The actual endpoint export is true A4 portrait with a restrained text footer. The reference panel has different presentation proportions and a decorative grass/swoosh/football footer; those decorations are not copied.",
+          "All four original activity illustrations are fully contained, with different poses and more white spacing than the reference art. There is no clipping of the figures or balls.",
+          "The actual report uses a compact attendance strip and a full-width recorded-attempt bar chart. The reference has extra icons and a separate Steady progress callout which are absent here.",
+          "Identity, development focus, activities, reviewed observations, evaluation, next step and note fit on one readable page without overlap or footer collision."
+        ],
+        "data_context_differences": [
+          "Actual saved identity is Aadi Fictional U8 / Synthetic U8 Coach. No saved portrait or crest is available, so text/initials appear. The reference quote and decorative crest are not invented.",
+          "The chart shows the actual reviewed observations 2/6,2/6,3/6,3/6,4/6; its caption identifies reviewed-observation dates, not confirmed session dates. 30 September 2026 is the saved next-review date."
+        ],
+        "limitations": [
+          "Noto Sans differs from the unidentified reference font. Equal-width comparison preserves each panel proportion; the reference is not treated as a calibrated A4 page.",
+          "This is the ordinary August example. The real long September note is intentionally retained across three pages rather than forced into one page."
+        ],
+        "refresh_check": "Professional rerun10824: actual browser PNG bytes and all seven rerendered PDF-page pixels are identical to the previously opened/inspected versions. New PDF export byte hashes verified and rebound; factual visual notes remain unchanged."
+      },
+      "output_sha256": "cd632d4e5d48a5d2880396a4ccb0818c38e124cda3c370e2100cee5135fd38bd"
+    },
+    "aadi-pagination-before-after": {
+      "file": "docs/screenshots/professional-reports/comparisons/aadi-pagination-before-after.png",
+      "kind": "actual-before/actual-after-PDF",
+      "inputs": {
+        "before_pdf": "docs/screenshots/professional-reports/before/aadi-august-original.pdf",
+        "before_page_1": "docs/screenshots/professional-reports/before/aadi-august-original-1.png",
+        "before_page_2": "docs/screenshots/professional-reports/before/aadi-august-original-2.png",
+        "before_page_3": "docs/screenshots/professional-reports/before/aadi-august-original-3.png",
+        "actual": "docs/screenshots/professional-reports/after/U8-01-2026-08-1.png",
+        "actual_pdf": "docs/screenshots/professional-reports/after/U8-01-2026-08.pdf"
+      },
+      "input_sha256": {
+        "before_pdf": "0d7d3fe57d9b12d6044d49a67e7e3a2148e06883ca664e29f5172cc50a0af43e",
+        "before_page_1": "c63509a54c6d5e79bb4b4b4160a5d4e9265a0abf506c847eafc6f6980846e9fd",
+        "before_page_2": "8c2dc280fd4386942b456daadd4d2b5fa1c968a3b1a4d5df31a59dc9aa83c77a",
+        "before_page_3": "16d0b95147c6b5dfabc60014fde9cb765ae5f4799ef025c92003c263be92d1b6",
+        "actual": "26a5dd902aa68ad728c0ea788b21cbf6a6a4bfd957a9b9b56bdf471a0b1acf58",
+        "actual_pdf": "19655b91d32fb8a9ef67682fb56cd1ba5a6d13c9f9a0149742599a7d064cbb3f"
+      },
+      "reference_crop": null,
+      "panels": [
+        {
+          "label": "Before - all three original pages",
+          "source_pixels": [
+            780,
+            3361
+          ],
+          "display_pixels": [
+            780,
+            3361
+          ],
+          "proportional_scale": 1.0,
+          "actual_cropped": false
+        },
+        {
+          "label": "After - full actual page 1 of 1",
+          "source_pixels": [
+            910,
+            1287
+          ],
+          "display_pixels": [
+            780,
+            1103
+          ],
+          "proportional_scale": 0.8571428571428571,
+          "actual_cropped": false
+        }
+      ],
+      "before_pdf_pages": 3,
+      "actual_pdf_pages": 1,
+      "inspection": {
+        "inspection_status": "inspected",
+        "input_sha256": {
+          "before_pdf": "0d7d3fe57d9b12d6044d49a67e7e3a2148e06883ca664e29f5172cc50a0af43e",
+          "before_page_1": "c63509a54c6d5e79bb4b4b4160a5d4e9265a0abf506c847eafc6f6980846e9fd",
+          "before_page_2": "8c2dc280fd4386942b456daadd4d2b5fa1c968a3b1a4d5df31a59dc9aa83c77a",
+          "before_page_3": "16d0b95147c6b5dfabc60014fde9cb765ae5f4799ef025c92003c263be92d1b6",
+          "actual": "26a5dd902aa68ad728c0ea788b21cbf6a6a4bfd957a9b9b56bdf471a0b1acf58",
+          "actual_pdf": "19655b91d32fb8a9ef67682fb56cd1ba5a6d13c9f9a0149742599a7d064cbb3f"
+        },
+        "observed_differences": [
+          "The original three-page source-card printout is replaced by a structured single-page actual A4 export with four illustrated activities, attendance and the recorded-attempt chart.",
+          "The comparison shows every original page vertically and the complete actual page beside them. No original page or actual content area is cropped out.",
+          "Old raw source-reference/UUID lines are not reproduced in the readable summary PDF. The underlying approved snapshots remain unchanged; this is not a claim of verbatim PDF text parity."
+        ],
+        "data_context_differences": [
+          "Both exports concern the same Aadi August report. The actual endpoint verification records the unchanged approved snapshot hash.",
+          "The source values remain 5/5 attendance and 2/6,2/6,3/6,3/6,4/6 reviewed attempts. The original next-step, evaluation and closing-note meaning remain visible."
+        ],
+        "limitations": [
+          "The before pages and after page were rendered at different native resolutions and are proportionally scaled to equal width here.",
+          "One page is confirmed for this normal example, not all report lengths. The 30-paragraph September note remains three pages."
+        ],
+        "refresh_check": "Professional rerun10824: actual browser PNG bytes and all seven rerendered PDF-page pixels are identical to the previously opened/inspected versions. New PDF export byte hashes verified and rebound; factual visual notes remain unchanged."
+      },
+      "output_sha256": "72f3147fc6da36d0009981c9a8faba306633c5829d1d64200054da683b4c0a82"
+    },
+    "parent-mobile-context": {
+      "file": "docs/screenshots/professional-reports/comparisons/parent-mobile-context.png",
+      "kind": "actual-responsive-context-only",
+      "inputs": {
+        "actual_390": "docs/screenshots/professional-reports/after/parent-report-390.png",
+        "actual_320": "docs/screenshots/professional-reports/after/parent-report-320.png"
+      },
+      "input_sha256": {
+        "actual_390": "251fd5b471456fa8df58e9b27827260ced71ceb42b07700098a4dae3f7907ab7",
+        "actual_320": "6b94bc8e274e3a518fee1e1f495cff17fd1d93b734226128c5b88deadae90d4c"
+      },
+      "reference_crop": null,
+      "panels": [
+        {
+          "label": "Actual Parent Reports - native 390px",
+          "source_pixels": [
+            390,
+            2820
+          ],
+          "display_pixels": [
+            780,
+            5640
+          ],
+          "proportional_scale": 2.0,
+          "actual_cropped": false
+        },
+        {
+          "label": "Actual Parent Reports - native 320px",
+          "source_pixels": [
+            320,
+            2952
+          ],
+          "display_pixels": [
+            780,
+            7196
+          ],
+          "proportional_scale": 2.4375,
+          "actual_cropped": false
+        }
+      ],
+      "before_pdf_pages": null,
+      "actual_pdf_pages": null,
+      "inspection": {
+        "inspection_status": "inspected",
+        "input_sha256": {
+          "actual_390": "251fd5b471456fa8df58e9b27827260ced71ceb42b07700098a4dae3f7907ab7",
+          "actual_320": "6b94bc8e274e3a518fee1e1f495cff17fd1d93b734226128c5b88deadae90d4c"
+        },
+        "observed_differences": [
+          "Both actual Parent captures use a single report column, a two-column activity grid and stacked next-step/note cards. The 320px view wraps more text than 390px.",
+          "The chart retains all five dated attempt labels and a readable text value list. All report sections remain visible in the complete captures.",
+          "The existing viewport-fixed bottom navigation is visible at the capture viewport boundary inside the full-page image. The board does not remove it or stitch that region away.",
+          "The visible green report outline is retained from the captured state. No device frame or presentation caption is added."
+        ],
+        "data_context_differences": [
+          "This linked parent sees only the approved child report, private PDF action, actual Synthetic U8 Coach identity and saved review date. Initials represent the missing saved child photo.",
+          "These are actual 390px and 320px linked-parent screenshots. The supplied reference has no corresponding mobile panel."
+        ],
+        "limitations": [
+          "This board is a responsive context/usability comparison, not a claimed match to a nonexistent mobile reference.",
+          "Both full images are proportionally scaled to equal width; keep the native screenshots for reading small text and assessing the fixed navigation in its viewport."
+        ],
+        "refresh_check": "Professional rerun10824: actual browser PNG bytes and all seven rerendered PDF-page pixels are identical to the previously opened/inspected versions. New PDF export byte hashes verified and rebound; factual visual notes remain unchanged."
+      },
+      "output_sha256": "053f40fde9618e9a376229af2c6673af1d8328f4637662c8ab8fb8f81675c53a"
+    }
+  }
+}

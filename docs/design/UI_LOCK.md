@@ -2,6 +2,12 @@
 
 # Sportozen approved visual direction lock
 
+## Scoped professional Reports update — 16 October 2026
+
+The latest explicit user brief authorises the existing authenticated Reports screen, shared report preview and academy-branded PDF on `codex/professional-report-ui-final`. [The supplied illustrated Reports reference](../screenshots/professional-reports/approved-reference.png) supersedes older Reports presentation rules for this task only. Preserve Home, Players, Calendar, Training, Fees and Settings, current academy branding, roles, immutable historical approvals, batch-plan inheritance, optional personalisation and external-delivery rules. Source facts take precedence over the example names, photos, logos and commentary pictured in the reference. Generic illustrations establish no child-specific evidence.
+
+Actual captures, authenticated exports, comparisons and remaining differences are recorded in [professional Reports evidence](../screenshots/professional-reports/README.md). The reference is selected by the user; the implementation still requires their visual approval. This scope authorises neither a wider redesign nor a merge, deployment or external send. The earlier Home/Parent checkpoint below remains historical.
+
 ## Scoped Home update — 15 October 2026
 
 The latest explicit user instruction authorises implementation of the supplied Home dashboard on `codex/home-screen-locked-ui`. For `/design-preview/coach-today`, [home-screen.png](../reference/approved-ui/home-screen.png) is now the visual source of truth and supersedes the older Coach Today panel below. The actual 1536 × 1024 attachment was opened and preserved byte-for-byte; its provenance and asset crops are recorded in [UI_REFERENCE_MAP.md](UI_REFERENCE_MAP.md) and `docs/reference/approved-ui/home-assets.json`.

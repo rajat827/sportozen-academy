@@ -10,6 +10,7 @@ export default defineConfig([
     ".next-football-qa/**",
     ".next-gallery-qa/**",
     ".next-final-qa/**",
+    ".next-professional-reports-qa/**",
     "next-env.d.ts",
     "playwright-report/**",
     "test-results/**",

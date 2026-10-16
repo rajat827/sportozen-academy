@@ -21,6 +21,7 @@ import {
 } from "./workspace-access";
 import { authorisedSession } from "./training-service";
 import { monthlySourceData } from "./monthly-source-data";
+import { approvedReportPresentationData } from "@/services/reports/report-presentation";
 import { atomic, database, audit } from "./database";
 import { WorkspaceError } from "./auth";
 function fail(message: string): never {
@@ -154,6 +155,18 @@ export function assembleMonthly(
       )
       .digest("hex"),
     model: {
+      presentationData: approvedReportPresentationData({
+        attendance: {
+          total: records.actual.length,
+          present: records.counts.PRESENT,
+          absent: records.counts.ABSENT,
+          excused: records.counts.EXCUSED,
+          unmarked: records.counts.UNMARKED,
+        },
+        evidence: records.eligible,
+        sessions: records.actual,
+        timezone: period.timezone,
+      }),
       focus:
         [
           ...new Set(

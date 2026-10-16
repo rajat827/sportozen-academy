@@ -1,0 +1,102 @@
+{
+  "status": "PASS",
+  "branch": "codex/professional-report-ui-final",
+  "testedStartingCommit": "6184cec4474091da2e994f91a677e94e30672f68",
+  "lint": "PASS",
+  "typecheck": "PASS",
+  "unit": {
+    "passed": 258,
+    "files": 28
+  },
+  "build": {
+    "status": "PASS",
+    "directory": ".next-professional-reports-qa",
+    "existingWarning": "Dynamic configured SQLite path traces project; no deployment performed."
+  },
+  "existingBrowserSuite": {
+    "initial": {
+      "passed": 57,
+      "failed": 2,
+      "durationMinutes": 21.5
+    },
+    "correctedTargetedRerun": {
+      "passed": 2,
+      "failed": 0,
+      "durationMinutes": 4.3
+    },
+    "distinctCasesVerified": 59,
+    "singleCleanFullRunClaimed": false
+  },
+  "professionalBrowser": {
+    "passed": 1,
+    "failed": 0,
+    "durationMinutes": 3.3,
+    "approvedPdfExports": 120,
+    "children": 60,
+    "viewportWidths": [
+      1536,
+      1440,
+      390,
+      320
+    ],
+    "runtimeErrors": 0,
+    "externalRequests": 0,
+    "horizontalOverflow": false
+  },
+  "independentPdfVerification": "PASS",
+  "sourcePreservation": {
+    "status": "PASS",
+    "sourceDatabaseWasReadOnly": true,
+    "originalPlayers": 60,
+    "currentReports": 180,
+    "originalApprovedSnapshotsHashVerified": 120,
+    "additionalReportsPreserved": 60,
+    "additionalStatuses": [
+      "Draft"
+    ],
+    "noDatabaseReset": true,
+    "noExternalDelivery": true
+  },
+  "existingModifiedFilesBytePreserved": 33,
+  "sourceFileSha256": {
+    ".gitignore": "28f31e16bf3a38f10659ee4fcd790914c76e39c72a60c3f8016d596cdc862d61",
+    "eslint.config.mjs": "5c9b5823cafb5813ffcf2eefbc286175e687c6340576943a3152e1d81f54c2e0",
+    "next.config.ts": "552328eff0d3c7ef95b266aa2a89c86118ebc192e7a7e4ef7cc0a553e72f6746",
+    "playwright.professional.config.ts": "4d11a29c4fdf053bbca68d806db720183f7802236eb97201528645e93187853b",
+    "public/report-activities/close-control.png": "a57319c8bcd95a8508746d84c82d79c12182dc36eca0065faeddcf18c9e0ad8e",
+    "public/report-activities/close-control.svg": "e14500f8ab6b7c9638a5d8d8e074b92f9a5c54c2c2e4215c4b2d330aa1c36b38",
+    "public/report-activities/generic-football.png": "269c51aa01f2f08a7caeaf507da1fa84899811c8d894eef01525af703aca8472",
+    "public/report-activities/generic-football.svg": "a9d151d6c0ba9c580e751c005a8e91be4436eeb75b9a2ef3d6b1ab47b670dabe",
+    "public/report-activities/movement-warm-up.png": "49737d3055d9ede1ee33044a62ad5697a2b4f9f0ba46eedca02d098d4a3a0a8b",
+    "public/report-activities/movement-warm-up.svg": "acd285dbe781c2150059decefb772543b392951967a8e829317f2bfc20669d2a",
+    "public/report-activities/passing-pairs.png": "242b22eb205c54bf1c202a59f396187ff8b547a3c59f7f417b7958e823b01689",
+    "public/report-activities/passing-pairs.svg": "0a5d9699de0c588357285bf82cddce351acea795c5f68a533f066293db67a308",
+    "public/report-activities/small-sided-game.png": "10338db33fb5d91fad89dafd9d6b93988975625c68a576f57a26ed30318a0831",
+    "public/report-activities/small-sided-game.svg": "568d311f1651613bbc51a3162108115ee6396b0bb266042f86455e9879c3d08c",
+    "src/app/api/workspaces/[academyId]/reports/[reportId]/pdf/route.ts": "1da236b8bccf3e002fbc1f42348e121b6676dcca143bf7ef0643556f24947f9b",
+    "src/domain/communication.ts": "8de3cc535c7fc1dee607c9eb514c8f68de39a5a1f0b650d6502e375b2e3a7ef8",
+    "src/domain/report.ts": "d0cc1a07ffd6ea94c157af9f57ea989d0992e9decef6cafb19359aae4614ea1b",
+    "src/features/reports/professional-report.css": "6863b7ef9eb4cf36a0efc3485091dad6344dbef6209baf171c5900d68154dbba",
+    "src/features/reports/report-pdf.tsx": "a41540b50c175bb180a9cbb8a0e796e359a90645bbcae1052c7bcd6f74465ec3",
+    "src/features/reports/report-preview.tsx": "31f65fea9d2d8d63f7e09c55a6492944c7d870954127707b862c9b66c309dd6c",
+    "src/features/workspaces/portal-reports.css": "393a254a1a093903116d129de5fd038124adc9b68e4f2a524247dec5d0fb6430",
+    "src/features/workspaces/portal-reports.tsx": "3e0c78a011a182b162230516bc4d4644caeef1a0732f25f2b39df244af142727",
+    "src/server/period-service.ts": "d95c9135fb0e54e8e263f585d0ea401637b3267b34c82b3dd32dbcac6d7876b4",
+    "src/server/workspace-access.ts": "6f55df7aada67211f54382543a524dd451f7c0dc3afab4a47fea67f1656bdf4c",
+    "src/server/workspace-service.ts": "9343f7b0cbfc56325622c74907abfc49b449449adcf564ca14e429949fc20ea7",
+    "src/services/reports/report-presentation.ts": "30c404bbea717dd514d345054a02ec7224db68c9b40d4ad90deba4b3abe798b4",
+    "tests/e2e/period-communication.spec.ts": "5e4f1f3cfcb7ca736acea84b8976f30894b45dd0ef94ab73d9444b19d42f6b67",
+    "tests/e2e/reports.spec.ts": "8e3bd5bd038d58f7a96f7c1ce333b8207a3a5892d8dd7d0ae77beb95d03688d8",
+    "tests/e2e/training.spec.ts": "2710b7c14ff0b9c1fd433262c2d125502ba4244a1c3a6e89c7997044c08ed185",
+    "tests/e2e/workflows.spec.ts": "26c0a4cd0fcdafaf2594d9efb5349711e23ae21dceffcf00cd7a14032ff2786f",
+    "tests/professional/reports.spec.ts": "c8b722ccf2035b28fc9142c4fd033466dbcf30d8ada5ed94ff14ad8b0c676783",
+    "tests/unit/period-communication.test.ts": "15092b8703628c7f1e37744a738dc1f15db05592003fe82b883b2b5ebcbde509",
+    "tests/unit/portal-scheduling.test.ts": "7fad67108599ae7e0cc90db897feb307a8a8f0803864becd84459afbe04bae46",
+    "tests/unit/report-presentation.test.ts": "7fb4140ab839a6d45cb807d89a66715e044f70f05baee7d86d9d3a2d45b3105e",
+    "tsconfig.json": "551073bb7015830fa0dd935f3d4e6fd602c7dba0527b32ac5374c0f2aac26327"
+  },
+  "userVisualApproval": "PENDING",
+  "merged": false,
+  "deployed": false,
+  "externalMessagesSent": false
+}

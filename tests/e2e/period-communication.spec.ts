@@ -262,7 +262,7 @@ test("weekly plans and monthly reports extend authorised workspaces across three
       .getByRole("button", { name: "Reports", exact: true })
       .click();
     await staffPage
-      .getByRole("button", { name: "Generate Report", exact: true })
+      .getByRole("button", { name: "Create Report", exact: true })
       .click();
     const monthlyWorkflow = staffPage.getByRole("dialog", {
       name: "Prepare & Review Reports",

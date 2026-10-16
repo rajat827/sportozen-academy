@@ -91,8 +91,10 @@ test("Coach changes goal, builds draft, personalises, marks attendance and revie
   await page.goto("/coach/reports/r2");
   await page.getByRole("button", { name: "Approve", exact: true }).click();
   await expect(
-    page.getByText("Report status: Approved", { exact: true }),
-  ).toBeVisible();
+    page
+      .getByRole("article", { name: "Player development report" })
+      .locator(".pr-status"),
+  ).toHaveText("Approved");
 });
 test("Demo role switch, parent privacy and mobile navigation", async ({
   page,

@@ -3,6 +3,7 @@ node_modules/
 .next-football-qa/
 .next-gallery-qa/
 .next-final-qa/
+.next-professional-reports-qa/
 playwright-report/
 test-results/
 *.tsbuildinfo

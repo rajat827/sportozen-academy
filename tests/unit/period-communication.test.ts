@@ -29,6 +29,10 @@ import { workspaceRepository as repo } from "@/server/workspace-repository";
 import { communicationRepository as comm } from "@/server/communication-repository";
 import { periodAction, assembleMonthly } from "@/server/period-service";
 import {
+  parentReportSnapshot,
+  reportPresentation,
+} from "@/services/reports/report-presentation";
+import {
   approveReport,
   reviewUpdate,
   publishUpdate,
@@ -392,6 +396,136 @@ afterAll(() => {
     rmSync(filename + suffix, { force: true });
 });
 describe("weekly approval and monthly source extension", () => {
+  it("excludes preserved non-football snapshots before interpreting their historical schema", () => {
+    const db = database();
+    const historical = {
+      player: {
+        id: "historical-child",
+        academyId: "a",
+        name: "Historical child",
+        sportIds: ["cricket"],
+        coachId: "coach",
+      },
+      report: {
+        id: "historical-report",
+        academyId: "a",
+        playerId: "historical-child",
+        sportId: "cricket",
+        status: "Approved",
+        snapshot: { player: "Historical child", sport: "Cricket" },
+      },
+      update: {
+        id: "historical-update",
+        academyId: "a",
+        playerId: "historical-child",
+        sportId: "cricket",
+        approvalStatus: "APPROVED",
+        inAppPublicationStatus: "PUBLISHED",
+        publishedGuardianIds: ["guardian"],
+        approvedSource: {
+          reportId: "historical-report",
+          player: "Historical child",
+          sport: "Cricket",
+        },
+      },
+    };
+    for (const [kind, body] of Object.entries(historical)) {
+      db.prepare(
+        "INSERT INTO workspace_records(academyId,kind,id,sportId,playerId,body) VALUES(?,?,?,?,?,?)",
+      ).run(
+        "a",
+        kind,
+        body.id,
+        "sportId" in body ? body.sportId : null,
+        kind === "player" ? body.id : "historical-child",
+        JSON.stringify(body),
+      );
+    }
+    db.prepare(
+      "INSERT INTO guardian_relationships(academyId,userId,playerId) VALUES(?,?,?)",
+    ).run("a", "guardian", "historical-child");
+    expect(visibleRecords(parent, "player").map((p) => p.id)).toEqual(["p"]);
+    expect(visibleRecords(parent, "report")).toEqual([]);
+    expect(visibleRecords(parent, "update")).toEqual([]);
+    expect(visibleRecords(parent, "plan")).toEqual([]);
+    for (const [kind, body] of Object.entries(historical)) {
+      const saved = db
+        .prepare(
+          "SELECT body FROM workspace_records WHERE academyId=? AND kind=? AND id=?",
+        )
+        .get("a", kind, body.id);
+      expect(saved?.body).toBe(JSON.stringify(body));
+    }
+  });
+  it("freezes the saved interpretation and complete authored observation for a new non-monthly training report", () => {
+    const authored =
+      "Reviewed first touch. Conditions: this sentence is coach-authored, not appended collection metadata.\nThe final recorded sentence must survive.";
+    const commentary =
+      "The saved report interpretation. Conditions: compare only these attempts before the next review.";
+    repo.save("a", "session", { ...session, status: "COMPLETED" });
+    const source: FootballEvidence = {
+      ...base,
+      id: "narrative-source",
+      version: 1,
+      updatedAt: session.startAt,
+      updatedBy: "coach",
+      sessionId: session.id,
+      playerId: "p",
+      planId: "plan",
+      drillId: "drill",
+      drillVersion: 1,
+      drillName: "Touch activity",
+      conditions: "Technical collection metadata retained for authorised staff",
+      observation: authored,
+      staffNote: "PRIVATE-NARRATIVE-STAFF",
+      type: "COACH_OBSERVATION",
+      visibility: "PARENT_ELIGIBLE",
+      measurement: "OBSERVATION",
+      unit: "NONE",
+      method: "Recorded observation",
+      status: "REVIEWED",
+      authorId: "coach",
+      recordedAt: session.startAt,
+      reviewedBy: "coach",
+      reviewedAt: session.startAt,
+    };
+    repo.save("a", "evidence", source);
+    const draft = saveRecord(ctx, "report", {
+      playerId: "p",
+      planId: "plan",
+      sportId: "football",
+      period: "January 2027",
+      sourceEvidenceIds: [source.id],
+      observation: commentary,
+      evidenceType: "COACH_OBSERVATION",
+      nextStep: "Repeat the recorded cue",
+      closingNote: "Saved closing note",
+    }) as WorkspaceReport;
+    const approved = approveReport(ctx, draft.id, true, draft.recordVersion);
+    const frozen = structuredClone(approved.snapshot!);
+    expect(frozen.presentationData?.coachEvaluation).toEqual([commentary]);
+    expect(frozen.presentationData?.observations).toEqual([authored]);
+    const publicReport = visibleRecords(parent, "report")[0];
+    expect(reportPresentation(publicReport.snapshot!).coachEvaluation).toEqual([
+      commentary,
+    ]);
+    expect(reportPresentation(publicReport.snapshot!).observations).toEqual([
+      authored,
+    ]);
+    expect(JSON.stringify(publicReport.snapshot)).not.toMatch(
+      /PRIVATE-NARRATIVE-STAFF|Technical collection metadata/,
+    );
+    expect(repo.find("a", "report", draft.id)?.snapshot).toEqual(frozen);
+    expect(
+      visibleRecords(ctx, "report")[0].snapshot?.evidence[0].text,
+    ).toContain("Technical collection metadata");
+    const history = database()
+      .prepare(
+        "SELECT snapshot FROM report_approval_history WHERE academyId=? AND reportId=?",
+      )
+      .get("a", draft.id)!;
+    expect(JSON.parse(String(history.snapshot))).toEqual(frozen);
+  });
   it("publishes an explicitly reviewed batch-only monthly update privately without manufacturing a player plan", () => {
     const db = database();
     db.prepare(
@@ -445,7 +579,20 @@ describe("weekly approval and monthly source extension", () => {
     const published = visibleRecords(parent, "update");
     expect(published).toHaveLength(1);
     expect(published[0].sourceReportId).toBe(approved.id);
-    expect(published[0].approvedSource).toEqual(approved.snapshot);
+    expect(published[0].approvedSource).toEqual(
+      JSON.parse(JSON.stringify(parentReportSnapshot(approved.snapshot!))),
+    );
+    expect(repo.find("a", "report", approved.id)?.snapshot).toEqual(
+      approved.snapshot,
+    );
+    expect(JSON.stringify(published[0].approvedSource)).not.toContain(
+      "Attendance basis:",
+    );
+    expect(
+      reportPresentation(
+        published[0].approvedSource as NonNullable<WorkspaceReport["snapshot"]>,
+      ).attendance,
+    ).toEqual(reportPresentation(approved.snapshot!).attendance);
     expect(published[0].externalDeliveryStatus).toBe("NOT_SENT");
     expect(
       visibleRecords(
@@ -716,6 +863,16 @@ describe("weekly approval and monthly source extension", () => {
       r.id,
     );
     const approved = approveReport(ctx, r.id, true);
+    expect(approved.snapshot?.presentationData?.attendance).toEqual({
+      total: 1,
+      present: 0,
+      absent: 0,
+      excused: 0,
+      unmarked: 1,
+    });
+    expect(approved.snapshot?.presentationData?.coachEvaluation).toEqual([
+      "Recorded coach commentary",
+    ]);
     expect(() => notificationContent("a", "MONTHLY", r.id)).not.toThrow();
     repo.save("a", "attendance", {
       id: "late-attendance",

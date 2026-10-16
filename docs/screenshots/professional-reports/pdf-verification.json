@@ -1,0 +1,970 @@
+{
+  "status": "PASS",
+  "exports": 120,
+  "pages": 122,
+  "selectableTextVerified": true,
+  "noRawEvidenceMetadata": true,
+  "checks": [
+    {
+      "file": "U8-01-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1560,
+      "factsChecked": 28,
+      "pdfSha256": "19655b91d32fb8a9ef67682fb56cd1ba5a6d13c9f9a0149742599a7d064cbb3f"
+    },
+    {
+      "file": "U8-01-2026-09.pdf",
+      "pages": 3,
+      "activityPosters": 4,
+      "selectableCharacters": 8412,
+      "factsChecked": 26,
+      "pdfSha256": "099d661d8e93c77dca105aef25d9ec6346bdc252734ff2ca072f72a2e157bad2"
+    },
+    {
+      "file": "U8-02-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1529,
+      "factsChecked": 26,
+      "pdfSha256": "a8a3a80587b0a7c917ef3511c9e0c5643538bd6e098aa8d1f60444530f102b91"
+    },
+    {
+      "file": "U8-02-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1610,
+      "factsChecked": 24,
+      "pdfSha256": "2ac7565050babaa6e1b0c7b42e758b50ac2f5444fed95d31fc69d3263ce8d3af"
+    },
+    {
+      "file": "U8-03-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1528,
+      "factsChecked": 26,
+      "pdfSha256": "e459c7cdb42bf5cf903fa44e944d7412856271db53e743b74c402127f2785f1f"
+    },
+    {
+      "file": "U8-03-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1609,
+      "factsChecked": 24,
+      "pdfSha256": "612d80e84df82fb2a3ecb14dfedb0d583403cce341d5238a84eb23c9624969bc"
+    },
+    {
+      "file": "U8-04-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1512,
+      "factsChecked": 22,
+      "pdfSha256": "56cb5e1e296f60d7eb79b152f76d8ce1a19af513529967b30596850febdae84b"
+    },
+    {
+      "file": "U8-04-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1601,
+      "factsChecked": 22,
+      "pdfSha256": "11e4553c04eea20f3dfcf21ceed8ab18a4b70ecbcb6ed604070f2ae29c37a14d"
+    },
+    {
+      "file": "U8-05-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1418,
+      "factsChecked": 18,
+      "pdfSha256": "db34867995770f9ffdf5aaa36f5dc70777fe0e6502b3f027359dc550342636f6"
+    },
+    {
+      "file": "U8-05-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1400,
+      "factsChecked": 18,
+      "pdfSha256": "116c60cce13ce3cad66bd34d2e6fc34aa92bebcfa143e9443ec24997d0d5ad69"
+    },
+    {
+      "file": "U8-06-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1530,
+      "factsChecked": 26,
+      "pdfSha256": "8f8e4a411ff61e3216618f9ea6e8b9b78b3bdfda4f44eafb58696c088aaec156"
+    },
+    {
+      "file": "U8-06-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1611,
+      "factsChecked": 24,
+      "pdfSha256": "0b561cd45b5cd165d0f8638deb99222da7ee7dc4c3976ce43c2a9b6998c3bf1f"
+    },
+    {
+      "file": "U8-07-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1527,
+      "factsChecked": 26,
+      "pdfSha256": "9c48b728c26bd29f7f3e4cca8187a4198723d65941816db05ddf1cb56fd30063"
+    },
+    {
+      "file": "U8-07-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1608,
+      "factsChecked": 24,
+      "pdfSha256": "92d86b4b1ec30198a2517c372cfb3644b8084b795a3829b646d4fce13215825a"
+    },
+    {
+      "file": "U8-08-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1526,
+      "factsChecked": 26,
+      "pdfSha256": "27aae9d07c702ac6e16abc62ea1f5d07cec456468391677604bc169018c92024"
+    },
+    {
+      "file": "U8-08-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1607,
+      "factsChecked": 24,
+      "pdfSha256": "e8e8fa94826a59b91b6cd734bda6d9e9f60900524f1ac9befd86b5168470954c"
+    },
+    {
+      "file": "U8-09-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1511,
+      "factsChecked": 22,
+      "pdfSha256": "f4943682d0c2e482654ad4eaf7d805baf195c2c5c21630a45007079222e54eda"
+    },
+    {
+      "file": "U8-09-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1600,
+      "factsChecked": 22,
+      "pdfSha256": "0cb1f334267a0bc7fa4efed18aa062d63f1347316a4ff1995d2227594b156bc7"
+    },
+    {
+      "file": "U8-10-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1527,
+      "factsChecked": 26,
+      "pdfSha256": "dd912d5fedd3fff7544dfa0aec049c61817a10c5178e5c10d98c255c19452b53"
+    },
+    {
+      "file": "U8-10-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1608,
+      "factsChecked": 24,
+      "pdfSha256": "9881247049cb8b50e696c3a8f407b9819a301e274c560cfae3c236eb5b88ad27"
+    },
+    {
+      "file": "U10-01-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1568,
+      "factsChecked": 28,
+      "pdfSha256": "fe8e9b662d47d701c27175f32c12f5938b0bf1529ad188dddef0b4780a18b015"
+    },
+    {
+      "file": "U10-01-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1673,
+      "factsChecked": 26,
+      "pdfSha256": "5862d8498bec20763b4dfee4440d1d1a4940ae71a3583c32ad0c4569d99a0386"
+    },
+    {
+      "file": "U10-02-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1537,
+      "factsChecked": 26,
+      "pdfSha256": "2ceba434d73516a194de9a9081eb88138b2d7051c3841ce2585c4121711977bf"
+    },
+    {
+      "file": "U10-02-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1618,
+      "factsChecked": 24,
+      "pdfSha256": "9fda46438ccee234b9b7883a32fbd7ce9a7a4cf1f72fba37e463c48ef90c6338"
+    },
+    {
+      "file": "U10-03-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1536,
+      "factsChecked": 26,
+      "pdfSha256": "d4049f9e1274b5813b2ce0018159fa1cbc98b68e470ff687731353bd165fd3c3"
+    },
+    {
+      "file": "U10-03-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1617,
+      "factsChecked": 24,
+      "pdfSha256": "0fd3af55602d772b03049f53626b8e41830b2ea601bdf8f49726c09f784fefea"
+    },
+    {
+      "file": "U10-04-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1520,
+      "factsChecked": 22,
+      "pdfSha256": "0d840afc963e83ba0997bdfe20a19f5a8d62aae18eaca9a80d9051985d6c5c05"
+    },
+    {
+      "file": "U10-04-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1609,
+      "factsChecked": 22,
+      "pdfSha256": "30670e13407ca5a5dbf4d90f13fe8e66acdd784671e23658f209ac3cf47fd8ec"
+    },
+    {
+      "file": "U10-05-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1426,
+      "factsChecked": 18,
+      "pdfSha256": "45e56a9580208369c9c48eaf26c812af4612d5c29d6898a8c6c8857a33c0503d"
+    },
+    {
+      "file": "U10-05-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1408,
+      "factsChecked": 18,
+      "pdfSha256": "898bd1c2e82c7704ee696b1cab3307c9a75827b2ea3f405235d56a5ddf6b880e"
+    },
+    {
+      "file": "U10-06-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1538,
+      "factsChecked": 26,
+      "pdfSha256": "5fa1838813f1b462657517b3bdaa7c649619a4bfee9eaed5ca6f9a1c2024a7c5"
+    },
+    {
+      "file": "U10-06-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1619,
+      "factsChecked": 24,
+      "pdfSha256": "cc25d097110d06bd5459e16c4753993c286886b8b2ad96da03d3600be6174b65"
+    },
+    {
+      "file": "U10-07-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1535,
+      "factsChecked": 26,
+      "pdfSha256": "eaed6534c98fe3d5b30753c69713b849f2a516dee0616ee5759a21dd56a513f0"
+    },
+    {
+      "file": "U10-07-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1616,
+      "factsChecked": 24,
+      "pdfSha256": "b1d33ffa5d09a99bba5d908962a7f37bd8197ce272c13514cb6946a646a7ddcc"
+    },
+    {
+      "file": "U10-08-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1534,
+      "factsChecked": 26,
+      "pdfSha256": "9d70c610b299df594b5db896e5657daf2ff4a9493954f090389c332a1f5c6aa4"
+    },
+    {
+      "file": "U10-08-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1615,
+      "factsChecked": 24,
+      "pdfSha256": "1d09d162e57aa7bfe50984f543d650172c9cc166cf0e80e78e091218976faa94"
+    },
+    {
+      "file": "U10-09-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1519,
+      "factsChecked": 22,
+      "pdfSha256": "33dbc80386a72140ec516f0c314935bec364d599af859933016099beeb346e90"
+    },
+    {
+      "file": "U10-09-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1608,
+      "factsChecked": 22,
+      "pdfSha256": "8cd44569aa3c2bc405c40f53fed363e467ca4535db181f665b9a6502f929b146"
+    },
+    {
+      "file": "U10-10-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1535,
+      "factsChecked": 26,
+      "pdfSha256": "e17287adb9f2174077cb46c794f968917bd71125a394e7bd08dead8132c7c1a9"
+    },
+    {
+      "file": "U10-10-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1616,
+      "factsChecked": 24,
+      "pdfSha256": "0024c845d23782108de4f87059bb292f38503158a243a41236f9b423e932ad97"
+    },
+    {
+      "file": "U12-01-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1567,
+      "factsChecked": 28,
+      "pdfSha256": "0556613f437709d8eec635b8880deda8f0d459a9b011d81911d8c1f9049bc413"
+    },
+    {
+      "file": "U12-01-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1672,
+      "factsChecked": 26,
+      "pdfSha256": "45498544d2c78ab0c3f2d7b454370ac94d20925c4ec3167b4f6575c04382ae99"
+    },
+    {
+      "file": "U12-02-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1536,
+      "factsChecked": 26,
+      "pdfSha256": "3ba868ca5a2fa9bca1727279782f16e498979f6bf544461f340d842330f92d57"
+    },
+    {
+      "file": "U12-02-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1617,
+      "factsChecked": 24,
+      "pdfSha256": "3eedd5bff41119f7d1e9f6f130b4edd3f7cdef758621072a510aed14eb0c1abc"
+    },
+    {
+      "file": "U12-03-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1535,
+      "factsChecked": 26,
+      "pdfSha256": "d9aa20a3beabb612cc76bb1b94493eeb479e4b35fbcc11682696859e66018d4b"
+    },
+    {
+      "file": "U12-03-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1616,
+      "factsChecked": 24,
+      "pdfSha256": "877eb869639cd8a2f642cf751f27910b5c74b209af1224795121257fd61972a6"
+    },
+    {
+      "file": "U12-04-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1519,
+      "factsChecked": 22,
+      "pdfSha256": "2e899f4aab7d45004acb985aa743239086f542b7fc88004e2c7d238028191406"
+    },
+    {
+      "file": "U12-04-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1608,
+      "factsChecked": 22,
+      "pdfSha256": "7fd937fa7eb3d435647d4a7523baf091a06291670f604deeda86c5c91631fc02"
+    },
+    {
+      "file": "U12-05-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1425,
+      "factsChecked": 18,
+      "pdfSha256": "226bb5bd80c1100f6739ae88d1ad2e62fcf225503f64e2296705b0582ec1cff7"
+    },
+    {
+      "file": "U12-05-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1407,
+      "factsChecked": 18,
+      "pdfSha256": "575265d89cddc90a8f6b6851ae9a56c3779984fe7bb78e60bfb2d5928c38dc91"
+    },
+    {
+      "file": "U12-06-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1537,
+      "factsChecked": 26,
+      "pdfSha256": "b0a6ae74c4ad941301d2d2e7a7a7c5c670ce68b17c98c3dc2be328b041c833a8"
+    },
+    {
+      "file": "U12-06-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1618,
+      "factsChecked": 24,
+      "pdfSha256": "6e1592e6f8dc77109c3c30d3362bbe1ba4bddbc6546c6f0a1d012fbbbf0160d1"
+    },
+    {
+      "file": "U12-07-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1534,
+      "factsChecked": 26,
+      "pdfSha256": "28ef3782139b74af6d892eadd5118df7d44ec7aa6c53d6031971e93acb464e10"
+    },
+    {
+      "file": "U12-07-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1615,
+      "factsChecked": 24,
+      "pdfSha256": "70680f888cffbde5a4a6f7b70935abe55ba2bb764183ca96c1c036431884a73f"
+    },
+    {
+      "file": "U12-08-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1533,
+      "factsChecked": 26,
+      "pdfSha256": "bda2131b136382fb29705316085d5b420706782745351e1555dde02d65d505c7"
+    },
+    {
+      "file": "U12-08-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1614,
+      "factsChecked": 24,
+      "pdfSha256": "f33eaeee306f8613b813f80c79f859fa51d40096d7df82bb931864a11aa25d50"
+    },
+    {
+      "file": "U12-09-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1518,
+      "factsChecked": 22,
+      "pdfSha256": "7b5ed7e524f8fff5ae203cae3bdb7e47163748fbeb92413d242d323290e2bbdd"
+    },
+    {
+      "file": "U12-09-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1607,
+      "factsChecked": 22,
+      "pdfSha256": "940e5bf2051d0a9600ce0000db2b376e89abaff4063a4fb642527b106888ddec"
+    },
+    {
+      "file": "U12-10-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1534,
+      "factsChecked": 26,
+      "pdfSha256": "1c390b82cdf1fc7e077e1d61a66015a28d94e16338444fdf787b3dd67ffc346f"
+    },
+    {
+      "file": "U12-10-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1615,
+      "factsChecked": 24,
+      "pdfSha256": "43f47b3bae2a4d3f10dad4804246ed4b4821f9ba6078a70a57b4c609c07e2565"
+    },
+    {
+      "file": "U14-01-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1567,
+      "factsChecked": 28,
+      "pdfSha256": "fb51484eee9f6d950ed1d3dd89c55156f294a5c05ab81a6013f857ce344248c2"
+    },
+    {
+      "file": "U14-01-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1672,
+      "factsChecked": 26,
+      "pdfSha256": "5b3acad36ce0135c2812b62b4f5f1be2ae8b742372f3a4fba30e7327a21e69f7"
+    },
+    {
+      "file": "U14-02-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1536,
+      "factsChecked": 26,
+      "pdfSha256": "c9a0c01232aad28bc62b5fa062d9d755d0290248753e0c59e7e2fa19933a5544"
+    },
+    {
+      "file": "U14-02-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1617,
+      "factsChecked": 24,
+      "pdfSha256": "652d68b21faf888cd8f2cafe99760ededdaf95d750f4106b213385c293e956ef"
+    },
+    {
+      "file": "U14-03-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1535,
+      "factsChecked": 26,
+      "pdfSha256": "9259c0a81a12543904569c8fcf540b719d1536240289e975c15c3656ec8fc09f"
+    },
+    {
+      "file": "U14-03-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1616,
+      "factsChecked": 24,
+      "pdfSha256": "942c85e1983320f0cd1c79659a70beae71e5f886e967fe09544f4686828b5002"
+    },
+    {
+      "file": "U14-04-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1519,
+      "factsChecked": 22,
+      "pdfSha256": "9b9d963077681702236a4c2f349774d9dd59af202a3e6e4cd598363d1caf503c"
+    },
+    {
+      "file": "U14-04-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1608,
+      "factsChecked": 22,
+      "pdfSha256": "d2246aacd0f90ee014ea060522af03ff0dea15b34f91efca3de5d3523f803020"
+    },
+    {
+      "file": "U14-05-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1425,
+      "factsChecked": 18,
+      "pdfSha256": "08e48d4424629c5a0c46d1f29ffeefd527d223aaf16bcdb1f15c88af09645afd"
+    },
+    {
+      "file": "U14-05-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1407,
+      "factsChecked": 18,
+      "pdfSha256": "8944dd3ec57621b035136fd1983af56411daecee83aa4e77fc3c83babe159801"
+    },
+    {
+      "file": "U14-06-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1537,
+      "factsChecked": 26,
+      "pdfSha256": "b5255bb23a452e59863fe64d2fbc1558eef38897b6ef7190a6600454cb8b33eb"
+    },
+    {
+      "file": "U14-06-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1618,
+      "factsChecked": 24,
+      "pdfSha256": "a0088396468884c2ac9642bee74f76c9879a39e3341910361b271ef3addfaaee"
+    },
+    {
+      "file": "U14-07-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1534,
+      "factsChecked": 26,
+      "pdfSha256": "e6373e17463b2c83da74b022213944cdcc14abf09c607114fefdefaaa0f2ff25"
+    },
+    {
+      "file": "U14-07-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1615,
+      "factsChecked": 24,
+      "pdfSha256": "34b6c51881be4a471cebac18b7dc5957cd71729ee708024cac982626d96e67cd"
+    },
+    {
+      "file": "U14-08-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1533,
+      "factsChecked": 26,
+      "pdfSha256": "57e0f084cc3ac739ed4e5f155122ae36b7097f012062d4755a68748b65e20646"
+    },
+    {
+      "file": "U14-08-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1614,
+      "factsChecked": 24,
+      "pdfSha256": "f6329172b654087e2c3f478161b21458fcc0c1afdda4186d27b9d3536f1fad14"
+    },
+    {
+      "file": "U14-09-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1518,
+      "factsChecked": 22,
+      "pdfSha256": "ee68d10b752650fa9bde2ceeb38d6812aa32639ebc6ed92980a0801ab6ca806a"
+    },
+    {
+      "file": "U14-09-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1607,
+      "factsChecked": 22,
+      "pdfSha256": "a1438da9d48bc7cd07711823965e56395de3c061bb06773c6f435d347c60949b"
+    },
+    {
+      "file": "U14-10-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1534,
+      "factsChecked": 26,
+      "pdfSha256": "497005632dca82ff08a49b2c3304595f045776965e1142876a944278cca2fabd"
+    },
+    {
+      "file": "U14-10-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1615,
+      "factsChecked": 24,
+      "pdfSha256": "194a35b4f3991eb43c32e7057549a84116b37d21fafa979700dec115fe113c7f"
+    },
+    {
+      "file": "U16-01-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1566,
+      "factsChecked": 28,
+      "pdfSha256": "b485d598dfda86e5411e094f3ea00b848e27cf0fe2e50f997368f888a4692c39"
+    },
+    {
+      "file": "U16-01-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1671,
+      "factsChecked": 26,
+      "pdfSha256": "9d048c8fa7b358ab7f8d4d559a82de2fe9c7668db93adbc16c42a0d75a27da13"
+    },
+    {
+      "file": "U16-02-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1535,
+      "factsChecked": 26,
+      "pdfSha256": "d81b84481384e55690c06b60f9a68a80043f9dc6fc4ad4ace4dadfa2ef7fa8eb"
+    },
+    {
+      "file": "U16-02-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1616,
+      "factsChecked": 24,
+      "pdfSha256": "4fecec7b4b13c89e7694cd2c90f6947cb1ef20b5deba3c5b64165caecbc163a5"
+    },
+    {
+      "file": "U16-03-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1534,
+      "factsChecked": 26,
+      "pdfSha256": "482bfd886a4e1071cbbe3d8cb1e5fb621662e9bc24b5a755b5a6d489b6cd3989"
+    },
+    {
+      "file": "U16-03-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1615,
+      "factsChecked": 24,
+      "pdfSha256": "e951801658da207c2b8a0f7a00439f00267f49c50c682e7450c6496825356217"
+    },
+    {
+      "file": "U16-04-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1518,
+      "factsChecked": 22,
+      "pdfSha256": "37289399426aa0dfb1b75322f3f7977a6276d6ca06d065a9ef546deb9622c417"
+    },
+    {
+      "file": "U16-04-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1607,
+      "factsChecked": 22,
+      "pdfSha256": "02efa704cbc8ee47e870daf874a9d81c1c4ca9dea98902bd322437161e2f935b"
+    },
+    {
+      "file": "U16-05-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1424,
+      "factsChecked": 18,
+      "pdfSha256": "251bc12079bad9a10dddfc2f751fe8a02ed8a600bed059b3860b144a84d39d8f"
+    },
+    {
+      "file": "U16-05-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1406,
+      "factsChecked": 18,
+      "pdfSha256": "2e5935c67b3a0b847af6111e6cc0d0901a547b38137d61648216871e0374dc66"
+    },
+    {
+      "file": "U16-06-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1536,
+      "factsChecked": 26,
+      "pdfSha256": "01452629204b8d83e8e496953271529dd6559ce91fd8fe1d3140ced90a813e11"
+    },
+    {
+      "file": "U16-06-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1617,
+      "factsChecked": 24,
+      "pdfSha256": "776e1eae8fe4a2ad11ec9d5b33c15ec727c3541188b77127d1d13d68362bc921"
+    },
+    {
+      "file": "U16-07-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1533,
+      "factsChecked": 26,
+      "pdfSha256": "b1f1a47ab6159fc9e69a593f476f6e0b7054fd7b005c79522291fb177f9ee416"
+    },
+    {
+      "file": "U16-07-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1614,
+      "factsChecked": 24,
+      "pdfSha256": "cbdb2303efb05f72719a9923a4d1a8f9c440a275004f3fd3504eb1598e033ad2"
+    },
+    {
+      "file": "U16-08-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1532,
+      "factsChecked": 26,
+      "pdfSha256": "09c53a40d90754d30859ba42c64a40900a95f96e1147906ea986af782f9fb01c"
+    },
+    {
+      "file": "U16-08-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1613,
+      "factsChecked": 24,
+      "pdfSha256": "0926c76e24f1df9518ab49f85f0ed39d149dd88b76e30dfa9ec6d231bbdaeb4a"
+    },
+    {
+      "file": "U16-09-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1517,
+      "factsChecked": 22,
+      "pdfSha256": "6f0830b7c274e3db166961e08eb72d322836ad2a7c4252e81bf1981316ac4c20"
+    },
+    {
+      "file": "U16-09-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1606,
+      "factsChecked": 22,
+      "pdfSha256": "645bc30b9a9805d83852986d602765494e6fbbe43f887de0f552cce54ddecaf9"
+    },
+    {
+      "file": "U16-10-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1533,
+      "factsChecked": 26,
+      "pdfSha256": "e45651b6aa56191fab89868b33b88c30aa8b928cba4076a81e6b840edba52216"
+    },
+    {
+      "file": "U16-10-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1614,
+      "factsChecked": 24,
+      "pdfSha256": "2f210ed6045d984762a0d4b6969715144e70a35ac1eaac70ba49a7fa3df18f7d"
+    },
+    {
+      "file": "U18-01-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1566,
+      "factsChecked": 28,
+      "pdfSha256": "774ffaec8f245354540880d194c6bb9fdf53fbcca58e41ea04e387a4c56c2b2a"
+    },
+    {
+      "file": "U18-01-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1671,
+      "factsChecked": 26,
+      "pdfSha256": "b31d142efcfa88b575c9fb4fe92b39676f7d10dd238399ea86bebfe5a4d700c8"
+    },
+    {
+      "file": "U18-02-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1535,
+      "factsChecked": 26,
+      "pdfSha256": "36e7bc77c96f48aaa1ae6019a272e43a663fe02a31490578e16a8e7b3b383e12"
+    },
+    {
+      "file": "U18-02-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1616,
+      "factsChecked": 24,
+      "pdfSha256": "0623fcb5043bbfdc0a6ef7ba1e70783c1a9962915180700a39f5969817f78d65"
+    },
+    {
+      "file": "U18-03-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1534,
+      "factsChecked": 26,
+      "pdfSha256": "a0dadbaf23c89a405cfd1af5fbcb4f00d631536358bd15d6dc0bed878c0923eb"
+    },
+    {
+      "file": "U18-03-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1615,
+      "factsChecked": 24,
+      "pdfSha256": "39d219516df64f5510ee1b14c1d74ba2a20f6711a3f4e97c859f69d428d62f2f"
+    },
+    {
+      "file": "U18-04-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1518,
+      "factsChecked": 22,
+      "pdfSha256": "c5119bcf4bca64100b4e52be52e93c5347016d8c28399e5dee4829c66c4aadb8"
+    },
+    {
+      "file": "U18-04-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1607,
+      "factsChecked": 22,
+      "pdfSha256": "931513f14173556c9ac665759f73824f049278d96d0c6a2286ceeca234cf9611"
+    },
+    {
+      "file": "U18-05-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1424,
+      "factsChecked": 18,
+      "pdfSha256": "6a1efe045106930372c8eca2decd59dfd56da7048403b74ea10fa58fa8032f0c"
+    },
+    {
+      "file": "U18-05-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1406,
+      "factsChecked": 18,
+      "pdfSha256": "8fc18ecbf4b7e010fa18fc7bbabb0978e2c090f1a8b6fbe0adc888d1af310786"
+    },
+    {
+      "file": "U18-06-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1536,
+      "factsChecked": 26,
+      "pdfSha256": "12e1a574513847e51494d25670201eddabe9b4c1cc5b310e5a4684b586d5f817"
+    },
+    {
+      "file": "U18-06-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1617,
+      "factsChecked": 24,
+      "pdfSha256": "10555728cc1808439f98d768392fb66a62e0c0e0640c927a63b7341cdb207a43"
+    },
+    {
+      "file": "U18-07-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1533,
+      "factsChecked": 26,
+      "pdfSha256": "eb02439588c9c77d90c2752716bdd2304a9fb80d64c9a6c4f429b8f3f7c0616c"
+    },
+    {
+      "file": "U18-07-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1614,
+      "factsChecked": 24,
+      "pdfSha256": "f1c32d99fb44a3e7e4cf047286418e5890c2a69201c888b78ffce1c6bc987822"
+    },
+    {
+      "file": "U18-08-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1532,
+      "factsChecked": 26,
+      "pdfSha256": "bc1dbdc0d7f464460b315d4fa5c8acd70ec87db593e3df6eef4d8788f7ce39b7"
+    },
+    {
+      "file": "U18-08-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1613,
+      "factsChecked": 24,
+      "pdfSha256": "f62712de1ce2276281a665da16d8913d002d84907cf1a02a9e0625919e543541"
+    },
+    {
+      "file": "U18-09-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1517,
+      "factsChecked": 22,
+      "pdfSha256": "288505dab8c01a841050172c6f4b3a7f201d889620a86d899ed763f9f8770cba"
+    },
+    {
+      "file": "U18-09-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1606,
+      "factsChecked": 22,
+      "pdfSha256": "8b429c1b3089aedeba125f22e04cd425f6d5d11c5c68cb1a34142c5641dc4e22"
+    },
+    {
+      "file": "U18-10-2026-08.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1533,
+      "factsChecked": 26,
+      "pdfSha256": "828ade0014a61d007b69cc6a35b92305f2870ce5cb3d4fb93d166edab458e853"
+    },
+    {
+      "file": "U18-10-2026-09.pdf",
+      "pages": 1,
+      "activityPosters": 4,
+      "selectableCharacters": 1614,
+      "factsChecked": 24,
+      "pdfSha256": "95e690c3555c7283277c100f7b7838115222e14ff4ff3112e14e9e58c24fbd16"
+    }
+  ],
+  "failures": []
+}
