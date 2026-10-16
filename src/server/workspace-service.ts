@@ -14,7 +14,12 @@ import type {
 import type { ReportViewModel } from "@/domain/report";
 import { operationalSports } from "@/config/sports/workspace-sports";
 import { reportTrainingSources } from "./training-service";
-import { assertMonthlyCurrent, weeklySource } from "./period-service";
+import {
+  assembleMonthly,
+  assertMonthlyCurrent,
+  weeklySource,
+} from "./period-service";
+import { approvedReportPresentationData } from "@/services/reports/report-presentation";
 import { measurementText } from "@/services/training-rules";
 import { parentSchedule } from "./parent-schedule-service";
 import { workspaceRepository as repo } from "./workspace-repository";
@@ -784,6 +789,7 @@ export function approveReport(
     demo: ctx.academy.demo,
     sport: operationalSports[report.sportId].name,
     squad: player.squad || undefined,
+    ageCategory: player.ageCategory || undefined,
     coach: coachName ? String(coachName) : undefined,
     focus: plan?.focus ?? report.monthlySources!.model.focus,
     reviewedReason: plan?.reason,
@@ -845,6 +851,20 @@ export function approveReport(
         ? [{ text: report.observation, source: "Coach reviewed commentary" }]
         : []),
     ];
+    snapshot.presentationData = {
+      ...assembleMonthly(ctx, report.playerId, report.monthlySources.period.key)
+        .model.presentationData!,
+      coachEvaluation: report.observation.trim() ? [report.observation] : [],
+    };
+  } else if (trainingSources.length) {
+    snapshot.presentationData = approvedReportPresentationData({
+      evidence: trainingSources,
+      sessions: trainingSources.map((e) =>
+        repo.find(ctx.academy.id, "session", e.sessionId)!,
+      ),
+      timezone: ctx.academy.timezone,
+      coachEvaluation: report.observation.trim() ? [report.observation] : [],
+    });
   }
   atomic(() => {
     if (

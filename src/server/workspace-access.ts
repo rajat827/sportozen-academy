@@ -7,6 +7,7 @@ import type {
 import { workspaceRepository as repository } from "./workspace-repository";
 import { authenticatedUser, WorkspaceError } from "./auth";
 import { audit, database } from "./database";
+import { parentReportSnapshot } from "@/services/reports/report-presentation";
 export async function access(headers: Headers, academyId: string) {
   const user = await authenticatedUser(headers),
     membership = repository.membership(academyId, user.id),
@@ -193,21 +194,37 @@ export function visibleRecords<K extends WorkspaceKind>(
       )
       .all(academy.id, kind, user.id)
       .map((r) => JSON.parse(String(r.body)));
+  // Exclude preserved historical sports before interpreting report snapshots.
+  // Their old schemas need not contain the current football report fields.
+  values = activeFootballRecords(ctx, values as WorkspaceRecords[K][]);
   if (kind === "report")
     values = (values as WorkspaceRecords["report"][])
       .filter((r) => r.status === "Approved" && r.snapshot)
-      .map((r) => ({ ...r, monthlySources: undefined }));
+      .map((r) => ({
+        ...r,
+        monthlySources: undefined,
+        sourceEvidenceIds: undefined,
+        snapshot: parentReportSnapshot(r.snapshot!),
+      }));
   if (kind === "weekly")
     values = (values as WorkspaceRecords["weekly"][])
       .filter((r) => r.status === "APPROVED" && r.snapshot && r.issuedAt)
       .map((r) => ({ ...r, content: r.snapshot! }));
   if (kind === "update")
-    values = (values as WorkspaceRecords["update"][]).filter(
-      (r) =>
-        r.approvalStatus === "APPROVED" &&
-        r.inAppPublicationStatus === "PUBLISHED" &&
-        r.publishedGuardianIds?.includes(user.id),
-    );
+    values = (values as WorkspaceRecords["update"][])
+      .filter(
+        (r) =>
+          r.approvalStatus === "APPROVED" &&
+          r.inAppPublicationStatus === "PUBLISHED" &&
+          r.publishedGuardianIds?.includes(user.id),
+      )
+      .map((r) => ({
+        ...r,
+        approvedSource:
+          r.approvedSource && "reportId" in r.approvedSource
+            ? parentReportSnapshot(r.approvedSource)
+            : r.approvedSource,
+      }));
   if (kind === "conversation")
     values = (values as WorkspaceRecords["conversation"][])
       .filter((r) => r.guardianId === user.id)

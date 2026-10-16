@@ -2,6 +2,12 @@
 
 # Approved UI reference map
 
+## Professional Reports reference — 16 October 2026
+
+The actual `Sportozen_Reports_Illustrated_UI_Reference.png` was opened and saved byte-for-byte as [approved-reference.png](../screenshots/professional-reports/approved-reference.png). Native size: 1448 × 1086; SHA-256: `A9D6DD3EEC7D2ABCEB0150D6899570C8A8FB9E3DF77254FC660558D095C4F0C2`. Its management panel and professional report panel are the current source of truth for Reports only. Explicit panel bounds, proportional comparison rules and actual browser/PDF differences are in [the evidence index](../screenshots/professional-reports/README.md).
+
+Use real approved academy/player/coach/period records, honest text/initials when no logo or photo is saved, and the original licensed activity illustrations documented there. The source's example portrait, crest, praise and session-date interpretation do not create actual records. Keep all other screen references unchanged. User approval of the resulting implementation is not recorded.
+
 ## Home reference update — 15 October 2026
 
 The latest explicit Home task selects [home-screen.png](../reference/approved-ui/home-screen.png) for `/design-preview/coach-today`. This supplied 1536 × 1024 image supersedes the older Coach Today panel **for Home only**. It does not replace the Parent Home or Player Profile references, approve the implementation, or authorise changes to Players and the other screens. The older checkpoint below remains historical evidence.

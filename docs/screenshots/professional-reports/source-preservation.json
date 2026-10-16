@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "sourceDatabaseWasReadOnly": true,
+  "originalPlayers": 60,
+  "currentReports": 180,
+  "originalApprovedSnapshotsHashVerified": 120,
+  "additionalReportsPreserved": 60,
+  "additionalStatuses": [
+    "Draft"
+  ],
+  "noDatabaseReset": true,
+  "noExternalDelivery": true
+}

@@ -1,34 +1,49 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
+import { useSearchParams } from "next/navigation";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
-  FileText,
-  Share2,
-  Users,
-  ClipboardCheck,
-  Target,
-  TrendingUp,
-  UserRound,
-  X,
-  Pencil,
-  Send,
   CalendarDays,
   ChevronLeft,
   ChevronRight,
+  FileText,
+  Pencil,
+  Plus,
+  Search,
+  Send,
+  X,
 } from "lucide-react";
-import { currentPlayerPlan, playerBatch } from "@/services/portal-records";
+import { playerBatch } from "@/services/portal-records";
 import { reportMatchesPeriod } from "@/services/report-period-filter";
 import {
-  REPORT_PAGE_SIZE,
-  reportListPage,
-  reportPreviewExcerpt,
-} from "@/services/report-list-preview";
+  reportPresentation,
+  formatRecordedDate,
+} from "@/services/reports/report-presentation";
+import type {
+  WorkspacePayload,
+  WorkspacePlayer,
+  WorkspaceReport,
+} from "@/domain/workspace";
+import type { ReportViewModel } from "@/domain/report";
 import { MonthlyReports } from "./period-plans";
 import { ReportEditor, SecureReportDownload } from "./plan-and-report";
 import { ReportPreview } from "@/features/reports/report-preview";
 import { confirmUnsavedChanges } from "@/hooks/use-unsaved-changes";
-import { usePrivateSourceAnchor } from "@/hooks/use-private-source-anchor";
 import type { PortalController, PortalNavigate } from "./portal-types";
+
+const pageSize = 10;
+const monthKey = (report: WorkspaceReport) =>
+  report.reportingPeriod?.key ??
+  /^(\d{4}-(?:0[1-9]|1[0-2]))(?:\s|$)/.exec(report.period)?.[1] ??
+  "";
+const initials = (name: string) =>
+  name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toLocaleUpperCase();
 
 export function PortalReports({
   workspace: w,
@@ -44,610 +59,485 @@ export function PortalReports({
   prepare?: boolean;
 }) {
   const d = w.data!,
+    params = useSearchParams(),
     parent = ["PARENT", "SUPPORT"].includes(d.membership.role);
-  const [tab, setTab] = useState("Player Reports"),
-    [search, setSearch] = useState(""),
-    [period, setPeriod] = useState(""),
-    [batch, setBatch] = useState(""),
-    [status, setStatus] = useState(""),
+  const [search, setSearch] = useState(""),
     [page, setPage] = useState(
       () =>
         Math.floor(
           Math.max(
             0,
-            d.records.player.findIndex((p) => p.id === playerId),
-          ) / REPORT_PAGE_SIZE,
+            d.records.player.findIndex((player) => player.id === playerId),
+          ) / pageSize,
         ) + 1,
     ),
-    [editor, setEditor] = useState(false),
-    [preview, setPreview] = useState(false);
-  const player = playerId
-    ? d.records.player.find((p) => p.id === playerId)
-    : d.records.player[0];
-  const reports = d.records.report
+    [editor, setEditor] = useState(false);
+  const returnFocus = useRef<HTMLButtonElement | null>(null),
+    createButton = useRef<HTMLButtonElement | null>(null);
+  const authorisedReports = d.records.report
     .filter(
-      (r) =>
-        reportMatchesPeriod(r, period) &&
-        (!status || r.status === status) &&
-        (tab !== "Parent Reports" || r.status === "Approved"),
+      (report) =>
+        report.academyId === d.academy.id &&
+        report.sportId === "football" &&
+        (!parent || (report.status === "Approved" && !!report.snapshot)),
     )
     .sort((a, b) => b.period.localeCompare(a.period));
-  const selectedReport = reportId
-    ? d.records.report.find(
-        (r) => r.id === reportId && r.playerId === player?.id,
+  const requestedReport = reportId
+    ? authorisedReports.find(
+        (report) => report.id === reportId && report.playerId === playerId,
       )
-    : reports.find((r) => r.playerId === player?.id);
+    : undefined;
+  const periodParameter = params.get("reportMonth");
+  const period =
+    periodParameter === "all"
+      ? ""
+      : (periodParameter ??
+        (requestedReport
+          ? monthKey(requestedReport)
+          : (authorisedReports.map(monthKey).filter(Boolean).sort().at(-1) ??
+            "")));
+  const batch = params.get("reportBatch") ?? "",
+    status = params.get("reportStatus") ?? "";
+  const inPeriod = authorisedReports.filter((report) =>
+    reportMatchesPeriod(report, period),
+  );
+  const reportFor = (id: string) =>
+    inPeriod.find(
+      (report) =>
+        report.playerId === id && (!status || report.status === status),
+    );
   const rows = d.records.player.filter(
-    (p) =>
-      (!search || p.name.toLowerCase().includes(search.toLowerCase())) &&
-      (!batch || playerBatch(d, p) === batch),
+    (player) =>
+      (!search ||
+        player.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) &&
+      (!batch || playerBatch(d, player) === batch) &&
+      (!status ||
+        (status === "none"
+          ? !inPeriod.some((report) => report.playerId === player.id)
+          : !!reportFor(player.id))),
   );
-  const listing = reportListPage(rows, page),
-    listedPlayers = new Set(rows.map((p) => p.id)),
-    matchingCount = reports.filter((report) =>
-      listedPlayers.has(report.playerId),
-    ).length;
-  const plan = player && currentPlayerPlan(d, player.id),
-    snapshot = selectedReport?.snapshot;
-  usePrivateSourceAnchor(
-    reportId && selectedReport ? "report-" + reportId : undefined,
-  );
+  const player = playerId
+    ? rows.find((player) => player.id === playerId)
+    : !reportId
+      ? rows[0]
+      : undefined;
+  const selectedReport = player
+    ? reportId
+      ? inPeriod.find(
+          (report) =>
+            report.id === reportId &&
+            report.playerId === player.id &&
+            (!status || report.status === status),
+        )
+      : reportFor(player.id)
+    : undefined;
+  const model =
+    selectedReport &&
+    (selectedReport.status === "Approved"
+      ? selectedReport.snapshot
+      : !parent
+        ? draftModel(selectedReport, d, player)
+        : undefined);
+  const allowedTabs = parent
+    ? ["Report", "Activity", "History"]
+    : ["Report", "Evidence", "Activity", "History"];
+  const requestedTab = params.get("reportTab") ?? "Report",
+    activeTab = allowedTabs.includes(requestedTab) ? requestedTab : "Report";
+  const totalPages = Math.max(1, Math.ceil(rows.length / pageSize)),
+    currentPage = Math.min(page, totalPages),
+    listed = rows.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const historical = player
+    ? authorisedReports.filter((report) => report.playerId === player.id)
+    : [];
+  const approved =
+    selectedReport?.status === "Approved" && !!selectedReport.snapshot;
+  const changeFilter = (context: Record<string, string>) => {
+    if (!confirmUnsavedChanges()) return;
+    setPage(1);
+    onNavigate("reports", { ...context, report: "", reportTab: "Report" });
+  };
+  const selectReport = (report: WorkspaceReport) => {
+    onNavigate("reports", {
+      player: report.playerId,
+      report: report.id,
+      reportMonth: monthKey(report) || "all",
+      reportStatus: "",
+      reportTab: "Report",
+    });
+  };
+  const openEditor = (event: MouseEvent<HTMLButtonElement>) => {
+    returnFocus.current = event.currentTarget;
+    setEditor(true);
+  };
   const closeEditor = () => {
     if (confirmUnsavedChanges()) {
       setEditor(false);
       if (prepare) onNavigate("reports", { prepare: "" });
     }
   };
+  const tabKeys = (event: KeyboardEvent<HTMLButtonElement>, name: string) => {
+    const index = allowedTabs.indexOf(name);
+    const target =
+      event.key === "ArrowRight"
+        ? (index + 1) % allowedTabs.length
+        : event.key === "ArrowLeft"
+          ? (index - 1 + allowedTabs.length) % allowedTabs.length
+          : event.key === "Home"
+            ? 0
+            : event.key === "End"
+              ? allowedTabs.length - 1
+              : -1;
+    if (target < 0) return;
+    event.preventDefault();
+    onNavigate("reports", { reportTab: allowedTabs[target] });
+    event.currentTarget.parentElement
+      ?.querySelectorAll<HTMLButtonElement>('[role="tab"]')
+      [target]?.focus();
+  };
   return (
     <>
-      <div className="portal-detail-grid portal-reports-layout">
-        <div>
-          <div className="portal-page-heading">
-            <div>
-              <h1>{parent ? "Progress & Reports" : "Reports"}</h1>
-              <p>Recorded practice, reviewed evidence and clear next steps.</p>
-            </div>
-            {!parent && (
-              <div className="portal-actions">
-                <button
-                  className="button secondary"
-                  onClick={() => setEditor(true)}
-                >
-                  <FileText size={16} /> Generate Report
-                </button>
-                <button
-                  className="button primary"
-                  disabled={
-                    !selectedReport?.snapshot ||
-                    selectedReport.status !== "Approved"
-                  }
-                  onClick={() =>
-                    onNavigate("messages", {
-                      player: player?.id,
-                      sourceReport: selectedReport?.id,
-                    })
-                  }
-                >
-                  <Share2 size={16} /> Share with Parents
-                </button>
-              </div>
-            )}
+      <section
+        className="reports-workspace portal-reports-layout"
+        aria-labelledby="player-reports-title"
+      >
+        <header className="reports-heading">
+          <div>
+            <h1 id="player-reports-title">
+              {parent ? "Progress & Reports" : "Player Reports"}
+            </h1>
+            <p>
+              {parent
+                ? "Your child’s approved development reports."
+                : "Create, review and share monthly development reports."}
+            </p>
           </div>
           {!parent && (
-            <nav className="portal-tabs" aria-label="Report views">
-              {[
-                "Player Reports",
-                "Batch Reports",
-                "Progress Overview",
-                "Parent Reports",
-              ].map((t) => (
-                <button
-                  className={tab === t ? "active" : ""}
-                  key={t}
-                  onClick={() => {
-                    setTab(t);
-                    setPage(1);
-                  }}
-                >
-                  {t}
-                </button>
-              ))}
-            </nav>
+            <button
+              className="button primary reports-create"
+              ref={createButton}
+              onClick={openEditor}
+            >
+              <Plus size={18} />
+              Create Report
+            </button>
           )}
-          <div className="portal-stat-grid">
-            {[
-              {
-                Icon: TrendingUp,
-                n: d.records.player.filter((p) => p.status !== "INACTIVE")
-                  .length,
-                label: "Active Players",
-                tone: "",
-              },
-              {
-                Icon: ClipboardCheck,
-                n: d.records.report.length,
-                label: "Reports Recorded",
-                tone: "purple",
-              },
-              {
-                Icon: Users,
-                n: d.records.report.filter((r) => r.status === "Approved")
-                  .length,
-                label: "Approved Reports",
-                tone: "amber",
-              },
-              {
-                Icon: FileText,
-                n: d.records.report.filter((r) => r.status !== "Approved")
-                  .length,
-                label: "Awaiting Review",
-                tone: "red",
-              },
-            ].map(({ Icon, n, label, tone }) => (
-              <div className="portal-card portal-stat" key={label}>
-                <span className={`portal-round ${tone}`}>
-                  <Icon size={24} />
-                </span>
-                <span>
-                  <strong>{n}</strong>
-                  <p>{label}</p>
-                </span>
-              </div>
-            ))}
-          </div>
-          <div className="portal-filters">
-            <select
-              aria-label="Report batch filter"
-              value={batch}
-              onChange={(e) => {
-                setBatch(e.target.value);
-                setPage(1);
-              }}
-            >
-              <option value="">All Batches</option>
-              {[...new Set(d.records.player.map((p) => playerBatch(d, p)))].map(
-                (b) => (
-                  <option value={b} key={b}>
-                    {b}
-                  </option>
-                ),
-              )}
-            </select>
-            <select
-              aria-label="Report status filter"
-              value={status}
-              onChange={(e) => {
-                setStatus(e.target.value);
-                setPage(1);
-              }}
-            >
-              <option value="">All Report States</option>
-              <option>Approved</option>
-              <option>Draft</option>
-              <option>Revision Requested</option>
-            </select>
-            <label className="portal-report-period">
-              <CalendarDays size={16} />
-              <input
-                type="month"
-                aria-label="Reporting period filter"
-                value={period}
-                onChange={(e) => {
-                  setPeriod(e.target.value);
-                  setPage(1);
-                }}
-              />
-            </label>
+        </header>
+        <div className="reports-filters">
+          <label className="reports-month">
+            <CalendarDays size={17} aria-hidden="true" />
             <input
-              aria-label="Search report players"
-              placeholder="Search players…"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPage(1);
-              }}
+              type="month"
+              aria-label="Reporting period filter"
+              value={period}
+              onChange={(event) =>
+                changeFilter({ reportMonth: event.target.value || "all" })
+              }
             />
-          </div>
-          {tab === "Batch Reports" ? (
-            <div className="portal-workflow">
-              {d.records.squad
-                .filter((s) => !batch || s.name === batch)
-                .map((s) => (
-                  <section className="portal-card" key={s.id}>
-                    <h2>{s.name}</h2>
-                    <p>
-                      {s.playerIds.length} roster players ·{" "}
-                      {
-                        reports.filter((r) => s.playerIds.includes(r.playerId))
-                          .length
-                      }{" "}
-                      reports in this filter
-                    </p>
-                    <button
-                      className="portal-link"
-                      onClick={() => {
-                        setBatch(s.name);
-                        setTab("Player Reports");
-                        setPage(1);
-                      }}
-                    >
-                      View batch player reports
-                    </button>
-                  </section>
-                ))}
-              {!d.records.squad.length && (
-                <div className="portal-empty">
-                  <h2>No football batches recorded</h2>
-                  <p>
-                    Create batches in Settings before planning shared training.
-                  </p>
-                  <button
-                    className="button secondary"
-                    onClick={() => onNavigate("settings", { tab: "sessions" })}
-                  >
-                    Academy setup
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="portal-table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Player</th>
-                    <th>Batch</th>
-                    <th>Last Report</th>
-                    <th>
-                      {tab === "Progress Overview"
-                        ? "Reviewed Evidence"
-                        : "Period"}
-                    </th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {listing.items.map((p) => {
-                    const report = reports.find((r) => r.playerId === p.id),
-                      observations = d.records.evidence.filter(
-                        (e) => e.playerId === p.id && e.status === "REVIEWED",
-                      ).length;
-                    return (
-                      <tr
-                        key={p.id}
-                        className={p.id === player?.id ? "selected" : ""}
+          </label>
+          <select
+            aria-label="Report batch filter"
+            value={batch}
+            onChange={(event) =>
+              changeFilter({ reportBatch: event.target.value })
+            }
+          >
+            <option value="">All Batches</option>
+            {[
+              ...new Set(
+                d.records.player.map((player) => playerBatch(d, player)),
+              ),
+            ]
+              .filter(Boolean)
+              .map((name) => (
+                <option key={name}>{name}</option>
+              ))}
+          </select>
+          <select
+            aria-label="Report status filter"
+            value={status}
+            onChange={(event) =>
+              changeFilter({ reportStatus: event.target.value })
+            }
+          >
+            <option value="">All Report Status</option>
+            <option>Approved</option>
+            {!parent && (
+              <>
+                <option>Draft</option>
+                <option>Revision Requested</option>
+                <option value="none">No report</option>
+              </>
+            )}
+          </select>
+          {!parent && (
+            <details className="reports-tools">
+              <summary>More report tools</summary>
+              <div>
+                <button onClick={openEditor}>Prepare monthly reports</button>
+                <button onClick={openEditor}>
+                  Other recorded development reports
+                </button>
+                <details>
+                  <summary>Batch report summary</summary>
+                  {d.records.squad.map((squad) => (
+                    <div className="reports-batch-summary" key={squad.id}>
+                      <strong>{squad.name}</strong>
+                      <span>
+                        {squad.playerIds.length} roster players ·{" "}
+                        {
+                          inPeriod.filter((report) =>
+                            squad.playerIds.includes(report.playerId),
+                          ).length
+                        }{" "}
+                        reports in this period
+                      </span>
+                      <button
+                        onClick={() =>
+                          changeFilter({ reportBatch: squad.name })
+                        }
                       >
-                        <td>
-                          <button
-                            className="portal-player-name"
-                            onClick={() =>
-                              onNavigate("reports", {
-                                player: p.id,
-                                report: report?.id ?? "",
-                              })
-                            }
-                          >
-                            <span className="portal-initials">
-                              <UserRound size={21} />
-                            </span>
-                            <strong>{p.name}</strong>
-                          </button>
-                        </td>
-                        <td>{p.ageCategory || playerBatch(d, p)}</td>
-                        <td>
-                          {report?.snapshot?.reviewDate ??
-                            report?.period ??
-                            "Not recorded"}
-                        </td>
-                        <td>
-                          {tab === "Progress Overview"
-                            ? `${observations} reviewed observations`
-                            : (report?.period ?? "—")}
-                        </td>
-                        <td>
-                          <span
-                            className={`portal-status ${report?.status === "Approved" ? "" : "muted"}`}
-                          >
-                            {report?.status ?? "No report"}
-                          </span>
-                        </td>
-                        <td>
-                          <button
-                            className="portal-link"
-                            onClick={() => {
-                              onNavigate("reports", {
-                                player: p.id,
-                                report: report?.id ?? "",
-                              });
-                              if (!report && !parent) setEditor(true);
-                            }}
-                          >
-                            {report ? "View" : "Prepare"}
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-              {!rows.length && (
-                <div className="portal-empty">
-                  <h2>No authorised players match this filter</h2>
-                  <p>
-                    Reports use actual completed sessions and coach-reviewed
-                    observations. Missing evidence remains missing.
-                  </p>
-                </div>
-              )}
-              <div className="portal-table-footer portal-report-pagination">
-                <span className="portal-report-counts">
-                  <span>
-                    {listing.first}–{listing.last} of {rows.length} players
-                  </span>
-                  <small>
-                    {rows.length} authorised players · {matchingCount} matching
-                    reports
-                  </small>
-                </span>
-                <nav className="portal-actions" aria-label="Report pages">
-                  <button
-                    className="portal-icon"
-                    type="button"
-                    aria-label="Previous report page"
-                    disabled={listing.page === 1}
-                    onClick={() => setPage(listing.page - 1)}
-                  >
-                    <ChevronLeft size={17} />
-                  </button>
-                  <span aria-live="polite">
-                    Page {listing.page} of {listing.totalPages}
-                  </span>
-                  <button
-                    className="portal-icon"
-                    type="button"
-                    aria-label="Next report page"
-                    disabled={listing.page === listing.totalPages}
-                    onClick={() => setPage(listing.page + 1)}
-                  >
-                    <ChevronRight size={17} />
-                  </button>
-                </nav>
+                        View batch reports
+                      </button>
+                    </div>
+                  ))}
+                </details>
               </div>
-            </div>
+            </details>
           )}
         </div>
-        <aside
-          className="portal-detail-panel portal-report-detail"
-          id={selectedReport ? "report-" + selectedReport.id : undefined}
-          tabIndex={-1}
-        >
-          {player ? (
-            <>
-              <div className="portal-detail-title">
-                <span className="portal-initials">
-                  <UserRound size={28} />
-                </span>
-                <div>
-                  <h2>{player.name}</h2>
-                  <p>
-                    {player.ageCategory || playerBatch(d, player)} ·{" "}
-                    {player.position || "Football"}
-                  </p>
+        {w.error && (
+          <p className="reports-feedback" role="alert">
+            {w.error}
+          </p>
+        )}
+        <div className="reports-workspace-layout">
+          <aside className="reports-player-list" aria-label="Report players">
+            <header>
+              <h2>Players ({rows.length})</h2>
+              <label>
+                <Search size={16} aria-hidden="true" />
+                <input
+                  aria-label="Search report players"
+                  placeholder="Search players…"
+                  value={search}
+                  onChange={(event) => {
+                    setSearch(event.target.value);
+                    setPage(1);
+                  }}
+                />
+              </label>
+            </header>
+            <div className="reports-player-rows">
+              {listed.map((item) => {
+                const report = reportFor(item.id);
+                return (
+                  <button
+                    className={`reports-player-row ${item.id === player?.id ? "selected" : ""}`}
+                    key={item.id}
+                    aria-current={item.id === player?.id ? "true" : undefined}
+                    onClick={() =>
+                      onNavigate("reports", {
+                        player: item.id,
+                        report: report?.id ?? "",
+                        reportTab: "Report",
+                        reportMonth: period || "all",
+                      })
+                    }
+                  >
+                    <span className="reports-player-avatar" aria-hidden="true">
+                      {initials(item.name)}
+                    </span>
+                    <span className="reports-player-row-copy">
+                      <strong>{item.name}</strong>
+                      <span>{item.ageCategory || playerBatch(d, item)}</span>
+                    </span>
+                    <span
+                      className={`reports-player-status ${report?.status === "Approved" ? "approved" : "draft"}`}
+                    >
+                      {report?.status ?? "No report"}
+                    </span>
+                  </button>
+                );
+              })}
+              {!rows.length && (
+                <div className="reports-empty">
+                  <h3>No players match this filter</h3>
+                  <p>Choose another batch, status or search.</p>
                 </div>
+              )}
+            </div>
+            <footer className="reports-player-pagination">
+              <button
+                aria-label="Previous report page"
+                disabled={currentPage === 1}
+                onClick={() => setPage(currentPage - 1)}
+              >
+                <ChevronLeft size={17} />
+              </button>
+              <span aria-live="polite">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                aria-label="Next report page"
+                disabled={currentPage === totalPages}
+                onClick={() => setPage(currentPage + 1)}
+              >
+                <ChevronRight size={17} />
+              </button>
+              <small>
+                {rows.length ? (currentPage - 1) * pageSize + 1 : 0}–
+                {Math.min(currentPage * pageSize, rows.length)} of {rows.length}{" "}
+                players
+              </small>
+            </footer>
+          </aside>
+          <section
+            className="reports-selected-panel"
+            aria-label="Selected player report"
+          >
+            <div
+              className="reports-detail-tabs"
+              role="tablist"
+              aria-label="Selected report views"
+            >
+              {allowedTabs.map((name) => (
                 <button
-                  className="portal-icon"
-                  aria-label="View player profile"
+                  key={name}
+                  id={`reports-tab-${name.toLowerCase()}`}
+                  role="tab"
+                  aria-selected={activeTab === name}
+                  aria-controls={`reports-panel-${name.toLowerCase()}`}
+                  tabIndex={activeTab === name ? 0 : -1}
+                  onKeyDown={(event) => tabKeys(event, name)}
+                  onClick={() => onNavigate("reports", { reportTab: name })}
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
+            <div className="reports-report-actions">
+              {!parent && (
+                <button
+                  className="button secondary"
+                  disabled={!player}
+                  onClick={openEditor}
+                >
+                  <Pencil size={14} />
+                  Edit / Review
+                </button>
+              )}
+              {approved && (
+                <SecureReportDownload
+                  academyId={d.academy.id}
+                  report={selectedReport!}
+                />
+              )}
+              {!parent && (
+                <button
+                  className="button secondary"
+                  disabled={!approved}
                   onClick={() =>
-                    onNavigate(parent ? "home" : "players", {
-                      player: player.id,
+                    approved &&
+                    onNavigate("messages", {
+                      player: player!.id,
+                      sourceReport: selectedReport!.id,
                     })
                   }
                 >
-                  <UserRound size={18} />
+                  <Send size={14} />
+                  Send to Parent
                 </button>
-              </div>
-              <div className="portal-tabs">
-                <button className="active" onClick={() => setPreview(true)}>
-                  Latest Report
-                </button>
-                <button
-                  onClick={() => {
-                    setTab("Progress Overview");
-                    setPage(1);
-                  }}
-                >
-                  Progress
-                </button>
-                <button
-                  onClick={() => {
-                    setStatus("");
-                    setPeriod("");
-                    setPage(1);
-                  }}
-                >
-                  All Reports
-                </button>
-              </div>
-              {selectedReport ? (
-                <>
-                  <div className="portal-report-state">
-                    <FileText size={28} />
-                    <div>
-                      <strong>{selectedReport.period}</strong>
-                      <small>
-                        {snapshot
-                          ? "Approved snapshot"
-                          : "Draft · coach review required"}
-                      </small>
-                    </div>
-                    <span
-                      className={`portal-status ${selectedReport.status === "Approved" ? "" : "muted"}`}
-                    >
-                      {selectedReport.status}
-                    </span>
-                  </div>
-                  <p className="portal-report-excerpt-label">
-                    Preview excerpts · open the full report below for complete
-                    wording.
-                  </p>
-                  <div className="portal-report-answers">
-                    <section>
-                      <span className="portal-round">
-                        <Target size={24} />
-                      </span>
-                      <div>
-                        <h3>What was practised?</h3>
-                        <p className="portal-report-excerpt">
-                          {reportPreviewExcerpt(
-                            snapshot?.practised ??
-                              selectedReport.monthlySources?.model.practised ??
-                              plan?.focus ??
-                              "Recorded practice has not been assembled for this report.",
-                          )}
-                        </p>
-                      </div>
-                    </section>
-                    <section>
-                      <span className="portal-round purple">
-                        <TrendingUp size={24} />
-                      </span>
-                      <div>
-                        <h3>What does reviewed evidence show?</h3>
-                        <p className="portal-report-excerpt">
-                          {reportPreviewExcerpt(
-                            snapshot
-                              ? snapshot.evidence
-                                  .map((e) => e.text)
-                                  .join(" ") ||
-                                  "Further coach review is needed."
-                              : selectedReport.observation ||
-                                  "Further coach review is needed. No individual observation has been recorded.",
-                          )}
-                        </p>
-                      </div>
-                    </section>
-                    <section>
-                      <span className="portal-round amber">
-                        <Target size={24} />
-                      </span>
-                      <div>
-                        <h3>What comes next?</h3>
-                        <p className="portal-report-excerpt">
-                          {reportPreviewExcerpt(
-                            (snapshot?.nextStep ?? selectedReport.nextStep) ||
-                              "Coach to record a specific next step.",
-                          )}
-                        </p>
-                      </div>
-                    </section>
-                  </div>
-                  <section className="portal-report-skills">
-                    <h3>Skills Focus</h3>
-                    <div>
-                      {(snapshot?.activities ?? []).length ? (
-                        snapshot!.activities
-                          .slice(0, 3)
-                          .map((a) => (
-                            <span key={a.name}>
-                              {reportPreviewExcerpt(a.name, 60)}
-                            </span>
-                          ))
-                      ) : (
-                        <span>
-                          {reportPreviewExcerpt(
-                            snapshot?.focus ??
-                              plan?.focus ??
-                              "Shared batch focus",
-                            80,
-                          )}
-                        </span>
-                      )}
-                    </div>
-                    {(snapshot?.activities.length ?? 0) > 3 && (
-                      <small>
-                        {snapshot!.activities.length - 3} more activities in the
-                        full report.
-                      </small>
-                    )}
-                  </section>
-                  <section className="portal-report-comments">
-                    <h3>Coach Comments</h3>
-                    <p className="portal-report-excerpt">
-                      {reportPreviewExcerpt(
-                        (snapshot?.note ?? selectedReport.closingNote) ||
-                          "No closing comment recorded.",
-                      )}
-                    </p>
-                  </section>
-                  <div className="portal-actions">
-                    {snapshot ? (
-                      <SecureReportDownload
-                        academyId={d.academy.id}
-                        report={selectedReport}
-                      />
-                    ) : (
-                      !parent && (
-                        <button
-                          className="button secondary"
-                          onClick={() => setEditor(true)}
-                        >
-                          <Pencil size={16} /> Review Report
-                        </button>
-                      )
-                    )}
-                    {!parent && (
-                      <button
-                        className="button secondary"
-                        disabled={
-                          selectedReport.status !== "Approved" ||
-                          !selectedReport.snapshot
-                        }
-                        onClick={() =>
-                          onNavigate("messages", {
-                            player: player.id,
-                            sourceReport: selectedReport.id,
-                          })
-                        }
-                      >
-                        <Send size={16} /> Send to Parent
-                      </button>
-                    )}
-                  </div>
-                  <button
-                    className="portal-link"
-                    onClick={() => setPreview(true)}
-                  >
-                    Open full report preview
-                  </button>
-                </>
-              ) : (
-                <div className="portal-empty">
-                  <FileText size={32} />
-                  <h2>No report for this selection</h2>
-                  <p>
-                    Prepare a draft from actual training records, then review it
-                    before approval.
-                  </p>
-                  {!parent && (
-                    <button
-                      className="button primary"
-                      onClick={() => setEditor(true)}
-                    >
-                      Prepare Monthly Report
-                    </button>
-                  )}
-                </div>
               )}
-            </>
-          ) : (
-            <div className="portal-empty">
-              <FileText size={34} />
-              <p>Select an authorised player to review their report.</p>
             </div>
-          )}
-        </aside>
-      </div>
+            {allowedTabs.map((name) => (
+              <div
+                key={name}
+                id={`reports-panel-${name.toLowerCase()}`}
+                role="tabpanel"
+                aria-labelledby={`reports-tab-${name.toLowerCase()}`}
+                hidden={name !== activeTab}
+                tabIndex={0}
+                className="reports-tab-panel"
+              >
+                {name === activeTab &&
+                  (activeTab === "History" && player ? (
+                    <section className="reports-history">
+                      <h2>Report history · {player.name}</h2>
+                      {historical.map((report) => (
+                        <div key={report.id}>
+                          <div>
+                            <strong>
+                              {report.snapshot
+                                ? reportPresentation(report.snapshot)
+                                    .periodLabel
+                                : report.period}
+                            </strong>
+                            <span>
+                              {report.status}
+                              {report.correctionOf
+                                ? " · Reviewed correction"
+                                : ""}
+                            </span>
+                          </div>
+                          <button onClick={() => selectReport(report)}>
+                            Open report
+                          </button>
+                        </div>
+                      ))}
+                      {!historical.length && (
+                        <p>No reports recorded for this player.</p>
+                      )}
+                    </section>
+                  ) : !selectedReport ? (
+                    <div className="reports-empty">
+                      <FileText size={35} />
+                      <h2>
+                        {reportId
+                          ? "Report unavailable in this selection"
+                          : "No report for this selection"}
+                      </h2>
+                      <p>
+                        {player
+                          ? "Choose another reporting period or prepare a draft from actual records."
+                          : "Select an authorised player from the current filter."}
+                      </p>
+                      {!parent && player && (
+                        <button className="button primary" onClick={openEditor}>
+                          Prepare Monthly Report
+                        </button>
+                      )}
+                    </div>
+                  ) : activeTab === "Evidence" && !parent ? (
+                    <ReportEvidence report={selectedReport} />
+                  ) : activeTab === "Activity" ? (
+                    <ReportActivity model={model} />
+                  ) : model ? (
+                    <ReportPreview model={model} variant="inline" />
+                  ) : (
+                    <section className="reports-recorded-draft">
+                      <h2>
+                        {selectedReport.status === "Approved"
+                          ? "Approved snapshot unavailable"
+                          : "Recorded draft · coach review required"}
+                      </h2>
+                      <h3>Recorded observation</h3>
+                      <p>
+                        {selectedReport.observation ||
+                          "No observation recorded."}
+                      </p>
+                      <h3>Next development step</h3>
+                      <p>
+                        {selectedReport.nextStep || "No next step recorded."}
+                      </p>
+                      <h3>Coach’s note</h3>
+                      <p>{selectedReport.closingNote || "No note recorded."}</p>
+                    </section>
+                  ))}
+              </div>
+            ))}
+          </section>
+        </div>
+      </section>
       <Dialog.Root
         open={!parent && (editor || prepare)}
         onOpenChange={(open) => {
@@ -658,10 +548,14 @@ export function PortalReports({
           <Dialog.Overlay className="portal-overlay" />
           <Dialog.Content
             className="portal-dialog portal-report-workflow"
-            onPointerDownOutside={(e) => e.preventDefault()}
-            onEscapeKeyDown={(e) => {
-              e.preventDefault();
+            onPointerDownOutside={(event) => event.preventDefault()}
+            onEscapeKeyDown={(event) => {
+              event.preventDefault();
               closeEditor();
+            }}
+            onCloseAutoFocus={(event) => {
+              event.preventDefault();
+              (returnFocus.current ?? createButton.current)?.focus();
             }}
           >
             <Dialog.Title>Prepare & Review Reports</Dialog.Title>
@@ -679,16 +573,34 @@ export function PortalReports({
             <label>
               Report player
               <select
+                aria-label="Report player"
                 value={player?.id ?? ""}
-                onChange={(e) => {
-                  if (confirmUnsavedChanges())
-                    onNavigate("reports", { player: e.target.value });
+                onChange={(event) => {
+                  if (confirmUnsavedChanges()) {
+                    setSearch("");
+                    setPage(
+                      Math.floor(
+                        Math.max(
+                          0,
+                          d.records.player.findIndex(
+                            (player) => player.id === event.target.value,
+                          ),
+                        ) / pageSize,
+                      ) + 1,
+                    );
+                    onNavigate("reports", {
+                      player: event.target.value,
+                      report: "",
+                      reportBatch: "",
+                      reportStatus: "",
+                    });
+                  }
                 }}
               >
                 <option value="">Choose an authorised player</option>
-                {d.records.player.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name}
+                {d.records.player.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
                   </option>
                 ))}
               </select>
@@ -714,66 +626,130 @@ export function PortalReports({
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
-      <Dialog.Root open={preview} onOpenChange={setPreview}>
-        <Dialog.Portal>
-          <Dialog.Overlay className="portal-overlay" />
-          <Dialog.Content className="portal-dialog portal-report-workflow">
-            <Dialog.Title>Private Report Preview</Dialog.Title>
-            <Dialog.Description>
-              {player?.name ?? "Select a player"} ·{" "}
-              {selectedReport?.period ?? "No report selected"}
-            </Dialog.Description>
-            <Dialog.Close
-              className="portal-icon close"
-              aria-label="Close report preview"
-            >
-              <X />
-            </Dialog.Close>
-            {snapshot ? (
-              <ReportPreview model={snapshot} />
-            ) : (
-              <>
-                <p>
-                  The report is not approved. Review the draft before exporting
-                  an approved snapshot.
-                </p>
-                {selectedReport && (
-                  <div className="portal-workflow">
-                    <section>
-                      <h3>Recorded practice</h3>
-                      <p>
-                        {selectedReport.monthlySources?.model.practised ??
-                          plan?.focus ??
-                          "Recorded practice has not been assembled for this report."}
-                      </p>
-                    </section>
-                    <section>
-                      <h3>Recorded observation</h3>
-                      <p>
-                        {selectedReport.observation ||
-                          "No individual observation recorded."}
-                      </p>
-                    </section>
-                    <section>
-                      <h3>Recorded next step</h3>
-                      <p>
-                        {selectedReport.nextStep || "No next step recorded."}
-                      </p>
-                    </section>
-                    <section>
-                      <h3>Recorded coach comment</h3>
-                      <p>
-                        {selectedReport.closingNote ||
-                          "No closing comment recorded."}
-                      </p>
-                    </section>
-                  </div>
-                )}
-              </>
-            )}
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
     </>
+  );
+}
+
+function draftModel(
+  report: WorkspaceReport,
+  workspace: WorkspacePayload,
+  player?: WorkspacePlayer,
+): ReportViewModel | undefined {
+  const saved = report.monthlySources?.model;
+  return saved && player
+    ? {
+        ...saved,
+        reportId: report.id,
+        playerId: player.id,
+        academy: workspace.academy.name,
+        player: player.name,
+        ageCategory: player.ageCategory,
+        squad: playerBatch(workspace, player),
+        period: report.period,
+        status: report.status,
+        externalDelivery: "Not sent",
+        demo: workspace.academy.demo,
+        brandAccent: workspace.academy.brandAccent,
+        logoData: workspace.academy.logoData,
+        note: report.closingNote,
+        nextStep: report.nextStep,
+        ...(saved.presentationData
+          ? {
+              presentationData: {
+                ...saved.presentationData,
+                coachEvaluation: report.observation ? [report.observation] : [],
+              },
+            }
+          : {}),
+        evidence: [
+          ...saved.evidence,
+          ...(report.observation
+            ? [
+                {
+                  text: report.observation,
+                  source: "Recorded draft commentary",
+                },
+              ]
+            : []),
+        ],
+      }
+    : undefined;
+}
+function ReportEvidence({ report }: { report: WorkspaceReport }) {
+  const model = report.snapshot ?? report.monthlySources?.model;
+  return (
+    <section className="reports-evidence">
+      <h2>Evidence details</h2>
+      <p>
+        Staff view of the saved report sources. These records are not shown in
+        the parent report.
+      </p>
+      {model?.evidence.map((entry, index) => (
+        <article key={index}>
+          <h3>{entry.label || entry.source}</h3>
+          {entry.headline && <strong>{entry.headline}</strong>}
+          <p>{entry.text}</p>
+          <dl>
+            <div>
+              <dt>{report.snapshot?.labels?.source ?? "Source"}</dt>
+              <dd>{entry.source}</dd>
+            </div>
+            {entry.reference && (
+              <div>
+                <dt>Reference</dt>
+                <dd>{entry.reference}</dd>
+              </div>
+            )}
+          </dl>
+        </article>
+      ))}
+      {!!report.monthlySources && (
+        <details>
+          <summary>Stored source record IDs</summary>
+          <p>
+            Sessions:{" "}
+            {report.monthlySources.sessionIds.join(", ") || "None recorded"}
+          </p>
+          <p>
+            Evidence:{" "}
+            {report.monthlySources.evidenceIds.join(", ") || "None recorded"}
+          </p>
+        </details>
+      )}
+      {!!report.sourceEvidenceIds?.length && !report.monthlySources && (
+        <details>
+          <summary>Stored source record IDs</summary>
+          <p>Evidence: {report.sourceEvidenceIds.join(", ")}</p>
+        </details>
+      )}
+      {!model?.evidence.length && (
+        <p>No saved source evidence is available for this report.</p>
+      )}
+    </section>
+  );
+}
+function ReportActivity({ model }: { model?: ReportViewModel }) {
+  return (
+    <section className="reports-activity">
+      <h2>Recorded practice activities</h2>
+      {model?.activities.length ? (
+        model.activities.map((activity, index) => (
+          <article key={index}>
+            <span>{index + 1}</span>
+            <div>
+              <h3>{activity.name}</h3>
+              <p>{activity.purpose}</p>
+              {activity.activity && <p>{activity.activity}</p>}
+              {activity.cue && <p>Coaching cue: {activity.cue}</p>}
+            </div>
+          </article>
+        ))
+      ) : (
+        <p>No activity details were recorded in this report.</p>
+      )}
+      {model?.reviewDate && (
+        <p>Review date: {formatRecordedDate(model.reviewDate)}</p>
+      )}
+    </section>
   );
 }

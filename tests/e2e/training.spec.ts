@@ -927,7 +927,7 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   expect([400, 403, 409]).toContain(wrongPlayer.status());
   await closeDesk();
   await staffNavigate(cp, "Reports");
-  await cp.getByRole("button", { name: "Review Report", exact: true }).click();
+  await cp.getByRole("button", { name: "Edit / Review", exact: true }).click();
   await cp
     .getByRole("dialog", { name: "Prepare & Review Reports", exact: true })
     .locator("summary")

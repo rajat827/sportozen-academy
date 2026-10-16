@@ -12,12 +12,10 @@ test("Approved report downloads, remains unchanged and respects parent privacy",
     name: "Player development report",
   });
   await expect(report.getByText("3 of 6", { exact: false })).toBeVisible();
-  await expect(
-    report.getByText("Report status: Approved", { exact: true }),
-  ).toBeVisible();
-  await expect(
-    report.getByText("External delivery: Not sent", { exact: true }),
-  ).toBeVisible();
+  await expect(report.locator(".pr-status")).toHaveText("Approved");
+  await expect(report.locator(".pr-footer")).toContainText(
+    "External delivery: Not sent",
+  );
   await page.screenshot({
     path: `${folder}/after-desktop.png`,
     fullPage: true,
@@ -36,9 +34,7 @@ test("Approved report downloads, remains unchanged and respects parent privacy",
     await d.saveAs(
       `${folder}/${i ? "repeat-report" : "Aarav-Sharma-Development-Report-2026-10"}.pdf`,
     );
-    await expect(
-      report.getByText("Report status: Approved", { exact: true }),
-    ).toBeVisible();
+    await expect(report.locator(".pr-status")).toHaveText("Approved");
   }
   expect(
     await page.evaluate(() => localStorage.getItem("sportozen-demo-v1")),
@@ -69,8 +65,10 @@ test("Approved report downloads, remains unchanged and respects parent privacy",
   await page.getByRole("button", { name: "Save Draft", exact: true }).click();
   await page.reload();
   await expect(
-    page.getByText("Report status: Draft", { exact: true }),
-  ).toBeVisible();
+    page
+      .getByRole("article", { name: "Player development report" })
+      .locator(".pr-status"),
+  ).toHaveText("Draft");
   await page.goto("/parent/reports");
   await expect(page.getByRole("article")).toHaveCount(0);
 });
@@ -149,7 +147,7 @@ test("Long recorded names and observations paginate without truncation", async (
   });
   await page.reload();
   await expect(page.getByRole("article")).toContainText(
-    "Reviewed evidence is awaiting confirmation.",
+    "No dated numerical measurements were recorded. No chart or progress score is inferred.",
   );
   const [missing] = await Promise.all([
     page.waitForEvent("download"),

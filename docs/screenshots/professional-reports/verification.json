@@ -1,0 +1,1249 @@
+{
+  "status": "PASS",
+  "build": ".next-professional-reports-qa",
+  "reports": 120,
+  "players": 60,
+  "exports": [
+    {
+      "playerKey": "U8-01",
+      "playerId": "468fb198-d20a-5299-a1ab-bcfb949f51ef",
+      "reportId": "9f154c0c-e0fa-4c84-a123-da97390de69d",
+      "month": "2026-08",
+      "snapshotHash": "82cd4882eb7d7ae2446f51bc65f56d7444ed511bac8ccf3c114de5c4218828a0",
+      "pdfSha256": "19655b91d32fb8a9ef67682fb56cd1ba5a6d13c9f9a0149742599a7d064cbb3f",
+      "pages": 1,
+      "file": "U8-01-2026-08.pdf"
+    },
+    {
+      "playerKey": "U8-01",
+      "playerId": "468fb198-d20a-5299-a1ab-bcfb949f51ef",
+      "reportId": "a50650a2-474f-4338-aa43-5d1e9dad74ba",
+      "month": "2026-09",
+      "snapshotHash": "f642807151166e6eb99a71458d22c3568f89cf67982af600fcfa8ff272d5e801",
+      "pdfSha256": "099d661d8e93c77dca105aef25d9ec6346bdc252734ff2ca072f72a2e157bad2",
+      "pages": 3,
+      "file": "U8-01-2026-09.pdf"
+    },
+    {
+      "playerKey": "U8-02",
+      "playerId": "d3a086cb-9354-5735-a6b7-11a3ecba84de",
+      "reportId": "b8ec651b-61a3-4a3e-8298-022aade4e10b",
+      "month": "2026-08",
+      "snapshotHash": "50d7cccb9ce27d5e407da660f35f6fe4b8813a5d19abe053df35955ebd781b01",
+      "pdfSha256": "a8a3a80587b0a7c917ef3511c9e0c5643538bd6e098aa8d1f60444530f102b91",
+      "pages": 1,
+      "file": "U8-02-2026-08.pdf"
+    },
+    {
+      "playerKey": "U8-02",
+      "playerId": "d3a086cb-9354-5735-a6b7-11a3ecba84de",
+      "reportId": "b33fd59b-023e-486e-a541-98ffeeef2084",
+      "month": "2026-09",
+      "snapshotHash": "0a313d68d690cc1636acf32555863694ea057af36a2550bc43ea395320fdd959",
+      "pdfSha256": "2ac7565050babaa6e1b0c7b42e758b50ac2f5444fed95d31fc69d3263ce8d3af",
+      "pages": 1,
+      "file": "U8-02-2026-09.pdf"
+    },
+    {
+      "playerKey": "U8-03",
+      "playerId": "a1c9c4d1-04be-5913-a360-1930430ec190",
+      "reportId": "499af9e1-0f46-40cd-8183-d77824c9e494",
+      "month": "2026-08",
+      "snapshotHash": "dfbaa59cb34a5197d4bfe2a44a97ee9005b8e17b2613f5fbddcb38298a9b920d",
+      "pdfSha256": "e459c7cdb42bf5cf903fa44e944d7412856271db53e743b74c402127f2785f1f",
+      "pages": 1,
+      "file": "U8-03-2026-08.pdf"
+    },
+    {
+      "playerKey": "U8-03",
+      "playerId": "a1c9c4d1-04be-5913-a360-1930430ec190",
+      "reportId": "3c20338f-960c-4cce-9acb-c982b2418afb",
+      "month": "2026-09",
+      "snapshotHash": "3cbe5b073ce9b5010d2096a48391c61882b6716c6dfa692d07777598d0628ca2",
+      "pdfSha256": "612d80e84df82fb2a3ecb14dfedb0d583403cce341d5238a84eb23c9624969bc",
+      "pages": 1,
+      "file": "U8-03-2026-09.pdf"
+    },
+    {
+      "playerKey": "U8-04",
+      "playerId": "f507224d-af90-5b41-a9ae-0026235640af",
+      "reportId": "0e5ec466-39b7-4032-bd4f-1922ed09056d",
+      "month": "2026-08",
+      "snapshotHash": "04b21f534a70c777209ee616531e920e60a8cdcc053b889959024ac1f7883d8a",
+      "pdfSha256": "56cb5e1e296f60d7eb79b152f76d8ce1a19af513529967b30596850febdae84b",
+      "pages": 1,
+      "file": "U8-04-2026-08.pdf"
+    },
+    {
+      "playerKey": "U8-04",
+      "playerId": "f507224d-af90-5b41-a9ae-0026235640af",
+      "reportId": "c561dbf3-1481-449e-b96f-3c216b82445a",
+      "month": "2026-09",
+      "snapshotHash": "fd8385bd9a1ff5feda6700092cf722ab9a47df6cb0692c3a25a8eef10667f7c3",
+      "pdfSha256": "11e4553c04eea20f3dfcf21ceed8ab18a4b70ecbcb6ed604070f2ae29c37a14d",
+      "pages": 1,
+      "file": "U8-04-2026-09.pdf"
+    },
+    {
+      "playerKey": "U8-05",
+      "playerId": "50b632b6-8d77-5a30-a8cb-03f7d54f79c7",
+      "reportId": "ba823f39-99bb-48a2-b8b0-92f9b9f231cb",
+      "month": "2026-08",
+      "snapshotHash": "16c0c37b0e3f7552a9b56f0149654ef42d667409e497c770e8b4718d673ded63",
+      "pdfSha256": "db34867995770f9ffdf5aaa36f5dc70777fe0e6502b3f027359dc550342636f6",
+      "pages": 1,
+      "file": "U8-05-2026-08.pdf"
+    },
+    {
+      "playerKey": "U8-05",
+      "playerId": "50b632b6-8d77-5a30-a8cb-03f7d54f79c7",
+      "reportId": "81c349ba-42b0-42d7-a148-ed900d7f7d73",
+      "month": "2026-09",
+      "snapshotHash": "6ca558404e2fdaa44bd0e0f2a2582345f8fff9c9614aabff1646402f14652376",
+      "pdfSha256": "116c60cce13ce3cad66bd34d2e6fc34aa92bebcfa143e9443ec24997d0d5ad69",
+      "pages": 1,
+      "file": "U8-05-2026-09.pdf"
+    },
+    {
+      "playerKey": "U8-06",
+      "playerId": "62263bd8-40be-5d0c-ad84-c216a1cf6faa",
+      "reportId": "9b6e2564-cb6a-4c01-8c6f-fe462a65c3fa",
+      "month": "2026-08",
+      "snapshotHash": "6bfce7728a4bd2cad261779ed5b1a35aa5ed71b902149e33f35f933f1bebf4f9",
+      "pdfSha256": "8f8e4a411ff61e3216618f9ea6e8b9b78b3bdfda4f44eafb58696c088aaec156",
+      "pages": 1,
+      "file": "U8-06-2026-08.pdf"
+    },
+    {
+      "playerKey": "U8-06",
+      "playerId": "62263bd8-40be-5d0c-ad84-c216a1cf6faa",
+      "reportId": "576e6cd2-cb37-4474-a2af-cfacfa5c902b",
+      "month": "2026-09",
+      "snapshotHash": "ae1ad3299dd4b22aeed1f6cc5e8f760e91d684d2fd988eb985ac03107cece2f5",
+      "pdfSha256": "0b561cd45b5cd165d0f8638deb99222da7ee7dc4c3976ce43c2a9b6998c3bf1f",
+      "pages": 1,
+      "file": "U8-06-2026-09.pdf"
+    },
+    {
+      "playerKey": "U8-07",
+      "playerId": "7059c830-cb52-544d-ae24-8790231715cf",
+      "reportId": "027af973-fbb7-4f8c-a3b3-acc4b8639dc1",
+      "month": "2026-08",
+      "snapshotHash": "460e36cbcb63fcd309f4bc26fc129a1088107c7757f1ad3fdb60211f8bc8d685",
+      "pdfSha256": "9c48b728c26bd29f7f3e4cca8187a4198723d65941816db05ddf1cb56fd30063",
+      "pages": 1,
+      "file": "U8-07-2026-08.pdf"
+    },
+    {
+      "playerKey": "U8-07",
+      "playerId": "7059c830-cb52-544d-ae24-8790231715cf",
+      "reportId": "647abfac-e86f-47d9-8a82-d5e797bc606f",
+      "month": "2026-09",
+      "snapshotHash": "925d3bc60fd3dea0bf263b077f82c5cc0453deeefa4628b07a9c36f2f935f968",
+      "pdfSha256": "92d86b4b1ec30198a2517c372cfb3644b8084b795a3829b646d4fce13215825a",
+      "pages": 1,
+      "file": "U8-07-2026-09.pdf"
+    },
+    {
+      "playerKey": "U8-08",
+      "playerId": "29f4a323-2279-5472-a53f-c40635727c16",
+      "reportId": "8dddda0b-028d-4303-87d5-d167a346ab49",
+      "month": "2026-08",
+      "snapshotHash": "faca85fc7b3add54dc796fd1f6430f4e2b7e0547829594eccdd6284448c26969",
+      "pdfSha256": "27aae9d07c702ac6e16abc62ea1f5d07cec456468391677604bc169018c92024",
+      "pages": 1,
+      "file": "U8-08-2026-08.pdf"
+    },
+    {
+      "playerKey": "U8-08",
+      "playerId": "29f4a323-2279-5472-a53f-c40635727c16",
+      "reportId": "15b2b28a-13ac-4f4b-ab5e-7c340db6ce93",
+      "month": "2026-09",
+      "snapshotHash": "aa7d2bce391a48c8d64a1fe53874dc92e19bc48a69fa2d2f4f4d68bf817f8e78",
+      "pdfSha256": "e8e8fa94826a59b91b6cd734bda6d9e9f60900524f1ac9befd86b5168470954c",
+      "pages": 1,
+      "file": "U8-08-2026-09.pdf"
+    },
+    {
+      "playerKey": "U8-09",
+      "playerId": "5cadc7d4-a82b-5ca3-ab79-c83e0405f9e6",
+      "reportId": "a0582b12-da72-476c-9e79-84cc5afdb506",
+      "month": "2026-08",
+      "snapshotHash": "d59ac306fe8c633d25dceac3c53ac5bec1213555ce69adfbc3c24c021d0ead91",
+      "pdfSha256": "f4943682d0c2e482654ad4eaf7d805baf195c2c5c21630a45007079222e54eda",
+      "pages": 1,
+      "file": "U8-09-2026-08.pdf"
+    },
+    {
+      "playerKey": "U8-09",
+      "playerId": "5cadc7d4-a82b-5ca3-ab79-c83e0405f9e6",
+      "reportId": "b835155e-ade6-4c0f-b760-facc88fbed84",
+      "month": "2026-09",
+      "snapshotHash": "d72b2cd5d94e10b4f5122abc19ab4715f07930c23d44f8cb3be5ca69ee902669",
+      "pdfSha256": "0cb1f334267a0bc7fa4efed18aa062d63f1347316a4ff1995d2227594b156bc7",
+      "pages": 1,
+      "file": "U8-09-2026-09.pdf"
+    },
+    {
+      "playerKey": "U8-10",
+      "playerId": "8a1f4a5e-207e-50da-aa4a-c77066a77556",
+      "reportId": "1a0b1a0a-8933-4703-bc57-1bb9fc2c4dcb",
+      "month": "2026-08",
+      "snapshotHash": "ea655a03da8cc883e9fb683be0b846456168a1764895de03589d430824c7e6ce",
+      "pdfSha256": "dd912d5fedd3fff7544dfa0aec049c61817a10c5178e5c10d98c255c19452b53",
+      "pages": 1,
+      "file": "U8-10-2026-08.pdf"
+    },
+    {
+      "playerKey": "U8-10",
+      "playerId": "8a1f4a5e-207e-50da-aa4a-c77066a77556",
+      "reportId": "35cc67e8-fc4f-4e1a-b1b6-d07cad7094c3",
+      "month": "2026-09",
+      "snapshotHash": "670286c4b0699a7e214a0e2f783bcd6d5ecb42e85043523f4f860dcbcc06b04e",
+      "pdfSha256": "9881247049cb8b50e696c3a8f407b9819a301e274c560cfae3c236eb5b88ad27",
+      "pages": 1,
+      "file": "U8-10-2026-09.pdf"
+    },
+    {
+      "playerKey": "U10-01",
+      "playerId": "8dc3bdd6-a615-5a9a-a703-4ab7f718c43d",
+      "reportId": "e0b6cd5f-9938-4ccc-8331-4299046385af",
+      "month": "2026-08",
+      "snapshotHash": "961b67ac35b162efa4d8140e1e89260b1046bc42623c260e9ff7857cbf9e0f70",
+      "pdfSha256": "fe8e9b662d47d701c27175f32c12f5938b0bf1529ad188dddef0b4780a18b015",
+      "pages": 1,
+      "file": "U10-01-2026-08.pdf"
+    },
+    {
+      "playerKey": "U10-01",
+      "playerId": "8dc3bdd6-a615-5a9a-a703-4ab7f718c43d",
+      "reportId": "5f93f6cc-cac2-4993-a186-9600bd7c3b87",
+      "month": "2026-09",
+      "snapshotHash": "9e624fa3eb9a4d8a2185049533573fcdea70b3a7c1de2a5021280206e5f90438",
+      "pdfSha256": "5862d8498bec20763b4dfee4440d1d1a4940ae71a3583c32ad0c4569d99a0386",
+      "pages": 1,
+      "file": "U10-01-2026-09.pdf"
+    },
+    {
+      "playerKey": "U10-02",
+      "playerId": "1ad4df52-d7f6-5d55-a7b8-f0c531631415",
+      "reportId": "0b3c5910-cc70-4c6f-81d5-87517e22fcf9",
+      "month": "2026-08",
+      "snapshotHash": "f0f634acab1c41fbbd7090f82c6d36665f27c267b13570d9e0de62eb3f952e0f",
+      "pdfSha256": "2ceba434d73516a194de9a9081eb88138b2d7051c3841ce2585c4121711977bf",
+      "pages": 1,
+      "file": "U10-02-2026-08.pdf"
+    },
+    {
+      "playerKey": "U10-02",
+      "playerId": "1ad4df52-d7f6-5d55-a7b8-f0c531631415",
+      "reportId": "e038e4fc-dee5-4c5a-9227-09580776dc3f",
+      "month": "2026-09",
+      "snapshotHash": "100dfea5b000a5408fd3961f7a70aaaabb0b466f44cff9d0aa69130461d2424a",
+      "pdfSha256": "9fda46438ccee234b9b7883a32fbd7ce9a7a4cf1f72fba37e463c48ef90c6338",
+      "pages": 1,
+      "file": "U10-02-2026-09.pdf"
+    },
+    {
+      "playerKey": "U10-03",
+      "playerId": "669fa94b-1af4-52ed-a1e7-285d915b852d",
+      "reportId": "3eb9f17a-862d-4ac6-8bd9-ceb18bc92604",
+      "month": "2026-08",
+      "snapshotHash": "74a3b5f3a44f8cca9a008d17b12765f4e8c740fa23309b7af803da6fcacbaea2",
+      "pdfSha256": "d4049f9e1274b5813b2ce0018159fa1cbc98b68e470ff687731353bd165fd3c3",
+      "pages": 1,
+      "file": "U10-03-2026-08.pdf"
+    },
+    {
+      "playerKey": "U10-03",
+      "playerId": "669fa94b-1af4-52ed-a1e7-285d915b852d",
+      "reportId": "451c419b-d44c-4492-b22d-632a5bf15ca1",
+      "month": "2026-09",
+      "snapshotHash": "df720a868c50f2c877b9733b631aa316dd66f68127628a78645ba7c4dee15ee5",
+      "pdfSha256": "0fd3af55602d772b03049f53626b8e41830b2ea601bdf8f49726c09f784fefea",
+      "pages": 1,
+      "file": "U10-03-2026-09.pdf"
+    },
+    {
+      "playerKey": "U10-04",
+      "playerId": "2f2bc29e-4a50-52c8-a492-1966183374f8",
+      "reportId": "811ecdc6-2e74-4949-9ba1-d68aed3334ac",
+      "month": "2026-08",
+      "snapshotHash": "3fb4f83a1bb2e7b293156d212aac89bfe1c3434ae33c196374ebbb59658b45c2",
+      "pdfSha256": "0d840afc963e83ba0997bdfe20a19f5a8d62aae18eaca9a80d9051985d6c5c05",
+      "pages": 1,
+      "file": "U10-04-2026-08.pdf"
+    },
+    {
+      "playerKey": "U10-04",
+      "playerId": "2f2bc29e-4a50-52c8-a492-1966183374f8",
+      "reportId": "8bade002-212f-4d11-a9b9-5ee5c87f5f9d",
+      "month": "2026-09",
+      "snapshotHash": "94f2a56606a865b38e1f278a7d42ee9c49bcc1554b3b106ef0a5ae578b2ebab9",
+      "pdfSha256": "30670e13407ca5a5dbf4d90f13fe8e66acdd784671e23658f209ac3cf47fd8ec",
+      "pages": 1,
+      "file": "U10-04-2026-09.pdf"
+    },
+    {
+      "playerKey": "U10-05",
+      "playerId": "5958da9a-6681-56ec-abca-e76d618b9e49",
+      "reportId": "6c229b0c-3221-49e8-83b7-e4b8cfc16d0f",
+      "month": "2026-08",
+      "snapshotHash": "509a8f30713a6bf7b27ddfa2756de830c87b67bced117fce9717d07e04580709",
+      "pdfSha256": "45e56a9580208369c9c48eaf26c812af4612d5c29d6898a8c6c8857a33c0503d",
+      "pages": 1,
+      "file": "U10-05-2026-08.pdf"
+    },
+    {
+      "playerKey": "U10-05",
+      "playerId": "5958da9a-6681-56ec-abca-e76d618b9e49",
+      "reportId": "f8383f14-a2b5-4668-a6bc-cd4c39ce17a9",
+      "month": "2026-09",
+      "snapshotHash": "a4443f5d82ea635d47a6048118327b7130bc9650100cccf79f48b9b67fb73141",
+      "pdfSha256": "898bd1c2e82c7704ee696b1cab3307c9a75827b2ea3f405235d56a5ddf6b880e",
+      "pages": 1,
+      "file": "U10-05-2026-09.pdf"
+    },
+    {
+      "playerKey": "U10-06",
+      "playerId": "faad6c54-50b8-59ac-a006-f93cc978f551",
+      "reportId": "91c9e4d7-e7d4-41d7-9d5c-1b2fc6b743a0",
+      "month": "2026-08",
+      "snapshotHash": "ec192ab323d60b8d2e03fc3b47170d83182e2871ed0e3866dc24f7801b5551ee",
+      "pdfSha256": "5fa1838813f1b462657517b3bdaa7c649619a4bfee9eaed5ca6f9a1c2024a7c5",
+      "pages": 1,
+      "file": "U10-06-2026-08.pdf"
+    },
+    {
+      "playerKey": "U10-06",
+      "playerId": "faad6c54-50b8-59ac-a006-f93cc978f551",
+      "reportId": "95a9489b-c773-4bdf-ac3e-33eccfda5ade",
+      "month": "2026-09",
+      "snapshotHash": "a0618aefdec266b756fc10b3035bebe607aeb44be4a96bcb81da4e90b3a1b03a",
+      "pdfSha256": "cc25d097110d06bd5459e16c4753993c286886b8b2ad96da03d3600be6174b65",
+      "pages": 1,
+      "file": "U10-06-2026-09.pdf"
+    },
+    {
+      "playerKey": "U10-07",
+      "playerId": "4d6248ce-0d59-588b-ac59-607ef5758b24",
+      "reportId": "b53e3930-5403-4be8-933d-b27f5ae47a16",
+      "month": "2026-08",
+      "snapshotHash": "cf6a9f55064986828d96873f0f1b3e0c98b3cc39b205df8cdcc1f33a4c79e5fd",
+      "pdfSha256": "eaed6534c98fe3d5b30753c69713b849f2a516dee0616ee5759a21dd56a513f0",
+      "pages": 1,
+      "file": "U10-07-2026-08.pdf"
+    },
+    {
+      "playerKey": "U10-07",
+      "playerId": "4d6248ce-0d59-588b-ac59-607ef5758b24",
+      "reportId": "2387227f-5e61-4bfe-b6dc-b84b17a85275",
+      "month": "2026-09",
+      "snapshotHash": "b6df905fc59519582e2414172b9926e74b08ee6c7aa02a99e44459840faf79fa",
+      "pdfSha256": "b1d33ffa5d09a99bba5d908962a7f37bd8197ce272c13514cb6946a646a7ddcc",
+      "pages": 1,
+      "file": "U10-07-2026-09.pdf"
+    },
+    {
+      "playerKey": "U10-08",
+      "playerId": "ccae3e39-248d-54cc-a75a-d09376922f83",
+      "reportId": "894fd6e7-4fbf-428d-be4c-61abe3b0d605",
+      "month": "2026-08",
+      "snapshotHash": "4300bfa4af97f2fded72702d3d8b65266ad6e785ccec02c9ec1ee8c7816c6346",
+      "pdfSha256": "9d70c610b299df594b5db896e5657daf2ff4a9493954f090389c332a1f5c6aa4",
+      "pages": 1,
+      "file": "U10-08-2026-08.pdf"
+    },
+    {
+      "playerKey": "U10-08",
+      "playerId": "ccae3e39-248d-54cc-a75a-d09376922f83",
+      "reportId": "eddd965b-db5c-4751-855d-fe0d09102706",
+      "month": "2026-09",
+      "snapshotHash": "21b3e92b0ea8b8a591d2ccd17227689ab233cefa780da1756e1d7e3f47b03fab",
+      "pdfSha256": "1d09d162e57aa7bfe50984f543d650172c9cc166cf0e80e78e091218976faa94",
+      "pages": 1,
+      "file": "U10-08-2026-09.pdf"
+    },
+    {
+      "playerKey": "U10-09",
+      "playerId": "a1c66164-dd32-5ef9-acdb-9145ef6fc758",
+      "reportId": "2ea6856d-5ac6-4fd2-957e-a1af70ea8aef",
+      "month": "2026-08",
+      "snapshotHash": "66db8b74836f946328cf07ff903862b703df1c270a62005799ecd26c095c2997",
+      "pdfSha256": "33dbc80386a72140ec516f0c314935bec364d599af859933016099beeb346e90",
+      "pages": 1,
+      "file": "U10-09-2026-08.pdf"
+    },
+    {
+      "playerKey": "U10-09",
+      "playerId": "a1c66164-dd32-5ef9-acdb-9145ef6fc758",
+      "reportId": "750e1289-3937-4470-a1d1-98c37a0c383e",
+      "month": "2026-09",
+      "snapshotHash": "1aacb069eabf586e765af71d0a6b27c1eaac0caf5dc318918e4bf5a8bdd1a1ac",
+      "pdfSha256": "8cd44569aa3c2bc405c40f53fed363e467ca4535db181f665b9a6502f929b146",
+      "pages": 1,
+      "file": "U10-09-2026-09.pdf"
+    },
+    {
+      "playerKey": "U10-10",
+      "playerId": "f201bd5c-65ab-5d74-ae7e-99ee0ed4d952",
+      "reportId": "e0fa7888-4eaa-41a9-ab1f-6a0e0fd59fda",
+      "month": "2026-08",
+      "snapshotHash": "320d94481f1ca4c03d6a6fb5e72fef05eaf3fadee7d411f62ef04f21bbb194a0",
+      "pdfSha256": "e17287adb9f2174077cb46c794f968917bd71125a394e7bd08dead8132c7c1a9",
+      "pages": 1,
+      "file": "U10-10-2026-08.pdf"
+    },
+    {
+      "playerKey": "U10-10",
+      "playerId": "f201bd5c-65ab-5d74-ae7e-99ee0ed4d952",
+      "reportId": "6eddf958-c1b8-496b-a861-7ab0690da3c6",
+      "month": "2026-09",
+      "snapshotHash": "70116089294625e74ffc65ea302c4040649b9d82fdb1906a631878131ca7d9f3",
+      "pdfSha256": "0024c845d23782108de4f87059bb292f38503158a243a41236f9b423e932ad97",
+      "pages": 1,
+      "file": "U10-10-2026-09.pdf"
+    },
+    {
+      "playerKey": "U12-01",
+      "playerId": "a4210981-dd45-5593-a053-847447bcf6ed",
+      "reportId": "28b517f6-cead-462c-ace5-b5ba27fae847",
+      "month": "2026-08",
+      "snapshotHash": "31ba5f83ff24e08ee6fb6f26001311a5d5f8a90ee10a34b1a4c517db93c4b5cd",
+      "pdfSha256": "0556613f437709d8eec635b8880deda8f0d459a9b011d81911d8c1f9049bc413",
+      "pages": 1,
+      "file": "U12-01-2026-08.pdf"
+    },
+    {
+      "playerKey": "U12-01",
+      "playerId": "a4210981-dd45-5593-a053-847447bcf6ed",
+      "reportId": "fd9430cd-f638-459a-ae7f-e12e367b9098",
+      "month": "2026-09",
+      "snapshotHash": "0f51129b54cabb5ae55f29417e7962f5c0c4b172eb52fb5448092dfd7439e802",
+      "pdfSha256": "45498544d2c78ab0c3f2d7b454370ac94d20925c4ec3167b4f6575c04382ae99",
+      "pages": 1,
+      "file": "U12-01-2026-09.pdf"
+    },
+    {
+      "playerKey": "U12-02",
+      "playerId": "8e769db6-ac78-58db-a4fc-37f15257dfba",
+      "reportId": "4572156e-8045-4b0b-9b30-8ece4e912498",
+      "month": "2026-08",
+      "snapshotHash": "bdf5b17136a46f573f8f0b05cb591f759d61a818af3ca26f6cddde8e7d7cef0d",
+      "pdfSha256": "3ba868ca5a2fa9bca1727279782f16e498979f6bf544461f340d842330f92d57",
+      "pages": 1,
+      "file": "U12-02-2026-08.pdf"
+    },
+    {
+      "playerKey": "U12-02",
+      "playerId": "8e769db6-ac78-58db-a4fc-37f15257dfba",
+      "reportId": "886008d4-2070-4117-827c-81dc20d0348e",
+      "month": "2026-09",
+      "snapshotHash": "758fa765118a08f8e7c5ad60505d1a4dc3ca12b23ccf9b88ab76c68781a94337",
+      "pdfSha256": "3eedd5bff41119f7d1e9f6f130b4edd3f7cdef758621072a510aed14eb0c1abc",
+      "pages": 1,
+      "file": "U12-02-2026-09.pdf"
+    },
+    {
+      "playerKey": "U12-03",
+      "playerId": "765efab0-de2d-5f0b-a6c7-f57aeaf2cdb4",
+      "reportId": "d1b24ab2-5f0a-42dc-b7c1-19bc3ead8f10",
+      "month": "2026-08",
+      "snapshotHash": "6339cb3721bfc4e3630c66e6be8d14ecc45d043835337c4b63483c2882f02f3c",
+      "pdfSha256": "d9aa20a3beabb612cc76bb1b94493eeb479e4b35fbcc11682696859e66018d4b",
+      "pages": 1,
+      "file": "U12-03-2026-08.pdf"
+    },
+    {
+      "playerKey": "U12-03",
+      "playerId": "765efab0-de2d-5f0b-a6c7-f57aeaf2cdb4",
+      "reportId": "6440efc0-cf31-4f38-9371-4b1f4141779b",
+      "month": "2026-09",
+      "snapshotHash": "839b2f317394d811c2d9efca88bdc538a699645cdc6eb0fab415c1195909bc24",
+      "pdfSha256": "877eb869639cd8a2f642cf751f27910b5c74b209af1224795121257fd61972a6",
+      "pages": 1,
+      "file": "U12-03-2026-09.pdf"
+    },
+    {
+      "playerKey": "U12-04",
+      "playerId": "838ab72a-93c2-529a-a3b2-dc1ea31778ea",
+      "reportId": "515ad1eb-626f-4744-8937-29e09bbb9df0",
+      "month": "2026-08",
+      "snapshotHash": "2616aff9e841716a1afd40152cbbd899f563080aec90b686c0c325d972f3d5a2",
+      "pdfSha256": "2e899f4aab7d45004acb985aa743239086f542b7fc88004e2c7d238028191406",
+      "pages": 1,
+      "file": "U12-04-2026-08.pdf"
+    },
+    {
+      "playerKey": "U12-04",
+      "playerId": "838ab72a-93c2-529a-a3b2-dc1ea31778ea",
+      "reportId": "f1acdd79-3b94-4d2c-90a2-d2683651e842",
+      "month": "2026-09",
+      "snapshotHash": "b18ecb37d4a8197e4831fcaf61b52c5da34b2e5f530b2eee7bbc3597a4cbd315",
+      "pdfSha256": "7fd937fa7eb3d435647d4a7523baf091a06291670f604deeda86c5c91631fc02",
+      "pages": 1,
+      "file": "U12-04-2026-09.pdf"
+    },
+    {
+      "playerKey": "U12-05",
+      "playerId": "ca4bffcd-3405-562e-a34f-4b18f157fa8f",
+      "reportId": "74eb52f7-5b78-4c6a-9058-f2912aa3d22f",
+      "month": "2026-08",
+      "snapshotHash": "d0ec89db390f37127586678414a5454b0930c97c2ff2cdfb4825a5d4c73eb202",
+      "pdfSha256": "226bb5bd80c1100f6739ae88d1ad2e62fcf225503f64e2296705b0582ec1cff7",
+      "pages": 1,
+      "file": "U12-05-2026-08.pdf"
+    },
+    {
+      "playerKey": "U12-05",
+      "playerId": "ca4bffcd-3405-562e-a34f-4b18f157fa8f",
+      "reportId": "89191a5b-8516-42c4-8627-27339f3aaf94",
+      "month": "2026-09",
+      "snapshotHash": "645b98b09fc6b835efdd9ecc93ab32bade42ca36771159d07a90533c63d6ec4c",
+      "pdfSha256": "575265d89cddc90a8f6b6851ae9a56c3779984fe7bb78e60bfb2d5928c38dc91",
+      "pages": 1,
+      "file": "U12-05-2026-09.pdf"
+    },
+    {
+      "playerKey": "U12-06",
+      "playerId": "f821ca95-03c5-517f-aad0-babeed887ddb",
+      "reportId": "5811d409-b59e-4d47-8aa5-276c94e4549d",
+      "month": "2026-08",
+      "snapshotHash": "a198fc97e4b562d51c4450a3309c43486709aa508ec662b9a72973695625bf14",
+      "pdfSha256": "b0a6ae74c4ad941301d2d2e7a7a7c5c670ce68b17c98c3dc2be328b041c833a8",
+      "pages": 1,
+      "file": "U12-06-2026-08.pdf"
+    },
+    {
+      "playerKey": "U12-06",
+      "playerId": "f821ca95-03c5-517f-aad0-babeed887ddb",
+      "reportId": "008fcee6-9386-43ff-a269-a1495260a60c",
+      "month": "2026-09",
+      "snapshotHash": "42aeac33876e3523238300d7bdd892e90b6a0566e0ba12a548595aaa9a8055c9",
+      "pdfSha256": "6e1592e6f8dc77109c3c30d3362bbe1ba4bddbc6546c6f0a1d012fbbbf0160d1",
+      "pages": 1,
+      "file": "U12-06-2026-09.pdf"
+    },
+    {
+      "playerKey": "U12-07",
+      "playerId": "007e564b-d6ca-54cc-a30d-0e6499ec491f",
+      "reportId": "77de2020-b03e-417a-a67c-07b9c16f3522",
+      "month": "2026-08",
+      "snapshotHash": "31201a0ee337f955b6e2670527f342baffe7f1e02740f5cb22519477320afb12",
+      "pdfSha256": "28ef3782139b74af6d892eadd5118df7d44ec7aa6c53d6031971e93acb464e10",
+      "pages": 1,
+      "file": "U12-07-2026-08.pdf"
+    },
+    {
+      "playerKey": "U12-07",
+      "playerId": "007e564b-d6ca-54cc-a30d-0e6499ec491f",
+      "reportId": "574b01b7-a234-4f59-9372-5e227b4d0122",
+      "month": "2026-09",
+      "snapshotHash": "9f3aecff047652903967af8cbc1120f95b03eb3ddbdfbee63228730924ddcd1d",
+      "pdfSha256": "70680f888cffbde5a4a6f7b70935abe55ba2bb764183ca96c1c036431884a73f",
+      "pages": 1,
+      "file": "U12-07-2026-09.pdf"
+    },
+    {
+      "playerKey": "U12-08",
+      "playerId": "4896dff0-edf1-5652-a497-2d7684a31cf1",
+      "reportId": "507d86ac-bcaa-4860-a89c-450cc1a53de1",
+      "month": "2026-08",
+      "snapshotHash": "b349a3c1922ebab41d1388f587cdcc2f7dd835b2dcc1cc90b8093f1e6beced29",
+      "pdfSha256": "bda2131b136382fb29705316085d5b420706782745351e1555dde02d65d505c7",
+      "pages": 1,
+      "file": "U12-08-2026-08.pdf"
+    },
+    {
+      "playerKey": "U12-08",
+      "playerId": "4896dff0-edf1-5652-a497-2d7684a31cf1",
+      "reportId": "44019dec-b4a0-4fbb-8b25-6a05f3f639b4",
+      "month": "2026-09",
+      "snapshotHash": "6d38038d1612923e08be0ce84942f35cd2d6b3d6551a969870afa1fd8938504b",
+      "pdfSha256": "f33eaeee306f8613b813f80c79f859fa51d40096d7df82bb931864a11aa25d50",
+      "pages": 1,
+      "file": "U12-08-2026-09.pdf"
+    },
+    {
+      "playerKey": "U12-09",
+      "playerId": "59fa4f3b-a3c8-5bbe-a8f9-9e577dc11553",
+      "reportId": "6e271150-a610-48d5-92bf-a9255e692d83",
+      "month": "2026-08",
+      "snapshotHash": "09af9bfea8bcac3d60c50edfc93fbe94d8460131a2305e14af9d7622463a1a75",
+      "pdfSha256": "7b5ed7e524f8fff5ae203cae3bdb7e47163748fbeb92413d242d323290e2bbdd",
+      "pages": 1,
+      "file": "U12-09-2026-08.pdf"
+    },
+    {
+      "playerKey": "U12-09",
+      "playerId": "59fa4f3b-a3c8-5bbe-a8f9-9e577dc11553",
+      "reportId": "08178f38-84dd-480a-8b10-c59b8ae47e34",
+      "month": "2026-09",
+      "snapshotHash": "3012af9734bd09002abe49d5a7a9f61be23997ff3b0357b81e4f4798b4d590c1",
+      "pdfSha256": "940e5bf2051d0a9600ce0000db2b376e89abaff4063a4fb642527b106888ddec",
+      "pages": 1,
+      "file": "U12-09-2026-09.pdf"
+    },
+    {
+      "playerKey": "U12-10",
+      "playerId": "09b5db66-8d9a-55d7-a002-141dd738f286",
+      "reportId": "7dbae57f-268d-4adf-b85d-7e5c3e7dc429",
+      "month": "2026-08",
+      "snapshotHash": "85f490c409782cc27cd904abe33505a36c51a372daab8e9fb94ca47079ed8026",
+      "pdfSha256": "1c390b82cdf1fc7e077e1d61a66015a28d94e16338444fdf787b3dd67ffc346f",
+      "pages": 1,
+      "file": "U12-10-2026-08.pdf"
+    },
+    {
+      "playerKey": "U12-10",
+      "playerId": "09b5db66-8d9a-55d7-a002-141dd738f286",
+      "reportId": "a38da837-4608-41a7-8657-7f665e58e4f6",
+      "month": "2026-09",
+      "snapshotHash": "b4765b953cbafa9a2c1ce53b698080f3850fcb679149e7bafe2aab55a9725697",
+      "pdfSha256": "43f47b3bae2a4d3f10dad4804246ed4b4821f9ba6078a70a57b4c609c07e2565",
+      "pages": 1,
+      "file": "U12-10-2026-09.pdf"
+    },
+    {
+      "playerKey": "U14-01",
+      "playerId": "4cac4781-01c1-5f17-a67d-f621c9c1c451",
+      "reportId": "3bd76dfa-a742-450b-9d9f-c007f0f7fab1",
+      "month": "2026-08",
+      "snapshotHash": "d2d4afe59982eb433c2a7ce62f3fe9e75170c153fcde12a5d689bd066650c5cd",
+      "pdfSha256": "fb51484eee9f6d950ed1d3dd89c55156f294a5c05ab81a6013f857ce344248c2",
+      "pages": 1,
+      "file": "U14-01-2026-08.pdf"
+    },
+    {
+      "playerKey": "U14-01",
+      "playerId": "4cac4781-01c1-5f17-a67d-f621c9c1c451",
+      "reportId": "cd75eb34-00dc-4b64-ab08-9fb19d341a92",
+      "month": "2026-09",
+      "snapshotHash": "3edafa93ec66aa79fe6266917d071b724a950f885db7867b13ca5514fd8cd643",
+      "pdfSha256": "5b3acad36ce0135c2812b62b4f5f1be2ae8b742372f3a4fba30e7327a21e69f7",
+      "pages": 1,
+      "file": "U14-01-2026-09.pdf"
+    },
+    {
+      "playerKey": "U14-02",
+      "playerId": "990d7c0c-782f-58fe-acee-27bc5b751f0b",
+      "reportId": "1b5dd21b-921f-4925-aa5e-de1780979287",
+      "month": "2026-08",
+      "snapshotHash": "f93038165ad0bd5c2d0e8acda9808d853a33911f6713d80a853a59ad6ce3852a",
+      "pdfSha256": "c9a0c01232aad28bc62b5fa062d9d755d0290248753e0c59e7e2fa19933a5544",
+      "pages": 1,
+      "file": "U14-02-2026-08.pdf"
+    },
+    {
+      "playerKey": "U14-02",
+      "playerId": "990d7c0c-782f-58fe-acee-27bc5b751f0b",
+      "reportId": "5ad514c3-230f-4907-a3e0-058500c9e291",
+      "month": "2026-09",
+      "snapshotHash": "7a091c48c5c17cc60f1c21b100671d215467287a99a24ba6273d23dec25455ba",
+      "pdfSha256": "652d68b21faf888cd8f2cafe99760ededdaf95d750f4106b213385c293e956ef",
+      "pages": 1,
+      "file": "U14-02-2026-09.pdf"
+    },
+    {
+      "playerKey": "U14-03",
+      "playerId": "3fa0c38b-7425-5adc-ae69-afb53dad7f62",
+      "reportId": "a57d1357-fa4a-4043-aeef-412f5182bba4",
+      "month": "2026-08",
+      "snapshotHash": "23e9a770f4e01d79c0ba50b260b4fdbcc745405a8f9ec5bcd1993936aa2c8c57",
+      "pdfSha256": "9259c0a81a12543904569c8fcf540b719d1536240289e975c15c3656ec8fc09f",
+      "pages": 1,
+      "file": "U14-03-2026-08.pdf"
+    },
+    {
+      "playerKey": "U14-03",
+      "playerId": "3fa0c38b-7425-5adc-ae69-afb53dad7f62",
+      "reportId": "6f5bf008-eaa5-478c-a92e-61c7c89670e2",
+      "month": "2026-09",
+      "snapshotHash": "f270c3eccf2158f58bf5ab7401cb93b624776519b9e1928e6af580c682d70bf7",
+      "pdfSha256": "942c85e1983320f0cd1c79659a70beae71e5f886e967fe09544f4686828b5002",
+      "pages": 1,
+      "file": "U14-03-2026-09.pdf"
+    },
+    {
+      "playerKey": "U14-04",
+      "playerId": "fc758036-8ea8-5cfa-a0f7-affdce060a7d",
+      "reportId": "edfdbc39-9217-4cfa-bb31-b4dffdc08117",
+      "month": "2026-08",
+      "snapshotHash": "1357baa0e0bb5190231acf5f7733a3bb252f684cf1b47a8c88ca1e40427f2551",
+      "pdfSha256": "9b9d963077681702236a4c2f349774d9dd59af202a3e6e4cd598363d1caf503c",
+      "pages": 1,
+      "file": "U14-04-2026-08.pdf"
+    },
+    {
+      "playerKey": "U14-04",
+      "playerId": "fc758036-8ea8-5cfa-a0f7-affdce060a7d",
+      "reportId": "419e362f-d8c4-422e-8911-a3080ff13598",
+      "month": "2026-09",
+      "snapshotHash": "7c3b51d5558733be6a703348b8e1db3e12cdf929620670849f985a15e92786e0",
+      "pdfSha256": "d2246aacd0f90ee014ea060522af03ff0dea15b34f91efca3de5d3523f803020",
+      "pages": 1,
+      "file": "U14-04-2026-09.pdf"
+    },
+    {
+      "playerKey": "U14-05",
+      "playerId": "522c1ed4-ef45-58bb-a5ca-a17047e59c41",
+      "reportId": "57083f61-04fd-41c3-a8fd-48be217fab94",
+      "month": "2026-08",
+      "snapshotHash": "15b9fb5d383ad2296cdc9d80f1e6f3821ea1fb3b89cbe09e30a03aa03ddca35d",
+      "pdfSha256": "08e48d4424629c5a0c46d1f29ffeefd527d223aaf16bcdb1f15c88af09645afd",
+      "pages": 1,
+      "file": "U14-05-2026-08.pdf"
+    },
+    {
+      "playerKey": "U14-05",
+      "playerId": "522c1ed4-ef45-58bb-a5ca-a17047e59c41",
+      "reportId": "d1afce5e-49f5-4643-8a5e-af39e7bd9ede",
+      "month": "2026-09",
+      "snapshotHash": "9af5b50dba9f7f300e424c5bc597141a0636d5f3f66bf03ff8fc3aaa9a0c4b72",
+      "pdfSha256": "8944dd3ec57621b035136fd1983af56411daecee83aa4e77fc3c83babe159801",
+      "pages": 1,
+      "file": "U14-05-2026-09.pdf"
+    },
+    {
+      "playerKey": "U14-06",
+      "playerId": "9b982680-29a1-59cc-a708-fc0c114f9169",
+      "reportId": "053ef9b9-b686-48b1-ab44-f34b50911e2e",
+      "month": "2026-08",
+      "snapshotHash": "45b69726dde87f23b43ed904ee460e095321c2372f1324076532877b721c0b70",
+      "pdfSha256": "b5255bb23a452e59863fe64d2fbc1558eef38897b6ef7190a6600454cb8b33eb",
+      "pages": 1,
+      "file": "U14-06-2026-08.pdf"
+    },
+    {
+      "playerKey": "U14-06",
+      "playerId": "9b982680-29a1-59cc-a708-fc0c114f9169",
+      "reportId": "6889c65a-8e90-4a57-85c9-36b8adbee631",
+      "month": "2026-09",
+      "snapshotHash": "ffe107e7432d73e26d5aa82c3ff7335c628c7ace0f07a66c2e23ed67a776aaff",
+      "pdfSha256": "a0088396468884c2ac9642bee74f76c9879a39e3341910361b271ef3addfaaee",
+      "pages": 1,
+      "file": "U14-06-2026-09.pdf"
+    },
+    {
+      "playerKey": "U14-07",
+      "playerId": "fd779fe5-24c9-5b96-a7b4-4c026b31c79e",
+      "reportId": "b5246264-96ed-44c6-a11b-714a6cf7224c",
+      "month": "2026-08",
+      "snapshotHash": "5851b2a6bce1da1046682c55f7315a6a3e1e70b916de6ff81914ccbc1286a42c",
+      "pdfSha256": "e6373e17463b2c83da74b022213944cdcc14abf09c607114fefdefaaa0f2ff25",
+      "pages": 1,
+      "file": "U14-07-2026-08.pdf"
+    },
+    {
+      "playerKey": "U14-07",
+      "playerId": "fd779fe5-24c9-5b96-a7b4-4c026b31c79e",
+      "reportId": "d2ef32cb-0c8f-436b-9b80-8edf17ee0b0c",
+      "month": "2026-09",
+      "snapshotHash": "8855c90f2fb4a5de143eabcbb6e53bc04c1e8f86912a477bf0609234ab13a13a",
+      "pdfSha256": "34b6c51881be4a471cebac18b7dc5957cd71729ee708024cac982626d96e67cd",
+      "pages": 1,
+      "file": "U14-07-2026-09.pdf"
+    },
+    {
+      "playerKey": "U14-08",
+      "playerId": "be9677c1-46e2-5116-ab2a-dc9236fce948",
+      "reportId": "fd6293ea-f183-40ee-aed2-f1aaa50ad75b",
+      "month": "2026-08",
+      "snapshotHash": "74bedfea1d63b34610dc86951aac60faa44531441daf891c77332a101f9cf665",
+      "pdfSha256": "57e0f084cc3ac739ed4e5f155122ae36b7097f012062d4755a68748b65e20646",
+      "pages": 1,
+      "file": "U14-08-2026-08.pdf"
+    },
+    {
+      "playerKey": "U14-08",
+      "playerId": "be9677c1-46e2-5116-ab2a-dc9236fce948",
+      "reportId": "23f6f367-d196-4beb-a051-979f7ed9b1bb",
+      "month": "2026-09",
+      "snapshotHash": "3b8a3921bdb5f1b38dd0a1304d21209dc9aab8376799ce5bb97598d46b37b488",
+      "pdfSha256": "f6329172b654087e2c3f478161b21458fcc0c1afdda4186d27b9d3536f1fad14",
+      "pages": 1,
+      "file": "U14-08-2026-09.pdf"
+    },
+    {
+      "playerKey": "U14-09",
+      "playerId": "9c9c47b9-3a87-507e-ac79-fa0f536676ea",
+      "reportId": "0ae6c23a-fc80-4b22-b174-392e3e706691",
+      "month": "2026-08",
+      "snapshotHash": "dff4d42c907ce9ad9cad3074743f55d2388592efb5675d7ee6afd12880c7e321",
+      "pdfSha256": "ee68d10b752650fa9bde2ceeb38d6812aa32639ebc6ed92980a0801ab6ca806a",
+      "pages": 1,
+      "file": "U14-09-2026-08.pdf"
+    },
+    {
+      "playerKey": "U14-09",
+      "playerId": "9c9c47b9-3a87-507e-ac79-fa0f536676ea",
+      "reportId": "73826a1c-e7d4-4fc6-9d7a-5265fdd3a538",
+      "month": "2026-09",
+      "snapshotHash": "5066fdacf4738fed65ffe3d22e926d25bdc2706ed435bad0a94ce59ef5962291",
+      "pdfSha256": "a1438da9d48bc7cd07711823965e56395de3c061bb06773c6f435d347c60949b",
+      "pages": 1,
+      "file": "U14-09-2026-09.pdf"
+    },
+    {
+      "playerKey": "U14-10",
+      "playerId": "7661e5b9-2d8e-5504-aa5f-6a649d9900a8",
+      "reportId": "941c74a1-5373-4c67-ac1d-fe3553876afd",
+      "month": "2026-08",
+      "snapshotHash": "251a18c3830ba356bfc660f4af48df6c659863f4a3724389648f51f602434b9c",
+      "pdfSha256": "497005632dca82ff08a49b2c3304595f045776965e1142876a944278cca2fabd",
+      "pages": 1,
+      "file": "U14-10-2026-08.pdf"
+    },
+    {
+      "playerKey": "U14-10",
+      "playerId": "7661e5b9-2d8e-5504-aa5f-6a649d9900a8",
+      "reportId": "2ad3ebcd-3eb0-4564-ba57-efa8d9d31975",
+      "month": "2026-09",
+      "snapshotHash": "6a408012477a59c363ef5e95bf3111eec2eaee22c52d4b53a2e160442227e79c",
+      "pdfSha256": "194a35b4f3991eb43c32e7057549a84116b37d21fafa979700dec115fe113c7f",
+      "pages": 1,
+      "file": "U14-10-2026-09.pdf"
+    },
+    {
+      "playerKey": "U16-01",
+      "playerId": "563b2765-1031-54eb-a7a5-3ad93fad652c",
+      "reportId": "2ec79029-8122-4045-a991-f834b41e883f",
+      "month": "2026-08",
+      "snapshotHash": "827295dbe3817a307eccde6653014d1c4c07149cfd7106dcc7aade041d45912f",
+      "pdfSha256": "b485d598dfda86e5411e094f3ea00b848e27cf0fe2e50f997368f888a4692c39",
+      "pages": 1,
+      "file": "U16-01-2026-08.pdf"
+    },
+    {
+      "playerKey": "U16-01",
+      "playerId": "563b2765-1031-54eb-a7a5-3ad93fad652c",
+      "reportId": "451624b7-c9a0-456f-bf2e-8233c6bcef75",
+      "month": "2026-09",
+      "snapshotHash": "a5bb0337e5265db1ade30732f734c0cac4f9cb14ee22328d9d94f19289fb618d",
+      "pdfSha256": "9d048c8fa7b358ab7f8d4d559a82de2fe9c7668db93adbc16c42a0d75a27da13",
+      "pages": 1,
+      "file": "U16-01-2026-09.pdf"
+    },
+    {
+      "playerKey": "U16-02",
+      "playerId": "fd1c6163-b373-56f2-a724-65e6c4116c67",
+      "reportId": "cf383bc3-3335-450e-a8dd-314bc2405bee",
+      "month": "2026-08",
+      "snapshotHash": "f9ea1370c4526328379a5166be5b73c7582c3929c85a8ae179a6b90b3c0f7656",
+      "pdfSha256": "d81b84481384e55690c06b60f9a68a80043f9dc6fc4ad4ace4dadfa2ef7fa8eb",
+      "pages": 1,
+      "file": "U16-02-2026-08.pdf"
+    },
+    {
+      "playerKey": "U16-02",
+      "playerId": "fd1c6163-b373-56f2-a724-65e6c4116c67",
+      "reportId": "3a5879ca-76ab-4035-b4f2-a2606f66abd8",
+      "month": "2026-09",
+      "snapshotHash": "f45e9c78ab7bb5f30d56d22efa3eedffe91bba6c6de6aaae85bd2179ddb0cea2",
+      "pdfSha256": "4fecec7b4b13c89e7694cd2c90f6947cb1ef20b5deba3c5b64165caecbc163a5",
+      "pages": 1,
+      "file": "U16-02-2026-09.pdf"
+    },
+    {
+      "playerKey": "U16-03",
+      "playerId": "47864ba0-e84d-5d82-a70b-3b62456ead71",
+      "reportId": "8ee572e5-dae3-4d4b-9bc5-e55f0098d670",
+      "month": "2026-08",
+      "snapshotHash": "99eecbb2edac426de9a5ae0161c147615dfb6434a04eceeadc862bc258c1b80a",
+      "pdfSha256": "482bfd886a4e1071cbbe3d8cb1e5fb621662e9bc24b5a755b5a6d489b6cd3989",
+      "pages": 1,
+      "file": "U16-03-2026-08.pdf"
+    },
+    {
+      "playerKey": "U16-03",
+      "playerId": "47864ba0-e84d-5d82-a70b-3b62456ead71",
+      "reportId": "ed238225-2edc-481a-b3ac-0bf86889188b",
+      "month": "2026-09",
+      "snapshotHash": "df77f351567a3caabfc6af73e29d17b5d89b4d3a2576f1e86f81588dca6865f0",
+      "pdfSha256": "e951801658da207c2b8a0f7a00439f00267f49c50c682e7450c6496825356217",
+      "pages": 1,
+      "file": "U16-03-2026-09.pdf"
+    },
+    {
+      "playerKey": "U16-04",
+      "playerId": "c35c9253-20d2-5d6e-a32e-112246b09492",
+      "reportId": "379d96eb-ac57-4ff8-8642-ef37f24c67d6",
+      "month": "2026-08",
+      "snapshotHash": "66e1d5c0edabf157de9cd50e2208625cf7f1205689f857c77eef15f1a6d53572",
+      "pdfSha256": "37289399426aa0dfb1b75322f3f7977a6276d6ca06d065a9ef546deb9622c417",
+      "pages": 1,
+      "file": "U16-04-2026-08.pdf"
+    },
+    {
+      "playerKey": "U16-04",
+      "playerId": "c35c9253-20d2-5d6e-a32e-112246b09492",
+      "reportId": "7f5b9d9c-9f8d-45e0-9d43-0298e7df3253",
+      "month": "2026-09",
+      "snapshotHash": "af9918c3eec00e378789b39695e93cebc4da16bedcb81cc41423e5491eda176a",
+      "pdfSha256": "02efa704cbc8ee47e870daf874a9d81c1c4ca9dea98902bd322437161e2f935b",
+      "pages": 1,
+      "file": "U16-04-2026-09.pdf"
+    },
+    {
+      "playerKey": "U16-05",
+      "playerId": "00502dbf-d88f-5acf-a4e6-556a8a80f2d2",
+      "reportId": "467bed18-b62d-4d15-871a-44e5f27e619e",
+      "month": "2026-08",
+      "snapshotHash": "eeb7dd2901ec15cf2b61ca6ef505f9bb035e08a23f39719654abf84a53698c62",
+      "pdfSha256": "251bc12079bad9a10dddfc2f751fe8a02ed8a600bed059b3860b144a84d39d8f",
+      "pages": 1,
+      "file": "U16-05-2026-08.pdf"
+    },
+    {
+      "playerKey": "U16-05",
+      "playerId": "00502dbf-d88f-5acf-a4e6-556a8a80f2d2",
+      "reportId": "02526438-5e0e-465b-9741-3d450e397567",
+      "month": "2026-09",
+      "snapshotHash": "6433b8afab426e8a186d1a7bce4af45b0aab3927e1dfa8a18b43fd8626526bb1",
+      "pdfSha256": "2e5935c67b3a0b847af6111e6cc0d0901a547b38137d61648216871e0374dc66",
+      "pages": 1,
+      "file": "U16-05-2026-09.pdf"
+    },
+    {
+      "playerKey": "U16-06",
+      "playerId": "9b71276b-f8b2-5065-a7c2-61ca050d3e49",
+      "reportId": "69ef3e22-e8e4-4d37-86aa-47d719837998",
+      "month": "2026-08",
+      "snapshotHash": "f66f88cc6c7439a618e6f45be2fc77039f9b4d5ec72f9418583965957aa7aabb",
+      "pdfSha256": "01452629204b8d83e8e496953271529dd6559ce91fd8fe1d3140ced90a813e11",
+      "pages": 1,
+      "file": "U16-06-2026-08.pdf"
+    },
+    {
+      "playerKey": "U16-06",
+      "playerId": "9b71276b-f8b2-5065-a7c2-61ca050d3e49",
+      "reportId": "6d402c25-84c7-4785-a88e-1aea26d73bfb",
+      "month": "2026-09",
+      "snapshotHash": "5d6d4cdfd694432b6e8679087f1584c2213abc583f9795936423ecc682ee3444",
+      "pdfSha256": "776e1eae8fe4a2ad11ec9d5b33c15ec727c3541188b77127d1d13d68362bc921",
+      "pages": 1,
+      "file": "U16-06-2026-09.pdf"
+    },
+    {
+      "playerKey": "U16-07",
+      "playerId": "b1be58f8-4eae-53c4-af46-11c7e39bcc9b",
+      "reportId": "6af6e79a-7560-47b0-a66f-ab43d8966b95",
+      "month": "2026-08",
+      "snapshotHash": "13d6c75997cc0226553d6105c94baf22d6bc33ff64401bdce0d95c16f07be458",
+      "pdfSha256": "b1f1a47ab6159fc9e69a593f476f6e0b7054fd7b005c79522291fb177f9ee416",
+      "pages": 1,
+      "file": "U16-07-2026-08.pdf"
+    },
+    {
+      "playerKey": "U16-07",
+      "playerId": "b1be58f8-4eae-53c4-af46-11c7e39bcc9b",
+      "reportId": "2bba15eb-f5d5-471a-8058-3e1d97ae2702",
+      "month": "2026-09",
+      "snapshotHash": "3eacdd264bd95e50bc2ba2127a8306555a3da6c0f33825e780853f1c7347ea1e",
+      "pdfSha256": "cbdb2303efb05f72719a9923a4d1a8f9c440a275004f3fd3504eb1598e033ad2",
+      "pages": 1,
+      "file": "U16-07-2026-09.pdf"
+    },
+    {
+      "playerKey": "U16-08",
+      "playerId": "ba2a93d6-b4aa-5c13-aaac-2e0406e809fd",
+      "reportId": "6e48313f-a4f0-4663-9479-99dad29c3234",
+      "month": "2026-08",
+      "snapshotHash": "0194c1a5a9ca0b954300ee972b2cf54aa5e9cc0e6f8701cb794866e3c837a7f4",
+      "pdfSha256": "09c53a40d90754d30859ba42c64a40900a95f96e1147906ea986af782f9fb01c",
+      "pages": 1,
+      "file": "U16-08-2026-08.pdf"
+    },
+    {
+      "playerKey": "U16-08",
+      "playerId": "ba2a93d6-b4aa-5c13-aaac-2e0406e809fd",
+      "reportId": "ebde50c1-537b-439e-8a20-6eaf6b35a3e9",
+      "month": "2026-09",
+      "snapshotHash": "0ec0ffaec7532007acb5099bdbe57bbe26251efeded5e92e7436a692aa34e8e0",
+      "pdfSha256": "0926c76e24f1df9518ab49f85f0ed39d149dd88b76e30dfa9ec6d231bbdaeb4a",
+      "pages": 1,
+      "file": "U16-08-2026-09.pdf"
+    },
+    {
+      "playerKey": "U16-09",
+      "playerId": "88139cd6-595e-5f81-ae6a-0e37d881e005",
+      "reportId": "8ded7689-ca9a-4217-9411-42ebe2271f81",
+      "month": "2026-08",
+      "snapshotHash": "ad7f5686549e0ed93033bad16fe9b4ace47c43d309fb550dd9d27c2a39ab2cf1",
+      "pdfSha256": "6f0830b7c274e3db166961e08eb72d322836ad2a7c4252e81bf1981316ac4c20",
+      "pages": 1,
+      "file": "U16-09-2026-08.pdf"
+    },
+    {
+      "playerKey": "U16-09",
+      "playerId": "88139cd6-595e-5f81-ae6a-0e37d881e005",
+      "reportId": "cd3fe109-2f46-416d-a0f2-ad45a37d3507",
+      "month": "2026-09",
+      "snapshotHash": "1595282d626490f8562fb29f1a35f8d92ed7157ab9d437639a61f9372a0dd61d",
+      "pdfSha256": "645bc30b9a9805d83852986d602765494e6fbbe43f887de0f552cce54ddecaf9",
+      "pages": 1,
+      "file": "U16-09-2026-09.pdf"
+    },
+    {
+      "playerKey": "U16-10",
+      "playerId": "2e539ff6-10f4-5154-a5aa-5bf008096285",
+      "reportId": "aaa642a0-8b16-474d-80a9-f283864b23f2",
+      "month": "2026-08",
+      "snapshotHash": "5837a88bd4b29879e115838dd4e53f112d5e529d238dcf4db2f94ae9144db63a",
+      "pdfSha256": "e45651b6aa56191fab89868b33b88c30aa8b928cba4076a81e6b840edba52216",
+      "pages": 1,
+      "file": "U16-10-2026-08.pdf"
+    },
+    {
+      "playerKey": "U16-10",
+      "playerId": "2e539ff6-10f4-5154-a5aa-5bf008096285",
+      "reportId": "88bb97d7-3595-461c-883c-3c3306b448ae",
+      "month": "2026-09",
+      "snapshotHash": "f61325a186d0c1f2bd0bb61046e5a59291bd793b0ae976150c409ddd6e3c4af1",
+      "pdfSha256": "2f210ed6045d984762a0d4b6969715144e70a35ac1eaac70ba49a7fa3df18f7d",
+      "pages": 1,
+      "file": "U16-10-2026-09.pdf"
+    },
+    {
+      "playerKey": "U18-01",
+      "playerId": "ed63df94-cc41-57fb-a57c-27204faa68fa",
+      "reportId": "b8204497-55d4-4f2b-9779-0a302876a42e",
+      "month": "2026-08",
+      "snapshotHash": "8a3f4084882d0d22250540bd4db61c78213227878c22ed29529b5243d9ddf588",
+      "pdfSha256": "774ffaec8f245354540880d194c6bb9fdf53fbcca58e41ea04e387a4c56c2b2a",
+      "pages": 1,
+      "file": "U18-01-2026-08.pdf"
+    },
+    {
+      "playerKey": "U18-01",
+      "playerId": "ed63df94-cc41-57fb-a57c-27204faa68fa",
+      "reportId": "57362e3f-145b-4688-99a2-31e8983b22b4",
+      "month": "2026-09",
+      "snapshotHash": "7238c1d1959d958c3d9b3e899b82ae991146a8ae1b19b9d0db198c17fab839f9",
+      "pdfSha256": "b31d142efcfa88b575c9fb4fe92b39676f7d10dd238399ea86bebfe5a4d700c8",
+      "pages": 1,
+      "file": "U18-01-2026-09.pdf"
+    },
+    {
+      "playerKey": "U18-02",
+      "playerId": "9d2251d7-7361-5e05-aa34-77f397da79d1",
+      "reportId": "290d7cb8-a1a5-461e-acfd-cb43982d7033",
+      "month": "2026-08",
+      "snapshotHash": "3dfed73818a3b44cdceb4010da05d6630a3e61d1da907167241214a031d1fe05",
+      "pdfSha256": "36e7bc77c96f48aaa1ae6019a272e43a663fe02a31490578e16a8e7b3b383e12",
+      "pages": 1,
+      "file": "U18-02-2026-08.pdf"
+    },
+    {
+      "playerKey": "U18-02",
+      "playerId": "9d2251d7-7361-5e05-aa34-77f397da79d1",
+      "reportId": "23fc6365-d1e1-4807-b074-6de2cd687b6d",
+      "month": "2026-09",
+      "snapshotHash": "bb0329ca40b3e07232cf1b9a2cea0c6bb079e34f3dd7b5ab3ad13e3ad1a0fc8c",
+      "pdfSha256": "0623fcb5043bbfdc0a6ef7ba1e70783c1a9962915180700a39f5969817f78d65",
+      "pages": 1,
+      "file": "U18-02-2026-09.pdf"
+    },
+    {
+      "playerKey": "U18-03",
+      "playerId": "f7af9c0f-95cb-51c7-ab22-5968271e0402",
+      "reportId": "1ec94c95-e8bf-457f-bcb7-68a123867196",
+      "month": "2026-08",
+      "snapshotHash": "d071b526a3cb7fc18df64311ed201bad2dd94b420edabb172ebb1b7ec0596446",
+      "pdfSha256": "a0dadbaf23c89a405cfd1af5fbcb4f00d631536358bd15d6dc0bed878c0923eb",
+      "pages": 1,
+      "file": "U18-03-2026-08.pdf"
+    },
+    {
+      "playerKey": "U18-03",
+      "playerId": "f7af9c0f-95cb-51c7-ab22-5968271e0402",
+      "reportId": "25c5e7c7-6881-4164-9dc3-316b03c5c6aa",
+      "month": "2026-09",
+      "snapshotHash": "edbce700580fe40ceda0418823c3466c2492c309976735db83d9d1d720cee462",
+      "pdfSha256": "39d219516df64f5510ee1b14c1d74ba2a20f6711a3f4e97c859f69d428d62f2f",
+      "pages": 1,
+      "file": "U18-03-2026-09.pdf"
+    },
+    {
+      "playerKey": "U18-04",
+      "playerId": "0a81ba7b-1115-5474-aa12-88c68a381a25",
+      "reportId": "71650c92-8a76-4a07-91bb-968b3c0d19fe",
+      "month": "2026-08",
+      "snapshotHash": "4afb4820d3629f543e695a7d65c46e9056aec4223fe5be13ba9479c10ee88af9",
+      "pdfSha256": "c5119bcf4bca64100b4e52be52e93c5347016d8c28399e5dee4829c66c4aadb8",
+      "pages": 1,
+      "file": "U18-04-2026-08.pdf"
+    },
+    {
+      "playerKey": "U18-04",
+      "playerId": "0a81ba7b-1115-5474-aa12-88c68a381a25",
+      "reportId": "bf63e337-c18d-4d9b-91ab-ca5c90ed3580",
+      "month": "2026-09",
+      "snapshotHash": "061664e957e58e2d50c33cb55aff2023aeb7e804c0d00362dd51a2bf729bbe07",
+      "pdfSha256": "931513f14173556c9ac665759f73824f049278d96d0c6a2286ceeca234cf9611",
+      "pages": 1,
+      "file": "U18-04-2026-09.pdf"
+    },
+    {
+      "playerKey": "U18-05",
+      "playerId": "707716fd-f757-5838-a912-90a6c610781a",
+      "reportId": "f0eaee61-522b-47f7-84d0-cc29facd0fe0",
+      "month": "2026-08",
+      "snapshotHash": "e48afd4a95b71236606b4c3eeed1efe4820feef88342b44e67264de7ece33f66",
+      "pdfSha256": "6a1efe045106930372c8eca2decd59dfd56da7048403b74ea10fa58fa8032f0c",
+      "pages": 1,
+      "file": "U18-05-2026-08.pdf"
+    },
+    {
+      "playerKey": "U18-05",
+      "playerId": "707716fd-f757-5838-a912-90a6c610781a",
+      "reportId": "dc9a1207-e4f2-4213-a8d7-aeebc6a1f862",
+      "month": "2026-09",
+      "snapshotHash": "3991b848fe82b099c6a203267be086e24d9ca0e4057488a955fd9188d1739907",
+      "pdfSha256": "8fc18ecbf4b7e010fa18fc7bbabb0978e2c090f1a8b6fbe0adc888d1af310786",
+      "pages": 1,
+      "file": "U18-05-2026-09.pdf"
+    },
+    {
+      "playerKey": "U18-06",
+      "playerId": "377ff9dc-ac8c-51e1-adbc-75701b450209",
+      "reportId": "bfc07a7e-6e07-4e21-ae3b-9a3f6284e471",
+      "month": "2026-08",
+      "snapshotHash": "04b56c1ee32b292894b6e402152f75aa3a5ce427a3514e5cf98e49c022e344d9",
+      "pdfSha256": "12e1a574513847e51494d25670201eddabe9b4c1cc5b310e5a4684b586d5f817",
+      "pages": 1,
+      "file": "U18-06-2026-08.pdf"
+    },
+    {
+      "playerKey": "U18-06",
+      "playerId": "377ff9dc-ac8c-51e1-adbc-75701b450209",
+      "reportId": "f3604c22-643f-4631-a01b-f3ab8f13a81e",
+      "month": "2026-09",
+      "snapshotHash": "7beac5a91cc75013f3abfa3c8e030fb78d92cf87cf72696560b1786f826970bd",
+      "pdfSha256": "10555728cc1808439f98d768392fb66a62e0c0e0640c927a63b7341cdb207a43",
+      "pages": 1,
+      "file": "U18-06-2026-09.pdf"
+    },
+    {
+      "playerKey": "U18-07",
+      "playerId": "9d6b40e4-4c31-5a83-a40d-858dc730e1b9",
+      "reportId": "edcb020f-3b2c-4b2b-b029-8993f1fb7397",
+      "month": "2026-08",
+      "snapshotHash": "3cfd2bfd3c8c06a9084851689754e0a79303b17413fdd58c02f1c09438f8df2e",
+      "pdfSha256": "eb02439588c9c77d90c2752716bdd2304a9fb80d64c9a6c4f429b8f3f7c0616c",
+      "pages": 1,
+      "file": "U18-07-2026-08.pdf"
+    },
+    {
+      "playerKey": "U18-07",
+      "playerId": "9d6b40e4-4c31-5a83-a40d-858dc730e1b9",
+      "reportId": "c59a9522-792c-4691-8f38-06cba00be0ba",
+      "month": "2026-09",
+      "snapshotHash": "d887322e303c40014d3bc45a01bbd2494a41463a4bb3bb0361a4e066ae36b5aa",
+      "pdfSha256": "f1c32d99fb44a3e7e4cf047286418e5890c2a69201c888b78ffce1c6bc987822",
+      "pages": 1,
+      "file": "U18-07-2026-09.pdf"
+    },
+    {
+      "playerKey": "U18-08",
+      "playerId": "d61cd2cc-3772-53eb-ad85-dd585c8ca3bd",
+      "reportId": "d023f853-5abc-4c77-b644-7e6d551003af",
+      "month": "2026-08",
+      "snapshotHash": "c4260a57563e79597b7709cedad1dbcea64868d803dd2b1658fa06ec543ce9e7",
+      "pdfSha256": "bc1dbdc0d7f464460b315d4fa5c8acd70ec87db593e3df6eef4d8788f7ce39b7",
+      "pages": 1,
+      "file": "U18-08-2026-08.pdf"
+    },
+    {
+      "playerKey": "U18-08",
+      "playerId": "d61cd2cc-3772-53eb-ad85-dd585c8ca3bd",
+      "reportId": "cef47b93-1afc-4273-b01a-7bdcf4b2d194",
+      "month": "2026-09",
+      "snapshotHash": "f2d82462580788c075ccc9f20d8adc83151defb1697b3493b740703defde9f7f",
+      "pdfSha256": "f62712de1ce2276281a665da16d8913d002d84907cf1a02a9e0625919e543541",
+      "pages": 1,
+      "file": "U18-08-2026-09.pdf"
+    },
+    {
+      "playerKey": "U18-09",
+      "playerId": "973e241e-890a-577c-a6b9-bc58bb4818eb",
+      "reportId": "6fbf5041-3953-4d68-8925-11ac629340fd",
+      "month": "2026-08",
+      "snapshotHash": "75a1ada03ec81cb7822c06a7be44b5ad295501d2cd24be59825a924a8c232e15",
+      "pdfSha256": "288505dab8c01a841050172c6f4b3a7f201d889620a86d899ed763f9f8770cba",
+      "pages": 1,
+      "file": "U18-09-2026-08.pdf"
+    },
+    {
+      "playerKey": "U18-09",
+      "playerId": "973e241e-890a-577c-a6b9-bc58bb4818eb",
+      "reportId": "178ff340-76bc-4e0d-b270-d61b7d64db58",
+      "month": "2026-09",
+      "snapshotHash": "f17b0d11e9e8c0ae04d83128354c06efce826c3dcfaf4befa17d197dce0d22d9",
+      "pdfSha256": "8b429c1b3089aedeba125f22e04cd425f6d5d11c5c68cb1a34142c5641dc4e22",
+      "pages": 1,
+      "file": "U18-09-2026-09.pdf"
+    },
+    {
+      "playerKey": "U18-10",
+      "playerId": "1c57c3fc-5191-518c-aa72-806eb28e324a",
+      "reportId": "5acad727-1313-47db-8d55-2a69987a96ec",
+      "month": "2026-08",
+      "snapshotHash": "7eea47cac682e4fe2065692099ea13bb316e2c93c80dddcf57acaeafd13b701e",
+      "pdfSha256": "828ade0014a61d007b69cc6a35b92305f2870ce5cb3d4fb93d166edab458e853",
+      "pages": 1,
+      "file": "U18-10-2026-08.pdf"
+    },
+    {
+      "playerKey": "U18-10",
+      "playerId": "1c57c3fc-5191-518c-aa72-806eb28e324a",
+      "reportId": "0dbeabc1-2c7d-4a90-8c70-ffa034ecc290",
+      "month": "2026-09",
+      "snapshotHash": "c597a496476a6ab3e47b5e6831de0042e0228cc041af68fa56b13009201f05f6",
+      "pdfSha256": "95e690c3555c7283277c100f7b7838115222e14ff4ff3112e14e9e58c24fbd16",
+      "pages": 1,
+      "file": "U18-10-2026-09.pdf"
+    }
+  ],
+  "captures": [
+    {
+      "file": "docs/screenshots/professional-reports/after/reports-1536.png",
+      "viewportWidth": 1536,
+      "sha256": "25e5c1178d1b6100f85cd4b2880f5b7ad9aa0ef9f1a10363e3ce3bf9e712f8dc"
+    },
+    {
+      "file": "docs/screenshots/professional-reports/after/reports-1440.png",
+      "viewportWidth": 1440,
+      "sha256": "ac6da1a515268faaaf7409e3c023eaad82aa9f24625d477069b094f1f265ebc0"
+    },
+    {
+      "file": "docs/screenshots/professional-reports/after/reports-390.png",
+      "viewportWidth": 390,
+      "sha256": "3255f687581350efc16d8c0af9c927eea7393827203ee8ffb1349717debcb520"
+    },
+    {
+      "file": "docs/screenshots/professional-reports/after/reports-320.png",
+      "viewportWidth": 320,
+      "sha256": "6c85b171e2c05cfd1e12bc0b990b479d307d6a7bb1887a4f632d2c786c7e5ce9"
+    },
+    {
+      "file": "docs/screenshots/professional-reports/after/staff-evidence-1536.png",
+      "viewportWidth": 1536,
+      "sha256": "8900263056499b8929ee325d9f48cdc008db09c8913beaa4e12ca4b30c103a08"
+    },
+    {
+      "file": "docs/screenshots/professional-reports/after/parent-report-390.png",
+      "viewportWidth": 390,
+      "sha256": "251fd5b471456fa8df58e9b27827260ced71ceb42b07700098a4dae3f7907ab7"
+    },
+    {
+      "file": "docs/screenshots/professional-reports/after/parent-report-320.png",
+      "viewportWidth": 320,
+      "sha256": "6b94bc8e274e3a518fee1e1f495cff17fd1d93b734226128c5b88deadae90d4c"
+    }
+  ],
+  "pageErrors": [],
+  "externalRequests": [],
+  "immutableSnapshotsPreserved": true,
+  "liveMessagesSent": false
+}

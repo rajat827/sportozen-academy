@@ -6,6 +6,8 @@ A football academy portal for multiple independent customer academies. Authentic
 
 The integration lineage, approved-reference selection and retained external-service limitations are in [Academy portal integration](docs/ACADEMY_PORTAL_INTEGRATION.md). Actual browser captures and reference comparisons are indexed in [portal verification](docs/ACADEMY_PORTAL_QA.md). Visual approval remains with the user.
 
+The illustrated Reports screen and academy-branded A4 export share the existing approved report snapshot. Original football activity illustrations demonstrate activities; they are not recordings of the child. Historical snapshots, staff evidence, parent access and revision rules are retained. See [professional Reports implementation](docs/PROFESSIONAL_REPORTS.md) and [actual browser/PDF evidence](docs/screenshots/professional-reports/README.md).
+
 ## Run locally
 
 Node.js 24 and pnpm 11 are recommended; the authenticated foundation uses native Node SQLite.

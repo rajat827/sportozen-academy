@@ -20,6 +20,10 @@ import { workspaceRepository as repo } from "@/server/workspace-repository";
 import { trainingAction } from "@/server/training-service";
 import { periodAction } from "@/server/period-service";
 import { approveReport } from "@/server/workspace-service";
+import {
+  parentReportSnapshot,
+  reportPresentation,
+} from "@/services/reports/report-presentation";
 import { parentSchedule } from "@/server/parent-schedule-service";
 import {
   visibleRecords,
@@ -504,9 +508,31 @@ describe("real academy scheduling commands", () => {
       approved.snapshot!.evidence.map((item) => item.text).join(" "),
     ).toContain("No reviewed parent-eligible observations");
     expect(repo.list(f.ctx.academy.id, "plan")).toEqual([]);
+    const storedSnapshot = structuredClone(approved.snapshot!);
     const publicReport = visibleRecords(parent, "report")[0];
-    expect(publicReport.snapshot).toEqual(approved.snapshot);
+    expect(publicReport.snapshot).toEqual(
+      JSON.parse(JSON.stringify(parentReportSnapshot(storedSnapshot))),
+    );
+    const attendance = {
+      total: 2,
+      present: 1,
+      absent: 1,
+      excused: 0,
+      unmarked: 0,
+    };
+    expect(reportPresentation(publicReport.snapshot!).attendance).toEqual(
+      attendance,
+    );
+    expect(reportPresentation(storedSnapshot).attendance).toEqual(attendance);
+    expect(JSON.stringify(publicReport.snapshot)).not.toMatch(
+      /Attendance basis:|drillId|drill version|Reference:/,
+    );
     expect(publicReport.monthlySources).toBeUndefined();
+    expect(publicReport.sourceEvidenceIds).toBeUndefined();
+    expect(repo.find(f.ctx.academy.id, "report", report.id)?.snapshot).toEqual(
+      storedSnapshot,
+    );
+    expect(storedSnapshot.evidence[0].text).toContain("Attendance basis:");
     expect(visibleRecords(parent, "plan")).toEqual([]);
     const history = database()
       .prepare(
