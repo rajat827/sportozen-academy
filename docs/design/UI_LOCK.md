@@ -1,5 +1,15 @@
 # Sportozen approved visual direction lock
 
+## Scoped Settings reference — 15 October 2026
+
+The user explicitly authorised the Academy Settings screen on `codex/settings-screen-locked-ui`, continuing the latest Home implementation. For `/design-preview/academy-settings`, use `docs/reference/approved-ui/settings-screen.png` (1536 × 1024), opened from the actual supplied attachment. Implement only its settings composition, academy profile/contact/defaults, synchronised local logo editor, existing venue actions, honest software-plan/deletion presentation, existing tab destinations and responsive/accessibility checks. This authorisation does not approve the resulting implementation or permit changes to Home, Players, Calendar, Parent Home, the architecture or customer services.
+
+The focused preview reuses the Home navigation geometry through `ApprovedWorkspaceShell`; Home's verified component and CSS remain unchanged. Owner Alex Morgan is the explicit full-settings fixture. Coach/parent permission previews expose no academy form. These roles are fictional UI context, never customer authorisation. Continue to enforce all existing server membership checks on authenticated routes.
+
+Keep one primary Save Changes action. Stage the profile/contact/default/logo draft together; preserve it on validation, save failure and version conflict. Confirm local persistence before displaying success. Unsupported regional formats remain read-only, local-only profile notes are identified, logo selection retains the existing PNG/200 KB limit, and deletion/payment/provider actions never become live. Venue actions remain separate existing workflows and must retain branch/session relationships.
+
+The Settings source supersedes older generic settings composition only. Preserve every other reference and existing uncommitted work. Save actual six-width captures, scenario/interaction evidence and reference comparison in `docs/screenshots/settings-ui/`. Stop for user visual review after the requested screen; do not merge, deploy or infer design approval from tests.
+
 ## Scoped Home update — 15 October 2026
 
 The latest explicit user instruction authorises implementation of the supplied Home dashboard on `codex/home-screen-locked-ui`. For `/design-preview/coach-today`, [home-screen.png](../reference/approved-ui/home-screen.png) is now the visual source of truth and supersedes the older Coach Today panel below. The actual 1536 × 1024 attachment was opened and preserved byte-for-byte; its provenance and asset crops are recorded in [UI_REFERENCE_MAP.md](UI_REFERENCE_MAP.md) and `docs/reference/approved-ui/home-assets.json`.

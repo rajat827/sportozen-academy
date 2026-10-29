@@ -1,5 +1,13 @@
 # Approved UI reference map
 
+## Settings reference — 15 October 2026
+
+The actual supplied 1536 × 1024 Settings attachment `codex-clipboard-939a9c02-2ffc-4e5b-893c-c77d8db55928.png` was opened and visually inspected before implementation. Its unchanged canonical copy is `docs/reference/approved-ui/settings-screen.png`, SHA-256 `B53CC6AAE078701EE7B5B6CE8165C7C99FE646D9D77475601871C51D23F07A7D`. It defines `/design-preview/academy-settings` only: the same navy application shell with More active, Settings heading and horizontal tabs, a wide academy-form column and narrower logo/software-plan/danger column.
+
+`public/design-preview/approved-settings/riverside-logo.png` is a 70 × 87 crop of the supplied Riverside crest at `(1200, 210, 1270, 297)`; it is used only for that matching fictional academy. Shared Sportozen/sidebar assets retain the Home source. Crop/hash provenance is in `docs/reference/approved-ui/settings-assets.json`. The form is editable HTML; the full reference is never used as a product background/hotspot surface. The exact font/vector originals and independent commercial asset licence were not supplied; the existing local Noto Sans and source raster crops remain explicit limitations.
+
+Reference examples do not establish real academy contact channels, subscription entitlements or deletion permissions. The full visual fixture uses owner context. PNG-only upload follows the existing asset handler; unimplemented date/week/age/time format preferences are read-only. Local-only profile notes, the single recorded venue, unavailable plan management and non-destructive deletion preview are deliberate supported-behaviour differences, recorded separately from visual drift in `docs/screenshots/settings-ui/README.md`. Home, Players, Calendar and Parent Home keep their existing references and implementation.
+
 ## Home reference update — 15 October 2026
 
 The latest explicit Home task selects [home-screen.png](../reference/approved-ui/home-screen.png) for `/design-preview/coach-today`. This supplied 1536 × 1024 image supersedes the older Coach Today panel **for Home only**. It does not replace the Parent Home or Player Profile references, approve the implementation, or authorise changes to Players and the other screens. The older checkpoint below remains historical evidence.

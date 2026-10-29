@@ -10,14 +10,21 @@ export default async function Page({
   searchParams,
 }: {
   params: Promise<{ screen: string }>;
-  searchParams: Promise<{ scenario?: string }>;
+  searchParams: Promise<{ scenario?: string; role?: string }>;
 }) {
   const { screen } = await params;
-  const { scenario } = await searchParams;
+  const { scenario, role } = await searchParams;
   if (!screenById(screen)) notFound();
   return (
     <DesignPreview
       screenId={screen}
+      settingsRole={
+        screen !== "academy-settings" || !role || role === "OWNER"
+          ? "OWNER"
+          : role === "PARENT"
+            ? "PARENT"
+            : "COACH"
+      }
       scenario={
         previewScenarios.includes(scenario as PreviewScenario)
           ? (scenario as PreviewScenario)

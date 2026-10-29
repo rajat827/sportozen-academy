@@ -1,0 +1,12 @@
+{
+  "purpose": "QA comparison only; not application artwork or design approval.",
+  "reference": "docs\\reference\\approved-ui\\settings-screen.png",
+  "reference_sha256": "b53cc6aae078701ee7b5b6ce8165c7c99fe646d9d77475601871c51d23f07a7d",
+  "actual": "docs\\screenshots\\settings-ui\\after\\settings-1536.png",
+  "actual_sha256": "c11eba71e425f42a8e98bc91ef58909a3ddfa97cd9f6657f1c8cbb144ccfbf8e",
+  "pixels": [
+    1536,
+    1024
+  ],
+  "processing": "Native dimensions; no source/screenshot crop, stretch or resampling."
+}

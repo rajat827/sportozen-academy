@@ -33,6 +33,7 @@ import { Button, Card, Badge, Go } from "./ui";
 import { ScreenContent } from "./screens";
 import { ApprovedHomes } from "./approved-homes";
 import { HomeDashboard } from "./home-dashboard";
+import { ApprovedSettings } from "./approved-settings";
 import { GalleryPlayerProfile } from "./gallery-player";
 import { GalleryWeeklyPlan } from "./gallery-plan";
 import { GalleryOperations } from "./gallery-operations";
@@ -82,9 +83,11 @@ const navFor = (role: PreviewRole) =>
 export function DesignPreview({
   screenId,
   scenario = "default",
+  settingsRole = "OWNER",
 }: {
   screenId: string;
   scenario?: PreviewScenario;
+  settingsRole?: "OWNER" | "COACH" | "PARENT";
 }) {
   const state = usePreviewState(),
     router = useRouter(),
@@ -132,6 +135,8 @@ export function DesignPreview({
     ["default", "empty", "loading", "failed-save"].includes(scenario)
   )
     return <HomeDashboard scenario={scenario} />;
+  if (screenId === "academy-settings")
+    return <ApprovedSettings scenario={scenario} role={settingsRole} />;
   if (scenario === "default" && parentScopeValid && screenId === "parent-home")
     return <ApprovedHomes parent />;
   if (gallery && screenId === "player-profile") return <GalleryPlayerProfile />;

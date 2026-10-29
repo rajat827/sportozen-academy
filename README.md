@@ -1,5 +1,11 @@
 # Sportozen Academy
 
+## Settings preview — preserved work, 30 October 2026
+
+Branch: `codex/settings-screen-locked-ui`. This snapshot preserves the approved Settings preview source, academy identity asset, settings model, accessible workspace shell, comparison script, tests and integration audit that were held in the local worktree. It is an earlier preview branch, not the newer authenticated portal implementation and not a request to replace it.
+
+Existing screenshots and test reports are historical evidence. Later hardening changes have not been freshly verified for this save, and user visual approval is not inferred. See `docs/design/SETTINGS_PORTAL_INTEGRATION_AUDIT.md` and the saved Settings screenshot evidence for integration boundaries. Newer authenticated work is indexed in [the Player branch README](https://github.com/rajat827/sportozen-academy/tree/codex/simplify-player-form). Keep account credentials and databases local. No main merge, deployment or wider redesign is included.
+
 One team. A different development path for every player.
 
 A football-only Concept B product for multiple independent football academies. Authenticated workspaces support personalised player development, approved reports and private parent communication. No rankings. The separate fictional demonstration includes Stallions FC Academy owner, coach and parent experiences.

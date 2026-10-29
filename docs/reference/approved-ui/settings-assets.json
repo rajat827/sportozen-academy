@@ -1,0 +1,21 @@
+{
+  "reference": "docs/reference/approved-ui/settings-screen.png",
+  "reference_pixels": [
+    1536,
+    1024
+  ],
+  "reference_sha256": "B53CC6AAE078701EE7B5B6CE8165C7C99FE646D9D77475601871C51D23F07A7D",
+  "asset": "public/design-preview/approved-settings/riverside-logo.png",
+  "crop_box": [
+    1200,
+    210,
+    1270,
+    297
+  ],
+  "asset_pixels": [
+    70,
+    87
+  ],
+  "asset_sha256": "0BF2B7F0AE7BE8FFE4548BBE54C8DDDD2F27ED134EEB3F2D52D48AE48EFAFFE7",
+  "provenance": "Actual user-supplied Settings reference, visually opened before extraction. Academy crest only used for matching fictional Riverside identity. No separate vector or asset licence supplied."
+}

@@ -374,7 +374,7 @@ export const screenCatalog: ScreenDefinition[] = [
   ),
   screen(
     "academy-settings",
-    "Academy settings",
+    "Settings",
     "OWNER",
     "Academy",
     "form",
