@@ -8,6 +8,7 @@ import {
   measurementText,
   comparableEvidence,
   sessionDraftInput,
+  resolveSessionTime,
 } from "@/services/training-rules";
 import "./session-editor.css";
 import { SessionLocationSearch } from "./session-location-search";
@@ -138,7 +139,11 @@ export function FootballTraining({
           {["OWNER", "ADMIN"].includes(d.membership.role) && (
             <SquadSetup workspace={w} submit={t.submit} />
           )}
-          <SessionEditor workspace={w} submit={t.submit} />
+          <SessionEditor
+            workspace={w}
+            submit={t.submit}
+            onSaved={(saved) => setSelected(saved.id)}
+          />
         </>
       ) : (
         <>
@@ -165,9 +170,11 @@ export function FootballTraining({
 export function SquadSetup({
   workspace: w,
   submit,
+  onBatchSaved,
 }: {
   workspace: Controller;
   submit: Submit;
+  onBatchSaved?: (id: string) => void;
 }) {
   const d = w.data!,
     [branch, setBranch] = useState(d.records.branch[0]?.id ?? ""),
@@ -197,14 +204,15 @@ export function SquadSetup({
         className="form-stack"
         onSubmit={async (e) => {
           e.preventDefault();
-          if (
-            await submit("squad", {
-              name,
-              branchId: branch,
-              playerIds: players,
-            })
-          )
+          const saved = await submit("squad", {
+            name,
+            branchId: branch,
+            playerIds: players,
+          });
+          if (saved) {
             setName("");
+            onBatchSaved?.((saved as { id: string }).id);
+          }
         }}
       >
         <label>
@@ -267,7 +275,498 @@ export function SquadSetup({
     </Card>
   );
 }
-export function SessionEditor({
+type SessionEditorProps = {
+  workspace: Controller;
+  submit: Submit;
+  initial?: FootballSession;
+  onSaved?: (session: FootballSession) => void;
+};
+
+export function SessionEditor(props: SessionEditorProps) {
+  return props.initial ? (
+    <SessionPlanEditor {...props} />
+  ) : (
+    <QuickSessionEditor {...props} />
+  );
+}
+
+function QuickSessionEditor({
+  workspace: w,
+  submit,
+  onSaved,
+}: SessionEditorProps) {
+  const d = w.data!;
+  const admin = ["OWNER", "ADMIN"].includes(d.membership.role);
+  function assignedCoaches(batchId: string) {
+    const batch = d.records.squad.find((item) => item.id === batchId);
+    if (!batch) return [];
+    const roster = batch.playerIds.map((id) =>
+      d.records.player.find((p) => p.id === id),
+    );
+    if (
+      d.membership.role === "COACH" &&
+      roster.every((p) => p?.coachId === d.membership.userId)
+    )
+      return [d.membership.userId];
+    if (!roster.length || roster.some((p) => !p)) return [];
+    const ids = [...new Set(roster.map((p) => p!.coachId))];
+    return ids.length === 1 &&
+      d.members.some(
+        (member) =>
+          member.active && member.role === "COACH" && member.userId === ids[0],
+      )
+      ? ids
+      : [];
+  }
+  const [squadId, setSquad] = useState(d.records.squad[0]?.id ?? ""),
+    [date, setDate] = useState(""),
+    [time, setTime] = useState(""),
+    [duration, setDuration] = useState("90"),
+    [venueId, setVenue] = useState(""),
+    [location, setLocation] = useState(""),
+    [theme, setTheme] = useState(""),
+    [title, setTitle] = useState(""),
+    [coaches, setCoaches] = useState<string[]>(() =>
+      assignedCoaches(d.records.squad[0]?.id ?? ""),
+    ),
+    [placeConfirmation, setPlaceConfirmation] = useState<string | undefined>(),
+    [setup, setSetup] = useState(false),
+    [errors, setErrors] = useState<Record<string, string>>({}),
+    [saveState, setSaveState] = useState<
+      "idle" | "saving" | "failed" | "saved"
+    >("idle");
+  const form = useRef<HTMLFormElement>(null),
+    pending = useRef(false),
+    errorId = useId(),
+    themeListId = useId();
+  const squad = d.records.squad.find((item) => item.id === squadId),
+    branch = d.records.branch.find((item) => item.id === squad?.branchId),
+    venues = d.records.venue.filter((item) => item.branchId === branch?.id);
+  const generatedTitle =
+    `${squad?.name ?? "Football"}${theme.trim() ? ` · ${theme.trim()}` : " Training"}`.slice(
+      0,
+      200,
+    );
+  const content = JSON.stringify({
+    squadId,
+    date,
+    time,
+    duration,
+    venueId,
+    location,
+    theme,
+    title,
+    coaches,
+    placeConfirmation,
+  });
+  const [savedContent, setSavedContent] = useState(content);
+  useUnsavedChanges(content !== savedContent);
+  const fieldState = (field: string) => ({
+    "aria-invalid": Boolean(errors[field]),
+    "aria-describedby": errors[field] ? `${errorId}-${field}` : undefined,
+  });
+  const fieldError = (field: string) =>
+    errors[field] ? (
+      <small className="session-field-error" id={`${errorId}-${field}`}>
+        {errors[field]}
+      </small>
+    ) : null;
+  function chooseBatch(id: string) {
+    setSquad(id);
+    setVenue("");
+    setLocation("");
+    setPlaceConfirmation(undefined);
+    setCoaches(assignedCoaches(id));
+  }
+  return (
+    <Card className="quick-session-card">
+      <h2>Quick Create Session</h2>
+      <p>
+        Save the date now. Add activities and complete the shared batch plan
+        afterwards.
+      </p>
+      {!d.records.squad.length && (
+        <div className="quick-session-empty" role="status">
+          <strong>No training batch created yet</strong>
+          <p>
+            {admin
+              ? "Create a batch, then return here to save your session."
+              : "Ask an academy owner or administrator to create a training batch."}
+          </p>
+          {admin && (
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => setSetup(!setup)}
+            >
+              {setup ? "Return to session form" : "Create training batch"}
+            </Button>
+          )}
+        </div>
+      )}
+      {setup ? (
+        <SquadSetup
+          workspace={w}
+          submit={submit}
+          onBatchSaved={(id) => {
+            chooseBatch(id);
+            setSetup(false);
+          }}
+        />
+      ) : (
+        <form
+          ref={form}
+          className="form-stack quick-session-form"
+          noValidate
+          onSubmit={async (event) => {
+            event.preventDefault();
+            if (
+              pending.current ||
+              w.busy ||
+              (saveState === "saved" && content === savedContent)
+            )
+              return;
+            const nextErrors: Record<string, string> = {};
+            if (!squad || !branch)
+              nextErrors.squadId =
+                "Choose an authorised training batch with a recorded branch.";
+            if (!date) nextErrors.date = "Choose a session date.";
+            if (!time) nextErrors.time = "Enter a start time.";
+            const minutes = Number(duration);
+            if (!Number.isInteger(minutes) || minutes < 1 || minutes > 480)
+              nextErrors.duration = "Enter a duration from 1 to 480 minutes.";
+            const startLocal = date && time ? `${date}T${time}` : "";
+            let endLocal = "";
+            if (startLocal && branch && !nextErrors.duration) {
+              try {
+                const end = new Date(
+                  Date.parse(resolveSessionTime(startLocal, branch.timezone)) +
+                    minutes * 60_000,
+                );
+                const parts = Object.fromEntries(
+                  new Intl.DateTimeFormat("en-GB", {
+                    timeZone: branch.timezone,
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hourCycle: "h23",
+                  })
+                    .formatToParts(end)
+                    .map((part) => [part.type, part.value]),
+                );
+                endLocal = `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+              } catch (error) {
+                nextErrors.time =
+                  error instanceof Error
+                    ? error.message
+                    : "Choose a valid session date and start time.";
+              }
+            }
+            const candidate = {
+              squadId,
+              branchId: branch?.id,
+              timezone: branch?.timezone,
+              startLocal,
+              endLocal,
+              venueId:
+                venueId && venueId !== "__manual__" ? venueId : undefined,
+              location,
+              theme,
+              title: title.trim() || generatedTitle,
+              coachIds: coaches,
+              agenda: [],
+              placeConfirmation,
+            };
+            const parsed = Object.keys(nextErrors).length
+              ? undefined
+              : sessionDraftInput.safeParse(candidate);
+            if (parsed && !parsed.success)
+              for (const issue of parsed.error.issues) {
+                const raw = String(issue.path[0]);
+                const field = ["branchId", "timezone"].includes(raw)
+                  ? "squadId"
+                  : raw === "startLocal"
+                    ? "time"
+                    : raw === "endLocal"
+                      ? "duration"
+                      : raw === "location" || raw === "placeConfirmation"
+                        ? "venue"
+                        : raw;
+                nextErrors[field] ??= issue.message;
+              }
+            setErrors(nextErrors);
+            if (Object.keys(nextErrors).length || !parsed?.success) {
+              requestAnimationFrame(() =>
+                form.current
+                  ?.querySelector<HTMLElement>('[aria-invalid="true"]')
+                  ?.focus(),
+              );
+              return;
+            }
+            pending.current = true;
+            setSaveState("saving");
+            let saved: Awaited<ReturnType<Submit>>;
+            try {
+              saved = await submit("session", parsed.data);
+            } catch {
+              setSaveState("failed");
+              return;
+            } finally {
+              pending.current = false;
+            }
+            if (!saved) {
+              setSaveState("failed");
+              return;
+            }
+            setSavedContent(content);
+            setSaveState("saved");
+            w.setTrainingNotice("Session draft saved");
+            onSaved?.(saved as FootballSession);
+          }}
+        >
+          {Object.keys(errors).length > 0 && (
+            <p role="alert" className="session-field-error">
+              Check the labelled fields. Your session draft has not been saved.
+            </p>
+          )}
+          <div className="quick-session-grid">
+            <label>
+              Training batch
+              <select
+                required
+                aria-label="Training batch"
+                value={squadId}
+                {...fieldState("squadId")}
+                onChange={(event) => chooseBatch(event.target.value)}
+              >
+                <option value="">Select training batch</option>
+                {d.records.squad.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+              {fieldError("squadId")}
+            </label>
+            <label>
+              Date
+              <input
+                required
+                type="date"
+                aria-label="Session date"
+                value={date}
+                {...fieldState("date")}
+                onChange={(event) => setDate(event.target.value)}
+              />
+              {fieldError("date")}
+            </label>
+            <label>
+              Start time
+              <input
+                required
+                type="time"
+                aria-label="Start time"
+                value={time}
+                {...fieldState("time")}
+                onChange={(event) => setTime(event.target.value)}
+              />
+              {fieldError("time")}
+            </label>
+            <label>
+              Duration (minutes)
+              <input
+                required
+                type="number"
+                min={1}
+                max={480}
+                step={1}
+                aria-label="Duration (minutes)"
+                value={duration}
+                {...fieldState("duration")}
+                onChange={(event) => setDuration(event.target.value)}
+              />
+              {fieldError("duration")}
+            </label>
+            <div className="quick-session-venue">
+              <label>
+                Venue (optional)
+                <select
+                  aria-label="Session venue"
+                  value={venueId}
+                  {...fieldState("venue")}
+                  onChange={(event) => {
+                    setVenue(event.target.value);
+                    setPlaceConfirmation(undefined);
+                    setLocation(
+                      d.records.venue.find(
+                        (item) => item.id === event.target.value,
+                      )?.location ?? "",
+                    );
+                  }}
+                >
+                  <option value="">Not decided yet</option>
+                  {venues.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.parentVenueId
+                        ? `${venues.find((parent) => parent.id === item.parentVenueId)?.name ?? "Venue"} · `
+                        : ""}
+                      {item.name}
+                    </option>
+                  ))}
+                  <option value="__manual__">Enter a location</option>
+                </select>
+                {fieldError("venue")}
+              </label>
+              {venueId === "__manual__" && (
+                <label>
+                  Training location
+                  <input
+                    aria-label="Training location"
+                    maxLength={2000}
+                    value={location}
+                    {...fieldState("venue")}
+                    onChange={(event) => {
+                      setLocation(event.target.value);
+                      setPlaceConfirmation(undefined);
+                    }}
+                  />
+                </label>
+              )}
+              {!venues.length && (
+                <small>
+                  No saved venues in this branch. You can enter a location.
+                </small>
+              )}
+              {venueId === "__manual__" && (
+                <SessionLocationSearch
+                  key={squadId}
+                  academyId={d.academy.id}
+                  squadId={squadId}
+                  operationalLocation={location}
+                  onSelect={(place) => setPlaceConfirmation(place.confirmation)}
+                />
+              )}
+              {placeConfirmation && (
+                <small role="status">
+                  Map selection confirmed. Your recorded location will be saved.
+                </small>
+              )}
+            </div>
+            <label>
+              Training focus (optional)
+              <input
+                aria-label="Training focus"
+                list={themeListId}
+                maxLength={2000}
+                value={theme}
+                {...fieldState("theme")}
+                placeholder="Choose a suggestion or enter a focus"
+                onChange={(event) => setTheme(event.target.value)}
+              />
+              <datalist id={themeListId}>
+                {sessionThemes(d.academy).map((item) => (
+                  <option key={item} value={item} />
+                ))}
+              </datalist>
+              {fieldError("theme")}
+            </label>
+          </div>
+          <p className="quick-session-context">
+            {branch
+              ? `${branch.name} · ${branch.timezone}`
+              : "The batch supplies its branch and time zone."}{" "}
+            · End time is calculated from the duration.
+          </p>
+          <details className="quick-session-optional">
+            <summary>Optional details</summary>
+            <label>
+              Custom session title
+              <input
+                aria-label="Custom session title"
+                maxLength={200}
+                placeholder={generatedTitle}
+                value={title}
+                {...fieldState("title")}
+                onChange={(event) => setTitle(event.target.value)}
+              />
+              {fieldError("title")}
+            </label>
+            {admin && (
+              <label>
+                Assigned coach (optional)
+                <select
+                  aria-label="Assigned session coach"
+                  value={coaches[0] ?? ""}
+                  {...fieldState("coachIds")}
+                  onChange={(event) =>
+                    setCoaches(event.target.value ? [event.target.value] : [])
+                  }
+                >
+                  <option value="">Not assigned yet</option>
+                  {d.members
+                    .filter(
+                      (member) =>
+                        member.active &&
+                        ["OWNER", "ADMIN", "COACH"].includes(member.role) &&
+                        (member.role !== "COACH" ||
+                          !!squad?.playerIds.every(
+                            (id) =>
+                              d.records.player.find((p) => p.id === id)
+                                ?.coachId === member.userId,
+                          )),
+                    )
+                    .map((member) => (
+                      <option key={member.userId} value={member.userId}>
+                        {member.name}
+                      </option>
+                    ))}
+                </select>
+                {fieldError("coachIds")}
+              </label>
+            )}
+          </details>
+          <p className="quick-session-coach">
+            Coach:{" "}
+            {coaches
+              .map(
+                (id) =>
+                  d.members.find((member) => member.userId === id)?.name ??
+                  "Assigned coach",
+              )
+              .join(", ") || "Not assigned yet"}
+            .{" "}
+            {!coaches.length &&
+              "An authorised coach and a venue or recorded location are required before scheduling or starting."}
+          </p>
+          <footer className="quick-session-footer">
+            <p role="status" aria-live="polite">
+              {saveState === "saving"
+                ? "Saving..."
+                : saveState === "failed"
+                  ? "Save failed — retry"
+                  : saveState === "saved"
+                    ? "Session draft saved"
+                    : "Activities and personalisation can be added later."}
+            </p>
+            <Button
+              disabled={
+                w.busy ||
+                saveState === "saving" ||
+                (saveState === "saved" && content === savedContent)
+              }
+            >
+              {saveState === "saving" ? "Saving..." : "Save Session Draft"}
+            </Button>
+          </footer>
+        </form>
+      )}
+    </Card>
+  );
+}
+
+function SessionPlanEditor({
   workspace: w,
   submit,
   initial,
@@ -279,6 +778,7 @@ export function SessionEditor({
   onSaved?: (session: FootballSession) => void;
 }) {
   const d = w.data!,
+    [title, setTitle] = useState(initial?.title ?? ""),
     [squadId, setSquad] = useState(
       initial?.squadId ?? d.records.squad[0]?.id ?? "",
     ),
@@ -293,9 +793,7 @@ export function SessionEditor({
     ),
     [start, setStart] = useState(initial?.startLocal ?? ""),
     [end, setEnd] = useState(initial?.endLocal ?? ""),
-    [coaches, setCoaches] = useState<string[]>(
-      initial?.coachIds ?? [d.membership.userId],
-    ),
+    [coaches, setCoaches] = useState<string[]>(initial?.coachIds ?? []),
     [agenda, setAgenda] = useState<{ drillId: string; duration: number }[]>(
       initial?.agenda.map((item) => ({
         drillId: item.drill.id,
@@ -330,6 +828,7 @@ export function SessionEditor({
     };
   }
   const content = JSON.stringify({
+    title,
     squadId,
     venueId,
     location,
@@ -350,7 +849,7 @@ export function SessionEditor({
     branch = d.records.branch.find((b) => b.id === squad?.branchId);
   return (
     <Card>
-      <h2>Schedule football session</h2>
+      <h2>Edit Training Plan</h2>
       <form
         ref={form}
         className="form-stack"
@@ -359,6 +858,7 @@ export function SessionEditor({
           e.preventDefault();
           if (submitting.current || w.busy) return;
           const candidate = {
+            title,
             squadId,
             branchId: branch?.id,
             venueId: venueId || undefined,
@@ -421,24 +921,7 @@ export function SessionEditor({
             submitting.current = false;
           }
           if (saved) {
-            setSavedContent(
-              JSON.stringify({
-                squadId,
-                venueId,
-                location,
-                theme: "",
-                placeConfirmation,
-                start,
-                end,
-                coaches,
-                agenda,
-                sharedGoal,
-                sharedCue,
-                sharedObserve,
-                preparation,
-              }),
-            );
-            setTheme("");
+            setSavedContent(content);
             onSaved?.(saved as FootballSession);
           }
         }}
@@ -448,6 +931,15 @@ export function SessionEditor({
             Check the labelled session fields. Your draft has not been saved.
           </p>
         )}
+        <label>
+          Custom session title
+          <input
+            aria-label="Custom session title"
+            maxLength={200}
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+        </label>
         <label>
           Session squad
           <select
@@ -499,7 +991,6 @@ export function SessionEditor({
           <input
             {...fieldState("location")}
             aria-label="Training location"
-            required
             value={location}
             onChange={(e) => {
               setLocation(e.target.value);
@@ -550,7 +1041,6 @@ export function SessionEditor({
           <input
             {...fieldState("theme")}
             aria-label="Session theme"
-            required
             value={theme}
             onChange={(e) => {
               setTheme(e.target.value);
@@ -688,7 +1178,6 @@ export function SessionEditor({
               {...fieldState("sharedGoal")}
               aria-label="Shared development focus"
               value={sharedGoal}
-              required={Boolean(sharedCue)}
               onChange={(event) => setSharedGoal(event.target.value)}
             />
             {fieldError("sharedGoal")}
@@ -699,7 +1188,6 @@ export function SessionEditor({
               {...fieldState("sharedCue")}
               aria-label="Shared coaching cue"
               value={sharedCue}
-              required={Boolean(sharedGoal)}
               onChange={(event) => setSharedCue(event.target.value)}
             />
             {fieldError("sharedCue")}

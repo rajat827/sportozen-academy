@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState, useRef } from "react";
 import type { WorkspaceKind, WorkspacePayload } from "@/domain/workspace";
+import type { FootballSession } from "@/domain/training";
 export async function workspaceRequest<T>(
   url: string,
   method = "GET",
@@ -79,6 +80,40 @@ export function useWorkspace(academyId: string) {
       try {
         await reload();
       } catch {
+        if (
+          path === "/training" &&
+          typeof body === "object" &&
+          body !== null &&
+          "action" in body &&
+          body.action === "session" &&
+          typeof value === "object" &&
+          value !== null &&
+          "academyId" in value &&
+          value.academyId === academyId &&
+          "id" in value &&
+          typeof value.id === "string"
+        ) {
+          const session = value as FootballSession;
+          setData((current) => {
+            if (current?.academy.id !== academyId) return current;
+            const previous = current.records.session.find(
+              (record) => record.id === session.id,
+            );
+            if (previous && previous.version > session.version) return current;
+            return {
+              ...current,
+              records: {
+                ...current.records,
+                session: [
+                  ...current.records.session.filter(
+                    (record) => record.id !== session.id,
+                  ),
+                  session,
+                ],
+              },
+            };
+          });
+        }
         setError(
           "Saved to academy records, but the refreshed view could not load. Reload to see the confirmed result.",
         );

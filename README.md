@@ -1,5 +1,13 @@
 # Sportozen Academy
 
+## Quick Create Session — saved work, 30 October 2026
+
+Branch: `codex/simple-session-creation`, based on the newer authenticated portal descendant `a4c0869`. This snapshot preserves the six-field session form, optional draft planning/coach assignment, saved-session navigation and recovery, existing full planning editor, server rules and tests. It is saved work in progress, not a completed or approved release.
+
+The last dedicated browser run failed because the “Session saved as draft” banner was missing after navigation. Later URL-context and confirmed-save recovery changes are included but have not been verified by a fresh successful browser run. Existing before captures and two partial after captures are under `docs/screenshots/session-creation/`; they do not establish completion of the requested visual QA. Earlier unit/build results must not be treated as verification of every later edit.
+
+For isolated verification, set `SPORTOZEN_QA_BUILD=1` and `SPORTOZEN_FINAL_QA=1` when building, then run `pnpm exec playwright test --config playwright.simple-session.config.ts` with matching flags. The configuration uses port 3012 and a guarded fictional database. Keep local `.local/` databases, auth secrets and traces private. The root README on [the saved Player branch](https://github.com/rajat827/sportozen-academy/tree/codex/simplify-player-form) indexes the separate branches; they have not been merged together or deployed.
+
 One team. A different development path for every player.
 
 A football academy portal for multiple independent customer academies. Authenticated Home, Players, Calendar, Training, Reports, Fees and Settings use academy-scoped persistent records, shared batch plans with optional personalisation, reviewed reports and private parent communication. No rankings. AI Video Analysis remains Coming soon.

@@ -153,6 +153,12 @@ function assertAssignments(ctx: WorkspaceAccess, session: FootballSession) {
 }
 function assertBooking(ctx: WorkspaceAccess, session: FootballSession) {
   assertAssignments(ctx, session);
+  if (!session.coachIds.length)
+    fail("Assign an authorised session coach before scheduling or starting.");
+  if (!session.venueId && !session.location.trim())
+    fail(
+      "Choose a venue or record a training location before scheduling or starting.",
+    );
   const resolved = sessionTimes(
     session.startLocal,
     session.endLocal,
@@ -406,6 +412,7 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
           {
             ...base,
             ...d,
+            title: d.title ?? old?.title,
             startAt,
             endAt,
             googlePlaceId,
@@ -467,6 +474,7 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
             endLocal: "",
             startAt: "",
             endAt: "",
+            title: source.title,
             theme: source.theme,
             status: "DRAFT",
             roster,
@@ -513,9 +521,9 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
             startLocal: text,
             endLocal: text,
             timezone: text,
-            location: text,
+            location: z.string().trim().max(2000),
             venueId: id.optional(),
-            coachIds: z.array(id).min(1),
+            coachIds: z.array(id),
             reason: z.string().trim().min(3).max(1000),
           })
           .parse(command.data);
@@ -609,8 +617,8 @@ export function trainingAction(ctx: WorkspaceAccess, input: unknown) {
         };
         if (!allowed[s.status].includes(d.status))
           fail("Invalid session status transition.", 409);
-        if (d.status === "SCHEDULED")
-          assertBooking(ctx, { ...s, status: "SCHEDULED" });
+        if (d.status === "SCHEDULED" || d.status === "IN_PROGRESS")
+          assertBooking(ctx, { ...s, status: d.status });
         if (d.status === "CANCELLED" && !d.reason.trim())
           fail("Record a cancellation reason.");
         if (d.status === "COMPLETED") {

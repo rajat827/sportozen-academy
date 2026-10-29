@@ -560,8 +560,7 @@ export function PortalCalendar({
                     : "Edit session draft"}
             </Dialog.Title>
             <Dialog.Description>
-              Changes are saved to {d.academy.name}. The session version is
-              checked before saving.
+              Changes are saved to {d.academy.name}.
             </Dialog.Description>
             <button
               className="pc-dialog-close pc-icon"
@@ -580,11 +579,18 @@ export function PortalCalendar({
                   initial={modal.initial}
                   onSaved={(saved) => {
                     setModal(null);
-                    onNavigate("calendar", {
-                      session: saved.id,
-                      date: sessionDay(saved, timezone) || day,
-                      view,
-                    });
+                    if (modal.kind === "new") {
+                      onNavigate("training", {
+                        session: saved.id,
+                        savedDraft: saved.id,
+                      });
+                    } else {
+                      onNavigate("calendar", {
+                        session: saved.id,
+                        date: sessionDay(saved, timezone) || day,
+                        view,
+                      });
+                    }
                   }}
                 />
               ) : modal.initial ? (

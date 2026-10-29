@@ -41,6 +41,8 @@ export interface FootballSession extends TrainingRecord {
   endLocal: string;
   startAt: string;
   endAt: string;
+  /** Optional editable title; training focus remains independently recorded. */
+  title?: string;
   theme: string;
   status: "DRAFT" | "SCHEDULED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
   roster: { playerId: string; name: string }[];

@@ -1123,3 +1123,23 @@
 .pt-weekly textarea {
   padding: 10px;
 }
+.portal-training .pt-draft-success {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #c3e7d8;
+  background: #eaf8f2;
+  color: #007f59;
+  border-radius: 7px;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+}
+.portal-training .pt-draft-next-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 15px;
+}
+.portal-training .pt-draft-next-actions button {
+  min-height: 40px;
+}
