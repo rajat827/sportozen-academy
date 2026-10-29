@@ -100,6 +100,7 @@ function setup() {
     .run(id, "TEST", JSON.stringify(academy.modules));
   for (const [userId, role] of [
     ["owner", "OWNER"],
+    ["admin", "ADMIN"],
     ["a", "COACH"],
     ["b", "COACH"],
     ["c", "COACH"],
@@ -211,6 +212,15 @@ function setup() {
       session.version,
     );
   return { ctx, command, draft, schedule, ground, zoneA, zoneB, pitch, squads };
+}
+function quickDraftData(f: ReturnType<typeof setup>) {
+  return {
+    branchId: "branch",
+    squadId: f.squads[0].id,
+    timezone: "Asia/Kolkata",
+    startLocal: "2031-01-07T17:00",
+    endLocal: "2031-01-07T18:30",
+  };
 }
 
 function completeAttendance(
@@ -386,15 +396,8 @@ describe("real academy scheduling commands", () => {
   it("persists a minimum draft without drills and retries the same request without duplicate records", () => {
     const f = setup();
     const data = {
-      branchId: "branch",
-      squadId: f.squads[0].id,
-      coachIds: ["a"],
-      location: "Excelsior American School",
-      timezone: "Asia/Kolkata",
-      startLocal: "2031-01-07T17:00",
-      endLocal: "2031-01-07T18:30",
-      theme: "Ball control and first touch",
-      agenda: [],
+      ...quickDraftData(f),
+      title: "Saturday batch practice",
     };
     const requestId = randomUUID();
     const saved = f.command<FootballSession>(
@@ -415,19 +418,208 @@ describe("real academy scheduling commands", () => {
     );
     expect(retry).toEqual(saved);
     expect(saved.status).toBe("DRAFT");
+    expect(saved).toMatchObject({
+      coachIds: [],
+      location: "",
+      theme: "",
+      title: "Saturday batch practice",
+    });
     expect(saved.agenda).toEqual([]);
     expect(saved.sharedObjective).toBeUndefined();
     expect(repo.list(f.ctx.academy.id, "session")).toHaveLength(1);
     expect(repo.list(f.ctx.academy.id, "attendance")).toHaveLength(1);
+    expect(repo.list(f.ctx.academy.id, "attendance")[0].status).toBe(
+      "UNMARKED",
+    );
+    for (const kind of ["report", "update", "weekly", "evidence"] as const)
+      expect(repo.list(f.ctx.academy.id, kind)).toEqual([]);
     const edited = f.command<FootballSession>(
       "session",
-      { ...data, theme: "Custom & revised <focus>" },
+      { ...quickDraftData(f), theme: "Custom & revised <focus>" },
       saved.id,
       saved.version,
     );
     expect(edited.id).toBe(saved.id);
     expect(edited.status).toBe("DRAFT");
+    expect(edited.title).toBe("Saturday batch practice");
     expect(edited.version).toBe(saved.version + 1);
+    expect(repo.find(f.ctx.academy.id, "session", saved.id)).toEqual(edited);
+    expect(
+      f.command<FootballSession>("copy", {}, edited.id, edited.version).title,
+    ).toBe(edited.title);
+  });
+  it("permits an admin to save an unassigned draft but requires a coach to assign themselves", () => {
+    const f = setup();
+    const asUser = (userId: string) =>
+      ({
+        ...f.ctx,
+        user: { ...f.ctx.user, id: userId },
+        membership: repo.membership(f.ctx.academy.id, userId)!,
+      }) as WorkspaceAccess;
+    const adminDraft = f.command<FootballSession>(
+      "session",
+      quickDraftData(f),
+      undefined,
+      0,
+      asUser("admin"),
+    );
+    expect(adminDraft.coachIds).toEqual([]);
+    expect(() =>
+      f.command("session", quickDraftData(f), undefined, 0, asUser("a")),
+    ).toThrow(/Assign yourself/);
+    expect(() =>
+      f.command("session", quickDraftData(f), undefined, 0, asUser("parent")),
+    ).toThrow(/role/);
+    const coachDraft = f.command<FootballSession>(
+      "session",
+      { ...quickDraftData(f), coachIds: ["a"] },
+      undefined,
+      0,
+      asUser("a"),
+    );
+    expect(coachDraft.coachIds).toEqual(["a"]);
+    expect(coachDraft.status).toBe("DRAFT");
+  });
+  it("keeps an incomplete draft unscheduled until its coach and training location are recorded", () => {
+    const f = setup(),
+      draft = f.command<FootballSession>("session", quickDraftData(f));
+    expect(() => f.schedule(draft)).toThrow(
+      /Assign an authorised session coach/,
+    );
+    expect(repo.find(f.ctx.academy.id, "session", draft.id)).toEqual(draft);
+    const assigned = f.command<FootballSession>(
+      "session",
+      { ...quickDraftData(f), coachIds: ["a"] },
+      draft.id,
+      draft.version,
+    );
+    expect(() => f.schedule(assigned)).toThrow(/Choose a venue or record/);
+    const ready = f.command<FootballSession>(
+      "session",
+      {
+        ...quickDraftData(f),
+        coachIds: ["a"],
+        location: "Recorded manual training location",
+      },
+      draft.id,
+      assigned.version,
+    );
+    const scheduled = f.schedule(ready);
+    expect(scheduled.status).toBe("SCHEDULED");
+    expect(scheduled.agenda).toEqual([]);
+    expect(scheduled.theme).toBe("");
+    expect(
+      f.command<FootballSession>(
+        "status",
+        { status: "IN_PROGRESS" },
+        scheduled.id,
+        scheduled.version,
+      ).status,
+    ).toBe("IN_PROGRESS");
+  });
+  it("accepts an existing scoped venue and adds activities after draft creation without duplicate attendance", () => {
+    const f = setup();
+    const draft = f.command<FootballSession>("session", quickDraftData(f));
+    const withPlan = f.command<FootballSession>(
+      "session",
+      {
+        ...quickDraftData(f),
+        coachIds: ["a"],
+        venueId: f.zoneA.id,
+        title: "Custom football practice",
+        agenda: [{ drillId: "drill", duration: 20 }],
+        sharedObjective: { goal: "Receive into space", cue: "", observe: "" },
+      },
+      draft.id,
+      draft.version,
+    );
+    expect(withPlan.agenda[0].drill.name).toBe("Receiving activity");
+    expect(withPlan.sharedObjective).toEqual({
+      goal: "Receive into space",
+      cue: "",
+      observe: "",
+    });
+    expect(withPlan.roster).toEqual(draft.roster);
+    expect(repo.list(f.ctx.academy.id, "attendance")).toHaveLength(1);
+    expect(f.schedule(withPlan).status).toBe("SCHEDULED");
+    expect(() =>
+      f.command("session", quickDraftData(f), draft.id, draft.version),
+    ).toThrow(/Only draft sessions/);
+  });
+  it("revalidates active coach assignment before starting a previously scheduled session", () => {
+    const f = setup(),
+      scheduled = f.schedule(f.draft());
+    database()
+      .prepare(
+        "UPDATE academy_memberships SET active=0 WHERE academyId=? AND userId='a'",
+      )
+      .run(f.ctx.academy.id);
+    expect(() =>
+      f.command(
+        "status",
+        { status: "IN_PROGRESS" },
+        scheduled.id,
+        scheduled.version,
+      ),
+    ).toThrow(/active academy football coaches/);
+    expect(repo.find(f.ctx.academy.id, "session", scheduled.id)).toEqual(
+      scheduled,
+    );
+  });
+  it("allows unfinished draft rescheduling while guarding operational assignments for scheduled sessions", () => {
+    const f = setup(),
+      draft = f.command<FootballSession>("session", quickDraftData(f));
+    const moved = f.command<FootballSession>(
+      "reschedule",
+      {
+        startLocal: "2031-01-08T17:00",
+        endLocal: "2031-01-08T18:30",
+        timezone: draft.timezone,
+        location: "",
+        coachIds: [],
+        reason: "Move the draft before assigning its coach",
+      },
+      draft.id,
+      draft.version,
+    );
+    expect(moved).toMatchObject({
+      status: "DRAFT",
+      coachIds: [],
+      location: "",
+    });
+    const scheduled = f.schedule(f.draft());
+    expect(() =>
+      f.command(
+        "reschedule",
+        {
+          startLocal: "2031-01-09T17:00",
+          endLocal: "2031-01-09T18:30",
+          timezone: scheduled.timezone,
+          location: "",
+          coachIds: [],
+          reason: "Invalid attempt to remove operational assignments",
+        },
+        scheduled.id,
+        scheduled.version,
+      ),
+    ).toThrow(/Assign an authorised session coach/);
+    expect(repo.find(f.ctx.academy.id, "session", scheduled.id)).toEqual(
+      scheduled,
+    );
+  });
+  it("rejects foreign batches, venues, mismatched time zones and coaches outside the batch player scope", () => {
+    const f = setup(),
+      foreign = setup(),
+      data = quickDraftData(f);
+    for (const invalid of [
+      { squadId: foreign.squads[0].id },
+      { venueId: foreign.zoneA.id },
+      { timezone: "UTC" },
+      { coachIds: ["b"] },
+    ])
+      expect(() => f.command("session", { ...data, ...invalid })).toThrow();
+    expect(repo.list(f.ctx.academy.id, "session")).toEqual([]);
+    expect(repo.list(f.ctx.academy.id, "attendance")).toEqual([]);
   });
   it("prepares, reviews, approves and renders a PDF for shared batch participation without creating an individual plan", async () => {
     const f = setup();
