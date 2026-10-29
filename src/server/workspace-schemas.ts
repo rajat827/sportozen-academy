@@ -12,7 +12,7 @@ export const playerSchema = z.object({
   placementReviewed: z.boolean().optional(),
   name: short.min(2),
   sportIds: z.tuple([z.literal("football")]).default(["football"]),
-  squad: short,
+  squad: short.optional(),
   squadId: id.or(z.literal("")).optional(),
   ageCategory: z.string().trim().max(30).optional(),
   birthDate: date

@@ -1,0 +1,88 @@
+{
+  "academyId": "e445f4ab-ab2a-44a2-ada7-aa1fb045c6c3",
+  "isolatedFromMain60PlayerScenario": true,
+  "players": [
+    "4a066d9b-a2cd-4277-8692-6d8c04f10a23",
+    "65daf58a-bd2a-4344-a9b9-d902ce031b2b",
+    "89e1d02b-839d-433d-9b27-b1bdf78cc525"
+  ],
+  "trials": [
+    {
+      "id": "d15037f0-09db-4474-b170-2c6abafaeed2",
+      "playerId": "4a066d9b-a2cd-4277-8692-6d8c04f10a23",
+      "status": "CONVERTED",
+      "invoiceId": "cfd04316-0893-4dcc-8b58-83daa048a4c2"
+    },
+    {
+      "id": "2404baa0-a34a-4072-98a5-f182f7e250a1",
+      "playerId": "65daf58a-bd2a-4344-a9b9-d902ce031b2b",
+      "status": "EXPIRED"
+    },
+    {
+      "id": "001798ca-5b5a-4765-8a31-42389d940ed8",
+      "playerId": "89e1d02b-839d-433d-9b27-b1bdf78cc525",
+      "status": "CANCELLED"
+    }
+  ],
+  "preservedGuardianLinks": true,
+  "preservedTrialSources": {
+    "sessionIds": [
+      "ef3e4b8b-fda5-444c-879a-f467ab24ba0a"
+    ],
+    "attendanceIds": [
+      "ef3e4b8b-fda5-444c-879a-f467ab24ba0a:4a066d9b-a2cd-4277-8692-6d8c04f10a23"
+    ],
+    "evidenceIds": [
+      "6b0ced48-8f2f-4242-9296-174e4a9ad4af"
+    ]
+  },
+  "invoiceCount": 1,
+  "paymentCount": 0,
+  "metrics": [
+    {
+      "width": 1536,
+      "height": 1024,
+      "saveBounds": {
+        "x": 773,
+        "y": 806.9609375,
+        "width": 309,
+        "height": 44
+      },
+      "actionState": {
+        "receivesPointer": true,
+        "background": "rgb(0, 132, 99)",
+        "color": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "saveBounds": {
+        "x": 200,
+        "y": 733.796875,
+        "width": 158,
+        "height": 44
+      },
+      "actionState": {
+        "receivesPointer": true,
+        "background": "rgb(0, 132, 99)",
+        "color": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "saveBounds": {
+        "x": 165,
+        "y": 462.40625,
+        "width": 123,
+        "height": 53.1875
+      },
+      "actionState": {
+        "receivesPointer": true,
+        "background": "rgb(0, 132, 99)",
+        "color": "rgb(255, 255, 255)"
+      }
+    }
+  ]
+}

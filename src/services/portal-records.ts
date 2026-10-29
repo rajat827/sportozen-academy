@@ -1,4 +1,5 @@
 import type { WorkspacePayload, WorkspacePlayer } from "@/domain/workspace";
+import { UNASSIGNED_PLAYER_BATCH } from "./player-form-options";
 
 export function playerAge(birthDate: string | undefined, day: string) {
   if (!birthDate) return undefined;
@@ -41,9 +42,10 @@ export function portalSessionSummary(data: WorkspacePayload, now = new Date()) {
 }
 export function playerBatch(data: WorkspacePayload, player: WorkspacePlayer) {
   return (
-    data.records.squad.find(
-      (s) => s.id === player.squadId || s.playerIds.includes(player.id),
-    )?.name ?? player.squad
+    (player.squadId
+      ? data.records.squad.find((s) => s.id === player.squadId)
+      : data.records.squad.find((s) => s.playerIds.includes(player.id))
+    )?.name ?? UNASSIGNED_PLAYER_BATCH
   );
 }
 export function approvedPlayerReport(data: WorkspacePayload, playerId: string) {

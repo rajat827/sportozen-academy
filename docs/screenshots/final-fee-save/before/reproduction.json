@@ -1,0 +1,70 @@
+{
+  "database": "C:\\Users\\rajat\\OneDrive\\Documents\\ChatGPT\\Build Adda\\sportozen-academy\\.local\\e2e-fee-save-baseline-47c9cd1d-82e1-4d6d-aedf-d74b8ae87eb9.sqlite",
+  "academyId": "d3158f29-307c-4644-96c0-b23fd2847645",
+  "metrics": [
+    {
+      "width": 1536,
+      "height": 1024,
+      "saveLabel": "Create fee plan",
+      "enabled": true,
+      "bounds": {
+        "x": 772,
+        "y": 687.78125,
+        "width": 260,
+        "height": 44
+      },
+      "fullyInViewport": true,
+      "status": 200,
+      "savedId": "32725f37-ff43-415a-81b6-967628791627",
+      "persisted": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "saveLabel": "Create fee plan",
+      "enabled": true,
+      "bounds": {
+        "x": 199,
+        "y": 607.375,
+        "width": 162,
+        "height": 44
+      },
+      "fullyInViewport": true,
+      "status": 200,
+      "savedId": "bae975b2-daed-4dd0-8e80-bcc06090c9e1",
+      "persisted": true
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "saveLabel": "Create fee plan",
+      "enabled": true,
+      "bounds": {
+        "x": 164,
+        "y": 469.375,
+        "width": 127,
+        "height": 44
+      },
+      "fullyInViewport": true,
+      "status": 200,
+      "savedId": "84e509a4-4079-416f-acbd-a7e89cd5f4c7",
+      "persisted": true
+    },
+    {
+      "width": 390,
+      "height": 350,
+      "saveLabel": "Create fee plan",
+      "enabled": true,
+      "bounds": {
+        "x": 199,
+        "y": 404.75,
+        "width": 162,
+        "height": 44
+      },
+      "fullyInViewport": false,
+      "status": 200,
+      "savedId": "844bfcc0-e21a-451e-9caa-24cf32c76679",
+      "persisted": true
+    }
+  ]
+}

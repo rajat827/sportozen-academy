@@ -288,6 +288,265 @@ describe("persistent academy configuration and player placement", () => {
     );
     expect(playerSchema.parse(input)).not.toHaveProperty("ageCategory");
   });
+  it("creates an undecided player without a batch label, batch or position", () => {
+    const saved = saveRecord(
+      owner,
+      "player",
+      {
+        name: "Unassigned synthetic player",
+        coachId: actor("COACH").user.id,
+      },
+      "unassigned-player",
+    );
+    expect(saved).toMatchObject({
+      id: "unassigned-player",
+      academyId: academy.id,
+      squadId: "",
+      squad: "",
+      position: "",
+      status: "ACTIVE",
+      recordVersion: 1,
+    });
+    expect(saved).not.toHaveProperty("ageCategory");
+    expect(repo.find(academy.id, "player", saved.id)).toEqual(saved);
+  });
+  it("saves the selected configured batch ID and name without inferring age or position", () => {
+    seedPlayer();
+    const session = repo.find(academy.id, "session", "session");
+    const saved = saveRecord(
+      owner,
+      "player",
+      {
+        name: "New synthetic winger",
+        coachId: actor("COACH").user.id,
+        ageCategory: "U10",
+        squadId: "first",
+        position: "Winger",
+      },
+      "new-player",
+    );
+    expect(saved).toMatchObject({
+      squadId: "first",
+      squad: "U12 Foundations",
+      ageCategory: "U10",
+      position: "Winger",
+    });
+    expect(repo.find(academy.id, "squad", "first")!.playerIds).toEqual([
+      "player",
+      "new-player",
+    ]);
+    expect(repo.find(academy.id, "session", "session")).toEqual(session);
+  });
+  it("preserves omitted legacy labels, position and demographics when editing another field", () => {
+    const previous = seedPlayer();
+    repo.save(academy.id, "player", {
+      ...previous,
+      squad: "Recorded legacy training label",
+      position: "Left centre-back / sweeper",
+    });
+    const legacy = repo.find(academy.id, "player", previous.id)!,
+      batch = repo.find(academy.id, "squad", "first"),
+      session = repo.find(academy.id, "session", "session");
+    const saved = saveRecord(
+      owner,
+      "player",
+      {
+        name: "Renamed synthetic player",
+        coachId: legacy.coachId,
+        expectedVersion: legacy.recordVersion,
+      },
+      legacy.id,
+    );
+    expect(saved).toMatchObject({
+      squadId: "first",
+      squad: "Recorded legacy training label",
+      position: "Left centre-back / sweeper",
+      ageCategory: "U12",
+      birthDate: "2015-05-02",
+      recordVersion: 3,
+    });
+    expect(repo.find(academy.id, "squad", "first")).toEqual(batch);
+    expect(repo.find(academy.id, "session", "session")).toEqual(session);
+    expect(repo.find(academy.id, "player", legacy.id)).toEqual(saved);
+  });
+  it("allows the assigned coach to update or explicitly clear a position without reassigning a batch", () => {
+    const previous = seedPlayer(),
+      batch = repo.find(academy.id, "squad", "first"),
+      session = repo.find(academy.id, "session", "session");
+    const savePosition = (position: string, expectedVersion: number) =>
+      saveRecord(
+        actor("COACH"),
+        "player",
+        {
+          name: previous.name,
+          coachId: previous.coachId,
+          expectedVersion,
+          position,
+        },
+        previous.id,
+      );
+    const positioned = savePosition("Multiple positions / Exploring", 1);
+    expect(positioned).toMatchObject({
+      position: "Multiple positions / Exploring",
+      squadId: "first",
+      squad: "U12 Foundations",
+      ageCategory: "U12",
+    });
+    const undecided = savePosition("", 2);
+    expect(undecided).toMatchObject({ position: "", recordVersion: 3 });
+    expect(repo.find(academy.id, "squad", "first")).toEqual(batch);
+    expect(repo.find(academy.id, "session", "session")).toEqual(session);
+  });
+  it("unassigns only the current batch while retaining underlying legacy label and historical rosters", () => {
+    const previous = seedPlayer(),
+      session = repo.find(academy.id, "session", "session");
+    const saved = saveRecord(
+      owner,
+      "player",
+      {
+        name: previous.name,
+        coachId: previous.coachId,
+        expectedVersion: previous.recordVersion,
+        squadId: "",
+        placementReviewed: true,
+      },
+      previous.id,
+    );
+    expect(saved).toMatchObject({
+      squadId: "",
+      squad: "U12 Foundations",
+      position: "Midfielder",
+      ageCategory: "U12",
+    });
+    expect(repo.find(academy.id, "squad", "first")!.playerIds).toEqual([]);
+    expect(repo.find(academy.id, "session", "session")).toEqual(session);
+  });
+  it.each([false, true])(
+    "preserves untouched placement during assigned-coach edits of a mixed batch (roster-only: %s)",
+    (rosterOnly) => {
+      const previous = seedPlayer();
+      if (rosterOnly) {
+        const { squadId: _squadId, ...legacy } = previous;
+        void _squadId;
+        repo.save(academy.id, "player", legacy);
+      }
+      repo.save(academy.id, "player", {
+        ...previous,
+        id: "other-coach-player",
+        coachId: owner.user.id,
+      });
+      const first = repo.find(academy.id, "squad", "first")!;
+      repo.save(academy.id, "squad", {
+        ...first,
+        version: first.version + 1,
+        playerIds: [...first.playerIds, "other-coach-player"],
+      });
+      const player = repo.find(academy.id, "player", previous.id)!,
+        batch = repo.find(academy.id, "squad", "first"),
+        session = repo.find(academy.id, "session", "session");
+      const saved = saveRecord(
+        actor("COACH"),
+        "player",
+        {
+          name: player.name,
+          coachId: player.coachId,
+          expectedVersion: player.recordVersion,
+          position: "Defender",
+        },
+        player.id,
+      );
+      expect(saved).toMatchObject({
+        squad: "U12 Foundations",
+        position: "Defender",
+        ageCategory: "U12",
+      });
+      if (rosterOnly) expect(saved).not.toHaveProperty("squadId");
+      else expect(saved).toHaveProperty("squadId", "first");
+      expect(repo.find(academy.id, "squad", "first")).toEqual(batch);
+      expect(repo.find(academy.id, "session", "session")).toEqual(session);
+    },
+  );
+  it.each(["", "second"])(
+    "requires a reviewed owner/admin placement to change roster-only assignment to '%s'",
+    (squadId) => {
+      const previous = seedPlayer(),
+        session = repo.find(academy.id, "session", "session");
+      const { squadId: _squadId, ...legacy } = previous;
+      void _squadId;
+      repo.save(academy.id, "player", legacy);
+      const second = repo.find(academy.id, "squad", "second")!;
+      repo.save(academy.id, "squad", {
+        ...second,
+        version: second.version + 1,
+        playerIds: [previous.id],
+      });
+      const player = repo.find(academy.id, "player", previous.id)!;
+      const draft = {
+        name: player.name,
+        coachId: player.coachId,
+        expectedVersion: player.recordVersion,
+        squadId,
+      };
+      expect(() => saveRecord(owner, "player", draft, player.id)).toThrow(
+        /Review the training-batch/,
+      );
+      expect(() =>
+        saveRecord(
+          actor("COACH"),
+          "player",
+          { ...draft, placementReviewed: true },
+          player.id,
+        ),
+      ).toThrow(/role/);
+      expect(repo.find(academy.id, "squad", "first")!.playerIds).toEqual([
+        "player",
+      ]);
+      const saved = saveRecord(
+        owner,
+        "player",
+        { ...draft, placementReviewed: true },
+        player.id,
+      );
+      expect(saved).toMatchObject({
+        squadId,
+        squad: squadId ? "U14 Practice" : "U12 Foundations",
+        position: "Midfielder",
+        ageCategory: "U12",
+      });
+      expect(repo.find(academy.id, "squad", "first")!.playerIds).toEqual([]);
+      expect(repo.find(academy.id, "squad", "second")!.playerIds).toEqual(
+        squadId ? ["player"] : [],
+      );
+      expect(repo.find(academy.id, "session", "session")).toEqual(session);
+    },
+  );
+  it("preserves an unavailable existing batch ID when editing position", () => {
+    const previous = seedPlayer();
+    repo.save(academy.id, "player", {
+      ...previous,
+      squadId: "retired-batch",
+      squad: "Recorded retired batch",
+    });
+    const player = repo.find(academy.id, "player", previous.id)!,
+      batch = repo.find(academy.id, "squad", "first");
+    const saved = saveRecord(
+      actor("COACH"),
+      "player",
+      {
+        name: player.name,
+        coachId: player.coachId,
+        expectedVersion: player.recordVersion,
+        position: "Winger",
+      },
+      player.id,
+    );
+    expect(saved).toMatchObject({
+      squadId: "retired-batch",
+      squad: "Recorded retired batch",
+      position: "Winger",
+    });
+    expect(repo.find(academy.id, "squad", "first")).toEqual(batch);
+  });
   it("versions demographics independently of batch and historical training", () => {
     const previous = seedPlayer(),
       session = repo.find(academy.id, "session", "session");
@@ -367,7 +626,7 @@ describe("persistent academy configuration and player placement", () => {
     });
     expect(repo.find(academy.id, "session", "session")).toEqual(session);
   });
-  it("rejects foreign academy batches and mismatched labels without writing", () => {
+  it("rejects foreign academy batches without writing and derives local placement names server-side", () => {
     const previous = seedPlayer(),
       other = seedAcademy();
     repo.save(other.id, "squad", {
@@ -395,20 +654,54 @@ describe("persistent academy configuration and player placement", () => {
         previous.id,
       ),
     ).toThrow(/not available/);
+    expect(repo.find(academy.id, "player", previous.id)).toEqual(previous);
+    const saved = saveRecord(
+      owner,
+      "player",
+      {
+        ...previous,
+        expectedVersion: 1,
+        placementReviewed: true,
+        squadId: "second",
+        squad: "Untrusted client label",
+      },
+      previous.id,
+    );
+    expect(saved).toMatchObject({
+      squadId: "second",
+      squad: "U14 Practice",
+      ageCategory: "U12",
+    });
+  });
+  it("keeps parent edits, unassigned coaches and revoked membership out of player writes", () => {
+    const previous = seedPlayer();
+    const draft = {
+      name: "Unauthorised change",
+      coachId: previous.coachId,
+      expectedVersion: previous.recordVersion,
+      position: "Forward / Striker",
+    };
     expect(() =>
-      saveRecord(
-        owner,
-        "player",
-        {
-          ...previous,
-          expectedVersion: 1,
-          placementReviewed: true,
-          squadId: "second",
-          squad: "Wrong label",
-        },
-        previous.id,
-      ),
-    ).toThrow(/label must match/);
+      saveRecord(actor("PARENT"), "player", draft, previous.id),
+    ).toThrow(/role/);
+    repo.save(academy.id, "player", {
+      ...previous,
+      id: "other-coach-player",
+      coachId: owner.user.id,
+    });
+    const otherPlayer = repo.find(academy.id, "player", "other-coach-player");
+    expect(() =>
+      saveRecord(actor("COACH"), "player", draft, "other-coach-player"),
+    ).toThrow(/not available/);
+    expect(repo.find(academy.id, "player", "other-coach-player")).toEqual(
+      otherPlayer,
+    );
+    database()
+      .prepare("UPDATE academy_memberships SET active=0 WHERE id=?")
+      .run(owner.membership.id);
+    expect(() => saveRecord(owner, "player", draft, previous.id)).toThrow(
+      /no longer active/,
+    );
     expect(repo.find(academy.id, "player", previous.id)).toEqual(previous);
   });
   it("rolls back current roster changes when the player write fails", () => {

@@ -1,0 +1,150 @@
+{
+  "capturedAt": "2026-10-14T20:23:11.450Z",
+  "route": "/design-preview/coach-today",
+  "evidence": [
+    {
+      "width": 1536,
+      "height": 1024,
+      "overflow": false,
+      "hero": {
+        "x": 276,
+        "y": 154.5,
+        "width": 754.875,
+        "height": 266
+      },
+      "schedule": {
+        "x": 1050.875,
+        "y": 154.5,
+        "width": 463.109375,
+        "height": 266
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 248,
+        "height": 1024
+      },
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif"
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "hero": {
+        "x": 276,
+        "y": 154.5,
+        "width": 695.375,
+        "height": 266
+      },
+      "schedule": {
+        "x": 991.375,
+        "y": 154.5,
+        "width": 426.609375,
+        "height": 266
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 248,
+        "height": 900
+      },
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif"
+    },
+    {
+      "width": 1280,
+      "height": 900,
+      "overflow": false,
+      "hero": {
+        "x": 271,
+        "y": 154.5,
+        "width": 600.546875,
+        "height": 266
+      },
+      "schedule": {
+        "x": 891.546875,
+        "y": 154.5,
+        "width": 368.4375,
+        "height": 266
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 248,
+        "height": 900
+      },
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif"
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "hero": {
+        "x": 100,
+        "y": 157.5,
+        "width": 648,
+        "height": 266
+      },
+      "schedule": {
+        "x": 100,
+        "y": 443.5,
+        "width": 648,
+        "height": 155
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 80,
+        "height": 1024
+      },
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "hero": {
+        "x": 14,
+        "y": 223.5,
+        "width": 362,
+        "height": 292
+      },
+      "schedule": {
+        "x": 14,
+        "y": 528.5,
+        "width": 362,
+        "height": 162
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif"
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "overflow": false,
+      "hero": {
+        "x": 14,
+        "y": 223.5,
+        "width": 292,
+        "height": 292
+      },
+      "schedule": {
+        "x": 14,
+        "y": 528.5,
+        "width": 292,
+        "height": 178
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif"
+    }
+  ]
+}

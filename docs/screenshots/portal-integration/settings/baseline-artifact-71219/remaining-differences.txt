@@ -1,0 +1,9 @@
+Baseline: Venues begins about 65 px below the reference. A compact desktop disclosure/help correction is queued.
+
+Actual subscription metadata replaces the reference Pro claims. Unsupported billing and deletion actions stay disabled.
+
+The legitimate supplied crest crop is low-resolution and retains its navy tile.
+
+Shared sidebar spacing places More about 55 px lower; shared navigation review is queued.
+
+Identity, contacts, venue type/status and content use actual isolated QA records. No customer data or invented subscription state is shown.
