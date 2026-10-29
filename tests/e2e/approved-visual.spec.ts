@@ -5,7 +5,7 @@ test("approved-reference screens preserve controls, context and narrow usability
   page,
 }) => {
   test.setTimeout(120000);
-  const folder = "docs/design/locked-ui/regressions";
+  const folder = "docs/screenshots/home-ui/regressions";
   await mkdir(folder, { recursive: true });
   const errors: string[] = [],
     calls: string[] = [];
@@ -21,7 +21,11 @@ test("approved-reference screens preserve controls, context and narrow usability
   ] as const) {
     await page.setViewportSize({ width, height });
     await page.goto(`/design-preview/${screen}`);
-    await expect(page.locator(".approved-review")).toBeVisible();
+    await expect(
+      page.locator(
+        screen === "coach-today" ? ".home-dashboard" : ".approved-review",
+      ),
+    ).toBeVisible();
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth > innerWidth,
@@ -30,14 +34,12 @@ test("approved-reference screens preserve controls, context and narrow usability
     ).toBe(false);
     await expect(
       page.locator(
-        screen === "coach-today" ? ".ar-training-photo" : ".ar-week-image",
+        screen === "coach-today" ? ".hd-hero-image" : ".ar-week-image",
       ),
     ).toBeVisible();
     expect(
       await page
-        .locator(
-          screen === "coach-today" ? ".ar-training-photo" : ".ar-week-image",
-        )
+        .locator(screen === "coach-today" ? ".hd-hero-image" : ".ar-week-image")
         .evaluate(
           (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
         ),
@@ -90,6 +92,12 @@ test("approved-reference screens preserve controls, context and narrow usability
   await page
     .getByLabel("Design scenario", { exact: true })
     .selectOption("loading");
+  await page
+    .getByRole("button", {
+      name: "Preview context & screen gallery",
+      exact: true,
+    })
+    .click();
   await expect(
     page.getByText("Loading fictional records…", { exact: true }),
   ).toBeVisible();
@@ -113,7 +121,7 @@ test("approved-reference screens preserve controls, context and narrow usability
   await page.getByLabel("Role preview", { exact: true }).selectOption("COACH");
   await expect(page).toHaveURL(/coach-today/);
   await page
-    .getByLabel("Search players, sessions, drills", { exact: true })
+    .getByLabel("Search players, sessions, messages", { exact: true })
     .fill("Aarav");
   await page
     .getByRole("button", { name: "Open player search", exact: true })

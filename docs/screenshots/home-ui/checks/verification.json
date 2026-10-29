@@ -1,0 +1,66 @@
+{
+  "productCommit": "d20f1a70aaec602ea6c25e065aca528bed1d94a3",
+  "browser": "Microsoft Edge, normal Playwright channel msedge",
+  "qaPort": 3001,
+  "qaBuild": ".next-gallery-qa",
+  "recordedDate": "2026-10-15",
+  "scope": "Home-only compiled product commit; isolated fictional frontend preview",
+  "mainTaskChecks": {
+    "lint": "passed",
+    "strictTypeScript": "passed",
+    "unitTests": "75 passed",
+    "productionWebpackQABuild": "passed",
+    "provenance": "Reported by the main task for the exact product commit before later screen work."
+  },
+  "focusedBrowserResults": {
+    "distinctCasesPassedAcrossRuns": 11,
+    "singleUninterruptedElevenCaseRun": false,
+    "homeCases": {
+      "compositionSixResponsiveViewports": "passed",
+      "previewToolKeyboardFocus": "passed",
+      "navigationContextAndPermissions": "passed",
+      "loadingEmptyAndFailureStates": "passed",
+      "recordedCountsAndMutations": "passed in final serial run",
+      "correctScheduledDateAndNoSessionDay": "passed"
+    },
+    "finalSerialRun": {
+      "casesPassed": 6,
+      "casesFailed": 0,
+      "durationReported": "2.3 minutes",
+      "cases": [
+        "approved-reference screens preserve controls, context and narrow usability",
+        "Home summary values agree with recorded data and do not invent unread or current-month reports",
+        "locked home compositions load real fonts and assets at five review viewports",
+        "preview tools stay outside the mobile composition and return keyboard focus",
+        "home branding and linked-child context survive review controls without expanding parent scope",
+        "home navigation preserves session and player workflows and approval stays separate from publication"
+      ],
+      "parallelBuildOrBrowserJob": false
+    }
+  },
+  "preservationCapture": {
+    "casesPassed": 1,
+    "durationReported": "39.6 seconds",
+    "routes": ["/design-preview/players", "/design-preview/player-profile", "/design-preview/parent-home"],
+    "fontImageManifest": "../preservation/capture.json",
+    "pixelComparison": "../preservation/comparison.json",
+    "helperCorrection": "The directory uses existing initials, so its expected raster-image count is zero. An initial positive-image-count assertion was corrected to that contract; no product code changed."
+  },
+  "earlierAttempts": [
+    "Normal sandbox localhost socket restriction prevented server access; no browser test started.",
+    "Initial approved visual compatibility attempt stalled at the existing Save batch plan button; trace retained.",
+    "Initial Home run passed four cases, then stalled on Preview tools in the count case; trace retained.",
+    "Second remaining-case run passed the date-selection case, but count case stalled locating Coach commentary; trace retained.",
+    "A locked UI run was explicitly stopped after detecting a parallel build; no completed result is claimed."
+  ],
+  "safetyAndValidity": {
+    "assertionsWeakened": false,
+    "actionTimeoutsIncreasedToPass": false,
+    "forceClickWorkaround": false,
+    "browserOrOSSecurityChanged": false,
+    "businessAPIRequestsInPassingCases": 0,
+    "customerDatabaseReset": false,
+    "earlierTimeoutRootCauseEstablished": false,
+    "visualApproval": "Awaiting user review"
+  }
+}

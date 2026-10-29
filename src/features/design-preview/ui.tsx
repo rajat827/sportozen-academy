@@ -9,7 +9,11 @@ import {
   type PreviewScenario,
 } from "./catalog";
 import { previewAdapter, usePreviewState } from "./adapter";
-import { readableAccent, resolvedAcademy, weekPlanContext } from "./fixtures";
+import {
+  readableAccent,
+  resolvedAcademy,
+  sessionViewContext,
+} from "./fixtures";
 import { useUnsavedChanges } from "@/hooks/use-unsaved-changes";
 export { Button, Card, Badge };
 export function Go({
@@ -116,12 +120,19 @@ export function Check({
 }
 export function Context() {
   const state = usePreviewState(),
-    p = state.players.find((p) => p.id === state.playerId)!;
+    p = state.players.find((p) => p.id === state.playerId)!,
+    session = sessionViewContext(
+      state.fields,
+      state.players,
+      state.academyId,
+      state.playerId,
+    );
   return (
     <p className="dp-note">
       {p.name} · Recorded age category {p.category} · {p.batch} · Maya Rao ·{" "}
-      {weekPlanContext(state.fields, state.players).first.label}·{" "}
-      {weekPlanContext(state.fields, state.players).time}
+      {session.stale
+        ? "Selected session context unavailable; choose the matching session in Calendar."
+        : `${session.label}· ${session.time}`}
     </p>
   );
 }

@@ -140,6 +140,65 @@ export function weekPlanContext(
     playerIds: players.filter((p) => p.batch === batch).map((p) => p.id),
   };
 }
+
+/** The preview has two recorded slots in the current batch plan. Navigation
+ * metadata selects one of those slots; it cannot invent a different session. */
+export function sessionViewContext(
+  fields: Record<string, Record<string, string>>,
+  players: PreviewPlayer[],
+  academyId: string,
+  playerId?: string,
+) {
+  const context = weekPlanContext(fields, players);
+  const parsedWeek = new Date(`${context.week}T12:00:00Z`);
+  const validWeek =
+    /^\d{4}-\d{2}-\d{2}$/.test(context.week) &&
+    Number.isFinite(parsedWeek.getTime()) &&
+    parsedWeek.toISOString().slice(0, 10) === context.week;
+  const week = validWeek ? parsedWeek : new Date("2026-10-19T12:00:00Z");
+  const saved = fields["session-context"];
+  const requestedSlot = saved?.slot === "second" ? "second" : "first";
+  const dateFor = (slot: "first" | "second") => {
+    const date = new Date(week);
+    date.setUTCDate(date.getUTCDate() + (slot === "first" ? 1 : 3));
+    return date.toISOString().slice(0, 10);
+  };
+  const requestedDate = dateFor(requestedSlot);
+  const [start, end] = context.time.split("–");
+  const selected =
+    !!saved &&
+    validWeek &&
+    previewAcademies.some((academy) => academy.id === academyId) &&
+    context.playerIds.length > 0 &&
+    (!playerId || context.playerIds.includes(playerId)) &&
+    saved.academyId === academyId &&
+    saved.batch === context.batch &&
+    (saved.slot === "first" || saved.slot === "second") &&
+    saved.date === requestedDate &&
+    saved.id === `${academyId}:${context.batch}:${requestedDate}` &&
+    saved.start === start &&
+    saved.end === end &&
+    fields[`home-session:${saved.id}`]?.status !== "Cancelled" &&
+    fields[`home-session:${saved.id}`]?.status !== "Completed";
+  const slot = selected ? requestedSlot : "first";
+  return {
+    batch: context.batch,
+    time: context.time,
+    slot,
+    date: dateFor(slot),
+    label: context[slot].label,
+    number: context[slot].number,
+    id: `${academyId}:${context.batch}:${dateFor(slot)}`,
+    status:
+      fields[`home-session:${academyId}:${context.batch}:${dateFor(slot)}`]
+        ?.status === "In progress"
+        ? "In progress"
+        : "Scheduled",
+    selected,
+    stale: !!saved && !selected,
+  };
+}
+
 export const previewDrills = [
   {
     id: "receive",

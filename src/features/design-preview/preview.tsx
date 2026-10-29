@@ -23,10 +23,16 @@ import {
   type PreviewRole,
 } from "./catalog";
 import { previewAdapter, usePreviewState } from "./adapter";
-import { previewAcademies, previewDrills, resolvedAcademy } from "./fixtures";
+import {
+  previewAcademies,
+  previewDrills,
+  resolvedAcademy,
+  sessionViewContext,
+} from "./fixtures";
 import { Button, Card, Badge, Go } from "./ui";
 import { ScreenContent } from "./screens";
 import { ApprovedHomes } from "./approved-homes";
+import { HomeDashboard } from "./home-dashboard";
 import { GalleryPlayerProfile } from "./gallery-player";
 import { GalleryWeeklyPlan } from "./gallery-plan";
 import { GalleryOperations } from "./gallery-operations";
@@ -122,11 +128,12 @@ export function DesignPreview({
       (p) => p.id === state.playerId && p.guardian === "Neha Shah",
     );
   if (
-    scenario === "default" &&
-    parentScopeValid &&
-    (screenId === "coach-today" || screenId === "parent-home")
+    screenId === "coach-today" &&
+    ["default", "empty", "loading", "failed-save"].includes(scenario)
   )
-    return <ApprovedHomes parent={screenId === "parent-home"} />;
+    return <HomeDashboard scenario={scenario} />;
+  if (scenario === "default" && parentScopeValid && screenId === "parent-home")
+    return <ApprovedHomes parent />;
   if (gallery && screenId === "player-profile") return <GalleryPlayerProfile />;
   if (gallery && role === "PARENT" && parentScopeValid && screen)
     return (
@@ -145,12 +152,22 @@ export function DesignPreview({
   const selectedDrill = previewDrills.find(
     (d) => d.id === (state.fields["drill-context"]?.id ?? "receive"),
   );
+  const selectedSession = sessionViewContext(
+    state.fields,
+    state.players,
+    state.academyId,
+    state.playerId,
+  );
   const title =
-    screenId === "drill-detail" && selectedDrill
-      ? selectedDrill.name
-      : gallery && screenId === "weekly-plan"
-        ? "Weekly Plan"
-        : screen?.title;
+    screenId === "session-summary" && selectedSession.stale
+      ? "Selected session unavailable"
+      : screenId === "session-summary" && selectedSession.selected
+        ? `${selectedSession.label} · ${selectedSession.batch}`
+        : screenId === "drill-detail" && selectedDrill
+          ? selectedDrill.name
+          : gallery && screenId === "weekly-plan"
+            ? "Weekly Plan"
+            : screen?.title;
   return (
     <div
       className={`design-preview${gallery ? " gallery-prototype" : ""}`}

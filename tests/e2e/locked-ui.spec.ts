@@ -1,7 +1,7 @@
 import { test, expect, type Locator, type Page } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
-const captureFolder = "docs/design/locked-ui/after";
+const captureFolder = "docs/screenshots/home-ui/regressions/locked-home";
 const previewNotice =
   "Design preview — fictional data; no payments or messages are processed.";
 const toolsName = "Preview context & screen gallery";
@@ -47,7 +47,11 @@ test("locked home compositions load real fonts and assets at five review viewpor
     await page.setViewportSize({ width, height });
     const response = await page.goto(`/design-preview/${screen}`);
     expect(response?.status()).toBe(200);
-    await expect(page.locator(".approved-review")).toBeVisible();
+    await expect(
+      page.locator(
+        screen === "coach-today" ? ".home-dashboard" : ".approved-review",
+      ),
+    ).toBeVisible();
     await expect(
       page.getByRole("dialog", { name: "Preview tools" }),
     ).toBeHidden();
@@ -61,7 +65,7 @@ test("locked home compositions load real fonts and assets at five review viewpor
     await page.evaluate(() => document.fonts.ready);
 
     const illustration = page.locator(
-      screen === "coach-today" ? ".ar-training-photo" : ".ar-week-image",
+      screen === "coach-today" ? ".hd-hero-image" : ".ar-week-image",
     );
     await expect(illustration).toBeVisible();
     await expect
@@ -76,8 +80,9 @@ test("locked home compositions load real fonts and assets at five review viewpor
       route: location.pathname,
       viewport: { width: innerWidth, height: innerHeight },
       overflow: document.documentElement.scrollWidth > innerWidth,
-      fontFamily: getComputedStyle(document.querySelector(".approved-review")!)
-        .fontFamily,
+      fontFamily: getComputedStyle(
+        document.querySelector(".home-dashboard, .approved-review")!,
+      ).fontFamily,
       fonts: [...document.fonts]
         .filter((font) => font.family.includes("Preview Noto"))
         .map((font) => ({
@@ -86,7 +91,9 @@ test("locked home compositions load real fonts and assets at five review viewpor
           status: font.status,
         })),
       images: [
-        ...document.querySelectorAll<HTMLImageElement>(".approved-review img"),
+        ...document.querySelectorAll<HTMLImageElement>(
+          ".home-dashboard img, .approved-review img",
+        ),
       ].map((image) => ({
         src: new URL(image.currentSrc).pathname,
         naturalWidth: image.naturalWidth,
@@ -101,27 +108,28 @@ test("locked home compositions load real fonts and assets at five review viewpor
     evidence.push(metrics);
 
     if (screen === "coach-today") {
-      await expect(page.locator(".ar-ai")).toContainText("Coming soon");
+      await expect(page.locator(".hd-ai")).toContainText("Coming soon");
       await expect(
         page
           .getByRole("navigation", { name: "Preview workspace navigation" })
           .getByRole("link", { name: "Drills Library", exact: true }),
       ).toHaveCount(0);
       if (width === 1440) {
-        const training = await page.locator(".ar-training").boundingBox(),
-          side = await page.locator(".ar-side-cards").boundingBox();
-        expect(training!.width).toBeGreaterThan(side!.width * 2);
+        const training = await page.locator(".hd-hero").boundingBox(),
+          side = await page.locator(".hd-schedule").boundingBox();
+        expect(training!.width / side!.width).toBeGreaterThan(1.5);
+        expect(training!.width / side!.width).toBeLessThan(1.8);
         expect(Math.abs(training!.y - side!.y)).toBeLessThanOrEqual(2);
       } else {
-        await expect(page.locator(".ar-mobile-academy")).toBeVisible();
-        await expect(page.locator(".ar-mobile-academy")).toContainText(
+        await expect(page.locator(".hd-mobile-academy")).toBeVisible();
+        await expect(page.locator(".hd-mobile-academy")).toContainText(
           "Riverside Football Academy",
         );
         await expectTouchTarget(
           page.getByRole("link", { name: "Start Session", exact: true }),
         );
         await expectTouchTarget(
-          page.getByRole("link", { name: "View Plan", exact: true }),
+          page.getByRole("link", { name: "View Calendar", exact: true }),
         );
         await expectTouchTarget(toolsButton(page));
       }
@@ -225,10 +233,10 @@ test("home branding and linked-child context survive review controls without exp
     .getByLabel("Review academy fixture", { exact: true })
     .selectOption("harbour");
   await page.keyboard.press("Escape");
-  await expect(page.locator(".ar-header")).toContainText(
+  await expect(page.locator(".hd-academy")).toContainText(
     "Harbour Football Academy",
   );
-  await expect(page.locator(".ar-training")).toContainText(
+  await expect(page.locator(".hd-hero")).toContainText(
     "Harbour training ground",
   );
   await toolsButton(page).click();
@@ -282,11 +290,11 @@ test("home navigation preserves session and player workflows and approval stays 
   test.setTimeout(180000);
   const { errors, businessCalls } = recordRequests(page);
   await page.goto("/design-preview/coach-today");
-  await page.locator(".ar-academy").click();
+  await page.locator(".hd-academy").click();
   await expect(page).toHaveURL(/design-preview\/coach-more/);
   await page.goto("/design-preview/coach-today");
   await page
-    .getByLabel("Search players, sessions, drills", { exact: true })
+    .getByLabel("Search players, sessions, messages", { exact: true })
     .fill("Aarav");
   await page
     .getByRole("button", { name: "Open player search", exact: true })

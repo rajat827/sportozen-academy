@@ -1,10 +1,32 @@
 "use client";
+import Link from "next/link";
+import type { MouseEvent } from "react";
 import { previewAdapter, usePreviewState } from "./adapter";
 import { previewDrills, resolvedAcademy, weekPlanContext } from "./fixtures";
-import { Button, Badge, Go } from "./ui";
+import { previewRoute } from "./catalog";
+import { deriveHomeDashboard, homeSessionPatch } from "./home-dashboard-model";
+import { Button, Badge } from "./ui";
 export function SessionRows() {
   const state = usePreviewState(),
     academy = resolvedAcademy(state.academyId, state.profiles);
+  function selectSession(
+    event: MouseEvent<HTMLAnchorElement>,
+    slot: "first" | "second",
+  ) {
+    const session = deriveHomeDashboard(state).sessions.find(
+      (record) => record.slot === slot,
+    );
+    const patch = session ? homeSessionPatch(state, session) : null;
+    if (!patch) {
+      event.preventDefault();
+      previewAdapter.save({
+        notice:
+          "Session context is unavailable for the selected player. Choose the matching batch plan.",
+      });
+      return;
+    }
+    previewAdapter.save(patch);
+  }
   return (
     <>
       <div className="dp-row">
@@ -19,7 +41,13 @@ export function SessionRows() {
           </strong>
           <p>Maya Rao · {academy.venue} · Confirmed</p>
         </div>
-        <Go to="session-summary">Open session</Go>
+        <Link
+          className="dp-link"
+          href={previewRoute("session-summary")}
+          onClick={(event) => selectSession(event, "first")}
+        >
+          Open session
+        </Link>
       </div>
       <div className="dp-row">
         <span className="dp-avatar">
@@ -33,7 +61,13 @@ export function SessionRows() {
           </strong>
           <p>Receiving and passing · {academy.timezone}</p>
         </div>
-        <Go to="session-summary">View details</Go>
+        <Link
+          className="dp-link"
+          href={previewRoute("session-summary")}
+          onClick={(event) => selectSession(event, "second")}
+        >
+          View details
+        </Link>
       </div>
     </>
   );

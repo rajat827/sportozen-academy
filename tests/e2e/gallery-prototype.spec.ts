@@ -6,7 +6,10 @@ test("gallery opens every working route and captures responsive component screen
   page,
 }) => {
   test.setTimeout(360000);
-  const folder = "docs/design/gallery-prototype/screenshots";
+  const folder =
+    process.env.SPORTOZEN_HOME_UI_QA === "1"
+      ? "test-results/home-ui-gallery"
+      : "docs/design/gallery-prototype/screenshots";
   await mkdir(folder, { recursive: true });
   const errors: string[] = [],
     calls: string[] = [];
