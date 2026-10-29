@@ -1,0 +1,11 @@
+{
+  "origin": "http://127.0.0.1:3011",
+  "widths": [
+    1536,
+    1440,
+    390,
+    320
+  ],
+  "pageErrors": [],
+  "source": "Actual authenticated baseline on a dedicated fictional QA database"
+}

@@ -1,5 +1,13 @@
 # Sportozen Academy
 
+## Monthly Report Review — saved work, 30 October 2026
+
+Branch: `codex/monthly-report-review`, based on the newer authenticated portal descendant `a4c0869`. This snapshot saves the existing monthly editor's review workspace, live existing ReportViewModel preview, concise feedback, explicit approval guidance, staff source checks and batch review queue. Existing Reports management and parent access remain separate. This is work in progress, not a completed or approved release.
+
+The last serial browser run stopped at case 08 because the review queue collapsed after changing player, hiding its status selector. Its result file lists four unsuccessful test IDs; that does not establish four separate assertion failures. No final successful all-case manifest, updated sample PDF or completed mobile/reference comparison is available for this snapshot. Do not present the older Reports implementation's QA as validation of these newer changes.
+
+For isolated verification, build with `SPORTOZEN_QA_BUILD=1` and `SPORTOZEN_REPORTS_QA=1`, then run `pnpm exec playwright test --config playwright.report-review.config.ts` with matching flags. This uses port 3013, a fictional fixture and ignored local credentials. The PDF case has an explicit local authoring-operation prerequisite; inspect the test before running it. All `.local/` account files, authentication secrets, databases and traces remain excluded. See [the branch index](https://github.com/rajat827/sportozen-academy/tree/codex/simplify-player-form) for other saved work. No merge or deployment is included.
+
 One team. A different development path for every player.
 
 A football academy portal for multiple independent customer academies. Authenticated Home, Players, Calendar, Training, Reports, Fees and Settings use academy-scoped persistent records, shared batch plans with optional personalisation, reviewed reports and private parent communication. No rankings. AI Video Analysis remains Coming soon.

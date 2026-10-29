@@ -148,6 +148,22 @@ export function workspace(ctx: WorkspaceAccess): WorkspacePayload {
   const records = Object.fromEntries(
     kinds.map((kind) => [kind, visibleRecords(ctx, kind)]),
   ) as WorkspacePayload["records"];
+  const monthlyReportReview: WorkspacePayload["monthlyReportReview"] = {};
+  if (["OWNER", "ADMIN", "COACH"].includes(ctx.membership.role)) {
+    for (const report of records.report) {
+      if (!report.monthlySources || report.status === "Approved") continue;
+      try {
+        assertMonthlyCurrent(ctx, report);
+        monthlyReportReview[report.id] = { sourcesCurrent: true };
+      } catch (error) {
+        if (!(error instanceof WorkspaceError)) throw error;
+        monthlyReportReview[report.id] = {
+          sourcesCurrent: false,
+          reason: error.message,
+        };
+      }
+    }
+  }
   records.update = records.update.map((record) => {
     if (record.approvalStatus !== "APPROVED") return record;
     const approval = database()
@@ -185,6 +201,9 @@ export function workspace(ctx: WorkspaceAccess): WorkspacePayload {
     academy: academyReleaseView(ctx.academy),
     viewer: { id: ctx.user.id, name: ctx.user.name },
     membership: ctx.membership,
+    ...(["OWNER", "ADMIN", "COACH"].includes(ctx.membership.role)
+      ? { monthlyReportReview }
+      : {}),
     ...(ctx.membership.role === "PARENT"
       ? { parentSchedule: parentSchedule(ctx) }
       : {}),

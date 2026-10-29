@@ -568,7 +568,7 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
           .object({
             observation: z.string().max(5000),
             closingNote: z.string().max(10000),
-            nextStep: z.string().trim().min(1).max(5000),
+            nextStep: z.string().trim().max(5000),
             regenerate: z.boolean().default(false),
           })
           .parse(command.data);
