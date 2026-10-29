@@ -4,6 +4,7 @@ node_modules/
 .next-gallery-qa/
 .next-final-qa/
 .next-professional-reports-qa/
+.next-player-form-qa/
 playwright-report/
 test-results/
 *.tsbuildinfo

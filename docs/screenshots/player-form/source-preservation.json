@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "readOnlyDatabase": true,
+  "historicalRecordBodiesVerified": 1442,
+  "mismatches": 0,
+  "counts": {
+    "29dcb420-0c2e-42db-8f61-f4b16a921bae": {
+      "attendance": 600,
+      "branch": 1,
+      "drill": 24,
+      "evidence": 504,
+      "plan": 6,
+      "player": 60,
+      "report": 180,
+      "session": 60,
+      "squad": 6,
+      "venue": 1
+    },
+    "3ab2cf61-6d11-4d79-88cc-ae78d6841658": {
+      "player": 60,
+      "report": 60
+    }
+  },
+  "notes": "Additional reports created since the earlier manifest are retained."
+}

@@ -1,0 +1,61 @@
+{
+  "capturedAt": "2026-10-15T17:31:48.681Z",
+  "route": "/design-preview/sessions",
+  "example": "explicit simultaneous owner example",
+  "evidence": [
+    {
+      "width": 1536,
+      "height": 1024,
+      "overflow": false,
+      "font": "\"Preview Noto\", Arial, sans-serif",
+      "panel": {
+        "width": 448,
+        "x": 1088
+      },
+      "imageFailures": []
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "font": "\"Preview Noto\", Arial, sans-serif",
+      "panel": {
+        "width": 448,
+        "x": 992
+      },
+      "imageFailures": []
+    },
+    {
+      "width": 1024,
+      "height": 900,
+      "overflow": false,
+      "font": "\"Preview Noto\", Arial, sans-serif",
+      "panel": null,
+      "imageFailures": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "font": "\"Preview Noto\", Arial, sans-serif",
+      "panel": null,
+      "imageFailures": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "font": "\"Preview Noto\", Arial, sans-serif",
+      "panel": null,
+      "imageFailures": []
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "overflow": false,
+      "font": "\"Preview Noto\", Arial, sans-serif",
+      "panel": null,
+      "imageFailures": []
+    }
+  ]
+}

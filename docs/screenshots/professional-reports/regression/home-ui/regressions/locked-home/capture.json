@@ -1,0 +1,198 @@
+{
+  "capturedAt": "2026-10-16T08:30:51.405Z",
+  "evidence": [
+    {
+      "route": "/design-preview/coach-today",
+      "viewport": {
+        "width": 1440,
+        "height": 780
+      },
+      "overflow": false,
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif",
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/approved-home/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48,
+          "complete": true
+        },
+        {
+          "src": "/design-preview/approved-home/riverside-crest.png",
+          "naturalWidth": 54,
+          "naturalHeight": 56,
+          "complete": true
+        },
+        {
+          "src": "/design-preview/approved-home/riverside-crest.png",
+          "naturalWidth": 54,
+          "naturalHeight": 56,
+          "complete": false
+        },
+        {
+          "src": "/design-preview/approved-home/football-session.png",
+          "naturalWidth": 421,
+          "naturalHeight": 264,
+          "complete": true
+        },
+        {
+          "src": "/design-preview/approved-home/player-portrait.png",
+          "naturalWidth": 83,
+          "naturalHeight": 98,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "route": "/design-preview/parent-home",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif",
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/approved-ui/weekly-football.png",
+          "naturalWidth": 50,
+          "naturalHeight": 84,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "route": "/design-preview/parent-home",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "overflow": false,
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif",
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/approved-ui/weekly-football.png",
+          "naturalWidth": 50,
+          "naturalHeight": 84,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "route": "/design-preview/parent-home",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "overflow": false,
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif",
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/approved-ui/weekly-football.png",
+          "naturalWidth": 50,
+          "naturalHeight": 84,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "route": "/design-preview/coach-today",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "fontFamily": "\"Preview Noto\", Arial, sans-serif",
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/approved-home/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48,
+          "complete": true
+        },
+        {
+          "src": "/design-preview/approved-home/riverside-crest.png",
+          "naturalWidth": 54,
+          "naturalHeight": 56,
+          "complete": true
+        },
+        {
+          "src": "/design-preview/approved-home/riverside-crest.png",
+          "naturalWidth": 54,
+          "naturalHeight": 56,
+          "complete": true
+        },
+        {
+          "src": "/design-preview/approved-home/football-session.png",
+          "naturalWidth": 421,
+          "naturalHeight": 264,
+          "complete": true
+        },
+        {
+          "src": "/design-preview/approved-home/player-portrait.png",
+          "naturalWidth": 83,
+          "naturalHeight": 98,
+          "complete": true
+        }
+      ]
+    }
+  ]
+}

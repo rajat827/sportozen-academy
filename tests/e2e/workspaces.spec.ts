@@ -64,9 +64,13 @@ test("authenticated football academies isolate regional plans, approved parent r
     await expect(
       page.getByRole("group", { name: "Enabled sports" }),
     ).toHaveCount(0);
-    mkdirSync(evidencePath("docs/screenshots/football-only"), { recursive: true });
+    mkdirSync(evidencePath("docs/screenshots/football-only"), {
+      recursive: true,
+    });
     await page.screenshot({
-      path: evidencePath(`docs/screenshots/football-only/onboarding-${region.country}.png`),
+      path: evidencePath(
+        `docs/screenshots/football-only/onboarding-${region.country}.png`,
+      ),
       fullPage: true,
     });
     if (region.country === "IN") {
@@ -78,7 +82,9 @@ test("authenticated football academies isolate regional plans, approved parent r
           ),
         ).toBeTruthy();
         await page.screenshot({
-          path: evidencePath(`docs/screenshots/football-only/onboarding-${width}.png`),
+          path: evidencePath(
+            `docs/screenshots/football-only/onboarding-${width}.png`,
+          ),
           fullPage: true,
         });
       }
@@ -173,7 +179,12 @@ test("authenticated football academies isolate regional plans, approved parent r
   await playerEditor
     .getByLabel("Player name", { exact: true })
     .fill("Fictional Child A");
-  await playerEditor.getByLabel("Batch label", { exact: true }).fill("Junior");
+  await expect(
+    playerEditor.getByLabel("Batch label", { exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    playerEditor.getByRole("combobox", { name: "Training batch", exact: true }),
+  ).toHaveValue("");
   await playerEditor
     .getByRole("combobox", { name: "Assigned coach", exact: true })
     .selectOption(coach.userId);
@@ -209,6 +220,11 @@ test("authenticated football academies isolate regional plans, approved parent r
   expect(playerCreated.status()).toBe(201);
   const child = await playerCreated.json();
   expect(child.coachId).toBe(coach.userId);
+  expect(child.squadId ?? "").toBe("");
+  expect(child.position ?? "").toBe("");
+  await expect(ownerA.locator(".portal-player-detail")).toContainText(
+    "Not assigned yet",
+  );
   await ownerAContext.close();
   const other = await save(b.api, bid, "player", {
     name: "Fictional Child B",
@@ -312,7 +328,9 @@ test("authenticated football academies isolate regional plans, approved parent r
           ),
         ).toBeTruthy();
         await page.screenshot({
-          path: evidencePath(`docs/screenshots/football-only/coach-plan-${width}.png`),
+          path: evidencePath(
+            `docs/screenshots/football-only/coach-plan-${width}.png`,
+          ),
           fullPage: true,
         });
       }
@@ -519,7 +537,9 @@ test("authenticated football academies isolate regional plans, approved parent r
   );
   expect(pdf.status(), await pdf.text()).toBe(200);
   expect(pdf.headers()["content-type"]).toContain("application/pdf");
-  mkdirSync(evidencePath("docs/screenshots/football-only"), { recursive: true });
+  mkdirSync(evidencePath("docs/screenshots/football-only"), {
+    recursive: true,
+  });
   writeFileSync(
     evidencePath("docs/screenshots/football-only/approved-parent-report.pdf"),
     await pdf.body(),
@@ -878,7 +898,9 @@ test("authenticated football academies isolate regional plans, approved parent r
     .getByRole("tab", { name: "Integrations", exact: true })
     .click();
   await ownerPage.screenshot({
-    path: evidencePath("docs/screenshots/football-only/settings-not-connected.png"),
+    path: evidencePath(
+      "docs/screenshots/football-only/settings-not-connected.png",
+    ),
     fullPage: true,
   });
   await ownerContext.close();

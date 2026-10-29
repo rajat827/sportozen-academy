@@ -1,0 +1,1317 @@
+{
+  "baseCommit": "1913a1d07caedfdfe07709bd81e0cde6eae951d1",
+  "workingTreeDirty": true,
+  "capturedAt": "2026-10-15T17:30:54.852Z",
+  "note": "Real authenticated application with synthetic isolated-QA records, not preview fixture persistence. Visual approval remains pending.",
+  "records": {
+    "academyId": "e7f5f74e-0ea4-42ee-83f2-43d53847358c",
+    "childId": "18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+    "currentSessionId": "f9357bfd-1cef-4458-8a7f-2a7fb122df66",
+    "parallelSessionId": "d6e00245-a2c9-4dcd-bfec-d35ebea7dea5",
+    "upcomingSessionId": "b359f98f-c546-416b-82c9-131445489f44",
+    "completedSessionId": "523f1672-745d-443a-b93a-01085f870aab",
+    "monthlyReportId": "08cc7d95-1b2d-4ef8-a03e-38f2416214a0",
+    "invoiceId": "25799d49-c3a5-402d-955a-6326a4cf8c3a"
+  },
+  "evidence": [
+    {
+      "screen": "home",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=home",
+      "viewport": {
+        "width": 1536,
+        "height": 1024
+      },
+      "documentWidth": 1536,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        },
+        {
+          "src": "/portal/football-session.png",
+          "naturalWidth": 421,
+          "naturalHeight": 264
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "players",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=players&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 1536,
+        "height": 1024
+      },
+      "documentWidth": 1536,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "calendar",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=calendar&session=f9357bfd-1cef-4458-8a7f-2a7fb122df66",
+      "viewport": {
+        "width": 1536,
+        "height": 1024
+      },
+      "documentWidth": 1536,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "training",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=training&session=f9357bfd-1cef-4458-8a7f-2a7fb122df66",
+      "viewport": {
+        "width": 1536,
+        "height": 1024
+      },
+      "documentWidth": 1536,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "reports",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=reports&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 1536,
+        "height": 1024
+      },
+      "documentWidth": 1536,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "fees",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=fees&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 1536,
+        "height": 1024
+      },
+      "documentWidth": 1536,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "settings",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=settings",
+      "viewport": {
+        "width": 1536,
+        "height": 1024
+      },
+      "documentWidth": 1536,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "home",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=home",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "documentWidth": 1440,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        },
+        {
+          "src": "/portal/football-session.png",
+          "naturalWidth": 421,
+          "naturalHeight": 264
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "players",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=players&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "documentWidth": 1440,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "calendar",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=calendar&session=f9357bfd-1cef-4458-8a7f-2a7fb122df66",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "documentWidth": 1440,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "training",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=training&session=f9357bfd-1cef-4458-8a7f-2a7fb122df66",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "documentWidth": 1440,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "reports",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=reports&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "documentWidth": 1440,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "fees",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=fees&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "documentWidth": 1440,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "settings",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=settings",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "documentWidth": 1440,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "home",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=home",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "documentWidth": 768,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        },
+        {
+          "src": "/portal/football-session.png",
+          "naturalWidth": 421,
+          "naturalHeight": 264
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "players",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=players&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "documentWidth": 768,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": true,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "calendar",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=calendar&session=f9357bfd-1cef-4458-8a7f-2a7fb122df66",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "documentWidth": 768,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "training",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=training&session=f9357bfd-1cef-4458-8a7f-2a7fb122df66",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "documentWidth": 768,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "reports",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=reports&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "documentWidth": 768,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "fees",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=fees&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "documentWidth": 768,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": true,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "settings",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=settings",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "documentWidth": 768,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "home",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=home",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        },
+        {
+          "src": "/portal/football-session.png",
+          "naturalWidth": 421,
+          "naturalHeight": 264
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "players",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=players&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": true,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "calendar",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=calendar&session=f9357bfd-1cef-4458-8a7f-2a7fb122df66",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "training",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=training&session=f9357bfd-1cef-4458-8a7f-2a7fb122df66",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "reports",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=reports&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "fees",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=fees&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": true,
+      "feeTabsReachable": true,
+      "feeTabsPanVerified": true
+    },
+    {
+      "screen": "settings",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=settings",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "home",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=home",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "documentWidth": 320,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        },
+        {
+          "src": "/portal/football-session.png",
+          "naturalWidth": 421,
+          "naturalHeight": 264
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "players",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=players&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "documentWidth": 320,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": true,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "calendar",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=calendar&session=f9357bfd-1cef-4458-8a7f-2a7fb122df66",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "documentWidth": 320,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "training",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=training&session=f9357bfd-1cef-4458-8a7f-2a7fb122df66",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "documentWidth": 320,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "reports",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=reports&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "documentWidth": 320,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "fees",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=fees&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "documentWidth": 320,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": true,
+      "feeTabsReachable": true,
+      "feeTabsPanVerified": true
+    },
+    {
+      "screen": "settings",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=settings",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "documentWidth": 320,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "parent-home",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=home&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/weekly-football.png",
+          "naturalWidth": 50,
+          "naturalHeight": 84
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "parent-home",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=home&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "documentWidth": 320,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/weekly-football.png",
+          "naturalWidth": 50,
+          "naturalHeight": 84
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "parent-fees",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=fees&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [],
+      "tablePanVerified": true,
+      "feeTabsReachable": true,
+      "feeTabsPanVerified": false
+    },
+    {
+      "screen": "parent-fees",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=fees&player=18054d42-7f54-4832-bf4a-3be55a5f9ddc",
+      "viewport": {
+        "width": 320,
+        "height": 844
+      },
+      "documentWidth": 320,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [],
+      "tablePanVerified": true,
+      "feeTabsReachable": true,
+      "feeTabsPanVerified": true
+    },
+    {
+      "screen": "coach-home",
+      "route": "/workspace/e7f5f74e-0ea4-42ee-83f2-43d53847358c?section=home",
+      "viewport": {
+        "width": 1536,
+        "height": 1024
+      },
+      "documentWidth": 1536,
+      "overflow": false,
+      "overflowElements": [],
+      "fonts": [
+        {
+          "weight": "normal",
+          "status": "loaded"
+        },
+        {
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "headingFont": "\"Portal Noto\", Arial, sans-serif",
+      "images": [
+        {
+          "src": "/portal/sportozen-mark.png",
+          "naturalWidth": 40,
+          "naturalHeight": 48
+        },
+        {
+          "src": "/portal/football-session.png",
+          "naturalWidth": 421,
+          "naturalHeight": 264
+        }
+      ],
+      "tablePanVerified": false,
+      "feeTabsReachable": false,
+      "feeTabsPanVerified": false
+    }
+  ],
+  "overflowScreens": []
+}
