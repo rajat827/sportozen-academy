@@ -18,7 +18,17 @@ import {
   financeAmountInput,
 } from "@/services/finance-rules";
 
-export type FeeEditorMode = FinanceCommand["action"];
+// Configuration commands need their own controls before this editor can submit them.
+export type FeeEditorMode = Extract<
+  FinanceCommand["action"],
+  | "plan"
+  | "invoice"
+  | "reference"
+  | "verify"
+  | "reject"
+  | "adjustment"
+  | "reminder"
+>;
 const titles: Record<FeeEditorMode, string> = {
   plan: "Create fee plan",
   invoice: "Issue player invoice",

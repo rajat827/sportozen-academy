@@ -1,6 +1,8 @@
 import "server-only";
 import type {
   FinancePlan,
+  FinanceBatchAssignment,
+  FinancePlayerOverride,
   FinanceInvoice,
   FinancePayment,
   FinanceAdjustment,
@@ -8,10 +10,13 @@ import type {
   FinanceReminder,
 } from "@/domain/finance";
 import { database } from "./database";
+import { isDeepStrictEqual } from "node:util";
 import { WorkspaceError } from "./auth";
 
 export interface FinanceRecords {
   plan: FinancePlan;
+  batchAssignment: FinanceBatchAssignment;
+  playerOverride: FinancePlayerOverride;
   invoice: FinanceInvoice;
   payment: FinancePayment;
   adjustment: FinanceAdjustment;
@@ -63,11 +68,36 @@ export const financeRepository = {
         409,
         "Finance record changed. Reload and review before retrying.",
       );
-    if (row && !["plan", "invoice", "payment"].includes(kind))
+    if (
+      row &&
+      ![
+        "plan",
+        "invoice",
+        "payment",
+        "batchAssignment",
+        "playerOverride",
+      ].includes(kind)
+    )
       throw new WorkspaceError(
         409,
         "Issued finance events and documents are immutable.",
       );
+    if (row && kind === "invoice") {
+      const old = financeRepository.find(academyId, "invoice", record.id)!;
+      if (!isDeepStrictEqual({ ...old, version: 0 }, { ...record, version: 0 }))
+        throw new WorkspaceError(
+          409,
+          "Issued invoices are immutable; record a reviewed adjustment instead.",
+        );
+    }
+    if (row && kind === "payment") {
+      const old = financeRepository.find(academyId, "payment", record.id)!;
+      if (old.status !== "PENDING")
+        throw new WorkspaceError(
+          409,
+          "Verified or rejected payment decisions are immutable.",
+        );
+    }
     const version = expectedVersion + 1;
     const body = "version" in record ? { ...record, version } : record;
     database()

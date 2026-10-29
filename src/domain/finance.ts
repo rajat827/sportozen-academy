@@ -1,8 +1,83 @@
 /** Persistent academy training fees. Sportozen subscriptions use a separate boundary. */
 export type FinanceStatus =
-  "PENDING" | "PARTIAL" | "PAID" | "OVERDUE" | "WAIVED";
+  "PENDING" | "PARTIAL" | "PAID" | "OVERDUE" | "WAIVED" | "FREE";
 export type ManualPaymentMethod = "BANK_TRANSFER" | "UPI" | "CASH" | "OTHER";
-export type FinanceBillingFrequency = "MONTHLY" | "TERM" | "ONE_TIME";
+export type FinanceBillingFrequency =
+  | "MONTHLY"
+  | "QUARTERLY"
+  | "HALF_YEARLY"
+  | "YEARLY"
+  | "WEEKLY"
+  | "PER_SESSION"
+  | "ONE_TIME"
+  | "FREE"
+  | "CUSTOM"
+  | "TERM";
+export const financeBillingFrequencies = [
+  "MONTHLY",
+  "QUARTERLY",
+  "HALF_YEARLY",
+  "YEARLY",
+  "WEEKLY",
+  "PER_SESSION",
+  "ONE_TIME",
+  "FREE",
+  "CUSTOM",
+  "TERM",
+] as const;
+export type FinanceZeroChargeReason = "FREE" | "SCHOLARSHIP" | "WAIVER";
+export interface FinanceBatchAssignment {
+  id: string;
+  academyId: string;
+  squadId: string;
+  planId: string;
+  effectiveFrom: string;
+  effectiveTo?: string;
+  active: boolean;
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface FinancePlayerOverride {
+  id: string;
+  academyId: string;
+  playerId: string;
+  kind: "PLAN" | "DISCOUNT" | "SCHOLARSHIP" | "WAIVER";
+  planId?: string;
+  amountMinor?: number;
+  discountBasisPoints?: number;
+  discountMinor?: number;
+  currency: string;
+  effectiveFrom: string;
+  effectiveTo?: string;
+  reason: string;
+  active: boolean;
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface FinanceInvoiceSuggestion {
+  available: boolean;
+  reason: string;
+  playerId: string;
+  asOfDate: string;
+  planId?: string;
+  planVersion?: number;
+  planName?: string;
+  assignmentId?: string;
+  assignmentVersion?: number;
+  overrideId?: string;
+  overrideVersion?: number;
+  squadId?: string;
+  billingFrequency?: FinanceBillingFrequency;
+  chargeMinor?: number;
+  currency?: string;
+  periodStart?: string;
+  periodEnd?: string;
+  dueDate?: string;
+  zeroChargeReason?: FinanceZeroChargeReason;
+}
+
 export interface FinancePlan {
   id: string;
   academyId: string;
@@ -14,6 +89,9 @@ export interface FinancePlan {
   billingFrequency?: FinanceBillingFrequency;
   /** Older plans have no recorded start date; never infer one from creation time. */
   applicableStartDate?: string;
+  applicableEndDate?: string;
+  customPeriodDays?: number;
+  dueAfterDays?: number;
   active: boolean;
   version: number;
   createdAt: string;
@@ -26,6 +104,22 @@ export interface FinanceInvoice {
   number: string;
   label: string;
   planId?: string;
+  zeroChargeReason?: FinanceZeroChargeReason;
+  billingSource?: {
+    kind: "BATCH_PLAN" | "PLAYER_OVERRIDE";
+    planId?: string;
+    planVersion?: number;
+    planName?: string;
+    assignmentId?: string;
+    assignmentVersion?: number;
+    overrideId?: string;
+    overrideVersion?: number;
+    squadId?: string;
+    sessionId?: string;
+    billingFrequency: FinanceBillingFrequency;
+  };
+  /** Deliberate extra charges are distinct from recurring academy fees. */
+  oneTimeKey?: string;
   periodStart: string;
   periodEnd: string;
   dueDate: string;
@@ -128,6 +222,9 @@ export interface FinancePayload {
   canManage: boolean;
   asOfDate: string;
   plans: FinancePlan[];
+  batchAssignments: FinanceBatchAssignment[];
+  playerOverrides: FinancePlayerOverride[];
+  invoiceSuggestions: FinanceInvoiceSuggestion[];
   invoices: FinanceInvoiceView[];
   payments: FinancePayment[];
   adjustments: FinanceAdjustment[];
@@ -148,6 +245,8 @@ export interface FinanceCommand {
   requestId: string;
   action:
     | "plan"
+    | "batchAssignment"
+    | "playerOverride"
     | "invoice"
     | "reference"
     | "verify"
@@ -160,6 +259,8 @@ export interface FinanceCommand {
 }
 export type FinanceActionResult =
   | FinancePlan
+  | FinanceBatchAssignment
+  | FinancePlayerOverride
   | FinanceInvoice
   | FinancePayment
   | FinanceAdjustment

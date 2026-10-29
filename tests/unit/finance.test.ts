@@ -29,10 +29,17 @@ import type {
   FinanceInvoice,
   FinancePayment,
   FinancePlan,
+  FinanceBatchAssignment,
+  FinancePlayerOverride,
 } from "@/domain/finance";
 import { database } from "@/server/database";
 import { migrateAcademyFinance } from "@/server/migrations/004-academy-finance";
-import { financeAction, financeView } from "@/server/finance-service";
+import {
+  financeAction,
+  financeView,
+  financeInvoiceProposal,
+} from "@/server/finance-service";
+import { financeBillingPeriod } from "@/services/finance-rules";
 import { financeRepository } from "@/server/finance-repository";
 import { workspaceRepository } from "@/server/workspace-repository";
 import type { WorkspaceAccess } from "@/server/workspace-access";
@@ -274,7 +281,7 @@ describe("Persistent academy training finance", () => {
     { amountMinor: -1 },
     { amountMinor: 1.5 },
     { currency: "ZZZ" },
-    { billingFrequency: "WEEKLY" },
+    { billingFrequency: "FORTNIGHTLY" },
     { applicableStartDate: "2026-02-30" },
     { applicableStartDate: "" },
     { applicableStartDate: undefined },
@@ -976,4 +983,472 @@ describe("Persistent academy training finance", () => {
       .run();
     expect((await download("receipt", receipt.id)).status).toBe(404);
   }, 30000);
+});
+
+describe("Configured batch fees and individual exceptions", () => {
+  function setup(frequency: FinancePlan["cadence"] = "MONTHLY", extra = {}) {
+    workspaceRepository.save(academy.id, "squad", {
+      id: "batch-a",
+      academyId: academy.id,
+      sportId: "football",
+      name: "U10 Morning",
+      branchId: "branch-a",
+      playerIds: ["child-a"],
+      version: 1,
+      updatedAt: new Date().toISOString(),
+      updatedBy: "owner",
+    });
+    const child = workspaceRepository.find(academy.id, "player", "child-a")!;
+    workspaceRepository.save(academy.id, "player", {
+      ...child,
+      squadId: "batch-a",
+      ageCategory: "U8",
+    });
+    const plan = financeAction(
+      owner(),
+      command("plan", {
+        name: `${frequency} football`,
+        amountMinor: frequency === "FREE" ? 0 : 10000,
+        currency: "INR",
+        billingFrequency: frequency,
+        applicableStartDate: "2026-11-01",
+        active: true,
+        ...extra,
+      }),
+    ) as FinancePlan;
+    const assignment = financeAction(
+      owner(),
+      command("batchAssignment", {
+        squadId: "batch-a",
+        planId: plan.id,
+        effectiveFrom: "2026-11-01",
+        active: true,
+      }),
+    ) as FinanceBatchAssignment;
+    return { plan, assignment };
+  }
+  function issue(date = "2026-11-01", extra = {}) {
+    const proposal = financeInvoiceProposal(owner(), "child-a", date);
+    expect(proposal.available, proposal.reason).toBe(true);
+    return financeAction(
+      owner(),
+      command("invoice", {
+        ...proposal,
+        label: "Configured football fee",
+        useApplicablePlan: true,
+        confirmed: true,
+        ...extra,
+      }),
+    ) as FinanceInvoice;
+  }
+  function override(kind: FinancePlayerOverride["kind"], extra = {}) {
+    return financeAction(
+      owner(),
+      command("playerOverride", {
+        playerId: "child-a",
+        kind,
+        currency: "INR",
+        effectiveFrom: "2026-11-01",
+        active: true,
+        reason: "Reviewed fictional individual fee exception",
+        reviewed: true,
+        ...extra,
+      }),
+    ) as FinancePlayerOverride;
+  }
+  it.each([
+    "MONTHLY",
+    "QUARTERLY",
+    "HALF_YEARLY",
+    "YEARLY",
+    "WEEKLY",
+    "PER_SESSION",
+    "ONE_TIME",
+    "FREE",
+    "CUSTOM",
+  ] as const)(
+    "saves %s plans without automatically issuing charges",
+    (frequency) => {
+      setup(frequency, frequency === "CUSTOM" ? { customPeriodDays: 45 } : {});
+      expect(financeView(owner()).plans[0].billingFrequency).toBe(frequency);
+      expect(financeView(owner()).invoices).toEqual([]);
+      expect(financeView(owner()).payments).toEqual([]);
+    },
+  );
+  it("reuses a plan across actual academy batches independently of player age", () => {
+    const { plan } = setup();
+    workspaceRepository.save(academy.id, "squad", {
+      id: "batch-b",
+      academyId: academy.id,
+      sportId: "football",
+      name: "U12 Evening",
+      branchId: "branch-a",
+      playerIds: ["child-other"],
+      version: 1,
+      updatedAt: "",
+      updatedBy: "owner",
+    });
+    financeAction(
+      owner(),
+      command("batchAssignment", {
+        squadId: "batch-b",
+        planId: plan.id,
+        effectiveFrom: "2026-11-01",
+        active: true,
+      }),
+    );
+    expect(financeView(owner()).batchAssignments).toHaveLength(2);
+    expect(
+      workspaceRepository.find(academy.id, "player", "child-a")!.ageCategory,
+    ).toBe("U8");
+    expect(
+      financeInvoiceProposal(owner(), "child-other", "2026-11-01"),
+    ).toMatchObject({ available: true, planId: plan.id });
+    expect(financeView(owner()).invoices).toEqual([]);
+  });
+  it("rejects overlapping inclusive assignments, stale updates and foreign plan/batch identifiers", () => {
+    const { plan, assignment } = setup();
+    expect(() =>
+      financeAction(
+        owner(),
+        command("batchAssignment", {
+          squadId: "batch-a",
+          planId: plan.id,
+          effectiveFrom: "2027-01-01",
+          active: true,
+        }),
+      ),
+    ).toThrow(/overlapping/);
+    expect(() =>
+      financeAction(
+        owner(),
+        command(
+          "batchAssignment",
+          { ...assignment, effectiveTo: "2026-12-31" },
+          { id: assignment.id, expectedVersion: 0 },
+        ),
+      ),
+    ).toThrow(/changed/);
+    const closed = financeAction(
+      owner(),
+      command(
+        "batchAssignment",
+        { ...assignment, effectiveTo: "2026-12-31" },
+        { id: assignment.id, expectedVersion: assignment.version },
+      ),
+    ) as FinanceBatchAssignment;
+    expect(closed.version).toBe(2);
+    expect(() =>
+      financeAction(
+        owner(),
+        command("batchAssignment", {
+          squadId: "batch-a",
+          planId: plan.id,
+          effectiveFrom: "2026-12-31",
+          active: true,
+        }),
+      ),
+    ).toThrow(/overlapping/);
+    financeAction(
+      owner(),
+      command("batchAssignment", {
+        squadId: "batch-a",
+        planId: plan.id,
+        effectiveFrom: "2027-01-01",
+        active: true,
+      }),
+    );
+    expect(() =>
+      financeAction(
+        owner(),
+        command("batchAssignment", {
+          squadId: "foreign-batch",
+          planId: plan.id,
+          effectiveFrom: "2026-11-01",
+          active: true,
+        }),
+      ),
+    ).toThrow(/batch/);
+    expect(() =>
+      financeAction(
+        owner(),
+        command("batchAssignment", {
+          squadId: "batch-a",
+          planId: "foreign-plan",
+          effectiveFrom: "2026-11-01",
+          active: true,
+        }),
+      ),
+    ).toThrow(/plan/);
+  });
+  it("uses actual calendar quarters/years and explicit custom durations", () => {
+    expect(financeBillingPeriod("2026-11-01", "QUARTERLY")).toEqual({
+      periodStart: "2026-11-01",
+      periodEnd: "2027-01-31",
+    });
+    expect(financeBillingPeriod("2024-02-01", "YEARLY").periodEnd).toBe(
+      "2025-01-31",
+    );
+    expect(financeBillingPeriod("2024-01-31", "MONTHLY").periodEnd).toBe(
+      "2024-02-28",
+    );
+    expect(financeBillingPeriod("2026-01-31", "MONTHLY").periodEnd).toBe(
+      "2026-02-27",
+    );
+    expect(financeBillingPeriod("2026-11-01", "CUSTOM", 45).periodEnd).toBe(
+      "2026-12-15",
+    );
+    expect(() => financeBillingPeriod("2026-02-30", "MONTHLY")).toThrow(
+      /valid/,
+    );
+    expect(() => setup("CUSTOM")).toThrow(/duration/);
+  });
+  it("confirms versioned suggestions and prevents duplicate periods despite renamed labels or plan edits", () => {
+    const { plan } = setup();
+    const proposal = financeInvoiceProposal(owner(), "child-a", "2026-11-01");
+    expect(() =>
+      financeAction(
+        owner(),
+        command("invoice", {
+          ...proposal,
+          label: "Fee",
+          useApplicablePlan: true,
+        }),
+      ),
+    ).toThrow(/confirm/);
+    expect(() => issue("2026-11-01", { assignmentVersion: 999 })).toThrow(
+      /changed/,
+    );
+    const issued = issue();
+    expect(issued.billingSource).toMatchObject({
+      planId: plan.id,
+      planVersion: 1,
+      kind: "BATCH_PLAN",
+    });
+    expect(() =>
+      issue("2026-11-01", { label: "Renamed same-period charge" }),
+    ).toThrow(/underlying billing period/);
+    expect(financeView(owner()).invoices).toHaveLength(1);
+  });
+  it("applies an authorised percentage discount with exact minor-unit arithmetic", () => {
+    setup();
+    const saved = override("DISCOUNT", { discountBasisPoints: 1250 });
+    expect(
+      financeInvoiceProposal(owner(), "child-a", "2026-11-01"),
+    ).toMatchObject({ chargeMinor: 8750, overrideId: saved.id });
+    expect(issue().chargeMinor).toBe(8750);
+    expect(() => override("DISCOUNT", { discountMinor: 1000 })).toThrow(
+      /overlapping/,
+    );
+  });
+  it("supports an individual plan and fixed amount while preserving the batch default", () => {
+    const { plan } = setup();
+    const saved = override("PLAN", { planId: plan.id, amountMinor: 8500 });
+    expect(issue()).toMatchObject({
+      chargeMinor: 8500,
+      billingSource: { overrideId: saved.id, kind: "PLAYER_OVERRIDE" },
+    });
+    expect(financeView(owner()).plans[0].amountMinor).toBe(10000);
+  });
+  it.each(["SCHOLARSHIP", "WAIVER"] as const)(
+    "records %s as waived, never as collected cash or a receipt",
+    (kind) => {
+      setup();
+      override(kind);
+      const issued = issue();
+      expect(issued.chargeMinor).toBe(0);
+      expect(financeView(owner()).invoices[0]).toMatchObject({
+        status: "WAIVED",
+        paidMinor: 0,
+        outstandingMinor: 0,
+      });
+      expect(financeView(owner()).summary[0].collectedMinor).toBe(0);
+      expect(() => reference(issued.id, 1)).toThrow(/outstanding/);
+      expect(financeView(owner()).receipts).toEqual([]);
+    },
+  );
+  it("shows a free plan as Free independently of a paid or waived invoice", () => {
+    setup("FREE");
+    issue();
+    expect(financeView(owner()).invoices[0]).toMatchObject({
+      status: "FREE",
+      chargeMinor: 0,
+      paidMinor: 0,
+    });
+    expect(financeView(owner()).summary[0].paidInvoiceCount).toBe(0);
+    expect(financeView(owner()).payments).toEqual([]);
+  });
+  it("keeps issued documents and verified partial payments frozen after price, assignment and batch changes", () => {
+    const { plan, assignment } = setup();
+    const issued = issue();
+    const payment = reference(issued.id, 4000);
+    verify(payment);
+    const before = JSON.stringify({
+      invoice: financeRepository.find(academy.id, "invoice", issued.id),
+      payments: financeRepository.list(academy.id, "payment"),
+      receipts: financeRepository.list(academy.id, "receipt"),
+    });
+    financeAction(
+      owner(),
+      command(
+        "plan",
+        { ...plan, amountMinor: 20000 },
+        { id: plan.id, expectedVersion: plan.version },
+      ),
+    );
+    financeAction(
+      owner(),
+      command(
+        "batchAssignment",
+        { ...assignment, active: false },
+        { id: assignment.id, expectedVersion: assignment.version },
+      ),
+    );
+    const child = workspaceRepository.find(academy.id, "player", "child-a")!;
+    workspaceRepository.save(academy.id, "player", { ...child, squadId: "" });
+    expect(
+      JSON.stringify({
+        invoice: financeRepository.find(academy.id, "invoice", issued.id),
+        payments: financeRepository.list(academy.id, "payment"),
+        receipts: financeRepository.list(academy.id, "receipt"),
+      }),
+    ).toBe(before);
+    expect(financeView(owner()).invoices[0]).toMatchObject({
+      status: "PARTIAL",
+      outstandingMinor: 6000,
+    });
+    expect(() =>
+      financeRepository.save(
+        academy.id,
+        "invoice",
+        {
+          ...financeRepository.find(academy.id, "invoice", issued.id)!,
+          chargeMinor: 30000,
+        },
+        2,
+        "owner",
+      ),
+    ).toThrow(/immutable/);
+  });
+  it("permits a deliberately reviewed one-time extra without using it to bypass recurring-period checks", () => {
+    setup();
+    issue();
+    const extra = {
+      playerId: "child-a",
+      label: "One-off tournament registration",
+      chargeMinor: 2000,
+      currency: "INR",
+      periodStart: "2026-11-01",
+      periodEnd: "2026-11-01",
+      dueDate: "2026-11-01",
+      oneTimeKey: "tournament-2026",
+      confirmed: true,
+      reviewed: true,
+    };
+    financeAction(owner(), command("invoice", extra));
+    expect(() =>
+      financeAction(
+        owner(),
+        command("invoice", { ...extra, label: "Renamed tournament" }),
+      ),
+    ).toThrow(/already been issued/);
+    expect(() =>
+      financeAction(
+        owner(),
+        command("invoice", {
+          ...extra,
+          oneTimeKey: "different",
+          reviewed: false,
+        }),
+      ),
+    ).toThrow(/review/);
+  });
+  it("requires actual player sessions for per-session plans and deduplicates each session", () => {
+    setup("PER_SESSION");
+    expect(
+      financeInvoiceProposal(owner(), "child-a", "2026-11-02").available,
+    ).toBe(false);
+    workspaceRepository.save(academy.id, "session", {
+      id: "session-a",
+      academyId: academy.id,
+      sportId: "football",
+      branchId: "branch-a",
+      squadId: "batch-a",
+      location: "Fictional ground",
+      coachIds: ["coach"],
+      timezone: "Asia/Kolkata",
+      startLocal: "2026-11-02T17:00",
+      endLocal: "2026-11-02T18:00",
+      startAt: "2026-11-02T11:30:00Z",
+      endAt: "2026-11-02T12:30:00Z",
+      theme: "Training",
+      status: "SCHEDULED",
+      roster: [{ playerId: "child-a", name: "child-a" }],
+      agenda: [],
+      objectives: [],
+      version: 1,
+      updatedAt: "",
+      updatedBy: "owner",
+    });
+    const proposal = financeInvoiceProposal(
+      owner(),
+      "child-a",
+      "2026-11-02",
+      "batch-a",
+      "session-a",
+    );
+    expect(proposal.available).toBe(true);
+    const data = {
+      ...proposal,
+      label: "One recorded session",
+      sessionId: "session-a",
+      useApplicablePlan: true,
+      confirmed: true,
+    };
+    financeAction(owner(), command("invoice", data));
+    expect(() =>
+      financeAction(
+        owner(),
+        command("invoice", { ...data, label: "Renamed session charge" }),
+      ),
+    ).toThrow(/underlying/);
+    expect(() =>
+      financeInvoiceProposal(
+        owner(),
+        "child-other",
+        "2026-11-02",
+        "batch-a",
+        "session-a",
+      ),
+    ).toThrow(/session/);
+  });
+  it("rechecks authority on new configuration actions and strips all fee configuration from parent views", () => {
+    setup();
+    const parentView = financeView(context("parent", "PARENT"));
+    expect(parentView.batchAssignments).toEqual([]);
+    expect(parentView.playerOverrides).toEqual([]);
+    expect(parentView.invoiceSuggestions).toEqual([]);
+    for (const [user, role] of [
+      ["parent", "PARENT"],
+      ["coach", "COACH"],
+      ["support", "SUPPORT"],
+    ] as const)
+      for (const action of ["batchAssignment", "playerOverride"])
+        expect(() =>
+          financeAction(context(user, role), command(action, {})),
+        ).toThrow(/role/);
+  });
+  it("does not automatically charge free or unreviewed trial players", () => {
+    setup();
+    const child = workspaceRepository.find(academy.id, "player", "child-a")!;
+    workspaceRepository.save(academy.id, "player", {
+      ...child,
+      status: "TRIAL",
+    });
+    expect(
+      financeInvoiceProposal(owner(), "child-a", "2026-11-01"),
+    ).toMatchObject({ available: false });
+    expect(() => invoice()).toThrow(/Trial charges/);
+    expect(financeView(owner()).invoices).toEqual([]);
+  });
 });
