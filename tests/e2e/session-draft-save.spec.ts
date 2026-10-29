@@ -14,9 +14,10 @@ test.use({ actionTimeout: 15000 });
 test("coach saves a minimum session draft, keeps failed edits, and reopens the same record after a new login", async ({
   playwright,
   browser,
+  baseURL,
 }) => {
   test.setTimeout(180000);
-  const origin = "http://127.0.0.1:3001";
+  const origin = new URL(baseURL ?? "http://127.0.0.1:3001").origin;
   const suffix = crypto.randomUUID();
   const output = evidencePath("docs/screenshots/final-academy/session-draft");
   const requests: APIRequestContext[] = [];

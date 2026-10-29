@@ -2,6 +2,39 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import type { WorkspaceKind, WorkspacePayload } from "@/domain/workspace";
 import type { FootballSession } from "@/domain/training";
+
+function isSavedSession(value: unknown): value is FootballSession {
+  if (typeof value !== "object" || value === null) return false;
+  const record = value as Record<string, unknown>;
+  return (
+    [
+      "id",
+      "academyId",
+      "sportId",
+      "branchId",
+      "squadId",
+      "location",
+      "timezone",
+      "startLocal",
+      "endLocal",
+      "startAt",
+      "endAt",
+      "theme",
+      "updatedAt",
+      "updatedBy",
+    ].every((key) => typeof record[key] === "string") &&
+    typeof record.version === "number" &&
+    typeof record.status === "string" &&
+    ["DRAFT", "SCHEDULED", "IN_PROGRESS", "COMPLETED", "CANCELLED"].includes(
+      record.status,
+    ) &&
+    Array.isArray(record.coachIds) &&
+    Array.isArray(record.roster) &&
+    Array.isArray(record.agenda) &&
+    Array.isArray(record.objectives)
+  );
+}
+
 export async function workspaceRequest<T>(
   url: string,
   method = "GET",
@@ -86,14 +119,10 @@ export function useWorkspace(academyId: string) {
           body !== null &&
           "action" in body &&
           body.action === "session" &&
-          typeof value === "object" &&
-          value !== null &&
-          "academyId" in value &&
-          value.academyId === academyId &&
-          "id" in value &&
-          typeof value.id === "string"
+          isSavedSession(value) &&
+          value.academyId === academyId
         ) {
-          const session = value as FootballSession;
+          const session = value;
           setData((current) => {
             if (current?.academy.id !== academyId) return current;
             const previous = current.records.session.find(

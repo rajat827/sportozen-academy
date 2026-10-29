@@ -329,6 +329,17 @@ test("Quick Create saves unfinished real drafts, survives interrupted responses 
     await expect
       .poll(async () => (await payload()).records.session.length)
       .toBe(1);
+    // The confirmed response must still populate the saved session if the
+    // follow-up workspace refresh fails.
+    let interruptedRefreshes = 0;
+    await page.route(
+      `**/api/workspaces/${aid}`,
+      (route) => {
+        interruptedRefreshes++;
+        return route.abort("failed");
+      },
+      { times: 1 },
+    );
     const duplicateClicks = saveDraft.dblclick();
     try {
       await expect(
@@ -342,6 +353,7 @@ test("Quick Create saves unfinished real drafts, survives interrupted responses 
     }
     await duplicateClicks;
     await expect(dialog).not.toBeVisible();
+    expect(interruptedRefreshes).toBe(1);
     await page.unroute(trainingPattern);
     expect(submissions).toHaveLength(3);
     expect(
@@ -760,6 +772,7 @@ test("Quick Create saves unfinished real drafts, survives interrupted responses 
             "request failure retains inputs",
             "lost response retries without duplicate session",
             "duplicate clicks share one request key",
+            "confirmed save survives interrupted workspace refresh",
             "actual saved-session navigation",
             "refresh and real sign-in persistence",
             "configured venue and custom focus/title",
