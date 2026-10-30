@@ -22,3 +22,114 @@
   font: 400 12px/1.5 sans-serif;
   white-space: nowrap;
 }
+.quick-session-card {
+  min-width: 0;
+}
+.quick-session-card .quick-session-form {
+  display: grid;
+  gap: 12px;
+}
+.quick-session-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+  align-items: start;
+}
+.quick-session-card .quick-session-grid label,
+.quick-session-card .quick-session-optional label {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  font-size: 12px;
+  color: #294b68;
+}
+.quick-session-card :is(input, select) {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 42px;
+  padding: 10px;
+  border: 1px solid #d5e1e8;
+  border-radius: 7px;
+  background: #fff;
+  color: #16354b;
+  font: inherit;
+}
+.quick-session-card :is(input, select):focus-visible {
+  outline: 3px solid #5bb8ff;
+  outline-offset: 2px;
+}
+.quick-session-venue {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.quick-session-venue details {
+  font-size: 12px;
+}
+.quick-session-card .quick-session-context,
+.quick-session-card .quick-session-coach {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #58748c;
+  overflow-wrap: anywhere;
+}
+.quick-session-optional {
+  border-top: 1px solid #e1eaf0;
+  border-bottom: 1px solid #e1eaf0;
+  padding: 12px 0;
+}
+.quick-session-optional summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #21415b;
+}
+.quick-session-card .quick-session-optional[open] label {
+  margin-top: 12px;
+}
+.quick-session-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #fff;
+  border-top: 1px solid #e1eaf0;
+  padding: 12px 0 4px;
+}
+.quick-session-card .quick-session-footer p {
+  margin: 0;
+  font-size: 12px;
+}
+.quick-session-footer .button {
+  flex-shrink: 0;
+  background: #009c6d;
+  border-color: #009c6d;
+  color: #fff;
+  font-weight: 600;
+  min-height: 44px;
+}
+.quick-session-empty {
+  padding: 14px;
+  background: #eff8f5;
+  border: 1px solid #d4e9e1;
+  border-radius: 8px;
+  margin: 14px 0;
+}
+@media (max-width: 600px) {
+  .quick-session-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .quick-session-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .quick-session-footer .button {
+    width: 100%;
+  }
+}

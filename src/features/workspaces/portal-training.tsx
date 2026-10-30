@@ -82,7 +82,9 @@ export function PortalTraining({
     ),
     [player, setPlayer] = useState(params.get("player") ?? ""),
     [drill, setDrill] = useState(0),
-    [drillSearch, setDrillSearch] = useState("");
+    [drillSearch, setDrillSearch] = useState(""),
+    [savedDraftId, setSavedDraftId] = useState(params.get("savedDraft") ?? ""),
+    [confirmedSession, setConfirmedSession] = useState<FootballSession>();
   if (!w.data) return <p role="status">Loading academy training…</p>;
   const d = w.data;
   if (!["OWNER", "ADMIN", "COACH"].includes(d.membership.role))
@@ -100,7 +102,11 @@ export function PortalTraining({
     )
     .sort((a, b) => (a.startAt || "9999").localeCompare(b.startAt || "9999"));
   const selected = sessionId
-    ? d.records.session.find((session) => session.id === sessionId)
+    ? (d.records.session.find((session) => session.id === sessionId) ??
+      (confirmedSession?.id === sessionId &&
+      confirmedSession.academyId === d.academy.id
+        ? confirmedSession
+        : undefined))
     : sessions[0];
   const selectedBatch = d.records.squad.find(
       (squad) => squad.id === selected?.squadId,
@@ -371,7 +377,7 @@ export function PortalTraining({
                           (squad) => squad.id === session.squadId,
                         )?.name ?? "Archived batch"}
                       </strong>
-                      <span>{session.theme}</span>
+                      <span>{session.title || session.theme}</span>
                       <small>
                         {session.startAt
                           ? `${clock(session.startAt, timezone, d.academy.timeFormat)} – ${clock(session.endAt, timezone, d.academy.timeFormat)}`
@@ -403,16 +409,33 @@ export function PortalTraining({
               <div className="pt-session-plan">
                 {selected ? (
                   <>
+                    {selected.id === savedDraftId &&
+                      selected.status === "DRAFT" && (
+                        <div className="pt-draft-success" role="status">
+                          <CheckCircle2 size={20} />
+                          <strong>Session saved as draft</strong>
+                        </div>
+                      )}
                     <header className="pt-session-heading">
                       <div>
                         <span className="pt-kind">Training Session</span>
-                        <h2>{selectedBatch?.name ?? "Archived batch"}</h2>
+                        <h2>
+                          {selected.title ||
+                            selectedBatch?.name ||
+                            "Archived batch"}
+                        </h2>
                       </div>
                       <span className={`pt-status pt-${sessionTone(selected)}`}>
                         {selected.status.toLowerCase().replaceAll("_", " ")}
                       </span>
                     </header>
                     <div className="pt-session-details">
+                      {selected.title && (
+                        <p>
+                          <Users size={16} />
+                          {selectedBatch?.name ?? "Archived batch"}
+                        </p>
+                      )}
                       <p>
                         <CalendarDays size={16} />
                         {dayLabel(
@@ -431,7 +454,35 @@ export function PortalTraining({
                         <MapPin size={16} />
                         {selected.location || "Location not set"}
                       </p>
+                      <p>
+                        <UserRound size={16} />
+                        {selected.coachIds
+                          .map(
+                            (id) =>
+                              d.members.find((member) => member.userId === id)
+                                ?.name ?? "Assigned coach",
+                          )
+                          .join(", ") || "Coach not assigned yet"}
+                      </p>
                     </div>
+                    {selected.status === "DRAFT" && (
+                      <div
+                        className="pt-draft-next-actions"
+                        aria-label="Draft session next actions"
+                      >
+                        <button onClick={() => setModal("edit")}>
+                          Add Activities
+                        </button>
+                        <button
+                          onClick={() => setTab(`Players (${roster.length})`)}
+                        >
+                          Review Players
+                        </button>
+                        <button onClick={() => setModal("edit")}>
+                          Complete Session Plan
+                        </button>
+                      </div>
+                    )}
                     <nav
                       className="pt-plan-tabs"
                       aria-label="Selected session sections"
@@ -458,7 +509,9 @@ export function PortalTraining({
                           <div>
                             <h3>Session Focus</h3>
                             <p>
-                              {selected.sharedObjective?.goal ?? selected.theme}
+                              {selected.sharedObjective?.goal ||
+                                selected.theme ||
+                                "Training focus not recorded yet"}
                             </p>
                           </div>
                         </article>
@@ -663,7 +716,7 @@ export function PortalTraining({
             <p>
               {roster.length} players
               {selected
-                ? ` · ${selected.coachIds.map((id) => d.members.find((member) => member.userId === id)?.name ?? "Assigned coach").join(", ")}`
+                ? ` · ${selected.coachIds.map((id) => d.members.find((member) => member.userId === id)?.name ?? "Assigned coach").join(", ") || "Coach not assigned yet"}`
                 : ""}
             </p>
           </div>
@@ -720,7 +773,8 @@ export function PortalTraining({
                     d.members.find((member) => member.userId === id)?.name ??
                     "Assigned coach",
                 )
-                .join(", ") || "Select a session"}
+                .join(", ") ||
+                (selected ? "Not assigned yet" : "Select a session")}
             </p>
           </div>
           <div>
@@ -742,6 +796,13 @@ export function PortalTraining({
           <h3>Session Actions</h3>
           {selected ? (
             <>
+              {selected.status === "DRAFT" &&
+                (!selected.coachIds.length || !selected.location.trim()) && (
+                  <p className="pt-small">
+                    Assign an authorised coach and record a venue or location
+                    before scheduling or starting training.
+                  </p>
+                )}
               <button
                 className="pt-primary"
                 disabled={
@@ -861,7 +922,7 @@ export function PortalTraining({
               {modal === "new"
                 ? "Create a session"
                 : modal === "edit"
-                  ? "Edit session draft"
+                  ? "Edit Training Plan"
                   : modal === "cancel"
                     ? "Cancel session"
                     : modal === "reschedule"
@@ -871,8 +932,8 @@ export function PortalTraining({
                         : "Session Desk"}
             </Dialog.Title>
             <Dialog.Description>
-              {d.academy.name} · real academy records. Record versions and
-              permissions are checked when saving.
+              {d.academy.name} · Save a draft, then build the shared session
+              plan.
             </Dialog.Description>
             <button
               className="pt-icon pt-close"
@@ -889,12 +950,25 @@ export function PortalTraining({
                 submit={t.submit}
                 initial={modal === "edit" ? selected : undefined}
                 onSaved={(saved) => {
+                  setConfirmedSession(saved);
+                  if (modal === "new") setSavedDraftId(saved.id);
                   setModal(null);
                   setScreen("Sessions");
+                  setTab("Plan");
+                  setMonth(sessionDay(saved, timezone).slice(0, 7) || month);
+                  setBatch("");
+                  setCoach("");
+                  setVenue("");
                   onNavigate("training", {
                     session: saved.id,
                     create: "",
                     view: "",
+                    savedDraft:
+                      modal === "new"
+                        ? saved.id
+                        : params.get("savedDraft") === saved.id
+                          ? saved.id
+                          : "",
                   });
                 }}
               />

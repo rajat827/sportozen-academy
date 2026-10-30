@@ -1,6 +1,40 @@
 "use client";
 import { useCallback, useEffect, useState, useRef } from "react";
 import type { WorkspaceKind, WorkspacePayload } from "@/domain/workspace";
+import type { FootballSession } from "@/domain/training";
+
+function isSavedSession(value: unknown): value is FootballSession {
+  if (typeof value !== "object" || value === null) return false;
+  const record = value as Record<string, unknown>;
+  return (
+    [
+      "id",
+      "academyId",
+      "sportId",
+      "branchId",
+      "squadId",
+      "location",
+      "timezone",
+      "startLocal",
+      "endLocal",
+      "startAt",
+      "endAt",
+      "theme",
+      "updatedAt",
+      "updatedBy",
+    ].every((key) => typeof record[key] === "string") &&
+    typeof record.version === "number" &&
+    typeof record.status === "string" &&
+    ["DRAFT", "SCHEDULED", "IN_PROGRESS", "COMPLETED", "CANCELLED"].includes(
+      record.status,
+    ) &&
+    Array.isArray(record.coachIds) &&
+    Array.isArray(record.roster) &&
+    Array.isArray(record.agenda) &&
+    Array.isArray(record.objectives)
+  );
+}
+
 export async function workspaceRequest<T>(
   url: string,
   method = "GET",
@@ -79,6 +113,36 @@ export function useWorkspace(academyId: string) {
       try {
         await reload();
       } catch {
+        if (
+          path === "/training" &&
+          typeof body === "object" &&
+          body !== null &&
+          "action" in body &&
+          body.action === "session" &&
+          isSavedSession(value) &&
+          value.academyId === academyId
+        ) {
+          const session = value;
+          setData((current) => {
+            if (current?.academy.id !== academyId) return current;
+            const previous = current.records.session.find(
+              (record) => record.id === session.id,
+            );
+            if (previous && previous.version > session.version) return current;
+            return {
+              ...current,
+              records: {
+                ...current.records,
+                session: [
+                  ...current.records.session.filter(
+                    (record) => record.id !== session.id,
+                  ),
+                  session,
+                ],
+              },
+            };
+          });
+        }
         setError(
           "Saved to academy records, but the refreshed view could not load. Reload to see the confirmed result.",
         );

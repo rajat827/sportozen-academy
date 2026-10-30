@@ -289,19 +289,17 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   const squad = (await payload(owner.api)).records.squad[0],
     venue = (await payload(owner.api)).records.venue[0];
   await cp
-    .getByRole("combobox", { name: "Session squad", exact: true })
+    .getByRole("combobox", { name: "Training batch", exact: true })
     .selectOption(squad.id);
   await cp
     .getByRole("combobox", { name: "Session venue", exact: true })
     .selectOption(venue.id);
   await cp
-    .getByLabel("Session theme", { exact: true })
+    .getByLabel("Training focus", { exact: true })
     .fill("Dribbling and finishing");
-  await cp.getByLabel("Session start").fill("2026-10-12T18:00");
-  await cp.getByLabel("Session end").fill("2026-10-12T19:00");
-  await cp
-    .getByRole("combobox", { name: "Add agenda drill", exact: true })
-    .selectOption(drill.id);
+  await cp.getByLabel("Session date", { exact: true }).fill("2026-10-12");
+  await cp.getByLabel("Start time", { exact: true }).fill("18:00");
+  await cp.getByLabel("Duration (minutes)", { exact: true }).fill("60");
   // Failure retains the unsaved schedule. Retry reaches the real backend.
   await cp.route("**/training", async (route) => {
     await route.fulfill({
@@ -310,16 +308,20 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     });
     await cp.unroute("**/training");
   });
-  await cp.getByRole("button", { name: "Save session draft" }).click();
+  await cp
+    .getByRole("button", { name: "Save Session Draft", exact: true })
+    .click();
   await expect(
     cp
       .getByRole("alert")
       .filter({ hasText: "Synthetic temporary save failure" }),
   ).toBeVisible();
-  await expect(cp.getByLabel("Session theme", { exact: true })).toHaveValue(
+  await expect(cp.getByLabel("Training focus", { exact: true })).toHaveValue(
     "Dribbling and finishing",
   );
-  await cp.getByRole("button", { name: "Save session draft" }).click();
+  await cp
+    .getByRole("button", { name: "Save Session Draft", exact: true })
+    .click();
   await expect
     .poll(async () => (await payload(coach.api)).records.session.length)
     .toBe(1);
@@ -328,6 +330,21 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   expect(
     (await payload(coach.api)).records.attendance.map((a) => a.status),
   ).toEqual(["UNMARKED", "UNMARKED"]);
+  expect(session.agenda).toEqual([]);
+  await cp.getByRole("button", { name: "Add Activities", exact: true }).click();
+  const planning = cp.getByRole("dialog", {
+    name: "Edit Training Plan",
+    exact: true,
+  });
+  await planning
+    .getByRole("combobox", { name: "Add agenda drill", exact: true })
+    .selectOption(drill.id);
+  await planning
+    .getByRole("button", { name: "Save session draft", exact: true })
+    .click();
+  await expect(planning).not.toBeVisible();
+  session = (await payload(coach.api)).records.session[0];
+  expect(session.agenda[0].drill.id).toBe(drill.id);
   await cp
     .getByRole("button", {
       name: "Optional player personalisation",

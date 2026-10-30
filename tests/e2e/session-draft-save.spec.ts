@@ -7,17 +7,19 @@ import {
 import { mkdir, writeFile } from "node:fs/promises";
 import type { WorkspacePayload } from "../../src/domain/workspace";
 import type { FootballSession } from "../../src/domain/training";
+import { evidencePath } from "./evidence-path";
 
 test.use({ actionTimeout: 15000 });
 
 test("coach saves a minimum session draft, keeps failed edits, and reopens the same record after a new login", async ({
   playwright,
   browser,
+  baseURL,
 }) => {
   test.setTimeout(180000);
-  const origin = "http://127.0.0.1:3001";
+  const origin = new URL(baseURL ?? "http://127.0.0.1:3001").origin;
   const suffix = crypto.randomUUID();
-  const output = "docs/screenshots/final-academy/session-draft";
+  const output = evidencePath("docs/screenshots/final-academy/session-draft");
   const requests: APIRequestContext[] = [];
   const contexts: BrowserContext[] = [];
   await mkdir(output, { recursive: true });
@@ -130,22 +132,22 @@ test("coach saves a minimum session draft, keeps failed edits, and reopens the s
     });
     await expect(editor).toBeVisible();
     await editor
-      .getByRole("combobox", { name: "Session squad", exact: true })
+      .getByRole("combobox", { name: "Training batch", exact: true })
       .selectOption(squad.id);
+    await editor
+      .getByLabel("Session venue", { exact: true })
+      .selectOption("__manual__");
     await editor
       .getByLabel("Training location", { exact: true })
       .fill("Excelsior American School");
     await editor
-      .getByLabel("Session theme", { exact: true })
+      .getByLabel("Training focus", { exact: true })
       .fill("Ball control and first touch");
-    await editor
-      .getByLabel("Session start", { exact: true })
-      .fill("2032-11-08T17:00");
-    await editor
-      .getByLabel("Session end", { exact: true })
-      .fill("2032-11-08T18:30");
+    await editor.getByLabel("Session date", { exact: true }).fill("2032-11-08");
+    await editor.getByLabel("Start time", { exact: true }).fill("17:00");
+    await editor.getByLabel("Duration (minutes)", { exact: true }).fill("90");
     const save = editor.getByRole("button", {
-      name: "Save session draft",
+      name: "Save Session Draft",
       exact: true,
     });
     await save.scrollIntoViewIfNeeded();
@@ -163,7 +165,7 @@ test("coach saves a minimum session draft, keeps failed edits, and reopens the s
             saveEnabled: await save.isEnabled(),
             persistedSessions: (await payload()).records.session.length,
             observation:
-              "Minimum dated draft cannot be submitted because the Save action is disabled before a request can be made.",
+              "Recorded minimum draft control state; optional planning must not disable the Save action.",
           },
           null,
           2,
@@ -180,11 +182,11 @@ test("coach saves a minimum session draft, keeps failed edits, and reopens the s
       .getByRole("combobox", { name: "Session venue", exact: true })
       .selectOption(venue.id);
     await expect(
-      editor.getByLabel("Training location", { exact: true }),
-    ).toHaveValue("Excelsior American School");
+      editor.getByLabel("Session venue", { exact: true }),
+    ).toHaveValue(venue.id);
     await editor
       .getByRole("combobox", { name: "Session venue", exact: true })
-      .selectOption("");
+      .selectOption("__manual__");
     await editor
       .getByLabel("Training location", { exact: true })
       .fill("Excelsior American School");
@@ -193,36 +195,38 @@ test("coach saves a minimum session draft, keeps failed edits, and reopens the s
       .filter({ hasText: "Find a location with Google Maps" })
       .click();
     await expect(editor).toContainText("Google Maps is configuration-blocked.");
-    await editor
-      .getByRole("combobox", { name: "Session theme options", exact: true })
-      .selectOption("Ball control and first touch");
     await expect(
-      editor.getByLabel("Session theme", { exact: true }),
+      editor.getByLabel("Training focus", { exact: true }),
+    ).toHaveAttribute("list", /.+/);
+    await editor
+      .getByLabel("Training focus", { exact: true })
+      .fill("Ball control and first touch");
+    await expect(
+      editor.getByLabel("Training focus", { exact: true }),
     ).toHaveValue("Ball control and first touch");
-    await editor.getByLabel("Session theme", { exact: true }).fill("");
+    await editor.getByLabel("Training focus", { exact: true }).fill("");
+    await expect(save).toBeEnabled();
+    await editor.getByLabel("Session date", { exact: true }).fill("");
     await save.click();
     await expect(
-      editor.getByLabel("Session theme", { exact: true }),
+      editor.getByLabel("Session date", { exact: true }),
     ).toHaveAttribute("aria-invalid", "true");
-    await expect(editor).toContainText("Enter a session theme.");
+    await expect(editor).toContainText("Choose a session date.");
     expect((await payload()).records.session).toHaveLength(0);
     await editor
-      .getByLabel("Session theme", { exact: true })
+      .getByLabel("Training focus", { exact: true })
       .fill("Ball control and first touch");
-    await editor
-      .getByLabel("Session end", { exact: true })
-      .fill("2032-11-08T16:00");
+    await editor.getByLabel("Session date", { exact: true }).fill("2032-11-08");
+    await editor.getByLabel("Duration (minutes)", { exact: true }).fill("0");
     await save.click();
     await expect(
-      editor.getByLabel("Session end", { exact: true }),
+      editor.getByLabel("Duration (minutes)", { exact: true }),
     ).toHaveAttribute("aria-invalid", "true");
     await expect(editor).toContainText(
-      "End the session after its start, within eight hours.",
+      "Enter a duration from 1 to 480 minutes.",
     );
     expect((await payload()).records.session).toHaveLength(0);
-    await editor
-      .getByLabel("Session end", { exact: true })
-      .fill("2032-11-08T18:30");
+    await editor.getByLabel("Duration (minutes)", { exact: true }).fill("90");
     let failedPosts = 0;
     await page.route(`**${root}/training`, async (intercept) => {
       if (intercept.request().method() === "POST") {
@@ -233,7 +237,7 @@ test("coach saves a minimum session draft, keeps failed edits, and reopens the s
     await save.click();
     await expect(editor).toContainText("Not confirmed. Your draft is retained");
     await expect(
-      editor.getByLabel("Session theme", { exact: true }),
+      editor.getByLabel("Training focus", { exact: true }),
     ).toHaveValue("Ball control and first touch");
     await expect(
       editor.getByLabel("Training location", { exact: true }),
@@ -257,12 +261,12 @@ test("coach saves a minimum session draft, keeps failed edits, and reopens the s
     expect(saved.coachIds).toEqual([coachAccount.user.id]);
     expect(saved.venueId).toBeUndefined();
     expect(saved.sharedObjective).toBeUndefined();
-    expect(saved.preparation).toEqual([]);
+    expect(saved.preparation).toBeUndefined();
     expect((await payload()).records.session).toHaveLength(1);
     await expect(
       page
         .getByRole("status")
-        .filter({ hasText: "Saved to academy records." })
+        .filter({ hasText: "Session saved as draft" })
         .first(),
     ).toBeVisible();
     await page.reload();
@@ -359,7 +363,7 @@ test("coach saves a minimum session draft, keeps failed edits, and reopens the s
       .getByRole("button", { name: "Edit Draft", exact: true })
       .click();
     const editing = reopened.getByRole("dialog", {
-      name: "Edit session draft",
+      name: "Edit Training Plan",
       exact: true,
     });
     await editing
@@ -469,7 +473,8 @@ test("coach saves a minimum session draft, keeps failed edits, and reopens the s
           minimumDraft: "PASS",
           requiredFields: "PASS",
           optionalAgenda: "PASS",
-          endBeforeStart: "PASS",
+          durationValidation:
+            "PASS; end time is derived from a positive bounded duration",
           networkRetention: "PASS",
           repeatedClickCount: final.records.session.length,
           refreshAndLogin: "PASS",

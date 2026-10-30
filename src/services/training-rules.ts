@@ -8,17 +8,18 @@ export const sessionDraftInput = z
     branchId: id,
     squadId: id.min(1, "Choose an authorised session squad."),
     venueId: id.optional(),
-    location: z.string().trim().min(1, "Enter a training location.").max(2000),
+    location: z.string().trim().max(2000).default(""),
     placeConfirmation: z.string().max(16000).optional(),
-    coachIds: z.array(id).min(1, "Assign at least one session coach."),
+    coachIds: z.array(id).default([]),
     timezone: text,
     startLocal: z.string().min(1, "Enter the session start date and time."),
     endLocal: z.string().min(1, "Enter the session end date and time."),
+    title: z.string().trim().max(200).optional(),
     theme: z
       .string()
       .trim()
-      .min(1, "Enter a session theme.")
-      .max(2000, "Keep the theme within 2,000 characters."),
+      .max(2000, "Keep the theme within 2,000 characters.")
+      .default(""),
     agenda: z
       .array(
         z.object({
@@ -29,8 +30,8 @@ export const sessionDraftInput = z
       .default([]),
     sharedObjective: z
       .object({
-        goal: text,
-        cue: text,
+        goal: z.string().trim().max(2000),
+        cue: z.string().trim().max(2000),
         observe: z.string().trim().max(1000).default(""),
       })
       .optional(),

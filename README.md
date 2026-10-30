@@ -2,6 +2,10 @@
 
 Repository: [rajat827/sportozen-academy](https://github.com/rajat827/sportozen-academy).
 
+## Day 1 integration branch
+
+The local branch `codex/day1-integration` combines the four feature branches listed below on top of `a4c0869`, merged in this order: player form, quick session creation, monthly report review, configurable batch fee plans. The original feature branches are unchanged. Integration is not a claim of completed QA, visual approval or a release; the status notes below describe each branch as it was saved on 30 October 2026, and on this branch its changes are no longer separate.
+
 ## Saved development work — 30 October 2026
 
 The latest local work is saved on separate feature branches. These branches are not merged into `main` or into one combined release. A saved branch is not a claim of completed QA or visual approval.
@@ -18,6 +22,16 @@ The latest local work is saved on separate feature branches. These branches are 
 The first four branches start from the professional Reports implementation at `a4c0869`, a newer descendant of `codex/academy-portal-integration`. Check out the relevant branch to inspect its source; changes on one feature branch are not automatically present on the others. Older verification documents describe their named revisions, not every later snapshot.
 
 Local databases, account credentials, `.env` files, authentication secrets, dependencies, generated builds and raw test traces are excluded from Git. The unrelated tournament reference package remains local. Generated `next-env.d.ts` QA-path changes are also left out of these feature commits.
+
+## Quick Create Session — saved work, 30 October 2026
+
+Branch: `codex/simple-session-creation`, based on the newer authenticated portal descendant `a4c0869`. This snapshot preserves the six-field session form, optional draft planning/coach assignment, saved-session navigation and recovery, existing full planning editor, server rules and tests. It is saved work in progress, not a completed or approved release.
+
+PR #14 initially failed TypeScript because confirmed-save recovery cast a generic mutation response directly to a session. Recovery now checks the saved-session response before updating the scoped view. Fresh local validation on 30 October passed lint, strict TypeScript, all 265 unit tests, the isolated production Webpack build, the dedicated Quick Create browser scenario and the existing coach session-draft regression. The browser checks confirm the saved-draft banner/navigation, interrupted request/response/refresh recovery without duplicate records, later planning and Schedule/Start rules, access scope, retained manual/Maps editing with a fake transport, and 1440/390/320 px overflow checks. No page errors or external browser requests were recorded in the Quick Create scenario. The full GitHub suite must rerun on the pushed fix.
+
+Fresh browser captures are retained locally under ignored `.local/session-ci-20261030/screenshots/session-creation/after/`; earlier before and partial after captures remain under `docs/screenshots/session-creation/`. Functional checks and local screenshot inspection do not complete the wider requested visual QA or establish user approval. This branch remains saved work in progress.
+
+For isolated verification, set `SPORTOZEN_QA_BUILD=1` and `SPORTOZEN_FINAL_QA=1` when building, then run `pnpm exec playwright test --config playwright.simple-session.config.ts` with matching flags. The configuration uses port 3012 and a guarded fictional database. Keep local `.local/` databases, auth secrets and traces private. The root README on [the saved Player branch](https://github.com/rajat827/sportozen-academy/tree/codex/simplify-player-form) indexes the separate branches; they have not been merged together or deployed.
 
 One team. A different development path for every player.
 
