@@ -194,6 +194,11 @@ export interface WorkspacePayload {
   academy: AcademyConfiguration;
   membership: AcademyMembership;
   parentSchedule?: ParentScheduledSession[];
+  /** Current staff review guidance, derived on read and never saved in reports. */
+  monthlyReportReview?: Record<
+    string,
+    { sourcesCurrent: boolean; reason?: string }
+  >;
   guardians?: { playerId: string; userId: string; name: string }[];
   subscription?: {
     tier: string;

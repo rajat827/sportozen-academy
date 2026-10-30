@@ -26,6 +26,7 @@ import type {
 } from "@/domain/workspace";
 import type { ReportViewModel } from "@/domain/report";
 import { MonthlyReports } from "./period-plans";
+import { MonthlyReportReviewWorkspace } from "./report-review-workspace";
 import { ReportEditor, SecureReportDownload } from "./plan-and-report";
 import { ReportPreview } from "@/features/reports/report-preview";
 import { confirmUnsavedChanges } from "@/hooks/use-unsaved-changes";
@@ -168,6 +169,12 @@ export function PortalReports({
   const openEditor = (event: MouseEvent<HTMLButtonElement>) => {
     returnFocus.current = event.currentTarget;
     setEditor(true);
+    onNavigate("reports", {
+      prepare: "monthly",
+      player: player?.id ?? playerId,
+      report: selectedReport?.id ?? "",
+      reportMonth: period || "all",
+    });
   };
   const closeEditor = () => {
     if (confirmUnsavedChanges()) {
@@ -194,6 +201,16 @@ export function PortalReports({
       ?.querySelectorAll<HTMLButtonElement>('[role="tab"]')
       [target]?.focus();
   };
+  if (!parent && (editor || prepare))
+    return (
+      <MonthlyReportReviewWorkspace
+        workspace={w}
+        playerId={playerId}
+        reportId={reportId}
+        onNavigate={onNavigate}
+        onClose={closeEditor}
+      />
+    );
   return (
     <>
       <section

@@ -37,6 +37,7 @@ import {
   reviewUpdate,
   publishUpdate,
   saveRecord,
+  workspace,
 } from "@/server/workspace-service";
 import {
   visibleRecords,
@@ -396,6 +397,58 @@ afterAll(() => {
     rmSync(filename + suffix, { force: true });
 });
 describe("weekly approval and monthly source extension", () => {
+  it("saves unfinished monthly feedback, exposes current-source guidance only to staff, and preserves approval guards", () => {
+    const draft = (
+      command("monthlyPrepare", {
+        playerIds: ["p"],
+        month: "2026-09",
+      }) as WorkspaceReport[]
+    )[0];
+    command(
+      "monthlyEdit",
+      { observation: "", closingNote: "", nextStep: "" },
+      draft.id,
+    );
+    const saved = repo.find("a", "report", draft.id)!;
+    expect(saved.nextStep).toBe("");
+    expect(saved.status).toBe("Draft");
+    expect(() =>
+      approveReport(ctx, saved.id, true, saved.recordVersion),
+    ).toThrow(/next development step/);
+    expect(workspace(ctx).monthlyReportReview?.[saved.id]).toEqual({
+      sourcesCurrent: true,
+    });
+    expect(workspace(parent)).not.toHaveProperty("monthlyReportReview");
+    repo.save("a", "plan", { ...plan, nextStep: "A newly recorded priority" });
+    expect(workspace(ctx).monthlyReportReview?.[saved.id]).toMatchObject({
+      sourcesCurrent: false,
+      reason: expect.stringMatching(/sources changed/),
+    });
+    expect(repo.find("a", "report", draft.id)).toEqual(saved);
+    command(
+      "monthlyEdit",
+      {
+        observation: "",
+        closingNote: "",
+        nextStep: "Review receiving",
+        regenerate: true,
+      },
+      draft.id,
+    );
+    expect(workspace(ctx).monthlyReportReview?.[saved.id]).toEqual({
+      sourcesCurrent: true,
+    });
+    const prepared = command("monthlyPrepare", {
+      playerIds: ["p", "p", "p2"],
+      month: "2026-09",
+    }) as WorkspaceReport[];
+    expect(prepared).toHaveLength(2);
+    expect(prepared[0].id).toBe(draft.id);
+    expect(repo.list("a", "report")).toHaveLength(2);
+    expect(repo.list("a", "report").every((r) => r.status === "Draft")).toBe(
+      true,
+    );
+  });
   it("excludes preserved non-football snapshots before interpreting their historical schema", () => {
     const db = database();
     const historical = {
