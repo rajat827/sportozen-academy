@@ -1,0 +1,22 @@
+{
+  "academyId": "76adca8a-f48b-4118-96e9-617a4fbc6efa",
+  "selectedBefore": {
+    "invoiceId": "0809d4f5-5a4b-49a9-98b5-42b349101fc9",
+    "currency": "INR"
+  },
+  "chosenPlan": {
+    "id": "64286d1a-1eca-434c-a065-e6508c6f6945",
+    "currency": "GBP",
+    "amountMinor": 120050
+  },
+  "issuedInvoice": {
+    "id": "4da94e0f-2775-4069-852d-75cf810db34b",
+    "currency": "GBP",
+    "chargeMinor": 120050
+  },
+  "explicitInvoiceCount": 2,
+  "automaticInvoiceCount": 0,
+  "paymentCount": 0,
+  "existingInvoiceUnchanged": true,
+  "individualChargeCurrencyWithGbpAccount": "INR"
+}

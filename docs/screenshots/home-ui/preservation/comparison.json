@@ -1,0 +1,40 @@
+{
+  "purpose": "Preserved screen comparison at the same viewport dimensions; no image resampling.",
+  "baseCommit": "ed53d8c4641d7efa8add54d33d59a176be69e9a0",
+  "homeProductCommit": "d20f1a70aaec602ea6c25e065aca528bed1d94a3",
+  "evidence": [
+    {
+      "screen": "players-1440.png",
+      "pixels": [
+        1440,
+        900
+      ],
+      "before_sha256": "099c96c0fffa8ed6f2e3787d199ce002d8eeb0cbf0bbff1975a7d8c2a0be75f0",
+      "after_sha256": "5257c0c1bdd90156f586ed6d554b255072a77ca54725d4859859e8d61cbb409c",
+      "changed_pixels": 1684,
+      "identical_pixels": false
+    },
+    {
+      "screen": "player-profile-1440.png",
+      "pixels": [
+        1440,
+        900
+      ],
+      "before_sha256": "0a687bc9933879903268add1795cb328e629e7e4f161b5761c720528fe5c8a3c",
+      "after_sha256": "0a687bc9933879903268add1795cb328e629e7e4f161b5761c720528fe5c8a3c",
+      "changed_pixels": 0,
+      "identical_pixels": true
+    },
+    {
+      "screen": "parent-home-390.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "before_sha256": "10d16229a699c16b8263c78ed35e541a280da06873d724b33d72fd86a11d4637",
+      "after_sha256": "10d16229a699c16b8263c78ed35e541a280da06873d724b33d72fd86a11d4637",
+      "changed_pixels": 0,
+      "identical_pixels": true
+    }
+  ]
+}

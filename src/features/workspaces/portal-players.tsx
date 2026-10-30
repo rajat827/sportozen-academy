@@ -29,6 +29,14 @@ import {
   confirmUnsavedChanges,
   useUnsavedChanges,
 } from "@/hooks/use-unsaved-changes";
+import {
+  FOOTBALL_PLAYER_POSITIONS,
+  STANDARD_PLAYER_AGE_CATEGORIES,
+  UNDECIDED_PLAYER_POSITION,
+  UNASSIGNED_PLAYER_BATCH,
+  isKnownPlayerPosition,
+  playerPositionLabel,
+} from "@/services/player-form-options";
 import type { PortalController, PortalNavigate } from "./portal-types";
 import { PortalTrials } from "./portal-trials";
 
@@ -43,10 +51,15 @@ function PlayerEditor({
 }) {
   const d = w.data!,
     admin = ["OWNER", "ADMIN"].includes(d.membership.role);
+  const currentBatchId =
+    player?.squadId ||
+    (player
+      ? (d.records.squad.find((s) => s.playerIds.includes(player.id))?.id ?? "")
+      : "");
   const initial = {
     name: player?.name ?? "",
     squad: player?.squad ?? "",
-    squadId: player?.squadId ?? "",
+    squadId: currentBatchId,
     coachId: player?.coachId ?? d.membership.userId,
     ageCategory: player?.ageCategory ?? "",
     birthDate: player?.birthDate ?? "",
@@ -56,12 +69,23 @@ function PlayerEditor({
   };
   const [form, setForm] = useState(initial),
     [notice, setNotice] = useState("");
+  const ageCategories = [
+    ...new Set([
+      ...d.academy.ageGroups,
+      ...STANDARD_PLAYER_AGE_CATEGORIES,
+      ...(form.ageCategory ? [form.ageCategory] : []),
+    ]),
+  ];
+  const currentBatchUnavailable =
+    !!initial.squadId && !d.records.squad.some((s) => s.id === initial.squadId);
+  const legacyPosition =
+    player?.position && !isKnownPlayerPosition(player.position)
+      ? player.position
+      : undefined;
   useUnsavedChanges(JSON.stringify(initial) !== JSON.stringify(form));
   const field = (key: keyof typeof form, value: string | boolean) =>
     setForm({ ...form, [key]: value });
-  const placement =
-    !!player &&
-    (form.squadId !== (player.squadId ?? "") || form.squad !== player.squad);
+  const placement = !!player && form.squadId !== initial.squadId;
   return (
     <form
       className="form-stack"
@@ -71,8 +95,14 @@ function PlayerEditor({
         const result = await w.save<WorkspacePlayer>(
           "player",
           {
-            ...form,
+            name: form.name,
+            ageCategory: form.ageCategory,
             birthDate: form.birthDate,
+            position: form.position,
+            ...(!player || placement ? { squadId: form.squadId } : {}),
+            coachId: form.coachId,
+            status: form.status,
+            placementReviewed: form.placementReviewed,
             sportIds: ["football"],
             expectedVersion: player?.recordVersion,
           },
@@ -97,12 +127,17 @@ function PlayerEditor({
         </label>
         <label>
           Age category
-          <input
-            placeholder="e.g. U12"
-            maxLength={30}
+          <select
             value={form.ageCategory}
             onChange={(e) => field("ageCategory", e.target.value)}
-          />
+          >
+            <option value="">Not recorded</option>
+            {ageCategories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
         </label>
         <label>
           Date of birth (optional)
@@ -115,42 +150,42 @@ function PlayerEditor({
         </label>
         <label>
           Position
-          <input
+          <select
             value={form.position}
             onChange={(e) => field("position", e.target.value)}
-          />
+          >
+            <option value="">{UNDECIDED_PLAYER_POSITION}</option>
+            {FOOTBALL_PLAYER_POSITIONS.map((position) => (
+              <option key={position} value={position}>
+                {position}
+              </option>
+            ))}
+            {legacyPosition && (
+              <option value={legacyPosition}>
+                Current position: {legacyPosition}
+              </option>
+            )}
+          </select>
         </label>
         <label>
           Training batch
           <select
             disabled={!admin}
             value={form.squadId}
-            onChange={(e) => {
-              const q = d.records.squad.find((s) => s.id === e.target.value);
-              setForm({
-                ...form,
-                squadId: e.target.value,
-                squad: q?.name ?? "",
-              });
-            }}
+            onChange={(e) => field("squadId", e.target.value)}
           >
-            <option value="">No roster batch assigned</option>
+            <option value="">{UNASSIGNED_PLAYER_BATCH}</option>
+            {currentBatchUnavailable && (
+              <option value={initial.squadId}>
+                Current batch unavailable — assignment retained
+              </option>
+            )}
             {d.records.squad.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name}
               </option>
             ))}
           </select>
-        </label>
-        <label>
-          Batch label
-          <input
-            required
-            value={form.squad}
-            disabled={!admin && !!player}
-            onChange={(e) => field("squad", e.target.value)}
-            placeholder="Recorded academy batch"
-          />
         </label>
         <label>
           Assigned coach
@@ -408,9 +443,24 @@ export function PortalPlayers({
       (!search || p.name.toLowerCase().includes(search.toLowerCase())) &&
       (!batch || playerBatch(d, p) === batch) &&
       (!age || p.ageCategory === age) &&
-      (!position || p.position === position) &&
+      (!position ||
+        (position === "__unset__"
+          ? !p.position?.trim()
+          : p.position === position)) &&
       (!status || (p.status ?? "ACTIVE") === status),
   );
+  const legacyPositions = [
+    ...new Set(
+      d.records.player
+        .map((p) => p.position)
+        .filter(
+          (value): value is string =>
+            typeof value === "string" &&
+            !!value.trim() &&
+            !isKnownPlayerPosition(value),
+        ),
+    ),
+  ];
   const currentPage = Math.min(page, Math.max(1, Math.ceil(rows.length / 10))),
     display = rows.slice((currentPage - 1) * 10, currentPage * 10);
   const plan = player && currentPlayerPlan(d, player.id),
@@ -501,16 +551,6 @@ export function PortalPlayers({
                   ),
                 ],
               },
-              {
-                label: "All Positions",
-                value: position,
-                set: setPosition,
-                values: [
-                  ...new Set(
-                    d.records.player.map((p) => p.position).filter(Boolean),
-                  ),
-                ],
-              },
             ].map((f) => (
               <select
                 aria-label={f.label}
@@ -529,6 +569,27 @@ export function PortalPlayers({
                 ))}
               </select>
             ))}
+            <select
+              aria-label="All Positions"
+              value={position}
+              onChange={(e) => {
+                setPosition(e.target.value);
+                setPage(1);
+              }}
+            >
+              <option value="">All Positions</option>
+              <option value="__unset__">{UNDECIDED_PLAYER_POSITION}</option>
+              {FOOTBALL_PLAYER_POSITIONS.map((position) => (
+                <option key={position} value={position}>
+                  {position}
+                </option>
+              ))}
+              {legacyPositions.map((position) => (
+                <option key={position} value={position}>
+                  {position} (existing)
+                </option>
+              ))}
+            </select>
             <select
               aria-label="Player status filter"
               value={status}
@@ -614,7 +675,7 @@ export function PortalPlayers({
                     </td>
                     <td>{playerAge(p.birthDate, today) ?? "—"}</td>
                     <td>{p.ageCategory || "—"}</td>
-                    <td>{p.position || "—"}</td>
+                    <td>{playerPositionLabel(p.position)}</td>
                     <td>{playerBatch(d, p)}</td>
                     <td>
                       <span
@@ -708,7 +769,7 @@ export function PortalPlayers({
                 <h2>{player.name}</h2>
                 <p>
                   {player.ageCategory || "Age category not recorded"} ·{" "}
-                  {player.position || "Position not recorded"}
+                  {playerPositionLabel(player.position)}
                 </p>
                 <div className="portal-player-status-actions">
                   <span className="portal-status">
@@ -772,7 +833,7 @@ export function PortalPlayers({
                   </div>
                   <div>
                     <small>Position</small>
-                    <strong>{player.position || "Not recorded"}</strong>
+                    <strong>{playerPositionLabel(player.position)}</strong>
                   </div>
                   <div>
                     <small>Batch</small>

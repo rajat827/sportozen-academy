@@ -343,6 +343,9 @@ test("real Calendar and Training controls preserve session identity, shared plan
         exact: true,
       });
       await venueFilter.selectOption(ground.id);
+      await expect(page).toHaveURL(
+        (url) => url.searchParams.get("venue") === ground.id,
+      );
       await expect(page.locator(".pc-agenda-event")).toHaveCount(2);
       await expect(
         page.locator(`.pc-agenda-event[data-session-id="${third.id}"]`),
@@ -350,12 +353,21 @@ test("real Calendar and Training controls preserve session identity, shared plan
       await page
         .getByRole("combobox", { name: "Batch", exact: true })
         .selectOption(squads[0].id);
+      await expect(page).toHaveURL(
+        (url) => url.searchParams.get("batch") === squads[0].id,
+      );
       await page
         .getByRole("combobox", { name: "Coach", exact: true })
         .selectOption(coach.id);
+      await expect(page).toHaveURL(
+        (url) => url.searchParams.get("coach") === coach.id,
+      );
       await page
         .getByRole("combobox", { name: "Session status", exact: true })
         .selectOption("SCHEDULED");
+      await expect(page).toHaveURL(
+        (url) => url.searchParams.get("sessionStatus") === "SCHEDULED",
+      );
       await expect(page.locator(".pc-agenda-event")).toHaveCount(1);
       await expect(page.locator(".pc-agenda-event")).toHaveAttribute(
         "data-session-id",
@@ -374,6 +386,9 @@ test("real Calendar and Training controls preserve session identity, shared plan
       await expect(venueFilter).toHaveValue(venues[1].id);
       await expect(page.locator(".pc-agenda-event")).toHaveCount(0);
       await venueFilter.selectOption(venues[0].id);
+      await expect(page).toHaveURL(
+        (url) => url.searchParams.get("venue") === venues[0].id,
+      );
       await expect(page.locator(".pc-agenda-event")).toHaveCount(1);
       await page.getByRole("button", { name: "Month", exact: true }).click();
       await expect(
@@ -387,13 +402,19 @@ test("real Calendar and Training controls preserve session identity, shared plan
       await page
         .getByRole("combobox", { name: "Batch", exact: true })
         .selectOption("");
+      await expect(page).toHaveURL((url) => !url.searchParams.has("batch"));
       await page
         .getByRole("combobox", { name: "Coach", exact: true })
         .selectOption("");
+      await expect(page).toHaveURL((url) => !url.searchParams.has("coach"));
       await page
         .getByRole("combobox", { name: "Session status", exact: true })
         .selectOption("");
+      await expect(page).toHaveURL(
+        (url) => !url.searchParams.has("sessionStatus"),
+      );
       await venueFilter.selectOption("");
+      await expect(page).toHaveURL((url) => !url.searchParams.has("venue"));
       await page.getByRole("button", { name: "Week", exact: true }).click();
       await page
         .getByRole("button", { name: "Next week", exact: true })

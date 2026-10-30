@@ -330,9 +330,24 @@ export function saveRecord(
       const historical = repo.find(ctx.academy.id, "player", id);
       if (historical) requirePlayer(ctx, id);
       const nextSquadId = value.squadId ?? historical?.squadId ?? "";
+      const batchChanged = nextSquadId !== (historical?.squadId ?? "");
+      const rosterOnlyUnassignment =
+        !!historical &&
+        !historical.squadId &&
+        value.squadId === "" &&
+        repo
+          .list(ctx.academy.id, "squad")
+          .some(
+            (squad) =>
+              squad.sportId === "football" &&
+              squad.playerIds.includes(historical.id),
+          );
       const placementChanged =
-        nextSquadId !== (historical?.squadId ?? "") ||
-        (!!historical && value.squad !== historical.squad);
+        batchChanged ||
+        rosterOnlyUnassignment ||
+        (!!historical &&
+          value.squad !== undefined &&
+          value.squad !== historical.squad);
       if (placementChanged) {
         requireRole(ctx, ["OWNER", "ADMIN"]);
         if (historical && !placementReviewed)
@@ -341,24 +356,28 @@ export function saveRecord(
             "Review the training-batch placement before applying this change. Age category is independent.",
           );
       }
-      if (nextSquadId) {
+      let nextSquad = value.squad ?? historical?.squad ?? "";
+      if (nextSquadId && (!historical || batchChanged)) {
         const squad = visibleRecord(ctx, "squad", nextSquadId);
         if (squad.sportId !== "football")
           throw new WorkspaceError(
             400,
             "Choose a football batch in this academy.",
           );
-        if (placementChanged && value.squad !== squad.name)
-          throw new WorkspaceError(
-            400,
-            "The selected training batch and batch label must match.",
-          );
+        // Resolve new placements from the academy's saved batch. Ordinary
+        // edits retain legacy labels; current UI display resolves by squadId.
+        nextSquad = squad.name;
       }
       record = {
         ...historical,
         recordVersion: undefined,
         ...base,
         ...value,
+        ...(value.squadId !== undefined || !historical
+          ? { squadId: nextSquadId }
+          : {}),
+        squad: nextSquad,
+        position: value.position ?? historical?.position ?? "",
         status: value.status ?? historical?.status ?? "ACTIVE",
         sportIds: [
           "football",
@@ -662,18 +681,39 @@ export function saveRecord(
       requireRole({ ...ctx, membership }, [...staff]);
       const previous = repo.find(ctx.academy.id, "player", record.id);
       const next = record as WorkspaceRecords["player"];
+      const requestedPlacement = playerSchema.parse(input);
       const currentContext = { ...ctx, membership };
       requireSport(currentContext, "football");
       if (previous) requirePlayer(currentContext, record.id);
       coach(currentContext, next.coachId);
       if (previous && next.squad !== previous.squad)
         requireRole(currentContext, ["OWNER", "ADMIN"]);
-      if ((previous?.squadId ?? "") !== (next.squadId ?? "")) {
+      const batchChanged = (previous?.squadId ?? "") !== (next.squadId ?? "");
+      const currentRosterBatches =
+        batchChanged || requestedPlacement.squadId === ""
+          ? repo
+              .list(ctx.academy.id, "squad")
+              .filter(
+                (squad) =>
+                  squad.sportId === "football" &&
+                  squad.playerIds.includes(record.id),
+              )
+          : [];
+      const rosterUnassignment =
+        requestedPlacement.squadId === "" && currentRosterBatches.length > 0;
+      if (batchChanged || rosterUnassignment) {
         requireRole({ ...ctx, membership }, ["OWNER", "ADMIN"]);
+        if (previous && !requestedPlacement.placementReviewed)
+          throw new WorkspaceError(
+            400,
+            "Review the training-batch placement before applying this change. Age category is independent.",
+          );
         for (const squadId of new Set(
-          [previous?.squadId, next.squadId].filter(
-            (value): value is string => !!value,
-          ),
+          [
+            previous?.squadId,
+            ...currentRosterBatches.map((squad) => squad.id),
+            next.squadId,
+          ].filter((value): value is string => !!value),
         )) {
           const squad = repo.find(ctx.academy.id, "squad", squadId);
           if (!squad)

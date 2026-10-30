@@ -1,0 +1,51 @@
+{
+  "reportId": "52ebaee0-1a88-4413-88f7-1dccb3f13439",
+  "playerId": "52f5c89e-17a9-4ada-bf32-f1cdf2f8bf9e",
+  "academy": "Synthetic AU Monthly Academy",
+  "brandAccent": "#008463",
+  "player": "Synthetic AU Child A",
+  "period": "2026-09 (Australia/Sydney)",
+  "status": "Approved",
+  "externalDelivery": "Not sent",
+  "demo": true,
+  "sport": "Football",
+  "squad": "U13",
+  "coach": "PeriodOwner",
+  "focus": "No training focus recorded in this month",
+  "reviewedReason": "Recorded focus",
+  "practised": "No confirmed completed-session participation recorded",
+  "activities": [],
+  "evidence": [
+    {
+      "text": "0 completed roster sessions; 0 present, 0 absent, 0 excused, 0 unmarked. Attendance basis: present / (present + absent); excused and unmarked excluded. No marked attendance basis; no percentage. Cancelled and unfinished sessions excluded.",
+      "source": "Recorded session attendance"
+    },
+    {
+      "text": "No reviewed parent-eligible observations recorded in this period.",
+      "source": "Missing evidence — no result inferred"
+    },
+    {
+      "text": "No completed September session records are available for this synthetic player.",
+      "source": "Coach reviewed commentary"
+    }
+  ],
+  "nextStep": "Repeat the recorded activity",
+  "observationCriteria": "Controlled first touch",
+  "reviewDate": "2027-01-10",
+  "note": "",
+  "presentationData": {
+    "version": 1,
+    "attendance": {
+      "total": 0,
+      "present": 0,
+      "absent": 0,
+      "excused": 0,
+      "unmarked": 0
+    },
+    "measurementSeries": [],
+    "observations": [],
+    "coachEvaluation": [
+      "No completed September session records are available for this synthetic player."
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "phase": "before",
+  "origin": "http://127.0.0.1:3011",
+  "academyId": "c3b56abe-1661-4d0c-9a8a-66d834799b5f",
+  "playerCount": 60,
+  "widths": [
+    1536,
+    1440,
+    390,
+    320
+  ],
+  "pageErrors": []
+}

@@ -1,5 +1,24 @@
 # Sportozen Academy
 
+Repository: [rajat827/sportozen-academy](https://github.com/rajat827/sportozen-academy).
+
+## Saved development work — 30 October 2026
+
+The latest local work is saved on separate feature branches. These branches are not merged into `main` or into one combined release. A saved branch is not a claim of completed QA or visual approval.
+
+| Branch | Contents | Current status |
+| --- | --- | --- |
+| [`codex/simplify-player-form`](https://github.com/rajat827/sportozen-academy/tree/codex/simplify-player-form) | Optional football positions, configured training batches, preserved legacy placement, player tests and browser evidence | Fresh lint, typecheck and 269 unit tests passed for this save; six targeted browser cases passed earlier and were not rerun |
+| [`codex/simple-session-creation`](https://github.com/rajat827/sportozen-academy/tree/codex/simple-session-creation) | Quick Create Session, unfinished drafts, saved-session navigation and recovery | Work in progress; the last browser run failed on the success banner, and subsequent fixes need a fresh build and rerun |
+| [`codex/monthly-report-review`](https://github.com/rajat827/sportozen-academy/tree/codex/monthly-report-review) | Monthly review workspace, live existing report preview, source guidance and batch queue | Work in progress; serial browser verification stopped at a collapsed queue control; final PDF and mobile checks remain unverified |
+| [`codex/configurable-batch-fee-plans`](https://github.com/rajat827/sportozen-academy/tree/codex/configurable-batch-fee-plans) | Finance backend for dated batch defaults, player exceptions and billing suggestions | Backend work in progress; frontend controls are not connected and typecheck reports missing new action titles |
+| [`codex/settings-screen-locked-ui`](https://github.com/rajat827/sportozen-academy/tree/codex/settings-screen-locked-ui) | Preserved approved Settings preview implementation, assets, tests and audit | Separate earlier preview branch; later hardening needs fresh verification |
+| [`codex/home-screen-locked-ui`](https://github.com/rajat827/sportozen-academy/tree/codex/home-screen-locked-ui) | Preserved Home implementation and browser comparison evidence | Historical feature branch; user visual approval remains separate |
+
+The first four branches start from the professional Reports implementation at `a4c0869`, a newer descendant of `codex/academy-portal-integration`. Check out the relevant branch to inspect its source; changes on one feature branch are not automatically present on the others. Older verification documents describe their named revisions, not every later snapshot.
+
+Local databases, account credentials, `.env` files, authentication secrets, dependencies, generated builds and raw test traces are excluded from Git. The unrelated tournament reference package remains local. Generated `next-env.d.ts` QA-path changes are also left out of these feature commits.
+
 One team. A different development path for every player.
 
 A football academy portal for multiple independent customer academies. Authenticated Home, Players, Calendar, Training, Reports, Fees and Settings use academy-scoped persistent records, shared batch plans with optional personalisation, reviewed reports and private parent communication. No rankings. AI Video Analysis remains Coming soon.
@@ -13,11 +32,20 @@ The illustrated Reports screen and academy-branded A4 export share the existing 
 Node.js 24 and pnpm 11 are recommended; the authenticated foundation uses native Node SQLite.
 
 ```sh
-pnpm install
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
 Open http://127.0.0.1:3000. The entry leads to `/workspace`; unauthenticated visitors sign in or register at `/sign-in`. Owners create an empty academy, then configure branding, branches/batches, staff invitations, players and guardian relationships. Existing memberships open the same academy records for their permitted roles.
+
+For the local URL used during development in this chat, run the following in PowerShell and open [http://localhost:3005/sign-in](http://localhost:3005/sign-in):
+
+```powershell
+$env:BETTER_AUTH_URL = "http://localhost:3005"
+pnpm dev --port 3005
+```
+
+Keep the terminal running. If the browser reports a connection or sign-in failure, first confirm that this server is running. The browser origin and `BETTER_AUTH_URL` must agree, including host and port. When reusing an existing academy, retain its `SPORTOZEN_DATABASE_PATH` setting rather than selecting a new empty database. Local test credentials are deliberately not published; a fresh clone starts with account registration and an empty academy.
 
 Records and sessions persist in ignored `.local/workspaces.sqlite`, unless `SPORTOZEN_DATABASE_PATH` explicitly selects another file. Keep existing databases and secrets; additive migrations preserve prior records. Production deployment requirements are documented in `docs/SECURITY_AND_DEPLOYMENT.md`.
 
@@ -47,6 +75,8 @@ pnpm test:e2e
 Playwright starts a separate production server on port 3001 with a guarded `.local/e2e-*.sqlite` database. It tests authenticated football academies in India, the UK and Australia separately from fictional demo workflows. Authenticated Training now connects squad/session objectives, attendance, coach-recorded evidence, review, approved reports and private parent updates/replies. Video upload and AI analysis remain separate work. See `docs/FOOTBALL_SESSION_WORKFLOW.md` and `docs/QA_REPORT.md`. New screenshots and an actual approved report export are saved to `docs/screenshots/football-training/`.
 
 To verify without replacing the assets of an already running local app, set `SPORTOZEN_QA_BUILD=1` for both `pnpm build` and `pnpm test:e2e`. This uses `.next-football-qa`. No customer database reset or running-app restart is needed.
+
+On the Player form branch, `SPORTOZEN_PLAYER_FORM_QA=1` selects `.next-player-form-qa`. The session branch's dedicated browser configuration expects `SPORTOZEN_FINAL_QA=1`, and the Report Review branch expects `SPORTOZEN_REPORTS_QA=1`; use the same flags for build and test. These additional flags only take effect with `SPORTOZEN_QA_BUILD=1`. Other flags retain the existing Final/Gallery build directories. The dedicated commands are `pnpm exec playwright test --config playwright.simple-session.config.ts` and `pnpm exec playwright test --config playwright.report-review.config.ts` on their respective branches. Review the saved-work status above before relying on either unfinished branch.
 
 Football is assigned automatically on the server. Unsupported sport activation and creation are rejected. Historical non-football records remain unchanged in restricted storage, excluded from customer UI, APIs and PDF downloads. See `docs/FOOTBALL_ONLY_RELEASE.md` and `docs/ONBOARDING.md`.
 

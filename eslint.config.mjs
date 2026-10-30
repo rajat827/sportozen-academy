@@ -11,6 +11,7 @@ export default defineConfig([
     ".next-gallery-qa/**",
     ".next-final-qa/**",
     ".next-professional-reports-qa/**",
+    ".next-player-form-qa/**",
     "next-env.d.ts",
     "playwright-report/**",
     "test-results/**",
