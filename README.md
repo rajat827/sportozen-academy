@@ -41,6 +41,14 @@ The last serial browser run stopped at case 08 because the review queue collapse
 
 For isolated verification, build with `SPORTOZEN_QA_BUILD=1` and `SPORTOZEN_REPORTS_QA=1`, then run `pnpm exec playwright test --config playwright.report-review.config.ts` with matching flags. This uses port 3013, a fictional fixture and ignored local credentials. The PDF case has an explicit local authoring-operation prerequisite; inspect the test before running it. All `.local/` account files, authentication secrets, databases and traces remain excluded. See [the branch index](https://github.com/rajat827/sportozen-academy/tree/codex/simplify-player-form) for other saved work. No merge or deployment is included.
 
+## Configurable batch fee plans — saved work, 30 October 2026
+
+Branch: `codex/configurable-batch-fee-plans`, based on the newer authenticated portal descendant `a4c0869`. This snapshot preserves finance backend work for additional billing frequencies, dated batch defaults, player overrides/discounts/scholarships/waivers, confirmed invoice proposals, genuine zero-fee states and preservation of issued financial records. It extends the existing finance service and body-record repository; saving a plan or changing a batch does not issue an invoice.
+
+This branch is incomplete. The existing fee editor is not connected to the new assignment, exception or proposal flows, still offers its earlier billing choices, and does not expose the new Free status filter. The editor accepts only its implemented actions; backend-only `batchAssignment` and `playerOverride` commands require their own controls. No current passing end-to-end/browser evidence is available for the new configuration flows. Historical final-Academy QA files belong to earlier changes and do not validate this snapshot.
+
+Finish the existing UI integration before treating this branch as feature-complete work, then run the documented lint, typecheck, unit, build and isolated browser checks for those flows. Preserve existing finance authorisation, explicit new-charge review, immutable invoices/payments/receipts and trial fee rules. Online collection remains **Not Connected**. Credentials, databases and generated output remain local. See [the saved branch index](https://github.com/rajat827/sportozen-academy/tree/codex/simplify-player-form). No merge or deployment is included.
+
 One team. A different development path for every player.
 
 A football academy portal for multiple independent customer academies. Authenticated Home, Players, Calendar, Training, Reports, Fees and Settings use academy-scoped persistent records, shared batch plans with optional personalisation, reviewed reports and private parent communication. No rankings. AI Video Analysis remains Coming soon.
