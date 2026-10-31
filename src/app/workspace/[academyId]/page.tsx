@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { context } from "@/server/workspace-service";
 import { AcademyPortal } from "@/features/workspaces/academy-portal";
+import { workspacePageDenial } from "@/features/workspaces/workspace-unavailable";
 export default async function Page({
   params,
   searchParams,
@@ -12,7 +13,11 @@ export default async function Page({
   }>;
 }) {
   const { academyId } = await params;
-  await context(await headers(), academyId);
+  try {
+    await context(await headers(), academyId);
+  } catch (error) {
+    return workspacePageDenial(error);
+  }
   await searchParams;
   return <AcademyPortal key={academyId} academyId={academyId} />;
 }

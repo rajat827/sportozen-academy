@@ -947,6 +947,48 @@ test("authenticated football academies isolate regional plans, approved parent r
   ).members.find((m: { userId: string }) => m.userId === parent.userId);
   await action(a.api, aid, "revoke", membership.id);
   expect((await parent.api.get(`/api/workspaces/${aid}`)).status()).toBe(403);
+  // Denied pages explain the refusal instead of failing as a server error.
+  async function pageFor(api?: APIRequestContext) {
+    const context = await browser.newContext(
+      api ? { storageState: await api.storageState() } : {},
+    );
+    return { context, page: await context.newPage() };
+  }
+  const revoked = await pageFor(parent.api);
+  expect((await revoked.page.goto(`/workspace/${aid}`))?.status()).toBe(200);
+  await expect(revoked.page.locator("main").getByRole("alert")).toHaveText(
+    "No active membership in this academy.",
+  );
+  const accountB = (
+    await (await c.api.get("/api/platform/accounts")).json()
+  ).find((account: { id: string }) => account.id === bid);
+  const entitlementB = (status: string) =>
+    c.api.patch("/api/platform/accounts", {
+      data: {
+        academyId: bid,
+        tier: accountB.tier,
+        modules: accountB.modules,
+        status,
+      },
+    });
+  expect((await entitlementB("PAUSED")).ok()).toBeTruthy();
+  const paused = await pageFor(b.api);
+  expect((await paused.page.goto(`/workspace/${bid}`))?.status()).toBe(200);
+  await expect(paused.page.locator("main").getByRole("alert")).toHaveText(
+    "This academy workspace is currently suspended.",
+  );
+  expect((await entitlementB("ACTIVE")).ok()).toBeTruthy();
+  expect((await b.api.get(`/api/workspaces/${bid}`)).ok()).toBeTruthy();
+  const nonAdmin = await pageFor(a.api);
+  expect((await nonAdmin.page.goto("/platform"))?.status()).toBe(200);
+  await expect(nonAdmin.page.locator("main").getByRole("alert")).toHaveText(
+    "Platform administration is not an academy role.",
+  );
+  const signedOut = await pageFor();
+  await signedOut.page.goto("/platform");
+  await expect(signedOut.page).toHaveURL(/\/sign-in/);
+  for (const { context } of [revoked, paused, nonAdmin, signedOut])
+    await context.close();
   await verifyWorkspaceRestart(playwright, a.api, aid);
   for (const user of [a, b, c, parent, coach]) await user.api.dispose();
 });
