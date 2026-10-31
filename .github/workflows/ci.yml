@@ -42,3 +42,45 @@ jobs:
           name: browser-validation
           path: |
             docs/screenshots/
+  report-review:
+    # Monthly report review seeds its own fixture and serves the reports build
+    # on port 3013, so it runs under its dedicated Playwright configuration.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SPORTOZEN_QA_BUILD: "1"
+      SPORTOZEN_REPORTS_QA: "1"
+      SPORTOZEN_QA_PYTHON: python
+      SPORTOZEN_E2E_EVIDENCE_ROOT: docs/screenshots/final-academy/regression
+      SPORTOZEN_GOOGLE_PLACES_ENABLED: "0"
+      SPORTOZEN_WHATSAPP_SEND_ENABLED: "false"
+      SPORTOZEN_WHATSAPP_LIVE_ENABLED: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # The approved-PDF case reads the exported document with pdfplumber.
+      - run: python -m pip install pdfplumber==0.11.10
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm exec playwright install --with-deps chromium
+      # The approved-PDF case requires this explicit prerequisite marker; the
+      # repository owner approved recording it for the isolated CI fixture.
+      - run: |
+          mkdir -p .local
+          printf '%s\n' '{"purpose":"CI prerequisite for monthly-report-review.spec.ts case 10 (authenticated approved-PDF export check)","approvedBy":"repository owner, Day 1 Gate 4 CI decision","scope":"isolated fictional e2e-report-review-*.sqlite fixture only"}' > .local/report-review-pdf-operation-started.json
+      - run: pnpm exec playwright test --config playwright.report-review.config.ts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-review-validation
+          path: |
+            docs/screenshots/

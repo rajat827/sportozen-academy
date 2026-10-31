@@ -17,6 +17,9 @@ const origin = "http://127.0.0.1:3001";
 process.env.BETTER_AUTH_URL = origin;
 export default defineConfig({
   testDir: "./tests/e2e",
+  // Monthly report review seeds and starts its own server on port 3013; run it
+  // with playwright.report-review.config.ts (a separate CI job).
+  testIgnore: "monthly-report-review.spec.ts",
   fullyParallel: false,
   workers: 1,
   timeout: 90000,
