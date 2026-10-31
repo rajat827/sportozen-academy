@@ -1,0 +1,8 @@
+{
+  "requiredInputsComplete": true,
+  "curriculumDrillCount": 0,
+  "agendaCount": 0,
+  "saveEnabled": false,
+  "persistedSessions": 0,
+  "observation": "Minimum dated draft cannot be submitted because the Save action is disabled before a request can be made."
+}

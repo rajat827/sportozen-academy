@@ -1,0 +1,1882 @@
+{
+  "generated_at_utc": "2026-10-15T18:30:11.911018+00:00",
+  "purpose": "Approved reference / actual browser / remaining differences review evidence.",
+  "processing": "Both full source PNGs copied at native pixels. No crop, stretch, resampling, generated artwork, or similarity score.",
+  "review_status": "Awaiting user visual approval; no approval inferred.",
+  "fixture_provenance": {
+    "manifest": "docs/screenshots/final-academy/bharat/manifest.json",
+    "manifest_sha256": "5dfb60e4e98d1d00173405b6a734133f6e06935e506476926216ca5befa37711",
+    "scenario": "Bharat Football Academy synthetic QA v1",
+    "fictional": true,
+    "months": [
+      "2026-08",
+      "2026-09"
+    ],
+    "totals": {
+      "players": 60,
+      "batches": 6,
+      "sessions": 60,
+      "completedSessions": 54,
+      "upcomingSessions": 6,
+      "attendance": 600,
+      "evidence": 504,
+      "reports": 120
+    }
+  },
+  "responsive_evidence": {
+    "images": [
+      {
+        "file": "docs/screenshots/final-academy/bharat/home-1536.png",
+        "pixels": [
+          1536,
+          1114
+        ],
+        "sha256": "fc81f71cf935aec655ad0dbe0a34301138af25a769e93865f55473dbad753c00",
+        "image_inspection": {
+          "sha256": "fc81f71cf935aec655ad0dbe0a34301138af25a769e93865f55473dbad753c00",
+          "pixels": [
+            1536,
+            1114
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Football hero, schedule, four metrics and supporting grid fit. Full page is 1114 px; honest data states, with no visible control collision."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/home-1440.png",
+        "pixels": [
+          1440,
+          1114
+        ],
+        "sha256": "a456b8c8260b01e4342580fbe1a9869a48cf955f9eec311d4bdfb8081ff40c72",
+        "image_inspection": {
+          "sha256": "a456b8c8260b01e4342580fbe1a9869a48cf955f9eec311d4bdfb8081ff40c72",
+          "pixels": [
+            1440,
+            1114
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Football hero, schedule, four metrics and supporting grid fit. Full page is 1114 px; honest data states, with no visible control collision."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/home-768.png",
+        "pixels": [
+          768,
+          1720
+        ],
+        "sha256": "34fcbd507da21351c49f32ab0f5a88dfa8e87acd399e04a4145367b594ceee55",
+        "image_inspection": {
+          "sha256": "34fcbd507da21351c49f32ab0f5a88dfa8e87acd399e04a4145367b594ceee55",
+          "pixels": [
+            768,
+            1720
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Hero/schedule share the upper row; metrics and lower cards wrap. Date wraps but remains readable."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/home-390.png",
+        "pixels": [
+          390,
+          2516
+        ],
+        "sha256": "cb875888e3e1b8f0f525de0a133434c023fb188b1256bd19d47b96f4600e6942",
+        "image_inspection": {
+          "sha256": "cb875888e3e1b8f0f525de0a133434c023fb188b1256bd19d47b96f4600e6942",
+          "pixels": [
+            390,
+            2516
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Cards stack and metrics retain two columns. Football image and primary action remain visible; text wraps without overlap."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/home-320.png",
+        "pixels": [
+          320,
+          2716
+        ],
+        "sha256": "ad943b7d293aa372dd1c2e9363735e0afcf683c21777b1e7696d12a9b14ac913",
+        "image_inspection": {
+          "sha256": "ad943b7d293aa372dd1c2e9363735e0afcf683c21777b1e7696d12a9b14ac913",
+          "pixels": [
+            320,
+            2716
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Cards stack and metrics retain two columns. Football image and primary action remain visible; text wraps without overlap."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/players-1536.png",
+        "pixels": [
+          1536,
+          1304
+        ],
+        "sha256": "6ccd9837f08e5f304f02a4894890e9093db143f8abd013368db7581cf5101733",
+        "image_inspection": {
+          "sha256": "6ccd9837f08e5f304f02a4894890e9093db143f8abd013368db7581cf5101733",
+          "pixels": [
+            1536,
+            1304
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Ten directory rows and selected-player panel remain readable. Missing portraits/attributes are explicit; real Trial controls extend the page."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/players-1440.png",
+        "pixels": [
+          1440,
+          1304
+        ],
+        "sha256": "2f25f115eb960756ff6dab61010fbc34153f6a1b4819c8e80f372acbe4d70e02",
+        "image_inspection": {
+          "sha256": "2f25f115eb960756ff6dab61010fbc34153f6a1b4819c8e80f372acbe4d70e02",
+          "pixels": [
+            1440,
+            1304
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Ten directory rows and selected-player panel remain readable. Missing portraits/attributes are explicit; real Trial controls extend the page."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/players-768.png",
+        "pixels": [
+          768,
+          2466
+        ],
+        "sha256": "bd9083d98e6b3a2dc3ff9700079af70409b2bd0ea03ef41c3ace8672e79454d0",
+        "image_inspection": {
+          "sha256": "bd9083d98e6b3a2dc3ff9700079af70409b2bd0ea03ef41c3ace8672e79454d0",
+          "pixels": [
+            768,
+            2466
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Selected profile follows a locally scrollable directory. Extra table columns lie outside the initial horizontal view."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/players-390.png",
+        "pixels": [
+          390,
+          2608
+        ],
+        "sha256": "650c80eccd7224dc7957dfce359369ee93db3618b0401fe37342e0662cd65e89",
+        "image_inspection": {
+          "sha256": "650c80eccd7224dc7957dfce359369ee93db3618b0401fe37342e0662cd65e89",
+          "pixels": [
+            390,
+            2608
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Filters/metrics wrap. Directory pans locally. Corrected selected-player heading reserves close-control space and wraps without overlap at 320 px."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/players-320.png",
+        "pixels": [
+          320,
+          2787
+        ],
+        "sha256": "e342a59dc06f74daf330eb083be007084e9c6c2d4d7bc1fa9d18981d933a0918",
+        "image_inspection": {
+          "sha256": "e342a59dc06f74daf330eb083be007084e9c6c2d4d7bc1fa9d18981d933a0918",
+          "pixels": [
+            320,
+            2787
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Filters/metrics wrap. Directory pans locally. Corrected selected-player heading reserves close-control space and wraps without overlap at 320 px."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/calendar-1536.png",
+        "pixels": [
+          1536,
+          1024
+        ],
+        "sha256": "817e5d5dc99ad3b85cd743e365b7bcfb8301787a3afe49f3c3656c32ab0c4e5b",
+        "image_inspection": {
+          "sha256": "817e5d5dc99ad3b85cd743e365b7bcfb8301787a3afe49f3c3656c32ab0c4e5b",
+          "pixels": [
+            1536,
+            1024
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Week grid and selected-session panel remain adjacent. Six consecutive Tuesday sessions use short event cards."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/calendar-1440.png",
+        "pixels": [
+          1440,
+          1024
+        ],
+        "sha256": "fe26a78468a1bfda816a4b36e7b6c986c49775466a5f6b2f37b6f062866d378f",
+        "image_inspection": {
+          "sha256": "fe26a78468a1bfda816a4b36e7b6c986c49775466a5f6b2f37b6f062866d378f",
+          "pixels": [
+            1440,
+            1024
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Week grid and selected-session panel remain adjacent. Six consecutive Tuesday sessions use short event cards."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/calendar-768.png",
+        "pixels": [
+          768,
+          1024
+        ],
+        "sha256": "3bb7c21cfaeb59105e374ed760a053b5e16eeae0de82a2aed1b92f6381a9863c",
+        "image_inspection": {
+          "sha256": "3bb7c21cfaeb59105e374ed760a053b5e16eeae0de82a2aed1b92f6381a9863c",
+          "pixels": [
+            768,
+            1024
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Selected-session modal intentionally overlays a dimmed calendar. Close, primary action, reschedule and tabs are visible."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/calendar-390.png",
+        "pixels": [
+          390,
+          1132
+        ],
+        "sha256": "0af49e53b0401f052684c7a5a3bb06651b2e33811089e61d84a30a6921a9b067",
+        "image_inspection": {
+          "sha256": "0af49e53b0401f052684c7a5a3bb06651b2e33811089e61d84a30a6921a9b067",
+          "pixels": [
+            390,
+            1132
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Selected-session modal has readable date, venue, actions and wrapped details. Full-page PNG also includes underlying grid below the initial viewport; it is not closed-grid evidence."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/calendar-320.png",
+        "pixels": [
+          320,
+          1132
+        ],
+        "sha256": "d4098b452040f63215dcf34916e32468dd6771a03a8aab9cd15d8383068363a5",
+        "image_inspection": {
+          "sha256": "d4098b452040f63215dcf34916e32468dd6771a03a8aab9cd15d8383068363a5",
+          "pixels": [
+            320,
+            1132
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Selected-session modal has readable date, venue, actions and wrapped details. Full-page PNG also includes underlying grid below the initial viewport; it is not closed-grid evidence."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/training-1536.png",
+        "pixels": [
+          1536,
+          1215
+        ],
+        "sha256": "fe97b256e2621f956dc48ec54a65a1cd2f95ef858f06aae24ac01fef686134ef",
+        "image_inspection": {
+          "sha256": "fe97b256e2621f956dc48ec54a65a1cd2f95ef858f06aae24ac01fef686134ef",
+          "pixels": [
+            1536,
+            1215
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Session list, selected plan and resources/actions retain three columns. Authentic drill wording wraps without control overlap."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/training-1440.png",
+        "pixels": [
+          1440,
+          1291
+        ],
+        "sha256": "b9f0e6445a58c1dfee552f94a9c15a017c18155c5295e0a1eec705e0233b7b46",
+        "image_inspection": {
+          "sha256": "b9f0e6445a58c1dfee552f94a9c15a017c18155c5295e0a1eec705e0233b7b46",
+          "pixels": [
+            1440,
+            1291
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Session list, selected plan and resources/actions retain three columns. Authentic drill wording wraps without control overlap."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/training-768.png",
+        "pixels": [
+          768,
+          2200
+        ],
+        "sha256": "ab4930a4d7705b316093aa9695039b785c9de4d379973b0bfbd7723be735dc31",
+        "image_inspection": {
+          "sha256": "ab4930a4d7705b316093aa9695039b785c9de4d379973b0bfbd7723be735dc31",
+          "pixels": [
+            768,
+            2200
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Corrected layout stacks the bounded session list above a full-width plan. Drill prose is readable rather than narrow word strips."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/training-390.png",
+        "pixels": [
+          390,
+          2584
+        ],
+        "sha256": "8f1a7756fb5e1b09a96adac6b1f0f60274108e198fb502abd07107f30574e5d6",
+        "image_inspection": {
+          "sha256": "8f1a7756fb5e1b09a96adac6b1f0f60274108e198fb502abd07107f30574e5d6",
+          "pixels": [
+            390,
+            2584
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Corrected native filters wrap and show option identity rather than only chevrons. At 320 px option text can abbreviate; accessible labels remain complete."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/training-320.png",
+        "pixels": [
+          320,
+          2707
+        ],
+        "sha256": "d207c08513b6fc58ef90d00547eb4e1d48f882c4507b45299be6b4bdfc7038b4",
+        "image_inspection": {
+          "sha256": "d207c08513b6fc58ef90d00547eb4e1d48f882c4507b45299be6b4bdfc7038b4",
+          "pixels": [
+            320,
+            2707
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Corrected native filters wrap and show option identity rather than only chevrons. At 320 px option text can abbreviate; accessible labels remain complete."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/reports-1536.png",
+        "pixels": [
+          1536,
+          1236
+        ],
+        "sha256": "007f534322ac4ab9411bad90b920ce149359d48ca688802211ee9bfd0935dcf3",
+        "image_inspection": {
+          "sha256": "007f534322ac4ab9411bad90b920ce149359d48ca688802211ee9bfd0935dcf3",
+          "pixels": [
+            1536,
+            1236
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Corrected eight-row pagination and labelled compact excerpts keep full page to 1236 px. Complete wording remains separately available. Neutral capture removes sticky-sidebar offset."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/reports-1440.png",
+        "pixels": [
+          1440,
+          1236
+        ],
+        "sha256": "999b88011205d899b2bfa4d8157aeeef5c877cb966d23ec7ee7ee9d4af044dcb",
+        "image_inspection": {
+          "sha256": "999b88011205d899b2bfa4d8157aeeef5c877cb966d23ec7ee7ee9d4af044dcb",
+          "pixels": [
+            1440,
+            1236
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Corrected eight-row pagination and labelled compact excerpts keep full page to 1236 px. Complete wording remains separately available. Neutral capture removes sticky-sidebar offset."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/reports-768.png",
+        "pixels": [
+          768,
+          2285
+        ],
+        "sha256": "206cd95ff9ae7008cf7c9256e9f773eae98d8e531c87fd13a0778c53cdd500ee",
+        "image_inspection": {
+          "sha256": "206cd95ff9ae7008cf7c9256e9f773eae98d8e531c87fd13a0778c53cdd500ee",
+          "pixels": [
+            768,
+            2285
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Corrected paginated table precedes selected preview; its narrative cards now stack at full width."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/reports-390.png",
+        "pixels": [
+          390,
+          2663
+        ],
+        "sha256": "509e8732894d684cfb74b1655b9bc74f8b1af5c8cb100fa44816716b8043bd24",
+        "image_inspection": {
+          "sha256": "509e8732894d684cfb74b1655b9bc74f8b1af5c8cb100fa44816716b8043bd24",
+          "pixels": [
+            390,
+            2663
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Eight-row table pans locally. Selected report follows with bounded excerpts, readable cards and full-preview access."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/reports-320.png",
+        "pixels": [
+          320,
+          2814
+        ],
+        "sha256": "0e231d5542c30c13d6e36d1e3900805f0bfc821382dbf61deaee34a2587da143",
+        "image_inspection": {
+          "sha256": "0e231d5542c30c13d6e36d1e3900805f0bfc821382dbf61deaee34a2587da143",
+          "pixels": [
+            320,
+            2814
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Eight-row table pans locally. Selected report follows with bounded excerpts, readable cards and full-preview access."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/fees-1536.png",
+        "pixels": [
+          1536,
+          1024
+        ],
+        "sha256": "cfac651607ac86234565057b766fc9b16b0555d4bc9ba144675bac3960c6d62c",
+        "image_inspection": {
+          "sha256": "cfac651607ac86234565057b766fc9b16b0555d4bc9ba144675bac3960c6d62c",
+          "pixels": [
+            1536,
+            1024
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Truthful empty state: zero verified/billed totals, unrecorded collection rate and no selected account. Populated account is separately documented."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/fees-1440.png",
+        "pixels": [
+          1440,
+          1024
+        ],
+        "sha256": "d456128971435c8400f989372fa5e9857329b574c1bcb49b00da3c41d5713cd9",
+        "image_inspection": {
+          "sha256": "d456128971435c8400f989372fa5e9857329b574c1bcb49b00da3c41d5713cd9",
+          "pixels": [
+            1440,
+            1024
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Truthful empty state: zero verified/billed totals, unrecorded collection rate and no selected account. Populated account is separately documented."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/fees-768.png",
+        "pixels": [
+          768,
+          1024
+        ],
+        "sha256": "eb0509bd0bdf97b47fe583e052b7dd1d661f5845a5a652b35c02e138d0ceb8ac",
+        "image_inspection": {
+          "sha256": "eb0509bd0bdf97b47fe583e052b7dd1d661f5845a5a652b35c02e138d0ceb8ac",
+          "pixels": [
+            768,
+            1024
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Four summary cards fit with wrapped support labels. Tabs/table can pan locally; empty-state text is readable."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/fees-390.png",
+        "pixels": [
+          390,
+          1102
+        ],
+        "sha256": "5815e7775f973e8fd6f6d46b3ccbc48a908b13c5fdf1128956fdbb256268d6ea",
+        "image_inspection": {
+          "sha256": "5815e7775f973e8fd6f6d46b3ccbc48a908b13c5fdf1128956fdbb256268d6ea",
+          "pixels": [
+            390,
+            1102
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Metrics use two columns at 390 px and one at 320 px. Currency values stay whole. Filters wrap; tabs/table pan locally."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/fees-320.png",
+        "pixels": [
+          320,
+          1290
+        ],
+        "sha256": "66f8113ac0792af478595720b3a64883cf7a731fd07694e01c990ad42c687a71",
+        "image_inspection": {
+          "sha256": "66f8113ac0792af478595720b3a64883cf7a731fd07694e01c990ad42c687a71",
+          "pixels": [
+            320,
+            1290
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Metrics use two columns at 390 px and one at 320 px. Currency values stay whole. Filters wrap; tabs/table pan locally."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/settings-1536.png",
+        "pixels": [
+          1536,
+          1047
+        ],
+        "sha256": "c81aea0778c01cfdd4cdf4a956b392187cffe2b923239b2a6ec630d87e98ff55",
+        "image_inspection": {
+          "sha256": "c81aea0778c01cfdd4cdf4a956b392187cffe2b923239b2a6ec630d87e98ff55",
+          "pixels": [
+            1536,
+            1047
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Profile/contact/settings/venues and side cards retain reference hierarchy. BF fallback and unavailable billing/delete actions are explicit."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/settings-1440.png",
+        "pixels": [
+          1440,
+          1047
+        ],
+        "sha256": "2f031ea32ae346b573b7d3c7761efae5c984f214a5090b4be5d70b1819232327",
+        "image_inspection": {
+          "sha256": "2f031ea32ae346b573b7d3c7761efae5c984f214a5090b4be5d70b1819232327",
+          "pixels": [
+            1440,
+            1047
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Profile/contact/settings/venues and side cards retain reference hierarchy. BF fallback and unavailable billing/delete actions are explicit."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/settings-768.png",
+        "pixels": [
+          768,
+          1756
+        ],
+        "sha256": "24d989aa01894253b57c9c39513dda1fc92a5c4fd3cdb5b7d64a26912f8af409",
+        "image_inspection": {
+          "sha256": "24d989aa01894253b57c9c39513dda1fc92a5c4fd3cdb5b7d64a26912f8af409",
+          "pixels": [
+            768,
+            1756
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "9150",
+          "findings": [
+            "Forms/side cards reflow. Some native field values clip within controls, while visible labels remain readable. Venue table pans locally."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/settings-390.png",
+        "pixels": [
+          390,
+          2713
+        ],
+        "sha256": "96eeb1d6b4f6964f43accb3ca039387493e8e9bfbb2f097104891940b7f77e7c",
+        "image_inspection": {
+          "sha256": "96eeb1d6b4f6964f43accb3ca039387493e8e9bfbb2f097104891940b7f77e7c",
+          "pixels": [
+            390,
+            2713
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Fields stack with visible labels and Save. Tabs/venue table pan locally. No visible collision; long form remains scrollable."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/settings-320.png",
+        "pixels": [
+          320,
+          2820
+        ],
+        "sha256": "16062059ed626e4ce08dd1b839fc688c66309a467cfef29e84a426b6707817bc",
+        "image_inspection": {
+          "sha256": "16062059ed626e4ce08dd1b839fc688c66309a467cfef29e84a426b6707817bc",
+          "pixels": [
+            320,
+            2820
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Fields stack with visible labels and Save. Tabs/venue table pan locally. No visible collision; long form remains scrollable."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/parent-home-390.png",
+        "pixels": [
+          390,
+          844
+        ],
+        "sha256": "5886b2d4e42b50c45304479e22908b7fc05b182e0845f2a55226ce2d87ecde42",
+        "image_inspection": {
+          "sha256": "5886b2d4e42b50c45304479e22908b7fc05b182e0845f2a55226ce2d87ecde42",
+          "pixels": [
+            390,
+            844
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Academy/child context, weekly approval-pending card, approved coach observation, actual next session, shortcuts and four-item bottom navigation remain compact. No visible control overlap."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/parent-home-320.png",
+        "pixels": [
+          320,
+          844
+        ],
+        "sha256": "8697d7e1f961c2d636c339ef6e790293247cea465a512bd44fef80c514b63a6d",
+        "image_inspection": {
+          "sha256": "8697d7e1f961c2d636c339ef6e790293247cea465a512bd44fef80c514b63a6d",
+          "pixels": [
+            320,
+            844
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Academy/child context, weekly approval-pending card, approved coach observation, actual next session, shortcuts and four-item bottom navigation remain compact. No visible control overlap."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/parent-reports-390.png",
+        "pixels": [
+          390,
+          8146
+        ],
+        "sha256": "34a720fcf5fa985edeb99e232b8b650278c1d5eef31cc5fe5a46814b1287f863",
+        "image_inspection": {
+          "sha256": "34a720fcf5fa985edeb99e232b8b650278c1d5eef31cc5fe5a46814b1287f863",
+          "pixels": [
+            390,
+            8146
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Private full-report view preserves long approved text. It is intentionally lengthy; it is not the compact staff preview or one of the seven desktop reference panels."
+          ]
+        }
+      },
+      {
+        "file": "docs/screenshots/final-academy/bharat/parent-reports-320.png",
+        "pixels": [
+          320,
+          10235
+        ],
+        "sha256": "8ac260678f6bb465d509ceb7c4b29657ec5b0dfd6be1be0886b535f4f73fa53b",
+        "image_inspection": {
+          "sha256": "8ac260678f6bb465d509ceb7c4b29657ec5b0dfd6be1be0886b535f4f73fa53b",
+          "pixels": [
+            320,
+            10235
+          ],
+          "inspection_status": "inspected",
+          "capture_run": "62367",
+          "findings": [
+            "Private full-report view preserves long approved text. It is intentionally lengthy; it is not the compact staff preview or one of the seven desktop reference panels."
+          ]
+        }
+      }
+    ],
+    "browser_verification": {
+      "file": "docs/screenshots/final-academy/bharat/screenshot-manifest.json",
+      "sha256": "812c1025781f0bdb2b44ddbea3e2b7cb4766f3c2a22cc17deb883dbf27da3cab",
+      "status": "COMPLETE_MIXED_CAPTURE_PROVENANCE",
+      "captures": [
+        {
+          "screen": "home",
+          "role": "OWNER",
+          "viewportWidth": 1536,
+          "imageWidth": 1536,
+          "imageHeight": 1114,
+          "file": "home-1536.png",
+          "sha256": "fc81f71cf935aec655ad0dbe0a34301138af25a769e93865f55473dbad753c00",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1536,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "home",
+          "role": "OWNER",
+          "viewportWidth": 1440,
+          "imageWidth": 1440,
+          "imageHeight": 1114,
+          "file": "home-1440.png",
+          "sha256": "a456b8c8260b01e4342580fbe1a9869a48cf955f9eec311d4bdfb8081ff40c72",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1440,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "home",
+          "role": "OWNER",
+          "viewportWidth": 768,
+          "imageWidth": 768,
+          "imageHeight": 1720,
+          "file": "home-768.png",
+          "sha256": "34fcbd507da21351c49f32ab0f5a88dfa8e87acd399e04a4145367b594ceee55",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "home",
+          "role": "OWNER",
+          "viewportWidth": 390,
+          "imageWidth": 390,
+          "imageHeight": 2516,
+          "file": "home-390.png",
+          "sha256": "cb875888e3e1b8f0f525de0a133434c023fb188b1256bd19d47b96f4600e6942",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "home",
+          "role": "OWNER",
+          "viewportWidth": 320,
+          "imageWidth": 320,
+          "imageHeight": 2716,
+          "file": "home-320.png",
+          "sha256": "ad943b7d293aa372dd1c2e9363735e0afcf683c21777b1e7696d12a9b14ac913",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "players",
+          "role": "OWNER",
+          "viewportWidth": 1536,
+          "imageWidth": 1536,
+          "imageHeight": 1304,
+          "file": "players-1536.png",
+          "sha256": "6ccd9837f08e5f304f02a4894890e9093db143f8abd013368db7581cf5101733",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1536,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "players",
+          "role": "OWNER",
+          "viewportWidth": 1440,
+          "imageWidth": 1440,
+          "imageHeight": 1304,
+          "file": "players-1440.png",
+          "sha256": "2f25f115eb960756ff6dab61010fbc34153f6a1b4819c8e80f372acbe4d70e02",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1440,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "players",
+          "role": "OWNER",
+          "viewportWidth": 768,
+          "imageWidth": 768,
+          "imageHeight": 2466,
+          "file": "players-768.png",
+          "sha256": "bd9083d98e6b3a2dc3ff9700079af70409b2bd0ea03ef41c3ace8672e79454d0",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "players",
+          "role": "OWNER",
+          "viewportWidth": 390,
+          "imageWidth": 390,
+          "imageHeight": 2608,
+          "file": "players-390.png",
+          "sha256": "650c80eccd7224dc7957dfce359369ee93db3618b0401fe37342e0662cd65e89",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "players",
+          "role": "OWNER",
+          "viewportWidth": 320,
+          "imageWidth": 320,
+          "imageHeight": 2787,
+          "file": "players-320.png",
+          "sha256": "e342a59dc06f74daf330eb083be007084e9c6c2d4d7bc1fa9d18981d933a0918",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "calendar",
+          "role": "OWNER",
+          "viewportWidth": 1536,
+          "imageWidth": 1536,
+          "imageHeight": 1024,
+          "file": "calendar-1536.png",
+          "sha256": "817e5d5dc99ad3b85cd743e365b7bcfb8301787a3afe49f3c3656c32ab0c4e5b",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1536,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "calendar",
+          "role": "OWNER",
+          "viewportWidth": 1440,
+          "imageWidth": 1440,
+          "imageHeight": 1024,
+          "file": "calendar-1440.png",
+          "sha256": "fe26a78468a1bfda816a4b36e7b6c986c49775466a5f6b2f37b6f062866d378f",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1440,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "calendar",
+          "role": "OWNER",
+          "viewportWidth": 768,
+          "imageWidth": 768,
+          "imageHeight": 1024,
+          "file": "calendar-768.png",
+          "sha256": "3bb7c21cfaeb59105e374ed760a053b5e16eeae0de82a2aed1b92f6381a9863c",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "calendar",
+          "role": "OWNER",
+          "viewportWidth": 390,
+          "imageWidth": 390,
+          "imageHeight": 1132,
+          "file": "calendar-390.png",
+          "sha256": "0af49e53b0401f052684c7a5a3bb06651b2e33811089e61d84a30a6921a9b067",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "calendar",
+          "role": "OWNER",
+          "viewportWidth": 320,
+          "imageWidth": 320,
+          "imageHeight": 1132,
+          "file": "calendar-320.png",
+          "sha256": "d4098b452040f63215dcf34916e32468dd6771a03a8aab9cd15d8383068363a5",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "training",
+          "role": "OWNER",
+          "viewportWidth": 1536,
+          "imageWidth": 1536,
+          "imageHeight": 1215,
+          "file": "training-1536.png",
+          "sha256": "fe97b256e2621f956dc48ec54a65a1cd2f95ef858f06aae24ac01fef686134ef",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1536,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "training",
+          "role": "OWNER",
+          "viewportWidth": 1440,
+          "imageWidth": 1440,
+          "imageHeight": 1291,
+          "file": "training-1440.png",
+          "sha256": "b9f0e6445a58c1dfee552f94a9c15a017c18155c5295e0a1eec705e0233b7b46",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1440,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "training",
+          "role": "OWNER",
+          "viewportWidth": 768,
+          "imageWidth": 768,
+          "imageHeight": 2200,
+          "file": "training-768.png",
+          "sha256": "ab4930a4d7705b316093aa9695039b785c9de4d379973b0bfbd7723be735dc31",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "training",
+          "role": "OWNER",
+          "viewportWidth": 390,
+          "imageWidth": 390,
+          "imageHeight": 2584,
+          "file": "training-390.png",
+          "sha256": "8f1a7756fb5e1b09a96adac6b1f0f60274108e198fb502abd07107f30574e5d6",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "training",
+          "role": "OWNER",
+          "viewportWidth": 320,
+          "imageWidth": 320,
+          "imageHeight": 2707,
+          "file": "training-320.png",
+          "sha256": "d207c08513b6fc58ef90d00547eb4e1d48f882c4507b45299be6b4bdfc7038b4",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "reports",
+          "role": "OWNER",
+          "viewportWidth": 1536,
+          "imageWidth": 1536,
+          "imageHeight": 1236,
+          "file": "reports-1536.png",
+          "sha256": "007f534322ac4ab9411bad90b920ce149359d48ca688802211ee9bfd0935dcf3",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1536,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "reports",
+          "role": "OWNER",
+          "viewportWidth": 1440,
+          "imageWidth": 1440,
+          "imageHeight": 1236,
+          "file": "reports-1440.png",
+          "sha256": "999b88011205d899b2bfa4d8157aeeef5c877cb966d23ec7ee7ee9d4af044dcb",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1440,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "reports",
+          "role": "OWNER",
+          "viewportWidth": 768,
+          "imageWidth": 768,
+          "imageHeight": 2285,
+          "file": "reports-768.png",
+          "sha256": "206cd95ff9ae7008cf7c9256e9f773eae98d8e531c87fd13a0778c53cdd500ee",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "reports",
+          "role": "OWNER",
+          "viewportWidth": 390,
+          "imageWidth": 390,
+          "imageHeight": 2663,
+          "file": "reports-390.png",
+          "sha256": "509e8732894d684cfb74b1655b9bc74f8b1af5c8cb100fa44816716b8043bd24",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "reports",
+          "role": "OWNER",
+          "viewportWidth": 320,
+          "imageWidth": 320,
+          "imageHeight": 2814,
+          "file": "reports-320.png",
+          "sha256": "0e231d5542c30c13d6e36d1e3900805f0bfc821382dbf61deaee34a2587da143",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "fees",
+          "role": "OWNER",
+          "viewportWidth": 1536,
+          "imageWidth": 1536,
+          "imageHeight": 1024,
+          "file": "fees-1536.png",
+          "sha256": "cfac651607ac86234565057b766fc9b16b0555d4bc9ba144675bac3960c6d62c",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1536,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "fees",
+          "role": "OWNER",
+          "viewportWidth": 1440,
+          "imageWidth": 1440,
+          "imageHeight": 1024,
+          "file": "fees-1440.png",
+          "sha256": "d456128971435c8400f989372fa5e9857329b574c1bcb49b00da3c41d5713cd9",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1440,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "fees",
+          "role": "OWNER",
+          "viewportWidth": 768,
+          "imageWidth": 768,
+          "imageHeight": 1024,
+          "file": "fees-768.png",
+          "sha256": "eb0509bd0bdf97b47fe583e052b7dd1d661f5845a5a652b35c02e138d0ceb8ac",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "fees",
+          "role": "OWNER",
+          "viewportWidth": 390,
+          "imageWidth": 390,
+          "imageHeight": 1102,
+          "file": "fees-390.png",
+          "sha256": "5815e7775f973e8fd6f6d46b3ccbc48a908b13c5fdf1128956fdbb256268d6ea",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "fees",
+          "role": "OWNER",
+          "viewportWidth": 320,
+          "imageWidth": 320,
+          "imageHeight": 1290,
+          "file": "fees-320.png",
+          "sha256": "66f8113ac0792af478595720b3a64883cf7a731fd07694e01c990ad42c687a71",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "settings",
+          "role": "OWNER",
+          "viewportWidth": 1536,
+          "imageWidth": 1536,
+          "imageHeight": 1047,
+          "file": "settings-1536.png",
+          "sha256": "c81aea0778c01cfdd4cdf4a956b392187cffe2b923239b2a6ec630d87e98ff55",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1536,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "settings",
+          "role": "OWNER",
+          "viewportWidth": 1440,
+          "imageWidth": 1440,
+          "imageHeight": 1047,
+          "file": "settings-1440.png",
+          "sha256": "2f031ea32ae346b573b7d3c7761efae5c984f214a5090b4be5d70b1819232327",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 1440,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "settings",
+          "role": "OWNER",
+          "viewportWidth": 768,
+          "imageWidth": 768,
+          "imageHeight": 1756,
+          "file": "settings-768.png",
+          "sha256": "24d989aa01894253b57c9c39513dda1fc92a5c4fd3cdb5b7d64a26912f8af409",
+          "captureRun": "9150",
+          "captureVerification": "Individual neutral layout guards passed before later harness failure",
+          "neutralFocusTopAsserted": true,
+          "layout": {
+            "viewport": {
+              "width": 768,
+              "height": 1024
+            },
+            "scrollX": 0,
+            "scrollY": 0,
+            "fontsReady": true,
+            "portalFontLoaded": true,
+            "unloadedImages": 0,
+            "documentOverflow": false,
+            "activeField": false,
+            "sidebarTop": 0
+          }
+        },
+        {
+          "screen": "settings",
+          "role": "OWNER",
+          "viewportWidth": 390,
+          "imageWidth": 390,
+          "imageHeight": 2713,
+          "file": "settings-390.png",
+          "sha256": "96eeb1d6b4f6964f43accb3ca039387493e8e9bfbb2f097104891940b7f77e7c",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "settings",
+          "role": "OWNER",
+          "viewportWidth": 320,
+          "imageWidth": 320,
+          "imageHeight": 2820,
+          "file": "settings-320.png",
+          "sha256": "16062059ed626e4ce08dd1b839fc688c66309a467cfef29e84a426b6707817bc",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "parent-home",
+          "role": "PARENT",
+          "viewportWidth": 390,
+          "imageWidth": 390,
+          "imageHeight": 844,
+          "file": "parent-home-390.png",
+          "sha256": "5886b2d4e42b50c45304479e22908b7fc05b182e0845f2a55226ce2d87ecde42",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "parent-home",
+          "role": "PARENT",
+          "viewportWidth": 320,
+          "imageWidth": 320,
+          "imageHeight": 844,
+          "file": "parent-home-320.png",
+          "sha256": "8697d7e1f961c2d636c339ef6e790293247cea465a512bd44fef80c514b63a6d",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "parent-reports",
+          "role": "PARENT",
+          "viewportWidth": 390,
+          "imageWidth": 390,
+          "imageHeight": 8146,
+          "file": "parent-reports-390.png",
+          "sha256": "34a720fcf5fa985edeb99e232b8b650278c1d5eef31cc5fe5a46814b1287f863",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        },
+        {
+          "screen": "parent-reports",
+          "role": "PARENT",
+          "viewportWidth": 320,
+          "imageWidth": 320,
+          "imageHeight": 10235,
+          "file": "parent-reports-320.png",
+          "sha256": "8ac260678f6bb465d509ceb7c4b29657ec5b0dfd6be1be0886b535f4f73fa53b",
+          "captureRun": "62367",
+          "captureVerification": "Successful complete core/role/mobile verification; redundant capture-only run did not replace this image",
+          "neutralFocusTopAsserted": false
+        }
+      ],
+      "capture_provenance": "Mixed actual authenticated browser evidence, unchanged build20818: 21 neutral desktop/tablet9150 captures plus18 retained successful62367 mobile/Parent captures.",
+      "capture_only_attempt": {
+        "run": "9150",
+        "status": "FAIL_CAPTURE_HARNESS",
+        "file": "capture-verification.json",
+        "sha256": "809f6ae1210c566f6759f85973f365014811d1044d3c5d00c7ff5254a439d38e",
+        "completedScreenshots": 21,
+        "requestedScreenshots": 39,
+        "reason": "The all-document readiness predicate awaited lazy /portal/sportozen-mark.png in the CSS-hidden mobile sidebar. Fonts were loaded and no product/request guard failed. Predicate subsequently corrected to rendered images; type/lint passed; no further browser retry."
+      },
+      "role_privacy": null,
+      "page_error_count": 0,
+      "console_error_count": 0,
+      "external_request_count": 0
+    },
+    "separate_core_verification": {
+      "file": "docs/screenshots/final-academy/bharat/verification.json",
+      "sha256": "216da683be453392a2c191859c0ffef2f4e196fcba7c2037df9696dcf13d6bf9"
+    }
+  },
+  "screens": {
+    "home": {
+      "reference": "docs/reference/approved-ui/home-screen.png",
+      "reference_sha256": "12c77b9ddd8645e2f9e3884a682dd166a63edfb55d5af044c3f15d3b93ab8cd0",
+      "reference_pixels": [
+        1536,
+        1024
+      ],
+      "actual": "docs/screenshots/final-academy/bharat/home-1536.png",
+      "actual_sha256": "fc81f71cf935aec655ad0dbe0a34301138af25a769e93865f55473dbad753c00",
+      "actual_pixels": [
+        1536,
+        1114
+      ],
+      "comparison": "docs/screenshots/final-academy/comparisons/home-1536-comparison.png",
+      "comparison_sha256": "d926d687db345c98c2e4d9ecea884602080ea21f15de4b5a465ad819bc4ebcab",
+      "comparison_pixels": [
+        3904,
+        1358
+      ],
+      "optional_top_viewport_comparison": null,
+      "inspection": {
+        "inspection_status": "inspected",
+        "reference_sha256": "12c77b9ddd8645e2f9e3884a682dd166a63edfb55d5af044c3f15d3b93ab8cd0",
+        "actual_sha256": "fc81f71cf935aec655ad0dbe0a34301138af25a769e93865f55473dbad753c00",
+        "context_differences": [
+          "Actual: synthetic Bharat owner on 15 October 2026, with 60 players and six batches. Reference: Coach Rahul at Riverside on 20 October with example totals.",
+          "No session is scheduled on the capture day. The hero truthfully shows the next confirmed 20 October session. October has no reports; 120 approved historical reports remain separate."
+        ],
+        "visual_differences": [
+          "The navy sidebar, football hero, adjacent schedule, four metrics and supporting card grid follow the reference composition. The hero preserves matching football imagery.",
+          "Actual support text and icons are smaller and lighter. Lower cards occupy more vertical space; the complete actual page is 1114 px high versus the 1024 px reference.",
+          "The academy uses a shield fallback and the development card uses a focus icon because no academy crest or child portrait was supplied. The reference crest, portrait and closing quote are absent."
+        ],
+        "limitations": [
+          "The empty Today schedule and October chart differ in density from the populated reference. They are actual data states, not fabricated example activity."
+        ]
+      },
+      "review_status": "Awaiting user visual approval; no approval inferred."
+    },
+    "players": {
+      "reference": "docs/reference/approved-ui/players-screen.png",
+      "reference_sha256": "3b812db71d0d328bf99f557bfd7085f5b5292d8652dba8fe986d9535554b012b",
+      "reference_pixels": [
+        1536,
+        1024
+      ],
+      "actual": "docs/screenshots/final-academy/bharat/players-1536.png",
+      "actual_sha256": "6ccd9837f08e5f304f02a4894890e9093db143f8abd013368db7581cf5101733",
+      "actual_pixels": [
+        1536,
+        1304
+      ],
+      "comparison": "docs/screenshots/final-academy/comparisons/players-1536-comparison.png",
+      "comparison_sha256": "6f54cf5dd2ad6b05a721c6896f1dec29a4e74c78c6092ba3a96452032d57ebb8",
+      "comparison_pixels": [
+        3904,
+        1548
+      ],
+      "optional_top_viewport_comparison": null,
+      "inspection": {
+        "inspection_status": "inspected",
+        "reference_sha256": "3b812db71d0d328bf99f557bfd7085f5b5292d8652dba8fe986d9535554b012b",
+        "actual_sha256": "6ccd9837f08e5f304f02a4894890e9093db143f8abd013368db7581cf5101733",
+        "context_differences": [
+          "Actual: 60 synthetic players, six batches/coaches and no trial enrolments. The selected player is Aadi Fictional U8, with recorded Dribbling focus and August/September history.",
+          "Individual birth dates, positions and portraits were not supplied. The interface uses missing-value labels and avatar fallbacks rather than assigning invented values."
+        ],
+        "visual_differences": [
+          "The directory, four summary cards and selected-player panel retain the reference arrangement. The toolbar includes a local player search and omits the reference More Filters button.",
+          "Actual table rows and the selected-player content are taller; ten rows plus the added Trial enrolment section make the full page 1304 px high versus 1024 px.",
+          "The large portrait, row photos and selected-player star in the reference are replaced by honest empty-avatar treatment. Support type and table labels are smaller than the reference."
+        ],
+        "limitations": [
+          "The added real Trial enrolment controls are part of the later functional scope. Missing portraits and player attributes limit a like-for-like visual comparison."
+        ]
+      },
+      "review_status": "Awaiting user visual approval; no approval inferred."
+    },
+    "calendar": {
+      "reference": "docs/reference/approved-ui/calendar-screen.png",
+      "reference_sha256": "1b4ed087e3037be52e9e64ac21bc3be27e78d8f0d33230aa88975dfc9127a6e5",
+      "reference_pixels": [
+        1536,
+        1024
+      ],
+      "actual": "docs/screenshots/final-academy/bharat/calendar-1536.png",
+      "actual_sha256": "817e5d5dc99ad3b85cd743e365b7bcfb8301787a3afe49f3c3656c32ab0c4e5b",
+      "actual_pixels": [
+        1536,
+        1024
+      ],
+      "comparison": "docs/screenshots/final-academy/comparisons/calendar-1536-comparison.png",
+      "comparison_sha256": "9880c5028d4b5a2caa9aefd2801fb2fcb66cfbb33ae038a79fafc3183b3e78dd",
+      "comparison_pixels": [
+        3904,
+        1268
+      ],
+      "optional_top_viewport_comparison": null,
+      "inspection": {
+        "inspection_status": "inspected",
+        "reference_sha256": "1b4ed087e3037be52e9e64ac21bc3be27e78d8f0d33230aa88975dfc9127a6e5",
+        "actual_sha256": "817e5d5dc99ad3b85cd743e365b7bcfb8301787a3afe49f3c3656c32ab0c4e5b",
+        "context_differences": [
+          "The actual week contains six confirmed, one-hour training sessions on 20 October, one for each real batch. It does not invent the reference matches, trial, academy closure or additional dates.",
+          "The selected Under-8 session uses its actual coach, ten-player roster, Excelsior location, shared focus and preparation."
+        ],
+        "visual_differences": [
+          "The week grid, filter row and right session panel follow the reference structure. Actual view controls sit at the right of the date navigation rather than immediately beside it.",
+          "The actual grid has hourly labels and runs to 9 PM. Consecutive one-hour events are short cards with clipped secondary text; the reference uses larger event blocks and two-hour labels.",
+          "Session details use smaller headings and support text, with the primary action and tabs lower in the panel. The actual selected day header lacks the reference pale-green date highlight."
+        ],
+        "limitations": [
+          "Only training events exist in the fixture. Other event colours and the denser reference schedule cannot be compared from this state."
+        ]
+      },
+      "review_status": "Awaiting user visual approval; no approval inferred."
+    },
+    "training": {
+      "reference": "docs/reference/approved-ui/training-screen.png",
+      "reference_sha256": "f85d50c87cbb23a1e1d0c25fe09906c95ffe937b5339bb95d39795287c4299c8",
+      "reference_pixels": [
+        1536,
+        1024
+      ],
+      "actual": "docs/screenshots/final-academy/bharat/training-1536.png",
+      "actual_sha256": "fe97b256e2621f956dc48ec54a65a1cd2f95ef858f06aae24ac01fef686134ef",
+      "actual_pixels": [
+        1536,
+        1215
+      ],
+      "comparison": "docs/screenshots/final-academy/comparisons/training-1536-comparison.png",
+      "comparison_sha256": "c5fa9b6fc814f52b13d2c2ac5e29f21bd4a2df91a11cd17b250d0762a433c8ce",
+      "comparison_pixels": [
+        3904,
+        1459
+      ],
+      "optional_top_viewport_comparison": null,
+      "inspection": {
+        "inspection_status": "inspected",
+        "reference_sha256": "f85d50c87cbb23a1e1d0c25fe09906c95ffe937b5339bb95d39795287c4299c8",
+        "actual_sha256": "fe97b256e2621f956dc48ec54a65a1cd2f95ef858f06aae24ac01fef686134ef",
+        "context_differences": [
+          "The actual selection is the confirmed Under-8 session: ten players, four recorded drills and 60 minutes. The reference shows a 16-player U12 session and 90-minute example plan.",
+          "The actual drill wording, preparation and coaching points come from the shared batch plan. Optional player personalisation remains a separate action."
+        ],
+        "visual_differences": [
+          "The session list, centre plan and right resources/actions retain the reference three-column desktop structure. Smaller support type and longer recorded wording expand the desktop page to 1215 px.",
+          "Drill thumbnails are football-pitch diagrams rather than the reference player photographs. Roster initials replace portraits because child photographs were not supplied.",
+          "The corrected 768 px view stacks the bounded session list above a full-width plan. At 320/390 px the existing filters wrap onto additional rows and retain visible option identity."
+        ],
+        "limitations": [
+          "Photographic drill thumbnails are not matched. Mobile native selects can abbreviate long option text; complete accessible labels and native option lists remain available."
+        ]
+      },
+      "review_status": "Awaiting user visual approval; no approval inferred."
+    },
+    "reports": {
+      "reference": "docs/reference/approved-ui/reports-screen.png",
+      "reference_sha256": "0e557687d787d590e671808ed2422f8911e279d01c435dd17438f034257f452c",
+      "reference_pixels": [
+        1536,
+        1024
+      ],
+      "actual": "docs/screenshots/final-academy/bharat/reports-1536.png",
+      "actual_sha256": "007f534322ac4ab9411bad90b920ce149359d48ca688802211ee9bfd0935dcf3",
+      "actual_pixels": [
+        1536,
+        1236
+      ],
+      "comparison": "docs/screenshots/final-academy/comparisons/reports-1536-comparison.png",
+      "comparison_sha256": "a9377a27062de049e0ca879912800c2e10aadc6b48a56f1132d2f8aa1d0bde78",
+      "comparison_pixels": [
+        3904,
+        1480
+      ],
+      "optional_top_viewport_comparison": null,
+      "inspection": {
+        "inspection_status": "inspected",
+        "reference_sha256": "0e557687d787d590e671808ed2422f8911e279d01c435dd17438f034257f452c",
+        "actual_sha256": "007f534322ac4ab9411bad90b920ce149359d48ca688802211ee9bfd0935dcf3",
+        "context_differences": [
+          "Actual September view: 60 authorised players, 60 selected-period reports and 120 approved reports across August/September. Reference numbers and October example states are not copied.",
+          "The selected approved report preserves recorded attendance, evidence, next steps and long review comments. Unrecorded engagement percentages or progress scores are not invented."
+        ],
+        "visual_differences": [
+          "The corrected table displays eight rows per page across eight pages. Top tabs, four metrics and the selected-report panel retain the reference arrangement.",
+          "The actual full page is 1236 px high versus the 1024 px reference. Preview excerpts are explicitly labelled; complete long wording remains in Open full report preview. Recorded evidence still makes the side panel taller.",
+          "At 768 px the preview follows the paginated table and narrative cards stack at full width. The corrected page is 2285 px high instead of the earlier 9635 px.",
+          "Reference Progress bars and engagement percentages are absent because they are not recorded. Actual date labels include reporting-period/timezone text rather than friendly example dates."
+        ],
+        "limitations": [
+          "Compact preview and full report remain distinct. Portraits, progress graphics, typeface, support-text sizing and some vertical spacing differ from the supplied raster design."
+        ]
+      },
+      "review_status": "Awaiting user visual approval; no approval inferred."
+    },
+    "fees": {
+      "reference": "docs/reference/approved-ui/fees-screen.png",
+      "reference_sha256": "4f0e1ca1c563f7658d072c700befb5e8caae310b8813d713a514c99fa2d997eb",
+      "reference_pixels": [
+        1536,
+        1024
+      ],
+      "actual": "docs/screenshots/final-academy/bharat/fees-1536.png",
+      "actual_sha256": "cfac651607ac86234565057b766fc9b16b0555d4bc9ba144675bac3960c6d62c",
+      "actual_pixels": [
+        1536,
+        1024
+      ],
+      "comparison": "docs/screenshots/final-academy/comparisons/fees-1536-comparison.png",
+      "comparison_sha256": "1b5e2036d965c8fe65da37f7fafa59ceb1d6b326e3c5e9d804ff110d7745b6d2",
+      "comparison_pixels": [
+        3904,
+        1268
+      ],
+      "optional_top_viewport_comparison": null,
+      "inspection": {
+        "inspection_status": "inspected",
+        "reference_sha256": "4f0e1ca1c563f7658d072c700befb5e8caae310b8813d713a514c99fa2d997eb",
+        "actual_sha256": "cfac651607ac86234565057b766fc9b16b0555d4bc9ba144675bac3960c6d62c",
+        "context_differences": [
+          "The Bharat fixture has no issued training invoices or verified payments. Actual totals are zero and the collection rate is unrecorded; no bill or paid state is inferred from enrolment.",
+          "The reference shows a populated invoice table and selected unpaid account. Its amounts, parent phone and payment status are example content, not seeded finance records."
+        ],
+        "visual_differences": [
+          "The actual title, tabs, four summary cards and filter/table surface preserve the main hierarchy, but an honest empty state spans the table area and no selected fee account panel appears.",
+          "The primary action is Create Invoice, following the implemented manual finance workflow. The reference Collect Payment action and phone/WhatsApp shortcuts are not represented as connected services.",
+          "Summary values remain on one line. Table/support typography is smaller than the reference. The empty table has substantially more blank space than the populated design."
+        ],
+        "limitations": [
+          "The Bharat capture cannot establish populated-account fidelity. A separately linked actual Fees capture from another isolated QA academy shows guardian/account detail, invoice rows, partial balance, verified reference and receipt; it is never substituted for Bharat."
+        ]
+      },
+      "review_status": "Awaiting user visual approval; no approval inferred."
+    },
+    "settings": {
+      "reference": "docs/reference/approved-ui/settings-screen.png",
+      "reference_sha256": "b53cc6aae078701ee7b5b6ce8165c7c99fe646d9d77475601871c51d23f07a7d",
+      "reference_pixels": [
+        1536,
+        1024
+      ],
+      "actual": "docs/screenshots/final-academy/bharat/settings-1536.png",
+      "actual_sha256": "c81aea0778c01cfdd4cdf4a956b392187cffe2b923239b2a6ec630d87e98ff55",
+      "actual_pixels": [
+        1536,
+        1047
+      ],
+      "comparison": "docs/screenshots/final-academy/comparisons/settings-1536-comparison.png",
+      "comparison_sha256": "3c6de244119195cb0b3d441f238e4c0f72e9fe0110663856cf64d25d197e1ad3",
+      "comparison_pixels": [
+        3904,
+        1291
+      ],
+      "optional_top_viewport_comparison": null,
+      "inspection": {
+        "inspection_status": "inspected",
+        "reference_sha256": "b53cc6aae078701ee7b5b6ce8165c7c99fe646d9d77475601871c51d23f07a7d",
+        "actual_sha256": "c81aea0778c01cfdd4cdf4a956b392187cffe2b923239b2a6ec630d87e98ff55",
+        "context_differences": [
+          "Actual academy name, supplied location, six age groups and synthetic email replace Riverside examples. About, phone and website remain empty because values were not supplied.",
+          "The actual LOCAL FOUNDATION subscription is active. Unavailable subscription billing and academy deletion are explicitly disabled rather than presented as working live services."
+        ],
+        "visual_differences": [
+          "The profile/contact/settings/venues stack and logo/plan/danger side column closely follow the reference proportions. The full actual page is 1047 px high versus 1024 px.",
+          "BF fallback initials replace the reference crest. The actual plan lists four supported capabilities rather than the six reference marketing items.",
+          "Support text is smaller. Additional regional settings are collapsed behind an explicit disclosure; venue content uses the single supplied training location."
+        ],
+        "limitations": [
+          "Logo upload treatment cannot be compared with a custom academy crest until one is supplied. Empty optional fields reflect the actual saved academy record."
+        ]
+      },
+      "review_status": "Awaiting user visual approval; no approval inferred."
+    }
+  },
+  "supplemental_populated_fees": {
+    "file": "docs/screenshots/final-academy/regression/academy-portal/fees-1536.png",
+    "sha256": "44764fd0f514b58a4ba124a2198f0d0e565c0a3720c0e7d7a4d5b3668213b6b2",
+    "pixels": [
+      1536,
+      1024
+    ],
+    "context": "Different isolated QA academy with real persisted invoice/payment records. Supplemental evidence; not the Bharat fixture or approved reference."
+  }
+}

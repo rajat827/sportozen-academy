@@ -1,0 +1,2 @@
+export const generalNutritionGuidance =
+  "Please arrive well hydrated, carry a water bottle and consider a comfortable light snack before training. After training, an appropriate recovery meal may help support normal activity. This is general academy guidance and is not medical or clinical nutrition advice. Please share any allergies, dietary restrictions or health-related requirements privately with authorised staff.";

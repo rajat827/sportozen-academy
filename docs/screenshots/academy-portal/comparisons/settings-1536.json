@@ -1,0 +1,21 @@
+{
+  "reference": "docs\\reference\\approved-ui\\settings-screen.png",
+  "referenceSha256": "b53cc6aae078701ee7b5b6ce8165c7c99fe646d9d77475601871c51d23f07a7d",
+  "referenceSourceSize": [
+    1536,
+    1024
+  ],
+  "referenceCrop": null,
+  "referenceDisplaySize": [
+    1536,
+    1024
+  ],
+  "actual": "docs\\screenshots\\academy-portal\\settings-1536.png",
+  "actualSha256": "e6f193fa4b71b95ddb9cab21ca9dd94fdc60b3f67b3898d72ae6bf011336bf91",
+  "actualSize": [
+    1536,
+    1024
+  ],
+  "notes": "Inspected at native 1536 x 1024.\n\nProfile, contact, preferences and venues occupy the left column; logo, plan and danger cards occupy the right. Venues now starts near the reference position.\n\nThis actual academy has no uploaded crest or descriptive/contact fields. Placeholders remain honest and editable.\n\nRecorded subscription and supported PNG contract replace illustrative Pro/JPG claims. Unsupported billing/deletion controls are disabled.\n\nNoto and actual field lengths differ. The independent branded Settings captures are also supplied. Visual approval is pending.",
+  "status": "Inspected implementation evidence; awaiting user visual approval"
+}

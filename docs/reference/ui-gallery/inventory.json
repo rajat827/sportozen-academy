@@ -1,0 +1,240 @@
+[
+  {
+    "file": "01-coach-today.png",
+    "title": "Coach Today — desktop",
+    "role": "Coach",
+    "status": "Visual anchor",
+    "description": "Primary approved look: dark football session hero, navy navigation, schedule and next actions."
+  },
+  {
+    "file": "02-player-profile.png",
+    "title": "Player profile — desktop",
+    "role": "Player",
+    "status": "Visual anchor",
+    "description": "Player identity, current focus, practice, coach observation, next step and development timeline. Example history is illustrative."
+  },
+  {
+    "file": "03-parent-home.png",
+    "title": "Parent Home — mobile",
+    "role": "Parent",
+    "status": "Visual anchor",
+    "description": "Primary parent-home reference: weekly focus, reviewed update, next session and shortcuts."
+  },
+  {
+    "file": "04-my-training.png",
+    "title": "My Training — mobile",
+    "role": "Player",
+    "status": "Supporting reference",
+    "description": "Original student-facing visual. Current release uses parent-supported practice; this is not approval for independent child accounts."
+  },
+  {
+    "file": "05-weekly-batch-plan.png",
+    "title": "Weekly batch plan — desktop",
+    "role": "Coach",
+    "status": "Supporting reference",
+    "description": "Shared sessions, player focuses and parent preview. Implement batch defaults with optional overrides; approval and sending remain distinct."
+  },
+  {
+    "file": "06-parent-weekly-plan.png",
+    "title": "Parent weekly plan — mobile",
+    "role": "Parent",
+    "status": "Supporting reference",
+    "description": "Weekly sessions and child-specific training focus."
+  },
+  {
+    "file": "07-monthly-report-queue.png",
+    "title": "Monthly report queue — desktop",
+    "role": "Reports",
+    "status": "Supporting reference",
+    "description": "Draft, review and approved report states. Illustrative statuses only."
+  },
+  {
+    "file": "08-parent-monthly-report.png",
+    "title": "Parent monthly report — mobile",
+    "role": "Reports",
+    "status": "Supporting reference",
+    "description": "Parent report layout with summary, development and next steps. Copy is illustrative, not verified performance data."
+  },
+  {
+    "file": "09-coach-session-agenda.png",
+    "title": "Coach dashboard with session agenda — desktop",
+    "role": "Coach",
+    "status": "Supporting reference",
+    "description": "Secondary coach-home treatment showing an ordered session plan."
+  },
+  {
+    "file": "10-whatsapp-weekly-plan.png",
+    "title": "WhatsApp weekly-plan preview — mobile",
+    "role": "WhatsApp",
+    "status": "Supporting reference",
+    "description": "Visual message layout only. Verification badge, sending and online indicators do not establish a live provider connection."
+  },
+  {
+    "file": "11-monthly-report-compact.png",
+    "title": "Compact monthly report — portrait",
+    "role": "Reports",
+    "status": "Supporting reference",
+    "description": "Report layout: training focus, reviewed observation and next step. Attendance and other display data are illustrative."
+  },
+  {
+    "file": "12-parent-home-with-fees.png",
+    "title": "Parent Home with fee reminder — mobile",
+    "role": "Parent",
+    "status": "Supporting reference",
+    "description": "Parent-home variation including fees and report/practice shortcuts."
+  },
+  {
+    "file": "13-academy-payments.png",
+    "title": "Academy payments — desktop",
+    "role": "Payments",
+    "status": "Supporting reference",
+    "description": "Academy training-fee collection overview, player balances and payment requests; not Sportozen subscription billing."
+  },
+  {
+    "file": "14-parent-payment.png",
+    "title": "Parent academy-fee payment — mobile",
+    "role": "Payments",
+    "status": "Supporting reference",
+    "description": "Proposed fee checkout. Provider and payment method logos are artwork, not a selected or connected integration."
+  },
+  {
+    "file": "15-whatsapp-report-notification.png",
+    "title": "WhatsApp monthly-report notification — mobile",
+    "role": "WhatsApp",
+    "status": "Supporting reference",
+    "description": "Monthly report announcement. Production links must use authorised parent access, not permanent public child-report URLs."
+  },
+  {
+    "file": "16-practise-together.png",
+    "title": "Practise together — mobile",
+    "role": "Parent",
+    "status": "Supporting reference",
+    "description": "Approved home activity and coaching cue. A parent practice check-in is self-report, not verified improvement."
+  },
+  {
+    "file": "17-professional-report-artwork.png",
+    "title": "Professional monthly report — full artwork",
+    "role": "Reports",
+    "status": "Report style only",
+    "description": "Preserved original layout reference. The 8.2/10, skill ratings, sample progress and QR code are not approved product scoring or live links. Use academy-first branding and real reviewed records."
+  },
+  {
+    "file": "18-owner-overview-early.png",
+    "title": "Owner overview — earlier concept",
+    "role": "Academy",
+    "status": "Earlier concept",
+    "description": "Exploratory layout for academy operations. Use the primary visual anchor for final styling; sample metrics are not validated records."
+  },
+  {
+    "file": "19-academy-setup-early.png",
+    "title": "Academy setup — earlier concept",
+    "role": "Academy",
+    "status": "Earlier concept",
+    "description": "Academy identity, branches and facilities. Multi-sport elements in this older artwork are outside the current football-only release."
+  },
+  {
+    "file": "20-player-directory-early.png",
+    "title": "Player directory — earlier concept",
+    "role": "Player",
+    "status": "Earlier concept",
+    "description": "Search, filters, squad roster and player selection. Earlier low-resolution panel."
+  },
+  {
+    "file": "21-player-path-early.png",
+    "title": "Player development path — earlier concept",
+    "role": "Player",
+    "status": "Earlier concept",
+    "description": "Visual development stages. Do not implement unexplained percentage completion or talent scoring."
+  },
+  {
+    "file": "22-individual-plan-early.png",
+    "title": "Individual development plan — earlier concept",
+    "role": "Coach",
+    "status": "Earlier concept",
+    "description": "Personal focus, weekly training and review criteria. Batch inheritance and optional adjustment are the current product rules."
+  },
+  {
+    "file": "23-session-builder-early.png",
+    "title": "Session builder — earlier concept",
+    "role": "Coach",
+    "status": "Earlier concept",
+    "description": "Selected drills, order and durations. Preserve the newer simplified, one-save workflow."
+  },
+  {
+    "file": "24-session-personaliser-early.png",
+    "title": "Session personaliser — earlier concept",
+    "role": "Coach",
+    "status": "Earlier concept",
+    "description": "Different player objectives within one shared session; no requirement for separate full plans for every player."
+  },
+  {
+    "file": "25-session-desk-early.png",
+    "title": "Session Desk — earlier concept",
+    "role": "Coach",
+    "status": "Earlier concept",
+    "description": "Agenda, current drill and player focus while coaching."
+  },
+  {
+    "file": "26-drills-library-early.png",
+    "title": "Drills library — earlier concept",
+    "role": "Drills",
+    "status": "Earlier concept",
+    "description": "Activity cards and filters. Drill content must be reviewed and appropriately licensed before use."
+  },
+  {
+    "file": "27-drill-detail-early.png",
+    "title": "Drill detail — earlier concept",
+    "role": "Drills",
+    "status": "Earlier concept",
+    "description": "Diagram, objective, instructions and add-to-session action."
+  },
+  {
+    "file": "28-attendance-early.png",
+    "title": "Attendance — earlier concept",
+    "role": "Coach",
+    "status": "Earlier concept",
+    "description": "Present, absent, excused and unmarked. This was a small panel, not a full-resolution design."
+  },
+  {
+    "file": "29-video-evidence-library-early.png",
+    "title": "Video and evidence library — earlier concept",
+    "role": "Evidence",
+    "status": "Earlier concept",
+    "description": "Exploratory video library. AI analysis is Coming soon; visible prototype buttons are not implementation evidence."
+  },
+  {
+    "file": "30-evidence-viewer-early.png",
+    "title": "Evidence viewer — earlier concept",
+    "role": "Evidence",
+    "status": "Earlier concept",
+    "description": "Video moment with player, drill and coach review context. Source was a small panel."
+  },
+  {
+    "file": "31-communication-centre-early.png",
+    "title": "Communication centre — earlier concept",
+    "role": "WhatsApp",
+    "status": "Earlier concept",
+    "description": "Template and approval exploration; do not treat send controls as working integrations."
+  },
+  {
+    "file": "32-academy-analytics-early.png",
+    "title": "Academy analytics — earlier concept",
+    "role": "Academy",
+    "status": "Earlier concept",
+    "description": "Operational reporting exploration. Sample charts are not validated live data."
+  },
+  {
+    "file": "33-settings-early.png",
+    "title": "Academy settings — earlier concept",
+    "role": "Academy",
+    "status": "Earlier concept",
+    "description": "Settings/navigation exploration, not a complete permissions or onboarding specification."
+  },
+  {
+    "file": "34-parent-flow-storyboard-early.png",
+    "title": "Parent schedule, progress, fees and messages — earlier storyboard",
+    "role": "Parent",
+    "status": "Earlier concept",
+    "description": "Six miniature mobile panels preserved from the original board. Detailed full-size designs have not been approved."
+  }
+]

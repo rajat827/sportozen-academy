@@ -1,0 +1,39 @@
+{
+  "reference": "docs/reference/approved-ui/players-screen.png",
+  "reference_sha256": "3b812db71d0d328bf99f557bfd7085f5b5292d8652dba8fe986d9535554b012b",
+  "reference_pixels": [
+    1536,
+    1024
+  ],
+  "actual": "docs/screenshots/final-academy/bharat/players-1536.png",
+  "actual_sha256": "6ccd9837f08e5f304f02a4894890e9093db143f8abd013368db7581cf5101733",
+  "actual_pixels": [
+    1536,
+    1304
+  ],
+  "comparison": "docs/screenshots/final-academy/comparisons/players-1536-comparison.png",
+  "comparison_sha256": "6f54cf5dd2ad6b05a721c6896f1dec29a4e74c78c6092ba3a96452032d57ebb8",
+  "comparison_pixels": [
+    3904,
+    1548
+  ],
+  "optional_top_viewport_comparison": null,
+  "inspection": {
+    "inspection_status": "inspected",
+    "reference_sha256": "3b812db71d0d328bf99f557bfd7085f5b5292d8652dba8fe986d9535554b012b",
+    "actual_sha256": "6ccd9837f08e5f304f02a4894890e9093db143f8abd013368db7581cf5101733",
+    "context_differences": [
+      "Actual: 60 synthetic players, six batches/coaches and no trial enrolments. The selected player is Aadi Fictional U8, with recorded Dribbling focus and August/September history.",
+      "Individual birth dates, positions and portraits were not supplied. The interface uses missing-value labels and avatar fallbacks rather than assigning invented values."
+    ],
+    "visual_differences": [
+      "The directory, four summary cards and selected-player panel retain the reference arrangement. The toolbar includes a local player search and omits the reference More Filters button.",
+      "Actual table rows and the selected-player content are taller; ten rows plus the added Trial enrolment section make the full page 1304 px high versus 1024 px.",
+      "The large portrait, row photos and selected-player star in the reference are replaced by honest empty-avatar treatment. Support type and table labels are smaller than the reference."
+    ],
+    "limitations": [
+      "The added real Trial enrolment controls are part of the later functional scope. Missing portraits and player attributes limit a like-for-like visual comparison."
+    ]
+  },
+  "review_status": "Awaiting user visual approval; no approval inferred."
+}

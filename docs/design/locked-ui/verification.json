@@ -1,0 +1,40 @@
+{
+  "branch": "codex/locked-ui-fidelity",
+  "baseCommit": "748d023f756de899c58e2b5226eb39293db6a813",
+  "finalProductCommit": "ef9cce5dc6e154a6340724bff25d16952bc82ccb",
+  "broadBrowserProductCommit": "04037493366838b75a6733b6b84faafc5a2c0ec3",
+  "finalBuildId": "xVhLhfv84HMvzC7XIX6_X",
+  "buildOutput": ".next-gallery-qa",
+  "livePreviewOrigin": "http://127.0.0.1:3000",
+  "isolatedQaOrigin": "http://127.0.0.1:3001",
+  "reviewViewports": [
+    { "route": "/design-preview/coach-today", "width": 1440, "height": 780 },
+    { "route": "/design-preview/parent-home", "width": 390, "height": 844 },
+    { "route": "/design-preview/parent-home", "width": 320, "height": 844 },
+    { "route": "/design-preview/parent-home", "width": 1440, "height": 900 },
+    { "route": "/design-preview/coach-today", "width": 390, "height": 844 }
+  ],
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "prettier": "passed",
+    "unitTests": { "passed": 64, "failed": 0 },
+    "productionBuild": "passed",
+    "broadChromiumRun": {
+      "passed": 36,
+      "failed": 1,
+      "failure": "gallery sweep: ERR_NETWORK_IO_SUSPENDED"
+    },
+    "finalHomeChromiumRerun": {
+      "passed": 5,
+      "galleryFailure": "ERR_NETWORK_IO_SUSPENDED and teardown timeout"
+    },
+    "finalEdgeGalleryRerun": { "passed": 1, "failed": 0 },
+    "distinctBrowserCasesPassedAcrossRuns": 37
+  },
+  "preservedUntrackedPhoneSha256": "0B90FB1B895A7BF0201A1493D602D285618EB649BF7C9B07BE445BCB865F0F66",
+  "implementationStatus": "ready for visual review",
+  "userApproval": "not recorded",
+  "pushed": false,
+  "deployed": false
+}

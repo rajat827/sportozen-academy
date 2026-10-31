@@ -1,0 +1,152 @@
+{
+  "status": "PASS_VISUAL_INSPECTION_WITH_RECORDED_DIFFERENCES",
+  "createdAt": "2026-10-16T08:58:10.169123+00:00",
+  "renderer": "Poppler pdftoppm,110dpi",
+  "actualPdfsInspected": 5,
+  "actualPagesOpenedAndInspected": 7,
+  "browserCapturesOpened": [
+    "after/reports-1536.png",
+    "after/reports-1440.png",
+    "after/parent-report-390.png",
+    "after/parent-report-320.png"
+  ],
+  "referenceOpened": "approved-reference.png",
+  "originalBeforePagesOpened": 3,
+  "comparisonBoardsOpened": 5,
+  "checks": [
+    {
+      "file": "docs/screenshots/professional-reports/after/U8-01-2026-08.pdf",
+      "sha256": "19655b91d32fb8a9ef67682fb56cd1ba5a6d13c9f9a0149742599a7d064cbb3f",
+      "pages": 1,
+      "actualEndpointOrRegressionExport": true,
+      "inspection": "PASS_VISUAL_CHECK",
+      "rendered": [
+        {
+          "page": 1,
+          "file": "docs/screenshots/professional-reports/after/U8-01-2026-08-1.png",
+          "sha256": "26a5dd902aa68ad728c0ea788b21cbf6a6a4bfd957a9b9b56bdf471a0b1acf58",
+          "opened": true,
+          "inspection": "Readable; no clipping, text/image overlap, broken artwork or footer collision observed.",
+          "finalRerenderPixelsIdenticalToOpenedInspectedVersion": true
+        }
+      ]
+    },
+    {
+      "file": "docs/screenshots/professional-reports/after/U8-01-2026-09.pdf",
+      "sha256": "099d661d8e93c77dca105aef25d9ec6346bdc252734ff2ca072f72a2e157bad2",
+      "pages": 3,
+      "actualEndpointOrRegressionExport": true,
+      "inspection": "PASS_VISUAL_CHECK",
+      "rendered": [
+        {
+          "page": 1,
+          "file": "docs/screenshots/professional-reports/after/U8-01-2026-09-1.png",
+          "sha256": "14f82d745b76cbcf180c898d27df16d8e367a64ab1e3464a9ef52be819aef815",
+          "opened": true,
+          "inspection": "Readable; no clipping, text/image overlap, broken artwork or footer collision observed.",
+          "finalRerenderPixelsIdenticalToOpenedInspectedVersion": true
+        },
+        {
+          "page": 2,
+          "file": "docs/screenshots/professional-reports/after/U8-01-2026-09-2.png",
+          "sha256": "f218f96c2cc03ce239d095e5f4a0606e3d4d296fec9d32b16d143add35834b52",
+          "opened": true,
+          "inspection": "Readable; no clipping, text/image overlap, broken artwork or footer collision observed.",
+          "finalRerenderPixelsIdenticalToOpenedInspectedVersion": true
+        },
+        {
+          "page": 3,
+          "file": "docs/screenshots/professional-reports/after/U8-01-2026-09-3.png",
+          "sha256": "7ebb80df41ce09395e30ca67712762d354767f9f21c8c8260ed9f97a4771a4e6",
+          "opened": true,
+          "inspection": "Readable; no clipping, text/image overlap, broken artwork or footer collision observed.",
+          "finalRerenderPixelsIdenticalToOpenedInspectedVersion": true
+        }
+      ]
+    },
+    {
+      "file": "docs/screenshots/professional-reports/after/U8-05-2026-08.pdf",
+      "sha256": "db34867995770f9ffdf5aaa36f5dc70777fe0e6502b3f027359dc550342636f6",
+      "pages": 1,
+      "actualEndpointOrRegressionExport": true,
+      "inspection": "PASS_VISUAL_CHECK",
+      "rendered": [
+        {
+          "page": 1,
+          "file": "docs/screenshots/professional-reports/after/U8-05-2026-08-1.png",
+          "sha256": "e8c4cee5881e622b8302ec47688144b8ab6911f450df686b43a4942a543cd8ff",
+          "opened": true,
+          "inspection": "Readable; no clipping, text/image overlap, broken artwork or footer collision observed.",
+          "finalRerenderPixelsIdenticalToOpenedInspectedVersion": true
+        }
+      ]
+    },
+    {
+      "file": "docs/screenshots/professional-reports/after/U8-05-2026-09.pdf",
+      "sha256": "116c60cce13ce3cad66bd34d2e6fc34aa92bebcfa143e9443ec24997d0d5ad69",
+      "pages": 1,
+      "actualEndpointOrRegressionExport": true,
+      "inspection": "PASS_VISUAL_CHECK",
+      "rendered": [
+        {
+          "page": 1,
+          "file": "docs/screenshots/professional-reports/after/U8-05-2026-09-1.png",
+          "sha256": "efecfec7e8e6aa6144e0e41430869cafb7e8d01a6c384455c575f7bcec1a5641",
+          "opened": true,
+          "inspection": "Readable; no clipping, text/image overlap, broken artwork or footer collision observed.",
+          "finalRerenderPixelsIdenticalToOpenedInspectedVersion": true
+        }
+      ]
+    },
+    {
+      "file": "docs/screenshots/professional-reports/after/another-academy.pdf",
+      "sha256": "545c967f0bf465c8530a1b56db399978edbeddcebecc899f0e92c44208636f33",
+      "pages": 1,
+      "actualEndpointOrRegressionExport": true,
+      "inspection": "PASS_VISUAL_CHECK",
+      "rendered": [
+        {
+          "page": 1,
+          "file": "docs/screenshots/professional-reports/after/another-academy-1.png",
+          "sha256": "2c6ae60cd6300dbe265321912ce80d86333dc53e1018987f01d4c75cb019827a",
+          "opened": true,
+          "inspection": "Readable; no clipping, text/image overlap, broken artwork or footer collision observed.",
+          "finalRerenderPixelsIdenticalToOpenedInspectedVersion": true
+        }
+      ]
+    }
+  ],
+  "anotherAcademy": "Synthetic Portal Academy / PortalCoach /19 October 2026, own identity confirmed; no Bharat branding.",
+  "approval": "Awaiting explicit user visual approval.",
+  "aggregateRegression": {
+    "initialFullRun": "57passed/2failed,59total,21.5min",
+    "resolvedFindings": [
+      "Trace output collision isolated in the test harness.",
+      "Legacy non-football record filtering moved before football report projection; preserved-record regression added."
+    ],
+    "focusedRerun92657": "PASS2/2,4.3min",
+    "distinctCasesVerified": 59,
+    "recording": "57initial passes plus2passing focused reruns; not a single59-case green rerun."
+  },
+  "finalRefresh": {
+    "professionalRun": 10824,
+    "professionalResult": "PASS1/1,3.3min",
+    "allSevenRenderedPagesPixelIdentical": true,
+    "browserPngBytesUnchanged": true,
+    "actualExportVerificationSha256": "577aa9c57ec75add4b67e9a85d1f984cb5171b77a653a941bc1ab94e205b7ad7",
+    "comparisonInputHashesReboundAfterVerification": true
+  },
+  "independentPdfVerification": {
+    "run": 36042,
+    "status": "PASS",
+    "exports": 120,
+    "pages": 122,
+    "failures": []
+  },
+  "sourceGates": {
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "productionBuild": "PASS",
+    "unitTests": "258/258PASS"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "productCommit": "d20f1a70aaec602ea6c25e065aca528bed1d94a3",
+  "capturedAt": "2026-10-15T05:12:16.468Z",
+  "evidence": [
+    {
+      "route": "/design-preview/players",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "overflow": false,
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": []
+    },
+    {
+      "route": "/design-preview/player-profile",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "overflow": false,
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/ui-gallery/player-portrait.png",
+          "naturalWidth": 139,
+          "naturalHeight": 141,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "route": "/design-preview/parent-home",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "fonts": [
+        {
+          "family": "Preview Noto",
+          "weight": "400",
+          "status": "loaded"
+        },
+        {
+          "family": "Preview Noto",
+          "weight": "700",
+          "status": "loaded"
+        }
+      ],
+      "images": [
+        {
+          "src": "/design-preview/approved-ui/weekly-football.png",
+          "naturalWidth": 50,
+          "naturalHeight": 84,
+          "complete": true
+        }
+      ]
+    }
+  ]
+}

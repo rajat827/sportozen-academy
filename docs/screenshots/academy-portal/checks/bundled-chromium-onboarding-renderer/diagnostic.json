@@ -1,0 +1,383 @@
+{
+  "engine": "bundled-chromium",
+  "finance": {
+    "status": 200,
+    "elapsedMs": 1096
+  },
+  "afterResponse": {
+    "visibility": "visible",
+    "hidden": false,
+    "focus": true,
+    "readyState": "complete",
+    "fonts": "loading",
+    "fontFaces": [
+      {
+        "family": "Portal Noto",
+        "status": "loading"
+      },
+      {
+        "family": "Portal Noto",
+        "status": "loading"
+      }
+    ],
+    "loading": false,
+    "feePlans": 1,
+    "skip": {
+      "text": "Skip to content",
+      "rect": {
+        "x": 10,
+        "y": -80,
+        "width": 106,
+        "height": 39.5
+      },
+      "display": "block",
+      "visibility": "visible",
+      "position": "fixed",
+      "top": "-80px",
+      "left": "10px",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "tabs": {
+      "text": "OverviewPaymentsInvoicesFee PlansRemindersSettings",
+      "rect": {
+        "x": 272,
+        "y": 164,
+        "width": 984,
+        "height": 49
+      },
+      "display": "flex",
+      "visibility": "visible",
+      "position": "static",
+      "top": "auto",
+      "left": "auto",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "firstTab": {
+      "text": "Overview",
+      "rect": {
+        "x": 272,
+        "y": 164,
+        "width": 82.265625,
+        "height": 48
+      },
+      "display": "block",
+      "visibility": "visible",
+      "position": "static",
+      "top": "auto",
+      "left": "auto",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "h1Font": "\"Portal Noto\", Arial, sans-serif"
+  },
+  "raf": {
+    "tick": true,
+    "timestamp": 1035.7
+  },
+  "afterRaf": {
+    "visibility": "visible",
+    "hidden": false,
+    "focus": true,
+    "readyState": "complete",
+    "fonts": "loading",
+    "fontFaces": [
+      {
+        "family": "Portal Noto",
+        "status": "loaded"
+      },
+      {
+        "family": "Portal Noto",
+        "status": "loaded"
+      }
+    ],
+    "loading": false,
+    "feePlans": 1,
+    "skip": {
+      "text": "Skip to content",
+      "rect": {
+        "x": 10,
+        "y": -80,
+        "width": 111.640625,
+        "height": 39.5
+      },
+      "display": "block",
+      "visibility": "visible",
+      "position": "fixed",
+      "top": "-80px",
+      "left": "10px",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "tabs": {
+      "text": "OverviewPaymentsInvoicesFee PlansRemindersSettings",
+      "rect": {
+        "x": 272,
+        "y": 164,
+        "width": 984,
+        "height": 49
+      },
+      "display": "flex",
+      "visibility": "visible",
+      "position": "static",
+      "top": "auto",
+      "left": "auto",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "firstTab": {
+      "text": "Overview",
+      "rect": {
+        "x": 272,
+        "y": 164,
+        "width": 85.96875,
+        "height": 48
+      },
+      "display": "block",
+      "visibility": "visible",
+      "position": "static",
+      "top": "auto",
+      "left": "auto",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "h1Font": "\"Portal Noto\", Arial, sans-serif"
+  },
+  "afterScreenshot": {
+    "visibility": "visible",
+    "hidden": false,
+    "focus": true,
+    "readyState": "complete",
+    "fonts": "loaded",
+    "fontFaces": [
+      {
+        "family": "Portal Noto",
+        "status": "loaded"
+      },
+      {
+        "family": "Portal Noto",
+        "status": "loaded"
+      }
+    ],
+    "loading": false,
+    "feePlans": 1,
+    "skip": {
+      "text": "Skip to content",
+      "rect": {
+        "x": 10,
+        "y": -80,
+        "width": 111.640625,
+        "height": 39.5
+      },
+      "display": "block",
+      "visibility": "visible",
+      "position": "fixed",
+      "top": "-80px",
+      "left": "10px",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "tabs": {
+      "text": "OverviewPaymentsInvoicesFee PlansRemindersSettings",
+      "rect": {
+        "x": 272,
+        "y": 164,
+        "width": 984,
+        "height": 49
+      },
+      "display": "flex",
+      "visibility": "visible",
+      "position": "static",
+      "top": "auto",
+      "left": "auto",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "firstTab": {
+      "text": "Overview",
+      "rect": {
+        "x": 272,
+        "y": 164,
+        "width": 85.96875,
+        "height": 48
+      },
+      "display": "block",
+      "visibility": "visible",
+      "position": "static",
+      "top": "auto",
+      "left": "auto",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "h1Font": "\"Portal Noto\", Arial, sans-serif"
+  },
+  "click": "passed",
+  "afterClick": {
+    "visibility": "visible",
+    "hidden": false,
+    "focus": true,
+    "readyState": "complete",
+    "fonts": "loaded",
+    "fontFaces": [
+      {
+        "family": "Portal Noto",
+        "status": "loaded"
+      },
+      {
+        "family": "Portal Noto",
+        "status": "loaded"
+      }
+    ],
+    "loading": false,
+    "feePlans": 1,
+    "skip": {
+      "text": "Skip to content",
+      "rect": {
+        "x": 10,
+        "y": -80,
+        "width": 111.640625,
+        "height": 39.5
+      },
+      "display": "block",
+      "visibility": "visible",
+      "position": "fixed",
+      "top": "-80px",
+      "left": "10px",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "tabs": {
+      "text": "OverviewPaymentsInvoicesFee PlansRemindersSettings",
+      "rect": {
+        "x": 272,
+        "y": 164,
+        "width": 984,
+        "height": 49
+      },
+      "display": "flex",
+      "visibility": "visible",
+      "position": "static",
+      "top": "auto",
+      "left": "auto",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "firstTab": {
+      "text": "Overview",
+      "rect": {
+        "x": 272,
+        "y": 164,
+        "width": 81.078125,
+        "height": 48
+      },
+      "display": "block",
+      "visibility": "visible",
+      "position": "static",
+      "top": "auto",
+      "left": "auto",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "h1Font": "\"Portal Noto\", Arial, sans-serif"
+  },
+  "mobile": {
+    "visibility": "visible",
+    "hidden": false,
+    "focus": true,
+    "readyState": "complete",
+    "fonts": "loaded",
+    "fontFaces": [
+      {
+        "family": "Portal Noto",
+        "status": "loaded"
+      },
+      {
+        "family": "Portal Noto",
+        "status": "loaded"
+      }
+    ],
+    "loading": false,
+    "feePlans": 1,
+    "skip": {
+      "text": "Skip to content",
+      "rect": {
+        "x": 10,
+        "y": -80,
+        "width": 111.640625,
+        "height": 39.5
+      },
+      "display": "block",
+      "visibility": "visible",
+      "position": "fixed",
+      "top": "-80px",
+      "left": "10px",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "tabs": {
+      "text": "OverviewPaymentsInvoicesFee PlansRemindersSettings",
+      "rect": {
+        "x": 14,
+        "y": 167.5625,
+        "width": 362,
+        "height": 45
+      },
+      "display": "flex",
+      "visibility": "visible",
+      "position": "static",
+      "top": "auto",
+      "left": "auto",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "firstTab": {
+      "text": "Overview",
+      "rect": {
+        "x": 14,
+        "y": 167.5625,
+        "width": 50.03125,
+        "height": 44
+      },
+      "display": "block",
+      "visibility": "visible",
+      "position": "static",
+      "top": "auto",
+      "left": "auto",
+      "opacity": "1",
+      "transform": "none",
+      "pointerEvents": "auto",
+      "active": false
+    },
+    "h1Font": "\"Portal Noto\", Arial, sans-serif"
+  },
+  "errors": []
+}

@@ -1,0 +1,39 @@
+{
+  "reference": "docs/reference/approved-ui/calendar-screen.png",
+  "reference_sha256": "1b4ed087e3037be52e9e64ac21bc3be27e78d8f0d33230aa88975dfc9127a6e5",
+  "reference_pixels": [
+    1536,
+    1024
+  ],
+  "actual": "docs/screenshots/final-academy/bharat/calendar-1536.png",
+  "actual_sha256": "817e5d5dc99ad3b85cd743e365b7bcfb8301787a3afe49f3c3656c32ab0c4e5b",
+  "actual_pixels": [
+    1536,
+    1024
+  ],
+  "comparison": "docs/screenshots/final-academy/comparisons/calendar-1536-comparison.png",
+  "comparison_sha256": "9880c5028d4b5a2caa9aefd2801fb2fcb66cfbb33ae038a79fafc3183b3e78dd",
+  "comparison_pixels": [
+    3904,
+    1268
+  ],
+  "optional_top_viewport_comparison": null,
+  "inspection": {
+    "inspection_status": "inspected",
+    "reference_sha256": "1b4ed087e3037be52e9e64ac21bc3be27e78d8f0d33230aa88975dfc9127a6e5",
+    "actual_sha256": "817e5d5dc99ad3b85cd743e365b7bcfb8301787a3afe49f3c3656c32ab0c4e5b",
+    "context_differences": [
+      "The actual week contains six confirmed, one-hour training sessions on 20 October, one for each real batch. It does not invent the reference matches, trial, academy closure or additional dates.",
+      "The selected Under-8 session uses its actual coach, ten-player roster, Excelsior location, shared focus and preparation."
+    ],
+    "visual_differences": [
+      "The week grid, filter row and right session panel follow the reference structure. Actual view controls sit at the right of the date navigation rather than immediately beside it.",
+      "The actual grid has hourly labels and runs to 9 PM. Consecutive one-hour events are short cards with clipped secondary text; the reference uses larger event blocks and two-hour labels.",
+      "Session details use smaller headings and support text, with the primary action and tabs lower in the panel. The actual selected day header lacks the reference pale-green date highlight."
+    ],
+    "limitations": [
+      "Only training events exist in the fixture. Other event colours and the denser reference schedule cannot be compared from this state."
+    ]
+  },
+  "review_status": "Awaiting user visual approval; no approval inferred."
+}

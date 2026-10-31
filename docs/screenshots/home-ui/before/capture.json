@@ -1,0 +1,53 @@
+{
+  "baseCommit": "ed53d8c4641d7efa8add54d33d59a176be69e9a0",
+  "captures": [
+    {
+      "route": "/design-preview/coach-today",
+      "width": 1536,
+      "height": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/design-preview/coach-today",
+      "width": 1440,
+      "height": 900,
+      "overflow": false
+    },
+    {
+      "route": "/design-preview/coach-today",
+      "width": 1280,
+      "height": 900,
+      "overflow": false
+    },
+    {
+      "route": "/design-preview/coach-today",
+      "width": 390,
+      "height": 844,
+      "overflow": false
+    },
+    {
+      "route": "/design-preview/coach-today",
+      "width": 320,
+      "height": 844,
+      "overflow": false
+    },
+    {
+      "route": "/design-preview/players",
+      "width": 1440,
+      "height": 900,
+      "overflow": false
+    },
+    {
+      "route": "/design-preview/player-profile",
+      "width": 1440,
+      "height": 900,
+      "overflow": false
+    },
+    {
+      "route": "/design-preview/parent-home",
+      "width": 390,
+      "height": 844,
+      "overflow": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "reference": "docs\\reference\\approved-ui\\calendar-screen.png",
+  "referenceSha256": "1b4ed087e3037be52e9e64ac21bc3be27e78d8f0d33230aa88975dfc9127a6e5",
+  "referenceSourceSize": [
+    1536,
+    1024
+  ],
+  "referenceCrop": null,
+  "referenceDisplaySize": [
+    1536,
+    1024
+  ],
+  "actual": "docs\\screenshots\\academy-portal\\calendar-1536.png",
+  "actualSha256": "29e03f4ad56df45d5233124bd15c1eb0b4139ac49e68a3724bbf3629c687b3cf",
+  "actualSize": [
+    1536,
+    1024
+  ],
+  "notes": "Inspected at native 1536 x 1024.\n\nWeek grid, selected day, independent overlapping sessions and right-hand details retain the approved composition. Details use icon tiles and focus/preparation cards.\n\nThe selected actual session is at 23:00; the timeline scrolls to show it. It is not moved to the illustrative 17:00 reference time.\n\nDay headings, Noto typography, actual status legend and longer batch name remain different. Empty preparation stays explicit.\n\nVisual approval is pending.",
+  "status": "Inspected implementation evidence; awaiting user visual approval"
+}

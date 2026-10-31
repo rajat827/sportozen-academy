@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    ".next-football-qa/types/**/*.ts",
+    ".next-football-qa/dev/types/**/*.ts",
+    ".next-gallery-qa/types/**/*.ts",
+    ".next-gallery-qa/dev/types/**/*.ts",
+    ".next-final-qa/types/**/*.ts",
+    ".next-final-qa/dev/types/**/*.ts",
+    ".next-professional-reports-qa/types/**/*.ts",
+    ".next-professional-reports-qa/dev/types/**/*.ts",
+    ".next-player-form-qa/types/**/*.ts",
+    ".next-player-form-qa/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

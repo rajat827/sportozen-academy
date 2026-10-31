@@ -1,0 +1,9 @@
+Reference content crop excludes phone/status/presentation chrome and is proportionally scaled to 390 px. Actual is a native 390 x 844 browser capture.
+
+Identity, greeting, weekly card, approved coach update, next session and useful shortcuts retain the compact hierarchy.
+
+No current-week plan is approved in this QA record; the card states that honestly. The released development focus remains accessible.
+
+A real fee-due row is added. Four navigation items follow the latest brief. Missing portraits, Noto and longer approved wording differ.
+
+320 px was inspected with no page overflow. Visual approval is pending.

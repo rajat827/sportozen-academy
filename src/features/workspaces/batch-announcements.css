@@ -1,0 +1,99 @@
+.batch-announcement-overlay {
+  position: fixed;
+  inset: 0;
+  background: #06203380;
+  backdrop-filter: blur(2px);
+  z-index: 110;
+}
+.batch-announcement-dialog {
+  position: fixed;
+  z-index: 111;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: min(720px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: var(--portal-ink, #0b2c3e);
+  border: 1px solid var(--portal-border, #dfe8ec);
+  border-radius: 12px;
+  box-shadow: 0 18px 64px #06253638;
+  font-family: inherit;
+  overflow: hidden;
+}
+.batch-announcement-dialog header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px;
+  border-bottom: 1px solid #e3ebee;
+}
+.batch-announcement-dialog h2 {
+  font-size: 20px;
+  margin: 0 0 6px;
+}
+.batch-announcement-dialog h3 {
+  font-size: 16px;
+}
+.batch-announcement-dialog p {
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.batch-announcement-scroll {
+  padding: 16px 22px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
+}
+.batch-announcement-dialog label {
+  display: grid;
+  gap: 7px;
+  font-size: 13px;
+  margin: 12px 0;
+}
+.batch-announcement-dialog .check-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.batch-announcement-dialog input,
+.batch-announcement-dialog select,
+.batch-announcement-dialog textarea {
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid #cddbe2;
+  border-radius: 7px;
+  padding: 10px;
+  background: white;
+  color: inherit;
+  font: inherit;
+}
+.batch-announcement-dialog footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px 22px;
+  border-top: 1px solid #e3ebee;
+  background: #fff;
+  flex-shrink: 0;
+}
+.batch-announcement-dialog button:focus-visible {
+  outline: 3px solid #02996d;
+  outline-offset: 2px;
+}
+@media (max-width: 600px) {
+  .batch-announcement-dialog header,
+  .batch-announcement-dialog footer,
+  .batch-announcement-scroll {
+    padding: 12px;
+  }
+  .batch-announcement-dialog footer .button {
+    flex: 1 1 140px;
+  }
+  .batch-announcement-dialog p {
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,219 @@
+.design-preview.gallery-parent-frame {
+  background: #fff;
+  min-height: 100vh;
+}
+.gallery-parent-frame .gpf-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 550px;
+  margin: auto;
+  padding: 10px 14px;
+  border-bottom: 1px solid #eef2f5;
+  height: 60px;
+}
+.gallery-parent-frame .gpf-mark {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #102735;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.gallery-parent-frame .gpf-header > select {
+  border: 0;
+  font-weight: 700;
+  font-size: 12px;
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  padding: 0 3px;
+  min-height: 44px;
+}
+.gallery-parent-frame .gpf-header > a:last-of-type {
+  min-width: 35px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+}
+.gpf-header > details {
+  position: relative;
+}
+.gpf-header summary {
+  list-style: none;
+  min-height: 44px;
+  min-width: 35px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.gpf-header summary::-webkit-details-marker {
+  display: none;
+}
+.gpf-header summary > span {
+  border-radius: 50%;
+  background: #dfe8ec;
+  color: #335165;
+  font-size: 10px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+.gpf-menu {
+  position: absolute;
+  right: 0;
+  top: 45px;
+  z-index: 30;
+  background: white;
+  border: 1px solid #dfe8ec;
+  box-shadow: 0 12px 28px #1027351a;
+  border-radius: 10px;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+  width: 260px;
+  max-width: calc(100vw - 25px);
+}
+.gpf-menu > a,
+.gpf-menu > button {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 12px;
+  color: var(--dp-green);
+  background: white;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+}
+.gpf-menu label {
+  display: grid;
+  gap: 6px;
+  font-size: 11px;
+}
+.gpf-menu select {
+  min-height: 44px;
+  background: white;
+  border: 1px solid #d9e3eb;
+  border-radius: 7px;
+  padding: 8px;
+  width: 100%;
+}
+.gallery-parent-frame .gpf-main {
+  max-width: 550px;
+  padding: 14px 16px 95px;
+  margin: auto;
+}
+.gallery-parent-frame .gpf-main h1 {
+  font-size: 22px;
+  line-height: 1.3;
+  margin: 6px 0 10px;
+}
+.gpf-back {
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 35px;
+  color: #526580 !important;
+  width: max-content;
+}
+.gpf-child {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+.gpf-child label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 10px;
+  color: #526580;
+}
+.gpf-child select {
+  border: 1px solid #e0e8ee;
+  background: #f8fafc;
+  border-radius: 7px;
+  min-height: 44px;
+  padding: 7px;
+  font-size: 11px;
+  color: #102735;
+  max-width: 180px;
+}
+.gpf-preview-note {
+  font-size: 10px !important;
+  line-height: 1.5;
+  color: #647687;
+  margin: 20px 0 0 !important;
+}
+.gpf-bottom {
+  position: fixed;
+  z-index: 20;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 550px;
+  background: #fff;
+  border-top: 1px solid #e4ebf0;
+  display: flex;
+  height: 65px;
+  padding: 7px 7px 8px;
+}
+.gpf-bottom a {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 9px;
+  min-height: 44px;
+  color: #7c8a9d !important;
+}
+.gpf-bottom a.active {
+  color: var(--dp-green) !important;
+  font-weight: 700;
+}
+.gallery-parent-frame .gp-workflow-content > .dp-grid {
+  grid-template-columns: 1fr;
+}
+.gallery-parent-frame .gp-workflow-content > .dp-grid > .card {
+  min-width: 0;
+}
+.gallery-parent-frame .gp-workflow-content .dp-fields {
+  grid-template-columns: 1fr;
+}
+.gallery-parent-frame .gp-workflow-content .dp-row {
+  flex-wrap: wrap;
+}
+.gallery-parent-frame .gp-workflow-content .dp-copy {
+  min-width: 130px;
+}
+.gallery-parent-frame .gp-workflow-content .dp-grid.equal {
+  grid-template-columns: 1fr;
+}
+.gallery-parent-frame .gp-workflow-content .dp-tabs {
+  flex-wrap: wrap;
+}
+.gallery-parent-frame .gp-workflow-content .card {
+  padding: 16px !important;
+}
+.gallery-parent-frame .gp-workflow-content h2 {
+  font-size: 16px;
+}
+.gallery-parent-frame .gp-workflow-content .dp-note {
+  font-size: 12px;
+}
+.gallery-parent-frame .gw-parent-plan {
+  padding: 0;
+  border: 0;
+}
+.gallery-parent-frame .gw-banner {
+  height: 135px;
+}

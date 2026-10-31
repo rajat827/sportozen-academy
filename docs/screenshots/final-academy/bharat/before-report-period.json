@@ -1,0 +1,8 @@
+{
+  "session": 10960,
+  "expectedSeptemberReports": 60,
+  "actualMatchingReports": 0,
+  "cause": "Report period display contains timezone; month filter compares it with YYYY-MM",
+  "all120PdfSourceAndPrivacyAssertionsReachedBeforeFailure": true,
+  "status": "CONFIRMED_BUG"
+}

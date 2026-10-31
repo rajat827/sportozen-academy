@@ -1,0 +1,26 @@
+{
+  "reference": "docs\\reference\\approved-ui\\screens\\03-parent-home.png",
+  "referenceSha256": "d6f81478da49cc5a7fc7c9182cdf53f01f913c40e66dc9b8a112b223f26ac871",
+  "referenceSourceSize": [
+    265,
+    557
+  ],
+  "referenceCrop": [
+    15,
+    38,
+    251,
+    543
+  ],
+  "referenceDisplaySize": [
+    390,
+    835
+  ],
+  "actual": "docs\\screenshots\\academy-portal\\parent-home-390.png",
+  "actualSha256": "aedea8b3d895fbad41b599dbd3e9bf052b09e68af49d877032ff7daa2d7ff801",
+  "actualSize": [
+    390,
+    844
+  ],
+  "notes": "Reference content crop excludes phone/status/presentation chrome and is proportionally scaled to 390 px. Actual is a native 390 x 844 browser capture.\n\nIdentity, greeting, weekly card, approved coach update, next session and useful shortcuts retain the compact hierarchy.\n\nNo current-week plan is approved in this QA record; the card states that honestly. The released development focus remains accessible.\n\nA real fee-due row is added. Four navigation items follow the latest brief. Missing portraits, Noto and longer approved wording differ.\n\n320 px was inspected with no page overflow. Visual approval is pending.",
+  "status": "Inspected implementation evidence; awaiting user visual approval"
+}

@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.next-football-qa/
+.next-gallery-qa/
+.next-final-qa/
+.next-professional-reports-qa/
+.next-player-form-qa/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.env*
+.local/

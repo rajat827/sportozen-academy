@@ -1,0 +1,9 @@
+Inspected at native 1536 x 1024.
+
+Session list, plan, roster/resources and action columns follow the approved structure, with larger readable drill/support text.
+
+This actual shared plan has one activity and two players. It does not add fictional drills or fill the page with reference records.
+
+The existing drill model has no photograph field. Editable pitch diagrams replace drill photos; this imagery deviation is explicit.
+
+Noto, absent portraits and record-dependent card heights remain different. Visual approval is pending.

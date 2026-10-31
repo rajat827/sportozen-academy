@@ -1,0 +1,310 @@
+.prototype-hub {
+  font-family: "Preview Noto", Arial, sans-serif;
+  color: #102735;
+  background: #f5f8fa;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+.prototype-hub * {
+  box-sizing: border-box;
+}
+.prototype-hub a {
+  color: inherit;
+  text-decoration: none;
+}
+.prototype-hub button,
+.prototype-hub input,
+.prototype-hub select {
+  font: inherit;
+}
+.prototype-hub a:focus-visible,
+.prototype-hub button:focus-visible,
+.prototype-hub input:focus-visible,
+.prototype-hub select:focus-visible {
+  outline: 3px solid #008463;
+  outline-offset: 3px;
+}
+.prototype-hub header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: #0b1c26;
+  color: #fff;
+  padding: 20px max(22px, 4vw);
+  font-size: 13px;
+}
+.prototype-hub .ph-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 700;
+}
+.ph-brand span {
+  background: #fff;
+  color: #008463;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+}
+.ph-brand small {
+  font-size: 13px;
+  color: #31dfa1;
+}
+.prototype-hub main {
+  max-width: 1440px;
+  margin: auto;
+  padding: 40px 32px;
+}
+.prototype-hub h1 {
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  margin: 7px 0 15px;
+}
+.ph-eyebrow {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  color: #008463;
+}
+.ph-intro {
+  color: #526678;
+  max-width: 1000px;
+  font-size: 14px;
+}
+.ph-journeys {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 26px 0;
+}
+.ph-journeys > a {
+  background: #fff;
+  border: 1px solid #dce5eb;
+  border-radius: 13px;
+  padding: 25px;
+  transition: border-color 0.15s;
+}
+.ph-journeys > a:hover {
+  border-color: #008463;
+}
+.ph-journeys h2 {
+  font-size: 20px;
+  margin: 14px 0 8px;
+}
+.ph-journeys p {
+  color: #526678;
+  font-size: 13px;
+  min-height: 42px;
+}
+.ph-journeys strong {
+  color: #008463;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.ph-note {
+  padding: 14px 18px;
+  border-radius: 8px;
+  background: #e7f5ef;
+  color: #24513f;
+  font-size: 12px;
+}
+.ph-tools {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  margin-top: 36px;
+}
+.ph-tools h2 {
+  font-size: 22px;
+}
+.ph-tools button {
+  border: 1px solid #cad9df;
+  background: white;
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.ph-filter {
+  display: flex;
+  gap: 18px;
+  align-items: end;
+  margin: 24px 0;
+}
+.ph-filter label {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.ph-filter label:first-child {
+  flex: 1;
+}
+.ph-filter input,
+.ph-filter select {
+  height: 44px;
+  border: 1px solid #cedce3;
+  background: white;
+  border-radius: 8px;
+  padding: 0 12px;
+  min-width: 0;
+  width: 100%;
+  font-weight: 400;
+}
+.ph-filter span {
+  font-size: 12px;
+  color: #526678;
+  white-space: nowrap;
+  padding-bottom: 12px;
+}
+.ph-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.ph-grid article {
+  border: 1px solid #dce5eb;
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  min-width: 0;
+}
+.ph-card-title {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.ph-card-title > span {
+  font-size: 22px;
+  color: #008463;
+  font-weight: 700;
+}
+.ph-card-title small {
+  font-size: 10px;
+  color: #526678;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.ph-card-title h3 {
+  font-size: 16px;
+  margin: 3px 0;
+}
+.ph-reference {
+  height: 240px;
+  background: #f1f5f7;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+.ph-reference img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.ph-card-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.ph-card-links a:first-child {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  color: #008463;
+  font-weight: 700;
+  min-height: 44px;
+}
+.ph-card-links a:last-child {
+  text-decoration: underline;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.ph-small {
+  color: #526678;
+  font-size: 11px;
+  margin: 0;
+}
+.prototype-hub footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-top: 35px;
+  font-size: 13px;
+}
+.prototype-hub footer a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+}
+@media (max-width: 650px) {
+  .prototype-hub header {
+    padding: 16px;
+    align-items: center;
+  }
+  .prototype-hub .ph-brand {
+    font-size: 17px;
+  }
+  .ph-brand small {
+    display: none;
+  }
+  .prototype-hub main {
+    padding: 26px 16px;
+  }
+  .prototype-hub h1 {
+    font-size: 29px;
+  }
+  .ph-journeys,
+  .ph-grid {
+    grid-template-columns: 1fr;
+  }
+  .ph-journeys > a {
+    padding: 20px;
+  }
+  .ph-tools {
+    align-items: start;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .ph-tools h2 {
+    font-size: 21px;
+  }
+  .ph-filter {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .ph-filter label:first-child {
+    flex-basis: 100%;
+  }
+  .ph-filter label {
+    flex: 1;
+  }
+  .ph-filter span {
+    padding-bottom: 12px;
+  }
+  .ph-reference {
+    height: 210px;
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "reference": "docs/reference/approved-ui/home-screen.png",
+  "reference_sha256": "12c77b9ddd8645e2f9e3884a682dd166a63edfb55d5af044c3f15d3b93ab8cd0",
+  "reference_pixels": [
+    1536,
+    1024
+  ],
+  "actual": "docs/screenshots/final-academy/bharat/home-1536.png",
+  "actual_sha256": "fc81f71cf935aec655ad0dbe0a34301138af25a769e93865f55473dbad753c00",
+  "actual_pixels": [
+    1536,
+    1114
+  ],
+  "comparison": "docs/screenshots/final-academy/comparisons/home-1536-comparison.png",
+  "comparison_sha256": "d926d687db345c98c2e4d9ecea884602080ea21f15de4b5a465ad819bc4ebcab",
+  "comparison_pixels": [
+    3904,
+    1358
+  ],
+  "optional_top_viewport_comparison": null,
+  "inspection": {
+    "inspection_status": "inspected",
+    "reference_sha256": "12c77b9ddd8645e2f9e3884a682dd166a63edfb55d5af044c3f15d3b93ab8cd0",
+    "actual_sha256": "fc81f71cf935aec655ad0dbe0a34301138af25a769e93865f55473dbad753c00",
+    "context_differences": [
+      "Actual: synthetic Bharat owner on 15 October 2026, with 60 players and six batches. Reference: Coach Rahul at Riverside on 20 October with example totals.",
+      "No session is scheduled on the capture day. The hero truthfully shows the next confirmed 20 October session. October has no reports; 120 approved historical reports remain separate."
+    ],
+    "visual_differences": [
+      "The navy sidebar, football hero, adjacent schedule, four metrics and supporting card grid follow the reference composition. The hero preserves matching football imagery.",
+      "Actual support text and icons are smaller and lighter. Lower cards occupy more vertical space; the complete actual page is 1114 px high versus the 1024 px reference.",
+      "The academy uses a shield fallback and the development card uses a focus icon because no academy crest or child portrait was supplied. The reference crest, portrait and closing quote are absent."
+    ],
+    "limitations": [
+      "The empty Today schedule and October chart differ in density from the populated reference. They are actual data states, not fabricated example activity."
+    ]
+  },
+  "review_status": "Awaiting user visual approval; no approval inferred."
+}

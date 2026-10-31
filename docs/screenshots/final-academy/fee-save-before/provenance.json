@@ -1,0 +1,32 @@
+[
+  {
+    "source": "docs/screenshots/final-fee-save/before/1536x1024.png",
+    "reviewCopy": "docs/screenshots/final-academy/fee-save-before/1536x1024.png",
+    "sha256": "ed3559b096ce0f5f99eff8c902f1603012efd43df3f644f31464f70deba62a69",
+    "originalPreserved": true
+  },
+  {
+    "source": "docs/screenshots/final-fee-save/before/320x568.png",
+    "reviewCopy": "docs/screenshots/final-academy/fee-save-before/320x568.png",
+    "sha256": "3ff91dc9d30bf6c35d110dae82ac4fd0f758f104cd4d0454e502f6a5ef3d734a",
+    "originalPreserved": true
+  },
+  {
+    "source": "docs/screenshots/final-fee-save/before/390x350.png",
+    "reviewCopy": "docs/screenshots/final-academy/fee-save-before/390x350.png",
+    "sha256": "52c152ba8639f1b8fe020b972527a2b2e685856728feda05a419e4181e85c846",
+    "originalPreserved": true
+  },
+  {
+    "source": "docs/screenshots/final-fee-save/before/390x844.png",
+    "reviewCopy": "docs/screenshots/final-academy/fee-save-before/390x844.png",
+    "sha256": "20251c789cf9c4ad1a6f16087e964c9e16db9c9ba475f9641346af691165a9ee",
+    "originalPreserved": true
+  },
+  {
+    "source": "docs/screenshots/final-fee-save/before/reproduction.json",
+    "reviewCopy": "docs/screenshots/final-academy/fee-save-before/reproduction.json",
+    "sha256": "2f5b830b1e5be701fe434f39c86f2a5995859087870a0d607b72d2b9a5070b12",
+    "originalPreserved": true
+  }
+]

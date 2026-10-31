@@ -1,0 +1,206 @@
+.design-preview.gallery-prototype .dp-shell {
+  grid-template-columns: 220px minmax(0, 1fr);
+}
+.gallery-prototype .dp-sidebar {
+  background: linear-gradient(110deg, #0a1a24, #10232c);
+  padding: 23px 16px;
+  gap: 24px;
+}
+.gallery-prototype .dp-brand {
+  padding: 0 5px 12px;
+}
+.gallery-prototype .dp-brand strong {
+  font-size: 15px;
+}
+.gallery-prototype .dp-brand small {
+  font-size: 11px;
+  color: #3adc9e;
+}
+.gallery-prototype .dp-monogram {
+  background: white;
+  color: #008463;
+  border: 0;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+.gallery-prototype .dp-sidebar nav {
+  gap: 4px;
+}
+.gallery-prototype .dp-sidebar nav a {
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 12px;
+  gap: 13px;
+  color: #fff;
+  align-items: center;
+}
+.gallery-prototype .dp-sidebar nav a.active {
+  background: #163b35;
+  color: #32e5a4;
+  border-left: 0;
+}
+.gallery-prototype .dp-sidebar > a {
+  font-size: 11px;
+  line-height: 1.7;
+}
+.gallery-prototype .dp-sidebar footer {
+  font-size: 10px;
+  padding: 16px 5px 0;
+  border-top: 1px solid #294049;
+  line-height: 1.8;
+}
+.gallery-prototype .dp-banner {
+  font-size: 10px;
+  padding: 5px 16px;
+  background: #f8fbfa;
+}
+.gallery-prototype .dp-controls {
+  background: #fff;
+  border: 0;
+  border-bottom: 1px solid #e5edf2;
+  margin: -24px -28px 23px;
+  padding: 12px 28px;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: end;
+}
+.gallery-prototype .dp-controls label {
+  font-size: 10px;
+  gap: 3px;
+}
+.gallery-prototype .dp-controls select {
+  min-height: 44px;
+  font-size: 11px;
+  max-width: 205px;
+  border-radius: 7px;
+  padding: 6px;
+}
+.gallery-prototype .dp-controls .dp-gallery-link {
+  font-size: 10px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: var(--dp-green);
+  padding: 0 6px;
+}
+.gallery-prototype .dp-controls > .button {
+  min-height: 44px;
+  font-size: 10px;
+  padding: 8px;
+  white-space: normal;
+  max-width: 105px;
+}
+.gallery-prototype .dp-heading {
+  align-items: start;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.gallery-prototype .dp-eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.7px;
+}
+.gallery-prototype .dp-heading > div > p:last-child {
+  font-size: 12px;
+  max-width: 700px;
+}
+.gallery-prototype .dp-heading > .badge {
+  font-size: 10px;
+}
+.gallery-prototype .gallery-reference-banner {
+  display: block;
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+.gallery-prototype .reference-illustration-note {
+  font-size: 10px;
+  color: #647687;
+}
+.gallery-prototype .dp-bottom {
+  border-top: 1px solid #e0e7ec;
+  background: #fff;
+}
+.gallery-prototype .dp-bottom a {
+  font-size: 10px;
+}
+.gallery-prototype .dp-bottom a.active {
+  color: var(--dp-green);
+}
+@media (max-width: 900px) {
+  .design-preview.gallery-prototype .dp-shell {
+    grid-template-columns: 180px minmax(0, 1fr);
+  }
+  .gallery-prototype .dp-sidebar {
+    padding: 20px 10px;
+  }
+  .gallery-prototype .dp-brand strong {
+    font-size: 13px;
+  }
+  .gallery-prototype .dp-controls {
+    margin: -24px -28px 20px;
+    gap: 8px;
+    padding: 12px 22px;
+  }
+  .gallery-prototype .dp-controls label {
+    flex: 1 1 110px;
+  }
+  .gallery-prototype .dp-controls select {
+    width: 100%;
+    max-width: none;
+  }
+}
+@media (max-width: 700px) {
+  .design-preview.gallery-prototype .dp-shell {
+    display: block;
+  }
+  .gallery-prototype .dp-sidebar {
+    display: none;
+  }
+  .gallery-prototype .dp-controls {
+    margin: -16px -16px 18px;
+    padding: 10px 16px;
+    gap: 8px;
+  }
+  .gallery-prototype .dp-controls label {
+    flex: 1 1 110px;
+  }
+  .gallery-prototype .dp-controls .dp-gallery-link {
+    font-size: 10px;
+    min-height: 44px;
+  }
+  .gallery-prototype .dp-mobile-title {
+    background: #0c1f29;
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+  .gallery-prototype .dp-mobile-title small {
+    font-size: 10px;
+  }
+  .gallery-prototype .dp-heading {
+    margin-bottom: 16px;
+  }
+  .gallery-prototype .dp-main {
+    padding-bottom: 90px;
+  }
+  .gallery-prototype .dp-heading > .badge {
+    max-width: 100px;
+  }
+  .gallery-prototype .gallery-reference-banner {
+    height: 130px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .prototype-hub a {
+    transition: none;
+  }
+}
+.design-preview.gallery-prototype .dp-controls {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+}

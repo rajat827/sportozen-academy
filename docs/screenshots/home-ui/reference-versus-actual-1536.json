@@ -1,0 +1,18 @@
+{
+  "purpose": "Review evidence only. Not used by the product UI.",
+  "reference": "docs/reference/approved-ui/home-screen.png",
+  "reference_pixels": [
+    1536,
+    1024
+  ],
+  "reference_sha256": "12c77b9ddd8645e2f9e3884a682dd166a63edfb55d5af044c3f15d3b93ab8cd0",
+  "actual": "docs/screenshots/home-ui/after/home-1536.png",
+  "actual_pixels": [
+    1536,
+    1024
+  ],
+  "actual_sha256": "efae41e399ae88a528d11e5c2b6636e835c7246998b85022575020bb2aba6ead",
+  "comparison": "docs/screenshots/home-ui/reference-versus-actual-1536.png",
+  "processing": "Native pixel dimensions; no source/screenshot crop or resampling.",
+  "review_status": "Requires human visual review; no similarity score or approval inferred."
+}

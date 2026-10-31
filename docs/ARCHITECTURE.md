@@ -1,0 +1,41 @@
+# Architecture
+
+Weekly/monthly additions preserve this architecture: approved weekly snapshots are academy-scoped workspace records; monthly sources extend the existing report model/approval/PDF; communication repositories use additive SQLite tables for settings, contacts, jobs, attempts and signed events. The persistent worker calls a server-only Meta adapter outside transactions and routes verified inbound text through existing private conversations. See WHATSAPP_WEEKLY_MONTHLY.md. Earlier NOT_SENT-only statements below describe the prior delivery boundary; actual sending remains disabled by default.
+
+Football-only release. Multiple independent academies. Personalised player development. No rankings.
+
+Customer flow: workspace UI → feature hook → authenticated server application service → academy-scoped repository interface → SQLite persistence. Better Auth verifies the session; application services independently verify current membership, football assignment, assigned players and guardian links. API responses and PDF exports are private/no-store. Internal sportId fields remain to avoid destructive migrations; schemas default to football and reject other sports. Read projections omit historical non-football records, including direct record/PDF links and parent snapshots. Stored historical records/configuration remain intact. Platform administration and authorised support review remain separate roles. See FOOTBALL_ONLY_RELEASE.md and SECURITY_AND_DEPLOYMENT.md.
+
+## Authenticated training extension
+
+The workspace Training tab uses `useWorkspace.training` → training application service → existing WorkspaceRepository → SQLite. Five new football/academy-scoped kinds provide squads, venues, dated sessions, attendance and evidence. Sessions snapshot rosters, objectives and curriculum drill versions; current plan or squad edits cannot rewrite past training. Attendance IDs are session/player pairs. Reviewed parent-eligible evidence from completed sessions populates the existing ReportViewModel and approval/PDF flow; raw training records and staff notes never enter parent payloads. Upcoming messages describe intended plan work separately from reviewed session updates.
+
+New writes check current membership, module, football assignment, session coaching and player scope. BEGIN IMMEDIATE contains version checks, record save, full version history, audit and request receipt. UUID/digest receipts make identical retries safe and reject key reuse for other content. Bulk attendance failures roll back all entries. Workspace plan/report edits and approval controls send expected versions; approval also checks source eligibility inside the commit transaction. This does not claim every older API or conversation mutation has acquired global idempotency. See FOOTBALL_SESSION_WORKFLOW.md and WORKSPACE_MIGRATION.md.
+
+## Isolated legacy demonstration implementation
+
+Next App Router uses owner, coach and parent route groups with role-specific catch-all pages. A lightweight Next.js proxy validates route shapes before streaming so unsupported paths return HTTP 404; it does not perform authentication. The server route dispatcher composes focused feature screens. Business features stay outside route files. The app shell supplies navigation, role switching, shared provider and responsive chrome.
+
+`src/domain/entities` defines tenant records, sporting records, people, plans, sessions, attendance, evidence, reports, financial records and drafts. Academy-owned records carry academyId; sporting records also carry sportId. Football vocabulary lives in configuration. Other sports are outside the release scope; retained generic fields do not enable them.
+
+State flow: feature component → `useAcademy` → `AcademyRepository` → versioned `StorageAdapter`. Only the adapter accesses localStorage. The provider loads client records after hydration and commits mutations through the repository before changing UI state. Storage failures report a visible status; corrupted storage restores seeded demo records. A backend adapter can replace the demo implementation, but must add authenticated tenant scope, permission checks, server validation, concurrency control and audit history.
+
+`parentRecords` projects guardian-linked players, their plans, reviewed evidence, approved reports, public observations and explicitly marked fictional message fixtures (new coach drafts remain internal). Current parent Neha is fixed to guardian g1. This prevents accidental UI disclosure; the browser still contains all fictional data and is not a production security boundary.
+
+Data is coherent through stable player/session/goal IDs. Mutations use immutable replacement. Session drafts create unmarked attendance records. Coach observations generate reviewable evidence. Approval is manual. Communication history uses actual timestamps; seeded dates remain fixed for repeatable fixtures.
+
+Charts are dynamically loaded. Table filtering is local and TanStack handles column/row rendering. React Hook Form/Zod validate academy/player forms; other local forms use explicit validation. Radix manages modal focus and Escape behaviour. The design uses custom reusable primitives rather than a dashboard template.
+
+## Shared report rendering
+
+The report application service derives a domain ReportViewModel from recorded report sections or an approval snapshot. Staff and guardian-projected report previews and the lazy-loaded React-PDF renderer receive the same model. RecordedDetails allow future explicitly recorded optional sections. Saving a draft clears approval; approving creates a cloned snapshot. Export has no persistence or messaging side effects. Font assets are local and no private PDF service is called. See REPORTS.md.
+
+## Authenticated multi-academy foundation
+
+The authenticated customer entry is /workspace, with server-checked academy memberships, sport-specific plans, approved report snapshots and private parent messaging. Legacy role routes remain fictional demonstrations. See [MULTI_ACADEMY_FOUNDATION.md](MULTI_ACADEMY_FOUNDATION.md), [SECURITY_AND_DEPLOYMENT.md](SECURITY_AND_DEPLOYMENT.md) and [WORKSPACE_MIGRATION.md](WORKSPACE_MIGRATION.md) for the boundary, migration audit and remaining commercial requirements. External delivery remains NOT_SENT; no real messaging, billing or AI provider is connected.
+
+## UX simplification boundary
+
+Workspace player/session query references restore navigation after refresh; all data is still checked through current server membership and scoped projections. Missing/inaccessible references do not select another player/session. Same-workspace plan navigation retains desk section and current drill; academy switches recreate private state. Existing Radix Dialog manages demo mobile navigation. Unsaved editor guards and a single-flight mutation lock preserve failed drafts and prevent overlapping requests. Approval/publication remain separate. Approved report activity snapshots optionally include recorded cue/drillId for parent-supported practice; old snapshots remain unchanged. Practice feedback flows through existing private conversation services, never evidence or plan mutation. See UX_SIMPLIFICATION_RESULTS.md.
+
+Approval and in-app publication are explicit separate commands: approveUpdate snapshots and approves without publishing; publishUpdate rechecks source/current scope and guardian preferences before private in-app sharing. Update-linked conversation creation validates the published update belongs to the chosen authorized child. Existing callers must invoke publication explicitly after approval; no external delivery is enabled.

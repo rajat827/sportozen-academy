@@ -1,0 +1,61 @@
+
+[WebServer] (node:29844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] $ next start --hostname 127.0.0.1 "--port" "3001"
+
+
+[WebServer] (node:24660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+
+(node:11580) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/6] tests\e2e\approved-visual.spec.ts:4:5 › approved-reference screens preserve controls, context and narrow usability
+[2/6] tests\e2e\gallery-prototype.spec.ts:5:5 › gallery opens every working route and captures responsive component screens
+  1) tests\e2e\gallery-prototype.spec.ts:5:5 › gallery opens every working route and captures responsive component screens 
+
+    Error: page.goto: net::ERR_NETWORK_IO_SUSPENDED at http://127.0.0.1:3001/design-preview/coach-today
+    Call log:
+      - navigating to "http://127.0.0.1:3001/design-preview/coach-today", waiting until "load"
+
+
+      33 |     for (const route of routes) {
+      34 |       expect(screenById(route), route).toBeDefined();
+    > 35 |       const response = await page.goto(`/design-preview/${route}`);
+         |                                   ^
+      36 |       expect(response?.status(), route).toBe(200);
+      37 |       await expect(page.locator("h1")).toBeVisible();
+      38 |       expect(
+        at C:\Users\rajat\OneDrive\Documents\ChatGPT\Build Adda\sportozen-academy\tests\e2e\gallery-prototype.spec.ts:35:35
+
+    Tearing down "context" exceeded the test timeout of 360000ms.
+
+    Error: browserContext.close: Target page, context or browser has been closed
+
+    Error Context: test-results\gallery-prototype-gallery--8f424-esponsive-component-screens\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\gallery-prototype-gallery--8f424-esponsive-component-screens\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\gallery-prototype-gallery--8f424-esponsive-component-screens\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+(node:30280) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[3/6] tests\e2e\locked-ui.spec.ts:32:5 › locked home compositions load real fonts and assets at five review viewports
+[4/6] tests\e2e\locked-ui.spec.ts:175:5 › preview tools stay outside the mobile composition and return keyboard focus
+[5/6] tests\e2e\locked-ui.spec.ts:214:5 › home branding and linked-child context survive review controls without expanding parent scope
+[6/6] tests\e2e\locked-ui.spec.ts:279:5 › home navigation preserves session and player workflows and approval stays separate from publication
+  Slow test file: tests\e2e\gallery-prototype.spec.ts (6.3m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  1 failed
+    tests\e2e\gallery-prototype.spec.ts:5:5 › gallery opens every working route and captures responsive component screens 
+  5 passed (7.7m)

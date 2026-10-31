@@ -1,0 +1,21 @@
+{
+  "reference": "docs\\reference\\approved-ui\\settings-screen.png",
+  "referenceSha256": "b53cc6aae078701ee7b5b6ce8165c7c99fe646d9d77475601871c51d23f07a7d",
+  "referenceSourceSize": [
+    1536,
+    1024
+  ],
+  "referenceCrop": null,
+  "referenceDisplaySize": [
+    1536,
+    1024
+  ],
+  "actual": "docs\\screenshots\\portal-integration\\settings\\settings-1536-viewport.png",
+  "actualSha256": "7d1ffbdd9c26077529a2687352c9599d4773e494253ab1dd67c0be8aed450405",
+  "actualSize": [
+    1536,
+    1024
+  ],
+  "notes": "Inspected current authenticated capture at native 1536 x 1024 and phone widths.\n\nActual subscription metadata replaces the reference Pro claims. Unsupported billing and deletion actions stay disabled.\n\nVenues starts around y825 against reference y822. Sidebar More is now close to the reference alignment; the prior spacing mismatches were corrected.\n\nThe legitimate supplied crest crop is low-resolution and retains its navy tile. Noto substitutes for the unidentified reference font.\n\nIdentity, contacts, venue type/status and content use actual isolated QA records. No customer data or invented subscription state is shown.\n\nVisual approval remains pending.",
+  "status": "Inspected implementation evidence; awaiting user visual approval"
+}

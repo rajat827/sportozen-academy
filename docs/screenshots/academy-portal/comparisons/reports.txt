@@ -1,0 +1,9 @@
+Inspected at native 1536 x 1024.
+
+Report tabs, metrics, filters, directory and approved snapshot panel follow the reference hierarchy.
+
+Actual approved wording is longer: attendance and missing individual observations are disclosed in full. It is not replaced with unsupported progress bars or scores.
+
+Three players and one recorded report leave fewer rows. Photos and age/position details are not invented.
+
+Noto and the longer evidence card shift later sections below the viewport. Full-page capture is supplied. Visual approval is pending.
