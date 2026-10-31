@@ -971,6 +971,38 @@ test("authenticated football academies isolate regional plans, approved parent r
         status,
       },
     });
+  // Pausing a customer academy from /platform asks first; activating does not.
+  const platform = await pageFor(c.api);
+  const prompts: string[] = [];
+  let acceptPause = false;
+  platform.page.on("dialog", (dialog) => {
+    prompts.push(dialog.message());
+    void (acceptPause ? dialog.accept() : dialog.dismiss());
+  });
+  await platform.page.goto("/platform");
+  const cardB = platform.page.locator("section.card").filter({
+    has: platform.page.getByRole("heading", {
+      name: "Fictional B Football",
+      exact: true,
+    }),
+  });
+  await cardB.getByRole("button", { name: "Pause entitlement" }).click();
+  await expect.poll(() => prompts.length).toBe(1);
+  expect(prompts[0]).toContain("Fictional B Football");
+  expect((await b.api.get(`/api/workspaces/${bid}`)).ok()).toBeTruthy();
+  acceptPause = true;
+  await cardB.getByRole("button", { name: "Pause entitlement" }).click();
+  await expect(
+    cardB.getByRole("button", { name: "Activate entitlement" }),
+  ).toBeVisible();
+  expect((await b.api.get(`/api/workspaces/${bid}`)).status()).toBe(403);
+  await cardB.getByRole("button", { name: "Activate entitlement" }).click();
+  await expect(
+    cardB.getByRole("button", { name: "Pause entitlement" }),
+  ).toBeVisible();
+  expect(prompts).toHaveLength(2);
+  expect((await b.api.get(`/api/workspaces/${bid}`)).ok()).toBeTruthy();
+  await platform.context.close();
   expect((await entitlementB("PAUSED")).ok()).toBeTruthy();
   const paused = await pageFor(b.api);
   expect((await paused.page.goto(`/workspace/${bid}`))?.status()).toBe(200);

@@ -35,12 +35,20 @@ export function PlatformAccounts({ accounts }: { accounts: Account[] }) {
           <Button
             variant="secondary"
             onClick={async () => {
+              const pausing = a.status === "ACTIVE";
+              if (
+                pausing &&
+                !window.confirm(
+                  `Pause ${a.name}? Every owner, coach and parent in this academy loses access until the entitlement is activated again.`,
+                )
+              )
+                return;
               try {
                 await workspaceRequest("/api/platform/accounts", "PATCH", {
                   academyId: a.id,
                   tier: a.tier,
                   modules: a.modules,
-                  status: a.status === "ACTIVE" ? "PAUSED" : "ACTIVE",
+                  status: pausing ? "PAUSED" : "ACTIVE",
                 });
                 location.reload();
               } catch (e) {

@@ -1317,22 +1317,38 @@ export async function acceptInvitation(headers: Headers, token: string) {
       "Invitation is invalid or belongs to a different account.",
     );
   const academyId = String(invitation.academyId);
-  if (repo.membership(academyId, user.id))
+  // An active guardian accepting another verified guardian invitation (for
+  // example for a sibling) keeps existing links; other roles stay unchanged.
+  const addsGuardianLinks = (role?: string) =>
+    role === "PARENT" && invitation.role === "PARENT";
+  const existing = repo.membership(academyId, user.id);
+  if (existing && !addsGuardianLinks(existing.role))
     throw new WorkspaceError(
       409,
       "Account already has an active academy membership.",
     );
   atomic(() => {
-    database()
-      .prepare(
-        "INSERT INTO academy_memberships(id,academyId,userId,role,active) VALUES(?,?,?,?,1) ON CONFLICT(academyId,userId) DO UPDATE SET role=excluded.role,active=1",
-      )
-      .run(randomUUID(), academyId, user.id, String(invitation.role));
-    database()
-      .prepare(
-        "DELETE FROM guardian_relationships WHERE academyId=? AND userId=?",
-      )
-      .run(academyId, user.id);
+    const current = repo.membership(academyId, user.id);
+    if (
+      !!current !== !!existing ||
+      (current && !addsGuardianLinks(current.role))
+    )
+      throw new WorkspaceError(
+        409,
+        "Academy membership changed. Reopen the invitation and try again.",
+      );
+    if (!current) {
+      database()
+        .prepare(
+          "INSERT INTO academy_memberships(id,academyId,userId,role,active) VALUES(?,?,?,?,1) ON CONFLICT(academyId,userId) DO UPDATE SET role=excluded.role,active=1",
+        )
+        .run(randomUUID(), academyId, user.id, String(invitation.role));
+      database()
+        .prepare(
+          "DELETE FROM guardian_relationships WHERE academyId=? AND userId=?",
+        )
+        .run(academyId, user.id);
+    }
     for (const playerId of (invitation.role === "PARENT"
       ? JSON.parse(String(invitation.playerIds))
       : []) as string[])
@@ -1347,7 +1363,9 @@ export async function acceptInvitation(headers: Headers, token: string) {
     audit(
       academyId,
       user.id,
-      "Explicit academy invitation accepted",
+      existing
+        ? "Verified guardian invitation added linked players"
+        : "Explicit academy invitation accepted",
       String(invitation.id),
     );
   });
