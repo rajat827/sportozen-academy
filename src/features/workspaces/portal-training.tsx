@@ -20,6 +20,7 @@ import {
 import type { FootballSession } from "@/domain/training";
 import { operationalSports } from "@/config/sports/workspace-sports";
 import { confirmUnsavedChanges } from "@/hooks/use-unsaved-changes";
+import { sessionFocus, sessionSummary } from "@/services/session-display";
 import {
   SessionDesk,
   SessionEditor,
@@ -377,7 +378,7 @@ export function PortalTraining({
                           (squad) => squad.id === session.squadId,
                         )?.name ?? "Archived batch"}
                       </strong>
-                      <span>{session.title || session.theme}</span>
+                      <span>{sessionSummary(session)}</span>
                       <small>
                         {session.startAt
                           ? `${clock(session.startAt, timezone, d.academy.timeFormat)} – ${clock(session.endAt, timezone, d.academy.timeFormat)}`
@@ -508,11 +509,7 @@ export function PortalTraining({
                           <Target size={32} />
                           <div>
                             <h3>Session Focus</h3>
-                            <p>
-                              {selected.sharedObjective?.goal ||
-                                selected.theme ||
-                                "Training focus not recorded yet"}
-                            </p>
+                            <p>{sessionFocus(selected)}</p>
                           </div>
                         </article>
                         <div className="pt-drill-heading">

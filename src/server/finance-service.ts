@@ -220,18 +220,82 @@ export function financeInvoiceProposal(
     if (!squadIds.includes(session.squadId)) squadIds.push(session.squadId);
     squadId = session.squadId;
   }
-  return suggestInvoice({
+  const assignments = repo.list(ctx.academy.id, "batchAssignment");
+  const suggestion = suggestInvoice({
     playerId,
     squadIds,
     date: dateValue ?? sessionDate ?? today(ctx),
     currency: ctx.academy.currency,
     plans: repo.list(ctx.academy.id, "plan"),
-    assignments: repo.list(ctx.academy.id, "batchAssignment"),
+    assignments,
     overrides: repo.list(ctx.academy.id, "playerOverride"),
     squadId,
     sessionDate,
     trial: player.status === "TRIAL",
   });
+  if (!suggestion.available) return suggestion;
+  const covering = coveringInvoice(
+    repo
+      .list(ctx.academy.id, "invoice")
+      .filter((item) => item.playerId === playerId),
+    {
+      planId: suggestion.planId,
+      replacedPlanId: suggestion.overrideId
+        ? assignments.find((item) => item.id === suggestion.assignmentId)
+            ?.planId
+        : undefined,
+      derived: true,
+      periodStart: suggestion.periodStart!,
+      periodEnd: suggestion.periodEnd!,
+      sessionId,
+      perSession: suggestion.billingFrequency === "PER_SESSION",
+    },
+  );
+  return covering
+    ? {
+        ...suggestion,
+        available: false,
+        reason: alreadyCovered,
+        coveringInvoiceId: covering.id,
+      }
+    : suggestion;
+}
+const alreadyCovered =
+  "An invoice already covers this player's underlying billing period. Review existing charges before issuing another.";
+/**
+ * The issued invoice that already bills this recurring charge. The same plan is
+ * billed once per period and a player has one suggested recurring fee per
+ * period, even when an override replaces the batch plan. Different plans,
+ * individual charges and reviewed one-time extras remain separately billable.
+ */
+function coveringInvoice(
+  invoices: FinanceInvoice[],
+  charge: {
+    planId?: string;
+    replacedPlanId?: string;
+    derived: boolean;
+    periodStart: string;
+    periodEnd: string;
+    sessionId?: string;
+    perSession: boolean;
+  },
+) {
+  return invoices.find(
+    (item) =>
+      !item.oneTimeKey &&
+      charge.periodStart <= item.periodEnd &&
+      item.periodStart <= charge.periodEnd &&
+      !(
+        charge.perSession &&
+        item.billingSource?.billingFrequency === "PER_SESSION" &&
+        charge.sessionId !== item.billingSource.sessionId
+      ) &&
+      ((!!charge.planId && item.planId === charge.planId) ||
+        (charge.derived &&
+          (!!item.billingSource ||
+            (!!charge.replacedPlanId &&
+              item.planId === charge.replacedPlanId)))),
+  );
 }
 function effectiveRange(from: string, to?: string) {
   if (to && to < from) fail("Effective end date must follow its start date.");
@@ -369,14 +433,29 @@ export function financeActionInTransaction(
           billingFrequency: z.enum(financeBillingFrequencies).optional(),
           applicableStartDate: date.optional(),
           applicableEndDate: optionalDate,
-          customPeriodDays: z.number().int().min(1).max(3660).optional(),
-          dueAfterDays: z.number().int().min(0).max(366).optional(),
+          // Omitted keeps the recorded value; null clears it.
+          customPeriodDays: z
+            .number()
+            .int()
+            .min(1)
+            .max(3660)
+            .nullable()
+            .optional(),
+          dueAfterDays: z.number().int().min(0).max(366).nullable().optional(),
           active: z.boolean(),
         })
         .parse(command.data);
       const old = command.id
         ? repo.find(ctx.academy.id, "plan", command.id)
         : undefined;
+      const customPeriodDays =
+          data.customPeriodDays === null
+            ? undefined
+            : (data.customPeriodDays ?? old?.customPeriodDays),
+        dueAfterDays =
+          data.dueAfterDays === null
+            ? undefined
+            : (data.dueAfterDays ?? old?.dueAfterDays);
       if (command.id && !old) fail("Fee plan unavailable.", 404);
       if (old) sameCurrency(old.currency, data.currency);
       const billingFrequency = data.billingFrequency ?? data.cadence;
@@ -397,7 +476,7 @@ export function financeActionInTransaction(
         fail(
           "Free plans must have a zero amount; other plans require a positive amount.",
         );
-      if (billingFrequency === "CUSTOM" && !data.customPeriodDays)
+      if (billingFrequency === "CUSTOM" && !customPeriodDays)
         fail("Enter a custom billing duration.");
       if (data.applicableStartDate)
         effectiveRange(data.applicableStartDate, data.applicableEndDate);
@@ -406,6 +485,8 @@ export function financeActionInTransaction(
         ...old,
         ...base,
         ...data,
+        customPeriodDays,
+        dueAfterDays,
         cadence: billingFrequency,
         billingFrequency,
         applicableStartDate:
@@ -632,7 +713,8 @@ export function financeActionInTransaction(
           data.squadId,
           data.sessionId,
         );
-        if (!proposal.available) fail(proposal.reason);
+        if (!proposal.available)
+          fail(proposal.reason, proposal.coveringInvoiceId ? 409 : 400);
         if (
           data.assignmentId !== proposal.assignmentId ||
           data.overrideId !== proposal.overrideId ||
@@ -770,25 +852,24 @@ export function financeActionInTransaction(
         fail("This one-time charge has already been issued.", 409);
       if (
         !data.oneTimeKey &&
-        existingInvoices.some(
-          (item) =>
-            !item.oneTimeKey &&
-            (derived ||
-              !!item.billingSource ||
-              (!!data.planId && !!item.planId)) &&
-            data.periodStart <= item.periodEnd &&
-            item.periodStart <= data.periodEnd &&
-            !(
-              billingSource?.billingFrequency === "PER_SESSION" &&
-              item.billingSource?.billingFrequency === "PER_SESSION" &&
-              data.sessionId !== item.billingSource.sessionId
-            ),
-        )
+        coveringInvoice(existingInvoices, {
+          planId: data.planId,
+          replacedPlanId:
+            billingSource?.overrideId && billingSource.assignmentId
+              ? repo.find(
+                  ctx.academy.id,
+                  "batchAssignment",
+                  billingSource.assignmentId,
+                )?.planId
+              : undefined,
+          derived,
+          periodStart: data.periodStart,
+          periodEnd: data.periodEnd,
+          sessionId: data.sessionId,
+          perSession: billingSource?.billingFrequency === "PER_SESSION",
+        })
       )
-        fail(
-          "An invoice already covers this player's underlying billing period. Review existing charges before issuing another.",
-          409,
-        );
+        fail(alreadyCovered, 409);
       if (
         repo
           .list(ctx.academy.id, "invoice")

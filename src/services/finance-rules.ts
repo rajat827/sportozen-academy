@@ -66,6 +66,57 @@ export function formatFinanceMoney(
   );
 }
 
+const frequencyLabels: Record<FinanceBillingFrequency, string> = {
+  MONTHLY: "Monthly",
+  QUARTERLY: "Quarterly",
+  HALF_YEARLY: "Half-yearly",
+  YEARLY: "Yearly",
+  WEEKLY: "Weekly",
+  PER_SESSION: "Per session",
+  ONE_TIME: "One time",
+  FREE: "Free",
+  CUSTOM: "Custom length",
+  TERM: "Term",
+};
+export function financeFrequencyLabel(frequency: FinanceBillingFrequency) {
+  return frequencyLabels[frequency];
+}
+/** Suggestions are computed for a date, not a session, so per-session fees stay manual. */
+export const financePerSessionNotice =
+  "Per session plans are not supported by automatic suggested invoices. Issue each session charge manually with Issue player invoice on the Fee Plans tab, using the session date as the billing period.";
+/** Parse a percentage with up to two decimals into exact basis points. */
+export function parseDiscountPercent(value: string) {
+  const match = /^(\d{1,3})(?:\.(\d{1,2}))?$/.exec(value.trim());
+  const basisPoints = match
+    ? Number(match[1]) * 100 + Number((match[2] ?? "").padEnd(2, "0"))
+    : 0;
+  if (basisPoints < 1 || basisPoints > 10000)
+    throw new Error("Enter a discount from 0.01% to 100%.");
+  return basisPoints;
+}
+/** Plain-language description of a recorded player fee exception. */
+export function financeOverrideSummary(
+  override: FinancePlayerOverride,
+  planName: string | undefined,
+  locale?: string,
+) {
+  const money = (amount: number) =>
+    formatFinanceMoney(amount, override.currency, locale);
+  if (override.kind === "SCHOLARSHIP") return "Scholarship · no charge";
+  if (override.kind === "WAIVER") return "Waiver · no charge";
+  if (override.kind === "DISCOUNT")
+    return override.discountMinor !== undefined
+      ? `${money(override.discountMinor)} discount`
+      : `${(override.discountBasisPoints ?? 0) / 100}% discount`;
+  return [
+    planName && `Individual plan: ${planName}`,
+    override.amountMinor !== undefined &&
+      `Individual amount ${money(override.amountMinor)}`,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+}
+
 /** Date-only billing calendars avoid timezone shifts and clamp to the anchor month. */
 export function financeDateAddDays(value: string, days: number) {
   const parsed = new Date(`${value}T12:00:00Z`);
@@ -197,9 +248,7 @@ export function financeInvoiceSuggestion(input: {
     );
   const frequency = plan?.billingFrequency ?? plan?.cadence ?? "FREE";
   if (frequency === "PER_SESSION" && !input.sessionDate)
-    return unavailable(
-      "Choose an actual scheduled or completed session for per-session billing.",
-    );
+    return unavailable(financePerSessionNotice);
   const start = frequency === "PER_SESSION" ? input.sessionDate! : input.date;
   let period: { periodStart: string; periodEnd: string };
   try {
@@ -219,7 +268,8 @@ export function financeInvoiceSuggestion(input: {
     return unavailable(
       "This billing period extends beyond the applicable plan or assignment dates.",
     );
-  let amount = plan?.amountMinor ?? 0;
+  const baseChargeMinor = plan?.amountMinor ?? 0;
+  let amount = baseChargeMinor;
   if (override?.kind === "PLAN" && override.amountMinor !== undefined)
     amount = override.amountMinor;
   if (override?.kind === "DISCOUNT") {
@@ -255,6 +305,7 @@ export function financeInvoiceSuggestion(input: {
     overrideVersion: override?.version,
     squadId: assignment?.squadId,
     billingFrequency: frequency,
+    baseChargeMinor,
     chargeMinor: amount,
     currency,
     ...period,

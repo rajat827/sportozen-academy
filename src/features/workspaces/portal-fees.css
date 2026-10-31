@@ -413,20 +413,24 @@
 .pf-card-title h2 {
   margin: 0;
 }
-.pf-detail dl {
+.pf-detail dl,
+.pf-breakdown {
   margin: 0 0 16px;
 }
-.pf-detail dl div {
+.pf-detail dl div,
+.pf-breakdown div {
   display: flex;
   justify-content: space-between;
   gap: 14px;
   margin: 11px 0;
   font-size: 13px;
 }
-.pf-detail dt {
+.pf-detail dt,
+.pf-breakdown dt {
   color: var(--pf-muted);
 }
-.pf-detail dd {
+.pf-detail dd,
+.pf-breakdown dd {
   margin: 0;
   text-align: right;
   max-width: 60%;
@@ -529,6 +533,13 @@
 .pf-list > p {
   color: var(--pf-muted);
   line-height: 1.7;
+}
+.pf-stack {
+  display: grid;
+  gap: 20px;
+}
+.pf-suggestions {
+  margin-bottom: 20px;
 }
 .pf-legacy {
   margin: 20px 0;

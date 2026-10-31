@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
@@ -26,6 +26,7 @@ import {
 } from "@/services/portal-records";
 import { reportPresentation } from "@/services/reports/report-presentation";
 import { reportReviewEligibility } from "@/services/reports/report-review";
+import { sessionFocus } from "@/services/session-display";
 import {
   confirmUnsavedChanges,
   useUnsavedChanges,
@@ -135,8 +136,22 @@ export function MonthlyReportReviewWorkspace({
     (squad) => squad.id === batchValue || squad.name === batchValue,
   );
   const [queueFilter, setQueueFilter] = useState("");
+  // The selection card is rebuilt whenever the reviewed report changes, so
+  // disclosure state and keyboard focus are kept here rather than in the DOM.
+  const [queueOpen, setQueueOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const restoreFocus = useRef("");
+  const query = params.toString();
+  useEffect(() => {
+    const id = restoreFocus.current;
+    restoreFocus.current = "";
+    if (id) document.getElementById(id)?.focus();
+  }, [query]);
   const [mobileView, setMobileView] = useState("Edit");
   const [notice, setNotice] = useState("");
+  // Saving or approving bumps the record version and rebuilds the editor, so
+  // its outcome message is kept here for the same report.
+  const [editorNotice, setEditorNotice] = useState({ reportId: "", text: "" });
   const [reviewedKeys, setReviewedKeys] = useState<Set<string>>(
     () => new Set(),
   );
@@ -189,6 +204,12 @@ export function MonthlyReportReviewWorkspace({
   const choose = (context: Record<string, string>) => {
     if (!w.busy && confirmUnsavedChanges()) {
       setNotice("");
+      setEditorNotice({ reportId: "", text: "" });
+      const active = document.activeElement;
+      restoreFocus.current =
+        active instanceof HTMLElement && active.id.startsWith("rr-control-")
+          ? active.id
+          : "";
       onNavigate("reports", {
         prepare: "monthly",
         reportMonth: month,
@@ -239,6 +260,7 @@ export function MonthlyReportReviewWorkspace({
         <label>
           Player
           <select
+            id="rr-control-player"
             aria-label="Report player"
             value={selectedPlayer?.id ?? ""}
             disabled={w.busy}
@@ -258,6 +280,7 @@ export function MonthlyReportReviewWorkspace({
         <label>
           Reporting month
           <input
+            id="rr-control-month"
             type="month"
             aria-label="Reporting period filter"
             required
@@ -274,6 +297,7 @@ export function MonthlyReportReviewWorkspace({
         <label>
           Training batch
           <select
+            id="rr-control-batch"
             aria-label="Report batch filter"
             value={batch?.id ?? ""}
             disabled={w.busy}
@@ -302,7 +326,11 @@ export function MonthlyReportReviewWorkspace({
           Prepare batch drafts
         </button>
       </div>
-      <details className="rr-queue">
+      <details
+        className="rr-queue"
+        open={queueOpen}
+        onToggle={(event) => setQueueOpen(event.currentTarget.open)}
+      >
         <summary>Batch review queue · {rows.length} players</summary>
         <label>
           Queue status
@@ -324,6 +352,7 @@ export function MonthlyReportReviewWorkspace({
           {rows.map((player) => (
             <button
               key={player.id}
+              id={`rr-control-queue-${player.id}`}
               aria-current={
                 selectedPlayer?.id === player.id ? "true" : undefined
               }
@@ -340,7 +369,11 @@ export function MonthlyReportReviewWorkspace({
         </p>
       </details>
       {selectedPlayer && (
-        <details className="rr-report-history">
+        <details
+          className="rr-report-history"
+          open={historyOpen}
+          onToggle={(event) => setHistoryOpen(event.currentTarget.open)}
+        >
           <summary>Report history</summary>
           <div className="rr-queue-rows">
             {reports
@@ -349,6 +382,7 @@ export function MonthlyReportReviewWorkspace({
               .map((item) => (
                 <button
                   key={item.id}
+                  id={`rr-control-history-${item.id}`}
                   onClick={() =>
                     choose({
                       report: item.id,
@@ -359,7 +393,7 @@ export function MonthlyReportReviewWorkspace({
                 >
                   <span>
                     {item.reportingPeriod?.key ?? item.period}
-                    {item.correctionOf ? " � Reviewed correction" : ""}
+                    {item.correctionOf ? " · Reviewed correction" : ""}
                   </span>
                   <small>{item.status}</small>
                 </button>
@@ -498,6 +532,8 @@ export function MonthlyReportReviewWorkspace({
             </>
           }
           otherReports={otherReports}
+          notice={editorNotice.reportId === report.id ? editorNotice.text : ""}
+          setNotice={(text) => setEditorNotice({ reportId: report.id, text })}
           reviewed={reviewedKeys.has(reportKey(report))}
           setReviewed={(value) =>
             setReviewedKeys((previous) => {
@@ -564,9 +600,13 @@ function MonthlyReviewEditor({
   setMobileView,
   selection,
   otherReports,
+  notice,
+  setNotice,
   reviewed,
   setReviewed,
 }: {
+  notice: string;
+  setNotice: (text: string) => void;
   reviewed: boolean;
   setReviewed: (value: boolean) => void;
   selection: ReactNode;
@@ -584,7 +624,6 @@ function MonthlyReviewEditor({
     nextStep: report.nextStep,
     closingNote: report.closingNote,
   });
-  const [notice, setNotice] = useState("");
   const dirty =
     fields.observation !== report.observation ||
     fields.nextStep !== report.nextStep ||
@@ -804,9 +843,7 @@ function MonthlyReviewEditor({
                         <td>
                           {session.objectives.find(
                             (entry) => entry.playerId === player.id,
-                          )?.goal ||
-                            session.sharedObjective?.goal ||
-                            session.theme}
+                          )?.goal || sessionFocus(session)}
                         </td>
                         <td>
                           {attendance?.status.toLowerCase() ?? "Unmarked"}

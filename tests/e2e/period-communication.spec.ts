@@ -264,13 +264,18 @@ test("weekly plans and monthly reports extend authorised workspaces across three
     await staffPage
       .getByRole("button", { name: "Create Report", exact: true })
       .click();
-    const monthlyWorkflow = staffPage.getByRole("dialog", {
-      name: "Prepare & Review Reports",
+    // Create Report opens the full-page monthly review workspace.
+    const monthlyWorkflow = staffPage.getByRole("region", {
+      name: "Prepare & Review Monthly Report",
       exact: true,
     });
+    await expect(monthlyWorkflow).toBeVisible();
     await monthlyWorkflow
-      .getByLabel("Reporting month", { exact: true })
+      .getByLabel("Reporting period filter", { exact: true })
       .fill("2026-09");
+    await expect(
+      monthlyWorkflow.getByLabel("Reporting period filter", { exact: true }),
+    ).toHaveValue("2026-09");
     await monthlyWorkflow
       .getByRole("button", { name: "Prepare monthly draft", exact: true })
       .click();
@@ -278,33 +283,38 @@ test("weekly plans and monthly reports extend authorised workspaces across three
       .poll(async () => (await payload()).records.report.length)
       .toBe(1);
     const report = (await payload()).records.report[0];
+    expect(report.reportingPeriod?.key).toBe("2026-09");
+    expect(report.reportingPeriod?.timezone).toBe(timezone);
     expect(report.monthlySources?.model.evidence[0].text).toContain(
       "No marked attendance basis",
     );
-    const monthly = staffPage.locator("section.card").filter({
-      has: staffPage.getByRole("heading", {
-        name: `2026-09 (${timezone})`,
+    const commentary =
+      "No completed September session records are available for this synthetic player.";
+    await monthlyWorkflow
+      .getByLabel("Coach commentary", { exact: true })
+      .fill(commentary);
+    await expect(
+      monthlyWorkflow.getByLabel("Next development priorities", {
         exact: true,
       }),
-    });
-    await monthly
-      .getByLabel("Coach commentary", { exact: true })
-      .fill(
-        "No completed September session records are available for this synthetic player.",
-      );
-    await monthly
-      .getByRole("button", { name: "Save monthly draft", exact: true })
+    ).toHaveValue("Repeat the recorded activity");
+    await monthlyWorkflow
+      .getByRole("button", { name: "Save draft", exact: true })
       .click();
+    await expect
+      .poll(async () => (await payload()).records.report[0].observation)
+      .toBe(commentary);
     await expect(
-      monthly.getByRole("button", { name: "Save monthly draft", exact: true }),
+      monthlyWorkflow.getByRole("button", { name: "Save draft", exact: true }),
     ).toBeEnabled();
-    await monthly
+    await monthlyWorkflow
       .getByLabel(
-        "I reviewed the player, period, attendance basis, sources and commentary",
+        "I reviewed the player, period, attendance, recorded sessions, sources and coaching feedback.",
+        { exact: true },
       )
       .check();
-    await monthly
-      .getByRole("button", { name: "Approve monthly report", exact: true })
+    await monthlyWorkflow
+      .getByRole("button", { name: "Approve report", exact: true })
       .click();
     await expect
       .poll(async () => (await payload()).records.report[0].status)
@@ -324,8 +334,9 @@ test("weekly plans and monthly reports extend authorised workspaces across three
       (await parent.api.get(`${firstRoot}/reports/${report.id}/pdf`)).status(),
     ).toBe(country === "IN" ? 200 : 404);
     await monthlyWorkflow
-      .getByRole("button", { name: "Close report workflow", exact: true })
+      .getByRole("button", { name: "Back to Reports", exact: true })
       .click();
+    await expect(monthlyWorkflow).toBeHidden();
     await parentPage.goto(
       `/workspace/${aid}?player=${player.id}&report=${report.id}`,
     );

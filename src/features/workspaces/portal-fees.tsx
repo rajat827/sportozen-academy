@@ -9,13 +9,33 @@ import {
   Wallet,
 } from "lucide-react";
 import { Avatar } from "@/components/ui/primitives";
-import type { FinancePayment, FinancePlan } from "@/domain/finance";
+import type {
+  FinanceBatchAssignment,
+  FinanceInvoiceSuggestion,
+  FinancePayment,
+  FinancePlan,
+  FinancePlayerOverride,
+} from "@/domain/finance";
 import { useWorkspace } from "@/hooks/use-workspace";
 import { useFinance } from "@/hooks/use-finance";
-import { formatFinanceMoney as money } from "@/services/finance-rules";
+import {
+  formatFinanceMoney as money,
+  financeFrequencyLabel,
+  financeOverrideSummary,
+  financePerSessionNotice,
+} from "@/services/finance-rules";
+import { playerBatch } from "@/services/portal-records";
 import { PortalFeeEditor, type FeeEditorMode } from "./portal-fee-editor";
 import { PortalFeeDetail } from "./portal-fee-detail";
 import "./portal-fees.css";
+
+const savedNotices: Partial<Record<FeeEditorMode, string>> = {
+  plan: "Fee plan saved. Existing players have not been charged.",
+  batchAssignment: "Batch default plan saved. No invoice has been issued.",
+  playerOverride: "Player fee exception saved. No invoice has been issued.",
+  suggestion: "Invoice issued from the reviewed suggestion.",
+  oneTime: "One-time charge issued.",
+};
 
 export function PortalFees({
   workspace,
@@ -42,6 +62,9 @@ export function PortalFees({
     mode: FeeEditorMode;
     payment?: FinancePayment;
     plan?: FinancePlan;
+    assignment?: FinanceBatchAssignment;
+    override?: FinancePlayerOverride;
+    suggestion?: FinanceInvoiceSuggestion;
   } | null>(null);
   const [notice, setNotice] = useState("");
   const [currencyChoice, setCurrencyChoice] = useState("");
@@ -70,6 +93,10 @@ export function PortalFees({
   const playerMap = new Map(
     data.records.player.map((player) => [player.id, player]),
   );
+  const batchOf = (playerId: string) => {
+    const player = playerMap.get(playerId);
+    return player && playerBatch(data, player);
+  };
   const currencies = [
     ...new Set(account.invoices.map((invoice) => invoice.currency)),
   ];
@@ -88,7 +115,7 @@ export function PortalFees({
   const invoices = periodInvoices.filter((invoice) => {
     const player = playerMap.get(invoice.playerId);
     return (
-      (!batch || player?.squad === batch) &&
+      (!batch || batchOf(invoice.playerId) === batch) &&
       (!status ||
         (status === "OVERDUE" ? invoice.overdue : invoice.status === status)) &&
       (!search ||
@@ -125,6 +152,34 @@ export function PortalFees({
     setNotice("");
     setEditor({ mode, payment });
   }
+  function configure(next: NonNullable<typeof editor>) {
+    setNotice("");
+    setEditor(next);
+  }
+  const frequencyOf = (plan: FinancePlan) =>
+    plan.billingFrequency ?? plan.cadence;
+  const planName = (id?: string) =>
+    account.plans.find((plan) => plan.id === id)?.name;
+  const playerName = (id: string) =>
+    playerMap.get(id)?.name ?? "Authorised player";
+  const readySuggestions = account.invoiceSuggestions.filter(
+    (item) => item.available,
+  );
+  const waitingSuggestions = account.invoiceSuggestions.filter(
+    (item) => !item.available,
+  );
+  const adjustmentOf = (suggestion: FinanceInvoiceSuggestion) => {
+    const exception = account.playerOverrides.find(
+      (item) => item.id === suggestion.overrideId,
+    );
+    return exception
+      ? financeOverrideSummary(
+          exception,
+          planName(exception.planId),
+          data.academy.dateLocale,
+        )
+      : "None";
+  };
   function exportCSV() {
     const quoted = (value: string) =>
       `"${(/^[=+\-@\t\r]/.test(value) ? "'" + value : value).replaceAll('"', '""')}"`;
@@ -270,11 +325,11 @@ export function PortalFees({
               onChange={(event) => setBatch(event.target.value)}
             >
               <option value="">All Batches</option>
-              {[...new Set(players.map((player) => player.squad))]
-                .filter(Boolean)
-                .map((name) => (
-                  <option key={name}>{name}</option>
-                ))}
+              {[
+                ...new Set(players.map((player) => playerBatch(data, player))),
+              ].map((name) => (
+                <option key={name}>{name}</option>
+              ))}
             </select>
           </label>
           <label>
@@ -284,7 +339,7 @@ export function PortalFees({
               onChange={(event) => setStatus(event.target.value)}
             >
               <option value="">All Status</option>
-              {["PENDING", "PARTIAL", "PAID", "OVERDUE", "WAIVED"].map(
+              {["PENDING", "PARTIAL", "PAID", "OVERDUE", "WAIVED", "FREE"].map(
                 (name) => (
                   <option key={name}>{name}</option>
                 ),
@@ -330,6 +385,76 @@ export function PortalFees({
             </select>
             <small>Separate balances; no currency conversion.</small>
           </label>
+        )}
+        {tab === "Invoices" && account.canManage && (
+          <section
+            className="pf-list pf-suggestions"
+            aria-labelledby="pf-suggestions-title"
+          >
+            <div className="pf-card-title">
+              <h2 id="pf-suggestions-title">Suggested invoices</h2>
+              <button
+                className="pf-button"
+                disabled={finance.busy}
+                onClick={() => configure({ mode: "oneTime" })}
+              >
+                Issue one-time charge
+              </button>
+            </div>
+            <p>
+              Charges suggested by batch default plans and player exceptions as
+              of {account.asOfDate}. Each suggested billing period starts on
+              that date. Nothing is issued until you review and confirm each
+              charge.
+            </p>
+            {account.plans.some(
+              (plan) => plan.active && frequencyOf(plan) === "PER_SESSION",
+            ) && <p className="pf-note">{financePerSessionNotice}</p>}
+            {!readySuggestions.length && (
+              <p>No suggested charge is waiting for review.</p>
+            )}
+            {readySuggestions.map((suggestion) => {
+              const player = playerMap.get(suggestion.playerId);
+              const code = suggestion.currency ?? data.academy.currency;
+              return (
+                <div className="pf-event" key={suggestion.playerId}>
+                  <strong>{playerName(suggestion.playerId)}</strong>
+                  <p>
+                    {suggestion.planName ?? "No plan"} ·{" "}
+                    {suggestion.periodStart} to {suggestion.periodEnd}
+                    {player && ` · ${playerBatch(data, player)}`}
+                  </p>
+                  <p>
+                    Original {format(suggestion.baseChargeMinor ?? 0, code)} ·
+                    Adjustment: {adjustmentOf(suggestion)} · Final{" "}
+                    <strong>{format(suggestion.chargeMinor ?? 0, code)}</strong>
+                  </p>
+                  <button
+                    className="pf-button primary"
+                    disabled={finance.busy}
+                    aria-label={`Review suggested invoice for ${playerName(suggestion.playerId)}`}
+                    onClick={() =>
+                      configure({ mode: "suggestion", suggestion })
+                    }
+                  >
+                    Review suggestion
+                  </button>
+                </div>
+              );
+            })}
+            {!!waitingSuggestions.length && (
+              <details className="pf-legacy">
+                <summary>
+                  Players without a suggestion ({waitingSuggestions.length})
+                </summary>
+                {waitingSuggestions.map((suggestion) => (
+                  <p key={suggestion.playerId}>
+                    {playerName(suggestion.playerId)} · {suggestion.reason}
+                  </p>
+                ))}
+              </details>
+            )}
+          </section>
         )}
         {(tab === "Overview" || tab === "Invoices") && (
           <div className="pf-table-wrap">
@@ -379,8 +504,7 @@ export function PortalFees({
                     </td>
                     <td>
                       <span className="pf-batch">
-                        {playerMap.get(invoice.playerId)?.squad ||
-                          "Not recorded"}
+                        {batchOf(invoice.playerId) ?? "Not recorded"}
                       </span>
                     </td>
                     <td>{format(invoice.billedMinor, invoice.currency)}</td>
@@ -464,70 +588,188 @@ export function PortalFees({
           </section>
         )}
         {tab === "Fee Plans" && account.canManage && (
-          <section className="pf-list">
-            <div className="pf-card-title">
-              <h2>Academy fee plans</h2>
-              <button
-                className="pf-button primary"
-                onClick={() => edit("plan")}
-              >
-                Create fee plan
-              </button>
-            </div>
-            {!account.plans.length && (
-              <p>
-                No fee plans yet. Create a reusable plan or issue an individual
-                charge.
-              </p>
-            )}
-            {account.plans.map((plan) => (
-              <div className="pf-event" key={plan.id}>
-                <strong>{plan.name}</strong>
-                <p>
-                  {format(plan.amountMinor, plan.currency)} ·{" "}
-                  {(plan.billingFrequency ?? plan.cadence)
-                    .toLowerCase()
-                    .replaceAll("_", " ")}
-                  {" · "}
-                  {plan.applicableStartDate
-                    ? `Applies from ${plan.applicableStartDate}`
-                    : "Start date not recorded"}
-                </p>
+          <div className="pf-stack">
+            <section className="pf-list">
+              <div className="pf-card-title">
+                <h2>Academy fee plans</h2>
                 <button
-                  className="pf-button"
-                  disabled={finance.busy}
-                  onClick={() => {
-                    setNotice("");
-                    setEditor({ mode: "plan", plan });
-                  }}
+                  className="pf-button primary"
+                  onClick={() => edit("plan")}
                 >
-                  Edit fee plan
-                </button>
-                <button
-                  className="pf-button"
-                  disabled={finance.busy}
-                  onClick={() =>
-                    finance.mutate(
-                      "plan",
-                      {
-                        name: plan.name,
-                        amountMinor: plan.amountMinor,
-                        currency: plan.currency,
-                        cadence: plan.cadence,
-                        active: !plan.active,
-                      },
-                      { id: plan.id, expectedVersion: plan.version },
-                    )
-                  }
-                >
-                  {plan.active ? "Archive plan" : "Activate plan"}
+                  Create fee plan
                 </button>
               </div>
-            ))}
-            <button className="pf-button" onClick={() => edit("invoice")}>
-              Issue player invoice
-            </button>
-          </section>
+              {!account.plans.length && (
+                <p>
+                  No fee plans yet. Create a reusable plan or issue an
+                  individual charge.
+                </p>
+              )}
+              {account.plans.map((plan) => (
+                <div className="pf-event" key={plan.id}>
+                  <strong>{plan.name}</strong>
+                  <p>
+                    {format(plan.amountMinor, plan.currency)} ·{" "}
+                    {financeFrequencyLabel(frequencyOf(plan))}
+                    {plan.customPeriodDays &&
+                      ["CUSTOM", "TERM"].includes(frequencyOf(plan)) &&
+                      ` (${plan.customPeriodDays} days)`}
+                    {" · "}
+                    {plan.applicableStartDate
+                      ? `Applies from ${plan.applicableStartDate}`
+                      : "Start date not recorded"}
+                    {plan.applicableEndDate &&
+                      ` until ${plan.applicableEndDate}`}
+                    {plan.dueAfterDays !== undefined &&
+                      ` · Due ${plan.dueAfterDays} days after each period starts`}
+                    {frequencyOf(plan) === "PER_SESSION" &&
+                      " · Not suggested automatically; invoice each session manually"}
+                    {!plan.active && " · Archived"}
+                  </p>
+                  <button
+                    className="pf-button"
+                    disabled={finance.busy}
+                    onClick={() => configure({ mode: "plan", plan })}
+                  >
+                    Edit fee plan
+                  </button>
+                  <button
+                    className="pf-button"
+                    disabled={finance.busy}
+                    onClick={() =>
+                      finance.mutate(
+                        "plan",
+                        {
+                          name: plan.name,
+                          amountMinor: plan.amountMinor,
+                          currency: plan.currency,
+                          cadence: plan.cadence,
+                          customPeriodDays: plan.customPeriodDays,
+                          active: !plan.active,
+                        },
+                        { id: plan.id, expectedVersion: plan.version },
+                      )
+                    }
+                  >
+                    {plan.active ? "Archive plan" : "Activate plan"}
+                  </button>
+                </div>
+              ))}
+              <button className="pf-button" onClick={() => edit("invoice")}>
+                Issue player invoice
+              </button>
+            </section>
+            <section className="pf-list">
+              <div className="pf-card-title">
+                <h2>Batch default plans</h2>
+                <button
+                  className="pf-button primary"
+                  disabled={
+                    finance.busy ||
+                    !data.records.squad.length ||
+                    !account.plans.some((plan) => plan.active)
+                  }
+                  onClick={() => configure({ mode: "batchAssignment" })}
+                >
+                  Assign batch plan
+                </button>
+              </div>
+              {!account.batchAssignments.length && (
+                <p>
+                  No batch has a default plan. Players receive a suggested
+                  charge only from a batch default or a player exception.
+                </p>
+              )}
+              {account.batchAssignments.map((assignment) => {
+                const batchName =
+                  data.records.squad.find(
+                    (squad) => squad.id === assignment.squadId,
+                  )?.name ?? "Archived batch";
+                const assigned = account.plans.find(
+                  (plan) => plan.id === assignment.planId,
+                );
+                return (
+                  <div className="pf-event" key={assignment.id}>
+                    <strong>{batchName}</strong>
+                    <p>
+                      {assigned
+                        ? `${assigned.name} · ${format(assigned.amountMinor, assigned.currency)} · ${financeFrequencyLabel(frequencyOf(assigned))}`
+                        : "Plan unavailable"}
+                      {" · "}From {assignment.effectiveFrom}
+                      {assignment.effectiveTo
+                        ? ` until ${assignment.effectiveTo}`
+                        : " with no end date"}
+                    </p>
+                    <span
+                      className={`pf-status ${assignment.active ? "paid" : ""}`}
+                    >
+                      {assignment.active ? "active" : "inactive"}
+                    </span>
+                    <button
+                      className="pf-button"
+                      disabled={finance.busy}
+                      aria-label={`Edit batch plan for ${batchName}`}
+                      onClick={() =>
+                        configure({ mode: "batchAssignment", assignment })
+                      }
+                    >
+                      Edit batch plan
+                    </button>
+                  </div>
+                );
+              })}
+            </section>
+            <section className="pf-list">
+              <div className="pf-card-title">
+                <h2>Player fee exceptions</h2>
+                <button
+                  className="pf-button primary"
+                  disabled={finance.busy || !players.length}
+                  onClick={() => configure({ mode: "playerOverride" })}
+                >
+                  Add player exception
+                </button>
+              </div>
+              {!account.playerOverrides.length && (
+                <p>
+                  No individual plans, discounts, scholarships or waivers are
+                  recorded.
+                </p>
+              )}
+              {account.playerOverrides.map((exception) => (
+                <div className="pf-event" key={exception.id}>
+                  <strong>{playerName(exception.playerId)}</strong>
+                  <p>
+                    {financeOverrideSummary(
+                      exception,
+                      planName(exception.planId),
+                      data.academy.dateLocale,
+                    )}
+                    {" · "}From {exception.effectiveFrom}
+                    {exception.effectiveTo
+                      ? ` until ${exception.effectiveTo}`
+                      : " with no end date"}
+                  </p>
+                  <small>Reason: {exception.reason}</small>{" "}
+                  <span
+                    className={`pf-status ${exception.active ? "paid" : ""}`}
+                  >
+                    {exception.active ? "active" : "inactive"}
+                  </span>
+                  <button
+                    className="pf-button"
+                    disabled={finance.busy}
+                    aria-label={`Edit fee exception for ${playerName(exception.playerId)}`}
+                    onClick={() =>
+                      configure({ mode: "playerOverride", override: exception })
+                    }
+                  >
+                    Edit fee exception
+                  </button>
+                </div>
+              ))}
+            </section>
+          </div>
         )}
         {tab === "Reminders" && (
           <section className="pf-list">
@@ -617,16 +859,17 @@ export function PortalFees({
           invoice={selected}
           payment={editor.payment}
           plan={editor.plan}
+          assignment={editor.assignment}
+          override={editor.override}
+          suggestion={editor.suggestion}
           initialPlayer={playerId ?? selected?.playerId}
           busy={finance.busy || workspace.busy}
           error={workspace.error || finance.error}
           onClose={() => setEditor(null)}
           onSave={async (action, values, extra) => {
             const saved = Boolean(await finance.mutate(action, values, extra));
-            if (saved && action === "plan")
-              setNotice(
-                "Fee plan saved. Existing players have not been charged.",
-              );
+            const outcome = savedNotices[editor.mode];
+            if (saved && outcome) setNotice(outcome);
             return saved;
           }}
         />

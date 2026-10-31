@@ -23,6 +23,7 @@ import {
   academyDate,
   currentPlayerPlan,
 } from "@/services/portal-records";
+import { sessionHeading } from "@/services/session-display";
 import type { PortalController, PortalNavigate } from "./portal-types";
 import { useFinance } from "@/hooks/use-finance";
 
@@ -97,6 +98,8 @@ export function PortalHome({
   const d = w.data!,
     summary = portalSessionSummary(d),
     session = summary.next;
+  const batchName = (squadId: string) =>
+    d.records.squad.find((s) => s.id === squadId)?.name;
   const name =
       d.members
         .find((m) => m.userId === d.membership.userId)
@@ -176,7 +179,11 @@ export function PortalHome({
                 ? "Today’s Session"
                 : "Next Training Session"}
             </span>
-            <h2>{session?.theme ?? "Your next session starts here"}</h2>
+            <h2>
+              {session
+                ? sessionHeading(session, batchName(session.squadId))
+                : "Your next session starts here"}
+            </h2>
             {session ? (
               <>
                 <p>
@@ -236,7 +243,7 @@ export function PortalHome({
                 <span className="portal-schedule-dot" />
                 <time>{portalDate(s.startAt, d, true)}</time>
                 <span>
-                  <strong>{s.theme}</strong>
+                  <strong>{sessionHeading(s, batchName(s.squadId))}</strong>
                   <small>{s.location}</small>
                 </span>
                 <span className="portal-status muted">
@@ -442,13 +449,13 @@ export function PortalHome({
             <div>
               <small>{focusPlayer?.name ?? "Shared batch development"}</small>
               <h3>
-                {plan?.focus ??
-                  session?.sharedObjective?.goal ??
+                {plan?.focus ||
+                  session?.sharedObjective?.goal ||
                   "Set a focus in your next batch plan"}
               </h3>
               <p>
-                {plan?.observe ??
-                  session?.sharedObjective?.observe ??
+                {plan?.observe ||
+                  session?.sharedObjective?.observe ||
                   "Players follow the batch plan unless you choose an optional adjustment."}
               </p>
             </div>

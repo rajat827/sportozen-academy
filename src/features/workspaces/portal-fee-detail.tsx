@@ -16,6 +16,7 @@ import type {
 import type { WorkspacePayload } from "@/domain/workspace";
 import { Avatar } from "@/components/ui/primitives";
 import { formatFinanceMoney as money } from "@/services/finance-rules";
+import { playerBatch } from "@/services/portal-records";
 import type { FeeEditorMode } from "./portal-fee-editor";
 
 export function PortalFeeDetail({
@@ -70,7 +71,9 @@ export function PortalFeeDetail({
         <Avatar name={player?.name ?? invoice.snapshot.playerName} large />
         <div>
           <h2>{player?.name ?? invoice.snapshot.playerName}</h2>
-          <p>{player?.squad || "Batch not recorded"}</p>
+          <p>
+            {player ? playerBatch(workspace, player) : "Batch not recorded"}
+          </p>
         </div>
       </div>
       <div className="pf-guardian">

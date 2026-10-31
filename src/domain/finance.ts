@@ -70,12 +70,16 @@ export interface FinanceInvoiceSuggestion {
   overrideVersion?: number;
   squadId?: string;
   billingFrequency?: FinanceBillingFrequency;
+  /** Applicable plan amount before any player discount, scholarship or waiver. */
+  baseChargeMinor?: number;
   chargeMinor?: number;
   currency?: string;
   periodStart?: string;
   periodEnd?: string;
   dueDate?: string;
   zeroChargeReason?: FinanceZeroChargeReason;
+  /** An issued invoice already bills this charge for an overlapping period. */
+  coveringInvoiceId?: string;
 }
 
 export interface FinancePlan {

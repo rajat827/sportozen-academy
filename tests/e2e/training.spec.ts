@@ -945,11 +945,24 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
   await closeDesk();
   await staffNavigate(cp, "Reports");
   await cp.getByRole("button", { name: "Edit / Review", exact: true }).click();
-  await cp
-    .getByRole("dialog", { name: "Prepare & Review Reports", exact: true })
-    .locator("summary")
-    .filter({ hasText: "Other recorded development reports" })
-    .click();
+  // Edit / Review opens the full-page monthly review workspace, which keeps
+  // the recorded (non-monthly) report editor in its own disclosure.
+  const reviewWorkspace = cp.getByRole("region", {
+    name: "Prepare & Review Monthly Report",
+    exact: true,
+  });
+  await expect(reviewWorkspace).toBeVisible();
+  await expect(
+    reviewWorkspace.getByLabel("Report player", { exact: true }),
+  ).toHaveValue(report.playerId);
+  // The requested report is not a monthly draft, so its editor opens already.
+  await expect(
+    reviewWorkspace.locator("details").filter({
+      has: cp
+        .locator("summary")
+        .filter({ hasText: "Other recorded development reports" }),
+    }),
+  ).toHaveAttribute("open", "");
   expect(
     (
       await coach.api.post(`${root}/actions`, {
@@ -962,12 +975,14 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
       })
     ).status(),
   ).toBe(409);
-  await cp
+  await reviewWorkspace
     .getByRole("checkbox", {
       name: "I verified the player, sport plan, recorded observation, drills and dates",
     })
     .check();
-  await cp.getByRole("button", { name: "Approve recorded report" }).click();
+  await reviewWorkspace
+    .getByRole("button", { name: "Approve recorded report" })
+    .click();
   await expect
     .poll(async () => (await payload(coach.api)).records.report[0].status)
     .toBe("Approved");
@@ -976,9 +991,10 @@ test("authenticated coach runs sessions, reviews evidence and communicates priva
     "3 successful out of 6",
   );
   expect(JSON.stringify(approved.snapshot)).not.toContain("PRIVATE_");
-  await cp
-    .getByRole("button", { name: "Close report workflow", exact: true })
+  await reviewWorkspace
+    .getByRole("button", { name: "Back to Reports", exact: true })
     .click();
+  await expect(reviewWorkspace).toBeHidden();
   await staffNavigate(cp, "Messages");
   await cp
     .getByRole("combobox", { name: "Update category", exact: true })

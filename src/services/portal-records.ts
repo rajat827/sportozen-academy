@@ -41,12 +41,20 @@ export function portalSessionSummary(data: WorkspacePayload, now = new Date()) {
   };
 }
 export function playerBatch(data: WorkspacePayload, player: WorkspacePlayer) {
-  return (
-    (player.squadId
-      ? data.records.squad.find((s) => s.id === player.squadId)
-      : data.records.squad.find((s) => s.playerIds.includes(player.id))
-    )?.name ?? UNASSIGNED_PLAYER_BATCH
-  );
+  const batch = player.squadId
+    ? data.records.squad.find((s) => s.id === player.squadId)
+    : data.records.squad.find((s) => s.playerIds.includes(player.id));
+  if (batch) return batch.name;
+  // Parents, support users and coaches of shared batches cannot read every
+  // batch record. The server records the batch name with each reviewed
+  // placement, while an explicit unassignment ("") keeps a historical label.
+  if (
+    !["OWNER", "ADMIN"].includes(data.membership.role) &&
+    player.squadId !== "" &&
+    player.squad.trim()
+  )
+    return player.squad;
+  return UNASSIGNED_PLAYER_BATCH;
 }
 export function approvedPlayerReport(data: WorkspacePayload, playerId: string) {
   return data.records.report

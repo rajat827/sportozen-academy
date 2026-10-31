@@ -170,12 +170,15 @@ export function assembleMonthly(
       focus:
         [
           ...new Set(
-            records.actual.map(
-              (s) =>
-                s.objectives.find((o) => o.playerId === playerId)?.goal ||
-                s.sharedObjective?.goal ||
-                s.theme,
-            ),
+            records.actual
+              .map(
+                (s) =>
+                  s.objectives.find((o) => o.playerId === playerId)?.goal ||
+                  s.sharedObjective?.goal ||
+                  s.theme,
+              )
+              // Quick drafts may omit a focus; never list it as a blank entry.
+              .filter(Boolean),
           ),
         ].join("; ") || "No training focus recorded in this month",
       practised: participation.length
@@ -331,11 +334,14 @@ export function periodAction(ctx: WorkspaceAccess, input: unknown) {
               remainingFrom,
               period,
               playerName: player.name,
-              teamFocus: [
-                ...new Set(
-                  sessions.map((s) => s.sharedObjective?.goal || s.theme),
-                ),
-              ].join("; "),
+              teamFocus:
+                [
+                  ...new Set(
+                    sessions
+                      .map((s) => s.sharedObjective?.goal || s.theme)
+                      .filter(Boolean),
+                  ),
+                ].join("; ") || "the planned batch activities",
               personalFocus:
                 [...new Set(objectives.map((o) => o.goal))].join("; ") ||
                 plan?.focus ||

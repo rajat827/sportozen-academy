@@ -21,6 +21,7 @@ import { ParentPractice } from "./practice";
 import { PortalTrialParentSummary } from "./portal-trials";
 import type { PortalSection, PortalNavigate } from "./portal-types";
 import { portalSourceAvailable } from "@/services/portal-source-selection";
+import { playerBatch } from "@/services/portal-records";
 import "./portal.css";
 import "./portal-home.css";
 import "./portal-players.css";
@@ -160,7 +161,7 @@ export function AcademyPortal({ academyId }: { academyId: string }) {
         <option value="">Choose an authorised player</option>
         {d.records.player.map((p) => (
           <option key={p.id} value={p.id}>
-            {p.name} · {p.squad}
+            {p.name} · {playerBatch(d, p)}
           </option>
         ))}
       </select>

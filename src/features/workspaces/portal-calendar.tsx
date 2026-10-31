@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import type { FootballSession } from "@/domain/training";
 import type { AcademyConfiguration } from "@/domain/workspace";
+import { sessionFocus, sessionSummary } from "@/services/session-display";
 import {
   confirmUnsavedChanges,
   useUnsavedChanges,
@@ -478,7 +479,7 @@ export function PortalCalendar({
               .filter((session) => !session.startAt)
               .map((session) => (
                 <button key={session.id} onClick={() => choose(session)}>
-                  {title(session)} · {session.theme} · Date not set
+                  {title(session)} · {sessionSummary(session)} · Date not set
                 </button>
               ))}
           </details>
@@ -741,7 +742,7 @@ function WeekGrid({
                         {segment.continuesFromPreviousDay && (
                           <small>Continued from previous day</small>
                         )}
-                        <span>{session.theme}</span>
+                        <span>{sessionSummary(session)}</span>
                         <small>
                           {clock(
                             session.startAt,
@@ -809,7 +810,7 @@ function Agenda({
                 </time>
                 <span>
                   <strong>
-                    {title(session)} · {session.theme}
+                    {title(session)} · {sessionSummary(session)}
                   </strong>
                   <small>
                     {session.location} · {session.roster.length} players
@@ -863,7 +864,7 @@ function SessionPanel({
         <div>
           <span className="pc-eyebrow">SESSION DETAILS</span>
           <h2>{batch?.name ?? "Archived batch"}</h2>
-          <p>{session.theme}</p>
+          <p>{sessionSummary(session)}</p>
         </div>
         <button
           className="pc-icon"
@@ -962,9 +963,7 @@ function SessionPanel({
               <Target aria-hidden="true" />
               <div>
                 <h3>Training Focus</h3>
-                <strong>
-                  {session.sharedObjective?.goal ?? session.theme}
-                </strong>
+                <strong>{sessionFocus(session)}</strong>
                 <p>
                   {session.sharedObjective?.cue ??
                     "The whole batch follows the session plan."}
@@ -1031,7 +1030,7 @@ function SessionPanel({
         {tab === "Plan" && (
           <>
             <h3>Shared batch plan</h3>
-            <p>{session.sharedObjective?.goal ?? session.theme}</p>
+            <p>{sessionFocus(session)}</p>
             {session.agenda.map((item, index) => (
               <article
                 className="pc-agenda-card"

@@ -16,9 +16,10 @@ import type {
   WorkspacePlayer,
 } from "../../src/domain/workspace";
 import { reportPresentation } from "../../src/services/reports/report-presentation";
+import { evidencePath } from "./evidence-path";
 
 const origin = "http://127.0.0.1:3013",
-  directory = "docs/screenshots/report-review/after";
+  directory = evidencePath("docs/screenshots/report-review/after");
 const reviewLabel =
   "I reviewed the player, period, attendance, recorded sessions, sources and coaching feedback.";
 const hash = (value: string | Uint8Array) =>
@@ -136,6 +137,10 @@ async function saveDraft(
   await expect(
     page.getByRole("button", { name: "Save draft", exact: true }),
   ).toBeEnabled();
+  // A successful save confirms itself even though the saved version rebuilds the editor.
+  await expect(
+    page.getByText("Monthly draft saved.", { exact: true }),
+  ).toBeVisible();
 }
 
 test.describe.serial("authenticated monthly report review", () => {
@@ -565,6 +570,13 @@ test.describe.serial("authenticated monthly report review", () => {
     await expect
       .poll(async () => (await record(access.reportId)).status)
       .toBe("Approved");
+    // The confirmation survives the editor rebuild for the new record version.
+    await expect(
+      page.getByText(
+        "Report approved. Parent publication remains a separate action.",
+        { exact: true },
+      ),
+    ).toBeVisible();
     approvedSeptemberId = access.reportId;
     const approved = await record(approvedSeptemberId);
     expect(approved.snapshot?.player).toBe(access.players[0].name);
@@ -674,6 +686,74 @@ test.describe.serial("authenticated monthly report review", () => {
     expect(
       batchReports.filter((report) => report.status === "Approved"),
     ).toHaveLength(1);
+  });
+
+  test("08b keeps the queue, its filter, review choices and focus across player changes", async () => {
+    const reportsBefore = hash(
+      JSON.stringify((await payload()).records.report),
+    );
+    await openReview(access.players[1].id, "2026-09", "", access.batchId);
+    const queue = page.locator(".rr-queue"),
+      status = queue.getByLabel("Monthly report queue status"),
+      player = page.getByLabel("Report player", { exact: true }),
+      reviewed = page.getByLabel(reviewLabel, { exact: true }),
+      row = (name: string) =>
+        queue.locator(".rr-queue-rows button").filter({ hasText: name });
+    await expect(queue).not.toHaveAttribute("open");
+    await page.getByText(/^Batch review queue/).click();
+    await expect(queue).toHaveAttribute("open", "");
+    // A queue filter and the open queue survive a player change from the queue.
+    await status.selectOption("Draft");
+    await row(access.players[2].name).click();
+    await expect(player).toHaveValue(access.players[2].id);
+    await expect(queue).toHaveAttribute("open", "");
+    await expect(status).toHaveValue("Draft");
+    await expect(row(access.players[2].name)).toHaveAttribute(
+      "aria-current",
+      "true",
+    );
+    await status.selectOption("");
+    // Review choices are explicit, per report version, and survive switching.
+    await expect(reviewed).not.toBeChecked();
+    await player.focus();
+    await player.selectOption(access.players[1].id);
+    await expect(player).toHaveValue(access.players[1].id);
+    await expect(player).toBeFocused();
+    await expect(queue).toHaveAttribute("open", "");
+    await expect(reviewed).not.toBeChecked();
+    await reviewed.check();
+    await expect(row(access.players[1].name)).toContainText(
+      "Ready for Approval",
+    );
+    await row(access.players[2].name).click();
+    await expect(player).toHaveValue(access.players[2].id);
+    await expect(reviewed).not.toBeChecked();
+    await expect(row(access.players[1].name)).toContainText(
+      "Ready for Approval",
+    );
+    await player.selectOption(access.players[1].id);
+    await expect(reviewed).toBeChecked();
+    await reviewed.uncheck();
+    await expect(row(access.players[1].name)).not.toContainText(
+      "Ready for Approval",
+    );
+    // Report history stays open while its own entries are opened.
+    await player.selectOption(access.players[0].id);
+    const history = page.locator(".rr-report-history");
+    await history.locator("summary").click();
+    await expect(history).toHaveAttribute("open", "");
+    await history
+      .locator("button")
+      .filter({ hasText: "2026-09" })
+      .first()
+      .click();
+    await expect(history).toHaveAttribute("open", "");
+    await expect(queue).toHaveAttribute("open", "");
+    // Review choices and disclosures are client state; no record changed.
+    expect(hash(JSON.stringify((await payload()).records.report))).toBe(
+      reportsBefore,
+    );
+    expect(pageErrors).toEqual([]);
   });
 
   test("09 creates an explicit correction while preserving approved history", async () => {
@@ -1012,14 +1092,14 @@ test.describe.serial("authenticated monthly report review", () => {
       hash(JSON.stringify((await record(access.approvedId)).snapshot)),
     ).toBe(access.approvedSnapshotHash);
     await writeFile(
-      "docs/screenshots/report-review/verification.json",
+      evidencePath("docs/screenshots/report-review/verification.json"),
       JSON.stringify(
         {
           verifiedAt: new Date().toISOString(),
           origin,
           academy:
             "Bharat Football Academy — isolated fictional review fixture",
-          cases: 11,
+          cases: 12,
           playerCount: finalData.records.player.length,
           reportCount: finalData.records.report.length,
           approvalSeparateFromPublication: true,

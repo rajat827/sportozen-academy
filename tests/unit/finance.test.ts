@@ -1451,4 +1451,288 @@ describe("Configured batch fees and individual exceptions", () => {
     expect(() => invoice()).toThrow(/Trial charges/);
     expect(financeView(owner()).invoices).toEqual([]);
   });
+  const november = {
+    periodStart: "2026-11-01",
+    periodEnd: "2026-11-30",
+    dueDate: "2026-11-10",
+  };
+  function monthlyPlan(name: string, amountMinor: number) {
+    return financeAction(
+      owner(),
+      command("plan", {
+        name,
+        amountMinor,
+        currency: "INR",
+        billingFrequency: "MONTHLY",
+        applicableStartDate: "2026-11-01",
+        active: true,
+      }),
+    ) as FinancePlan;
+  }
+  it("bills different plans and services separately but never the same plan twice for one period", () => {
+    const { plan } = setup();
+    const training = issue();
+    const goalkeeping = monthlyPlan("Goalkeeper coaching", 4000);
+    const extraPlan = invoice("child-a", {
+      ...november,
+      planId: goalkeeping.id,
+      label: "Goalkeeper coaching",
+      chargeMinor: 4000,
+    });
+    const kit = invoice("child-a", {
+      ...november,
+      label: "Training kit",
+      chargeMinor: 1500,
+    });
+    expect(() =>
+      invoice("child-a", {
+        ...november,
+        planId: plan.id,
+        label: "Football again",
+      }),
+    ).toThrow(/underlying billing period/);
+    expect(() =>
+      invoice("child-a", {
+        ...november,
+        planId: goalkeeping.id,
+        label: "Goalkeeper again",
+        chargeMinor: 4000,
+      }),
+    ).toThrow(/underlying billing period/);
+    expect(() =>
+      invoice("child-a", {
+        ...november,
+        label: "Training kit",
+        chargeMinor: 1500,
+      }),
+    ).toThrow(/already exists/);
+    expect(
+      financeInvoiceProposal(owner(), "child-a", "2026-11-01"),
+    ).toMatchObject({
+      available: false,
+      coveringInvoiceId: training.id,
+      reason: expect.stringMatching(/already covers/),
+    });
+    expect(
+      financeView(owner())
+        .invoices.map((item) => item.id)
+        .sort(),
+    ).toEqual([training.id, extraPlan.id, kit.id].sort());
+  });
+  it("lets an individual charge or reviewed one-time extra coexist with the suggested training fee", () => {
+    setup();
+    invoice("child-a", {
+      ...november,
+      label: "Training kit",
+      chargeMinor: 1500,
+    });
+    const extra = financeAction(
+      owner(),
+      command("invoice", {
+        playerId: "child-a",
+        label: "Holiday camp",
+        chargeMinor: 3000,
+        currency: "INR",
+        periodStart: "2026-11-15",
+        periodEnd: "2026-11-20",
+        dueDate: "2026-11-10",
+        oneTimeKey: "holiday-camp-2026",
+        confirmed: true,
+        reviewed: true,
+      }),
+    ) as FinanceInvoice;
+    expect(extra.oneTimeKey).toBe("holiday-camp-2026");
+    expect(issue().billingSource?.kind).toBe("BATCH_PLAN");
+    expect(financeView(owner()).invoices).toHaveLength(3);
+  });
+  it("does not let a later override re-bill a recurring fee already invoiced for the period", () => {
+    const { plan } = setup();
+    const manual = invoice("child-a", {
+      ...november,
+      planId: plan.id,
+      label: "Manually issued football",
+    });
+    const reduced = monthlyPlan("Reduced football", 8000);
+    override("PLAN", { planId: reduced.id });
+    const proposal = financeInvoiceProposal(owner(), "child-a", "2026-11-01");
+    expect(proposal).toMatchObject({
+      available: false,
+      planId: reduced.id,
+      coveringInvoiceId: manual.id,
+    });
+    expect(() =>
+      financeAction(
+        owner(),
+        command("invoice", {
+          ...proposal,
+          label: "Reduced football",
+          useApplicablePlan: true,
+          confirmed: true,
+        }),
+      ),
+    ).toThrow(/underlying billing period/);
+    expect(financeView(owner()).invoices).toHaveLength(1);
+  });
+  it("keeps one suggested recurring fee per period after an exception is added", () => {
+    setup();
+    const first = issue();
+    override("DISCOUNT", { discountBasisPoints: 1000 });
+    expect(
+      financeInvoiceProposal(owner(), "child-a", "2026-11-01"),
+    ).toMatchObject({
+      available: false,
+      coveringInvoiceId: first.id,
+      baseChargeMinor: 10000,
+      chargeMinor: 9000,
+    });
+  });
+  it("reports the plan amount before player adjustments for review", () => {
+    setup();
+    expect(
+      financeInvoiceProposal(owner(), "child-a", "2026-11-01"),
+    ).toMatchObject({ baseChargeMinor: 10000, chargeMinor: 10000 });
+    const discount = override("DISCOUNT", { discountMinor: 2500 });
+    expect(
+      financeInvoiceProposal(owner(), "child-a", "2026-11-01"),
+    ).toMatchObject({ baseChargeMinor: 10000, chargeMinor: 7500 });
+    financeAction(
+      owner(),
+      command(
+        "playerOverride",
+        {
+          playerId: "child-a",
+          kind: "DISCOUNT",
+          discountMinor: 2500,
+          currency: "INR",
+          effectiveFrom: "2026-11-01",
+          active: false,
+          reason: "Reviewed fictional individual fee exception",
+          reviewed: true,
+        },
+        { id: discount.id, expectedVersion: discount.version },
+      ),
+    );
+    override("SCHOLARSHIP");
+    expect(
+      financeInvoiceProposal(owner(), "child-a", "2026-11-01"),
+    ).toMatchObject({
+      baseChargeMinor: 10000,
+      chargeMinor: 0,
+      zeroChargeReason: "SCHOLARSHIP",
+    });
+  });
+  it("never recalculates an issued invoice when its plan, batch default or player exception changes", () => {
+    const { plan, assignment } = setup();
+    const issued = issue();
+    const stored = JSON.stringify(financeView(owner()).invoices);
+    financeAction(
+      owner(),
+      command(
+        "plan",
+        {
+          name: plan.name,
+          amountMinor: 12000,
+          currency: "INR",
+          billingFrequency: "MONTHLY",
+          applicableStartDate: "2026-11-01",
+          active: true,
+        },
+        { id: plan.id, expectedVersion: plan.version },
+      ),
+    );
+    financeAction(
+      owner(),
+      command(
+        "batchAssignment",
+        {
+          squadId: "batch-a",
+          planId: plan.id,
+          effectiveFrom: "2026-11-01",
+          effectiveTo: "2026-12-31",
+          active: true,
+        },
+        { id: assignment.id, expectedVersion: assignment.version },
+      ),
+    );
+    override("WAIVER");
+    expect(JSON.stringify(financeView(owner()).invoices)).toBe(stored);
+    expect(financeView(owner()).invoices[0]).toMatchObject({
+      id: issued.id,
+      chargeMinor: 10000,
+    });
+  });
+  it("clears a plan's optional length and due period only when the owner empties them", () => {
+    const { plan } = setup("TERM", { customPeriodDays: 90, dueAfterDays: 7 });
+    const edit = (current: FinancePlan, data = {}) =>
+      financeAction(
+        owner(),
+        command(
+          "plan",
+          {
+            name: current.name,
+            amountMinor: current.amountMinor,
+            currency: current.currency,
+            billingFrequency: current.billingFrequency,
+            applicableStartDate: current.applicableStartDate,
+            active: true,
+            ...data,
+          },
+          { id: current.id, expectedVersion: current.version },
+        ),
+      ) as FinancePlan;
+    expect(
+      financeInvoiceProposal(owner(), "child-a", "2026-11-01"),
+    ).toMatchObject({
+      available: true,
+      periodEnd: "2027-01-29",
+      dueDate: "2026-11-08",
+    });
+    // Omitted or resubmitted values are untouched.
+    const kept = edit(edit(plan), { customPeriodDays: 90, dueAfterDays: 7 });
+    expect(kept).toMatchObject({
+      customPeriodDays: 90,
+      dueAfterDays: 7,
+      version: 3,
+    });
+    const cleared = edit(kept, { customPeriodDays: null, dueAfterDays: null });
+    expect(cleared).toMatchObject({ version: 4 });
+    const stored = financeView(owner()).plans[0];
+    expect(stored).not.toHaveProperty("customPeriodDays");
+    expect(stored).not.toHaveProperty("dueAfterDays");
+    // Without a recorded term length the suggestion waits instead of guessing a period.
+    expect(
+      financeInvoiceProposal(owner(), "child-a", "2026-11-01"),
+    ).toMatchObject({
+      available: false,
+      reason: expect.stringMatching(/custom billing duration/),
+    });
+    const custom = financeAction(
+      owner(),
+      command("plan", {
+        name: "Holiday block",
+        amountMinor: 20000,
+        currency: "INR",
+        billingFrequency: "CUSTOM",
+        applicableStartDate: "2026-11-01",
+        customPeriodDays: 45,
+        active: true,
+      }),
+    ) as FinancePlan;
+    expect(() => edit(custom, { customPeriodDays: null })).toThrow(/duration/);
+    expect(edit(custom, { dueAfterDays: 3 })).toMatchObject({
+      customPeriodDays: 45,
+      dueAfterDays: 3,
+    });
+  });
+  it("tells the owner that per-session plans are not suggested automatically", () => {
+    setup("PER_SESSION");
+    expect(
+      financeInvoiceProposal(owner(), "child-a", "2026-11-02"),
+    ).toMatchObject({
+      available: false,
+      reason: expect.stringMatching(
+        /not supported by automatic suggested invoices.*Issue player invoice/,
+      ),
+    });
+  });
 });

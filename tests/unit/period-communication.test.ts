@@ -73,6 +73,7 @@ import {
   monthlyRecords,
   providerState,
   quiet,
+  weeklyWording,
 } from "@/services/communication/period-rules";
 import type {
   AcademyConfiguration,
@@ -1001,6 +1002,67 @@ describe("weekly approval and monthly source extension", () => {
     expect(source.model.focus).toBe("Control");
     expect(JSON.stringify(source.model)).not.toContain("Passing precision");
     expect(() => assembleMonthly(ctx, "p2", "2026-09")).toThrow();
+  });
+  it("never lists a quick draft's missing focus as a blank weekly or monthly source", () => {
+    const unfocused = {
+      ...session,
+      id: "unfocused",
+      title: "Squad Training",
+      theme: "",
+      objectives: [],
+      sharedObjective: undefined,
+    };
+    repo.save("a", "session", {
+      ...unfocused,
+      startAt: "2027-01-07T11:30:00.000Z",
+      endAt: "2027-01-07T12:30:00.000Z",
+    });
+    const mixed = weekly(false);
+    expect(mixed.content.teamFocus).toBe("Passing");
+    expect(mixed.content.sessions.map((s) => s.id).sort()).toEqual([
+      "session",
+      "unfocused",
+    ]);
+    repo.save("a", "session", { ...unfocused, id: "session", version: 2 });
+    const only = repo.find(
+      "a",
+      "weekly",
+      (
+        command("weeklyPrepare", {
+          squadId: "squad",
+          week: "2027-01-04",
+        }) as WeeklyPlan[]
+      )[0].id,
+    )!;
+    expect(only.content.teamFocus).toBe("the planned batch activities");
+    expect(weeklyWording(only.content)).toContain(
+      "the squad will practise the planned batch activities.",
+    );
+    expect(weeklyWording(only.content)).not.toMatch(/practise\s*[.;]/);
+    for (const [id, day] of [
+      ["september-focused", "10"],
+      ["september-unfocused", "12"],
+    ] as const)
+      repo.save("a", "session", {
+        ...(id === "september-focused" ? session : unfocused),
+        id,
+        startAt: `2026-09-${day}T10:00:00.000Z`,
+        endAt: `2026-09-${day}T11:00:00.000Z`,
+        status: "COMPLETED",
+      });
+    expect(assembleMonthly(ctx, "p", "2026-09").model.focus).toBe("Control");
+    repo.save("a", "session", {
+      ...repo.find("a", "session", "september-focused")!,
+      ...unfocused,
+      id: "september-focused",
+      startAt: "2026-09-10T10:00:00.000Z",
+      endAt: "2026-09-10T11:00:00.000Z",
+      status: "COMPLETED",
+      version: 2,
+    });
+    expect(assembleMonthly(ctx, "p", "2026-09").model.focus).toBe(
+      "No training focus recorded in this month",
+    );
   });
 });
 describe("persistent delivery and provider boundary", () => {
